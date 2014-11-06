@@ -2,8 +2,8 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2014 10:19:35
--- Generated from EDMX file: C:\Users\Robin\Documents\Visual Studio 2012\Projects\EventHandlingSystem\EventHandlingSystem\EventHandlingDataModel.edmx
+-- Date Created: 11/06/2014 13:07:03
+-- Generated from EDMX file: C:\Users\Robin\Documents\EventHandSys\EventHandlingSystem\EventHandlingSystem\EventHandlingDataModel.edmx
 -- --------------------------------------------------
 
 SET QUOTED_IDENTIFIER OFF;
@@ -44,6 +44,9 @@ GO
 IF OBJECT_ID(N'[dbo].[FK_EventsInCalendars_Calendar]', 'F') IS NOT NULL
     ALTER TABLE [dbo].[EventsInCalendars] DROP CONSTRAINT [FK_EventsInCalendars_Calendar];
 GO
+IF OBJECT_ID(N'[dbo].[FK_WebPageCalendar]', 'F') IS NOT NULL
+    ALTER TABLE [dbo].[WebPages] DROP CONSTRAINT [FK_WebPageCalendar];
+GO
 
 -- --------------------------------------------------
 -- Dropping existing tables
@@ -64,6 +67,9 @@ GO
 IF OBJECT_ID(N'[dbo].[Calendars]', 'U') IS NOT NULL
     DROP TABLE [dbo].[Calendars];
 GO
+IF OBJECT_ID(N'[dbo].[WebPages]', 'U') IS NOT NULL
+    DROP TABLE [dbo].[WebPages];
+GO
 IF OBJECT_ID(N'[dbo].[TermsInTermSets]', 'U') IS NOT NULL
     DROP TABLE [dbo].[TermsInTermSets];
 GO
@@ -83,38 +89,72 @@ GO
 
 -- Creating table 'Taxonomies'
 CREATE TABLE [dbo].[Taxonomies] (
-    [Id] int IDENTITY(1,1) NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Created] nvarchar(max)  NOT NULL,
+    [IsDeleted] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'TermSets'
 CREATE TABLE [dbo].[TermSets] (
     [Id] int IDENTITY(1,1) NOT NULL,
-    [TaxonomyId] int  NOT NULL
+    [Name] nvarchar(max)  NOT NULL,
+    [TaxonomyId] int  NOT NULL,
+    [ParentTermSetId] int  NOT NULL,
+    [Created] datetime  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
 -- Creating table 'Terms'
 CREATE TABLE [dbo].[Terms] (
-    [Id] int IDENTITY(1,1) NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Name] nvarchar(max)  NOT NULL,
+    [Created] datetime  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
 -- Creating table 'Events'
 CREATE TABLE [dbo].[Events] (
-    [Id] int IDENTITY(1,1) NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [Title] nvarchar(max)  NULL,
+    [Description] nvarchar(max)  NULL,
+    [Summary] nvarchar(max)  NULL,
+    [Other] nvarchar(max)  NULL,
+    [Location] nvarchar(max)  NULL,
+    [ImageUrl] nvarchar(max)  NULL,
+    [DayEvent] bit  NOT NULL,
+    [StartDate] datetime  NOT NULL,
+    [EndDate] datetime  NOT NULL,
+    [TargetGroup] nvarchar(max)  NULL,
+    [ApproximateAttendees] bigint  NOT NULL,
+    [AssociationId] nvarchar(max)  NOT NULL,
+    [Created] nvarchar(max)  NOT NULL,
+    [CreatedBy] nvarchar(max)  NOT NULL,
+    [IsDeleted] nvarchar(max)  NOT NULL
 );
 GO
 
 -- Creating table 'Calendars'
 CREATE TABLE [dbo].[Calendars] (
-    [Id] int IDENTITY(1,1) NOT NULL
+    [Id] int IDENTITY(1,1) NOT NULL,
+    [ViewMode] nvarchar(max)  NULL,
+    [Mode] nvarchar(max)  NULL,
+    [Created] datetime  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
 -- Creating table 'WebPages'
 CREATE TABLE [dbo].[WebPages] (
     [Id] int IDENTITY(1,1) NOT NULL,
+    [AssociationId] int  NULL,
+    [ContentId] int  NULL,
+    [LogoUrl] nvarchar(max)  NULL,
+    [Created] datetime  NOT NULL,
+    [IsDeleted] bit  NOT NULL,
     [Calendar_Id] int  NOT NULL
 );
 GO

@@ -4,18 +4,18 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c9e782dd39704f3882c942d008f35394" Name="Diagram1" >
-        <EntityTypeShape EntityType="EventHandlingDataModel.Taxonomy" Width="1.5" PointX="3.5" PointY="4.75" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.TermSet" Width="1.5" PointX="5.5" PointY="4.75" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Term" Width="1.5" PointX="7.5" PointY="4.75" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Event" Width="1.5" PointX="7.5" PointY="2.75" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Calendar" Width="1.5" PointX="9.5" PointY="4.25" />
+      <Diagram DiagramId="c9e782dd39704f3882c942d008f35394" Name="Diagram1" ZoomLevel="100" >
+        <EntityTypeShape EntityType="EventHandlingDataModel.Taxonomy" Width="1.5" PointX="5.75" PointY="3" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.TermSet" Width="1.5" PointX="7.75" PointY="3" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Term" Width="1.5" PointX="9.75" PointY="3" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Event" Width="1.5" PointX="4" PointY="1" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Calendar" Width="1.5" PointX="11.875" PointY="3" />
         <AssociationConnector Association="EventHandlingDataModel.TaxonomyTermSet" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInTermSets" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInEvents" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInCalendars" />
         <AssociationConnector Association="EventHandlingDataModel.EventsInCalendars" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.WebPage" Width="1.5" PointX="11.25" PointY="2.875" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.WebPage" Width="1.5" PointX="14" PointY="2.875" />
         <AssociationConnector Association="EventHandlingDataModel.WebPageCalendar" />
       </Diagram>
     </edmx:Diagrams>

@@ -15,6 +15,11 @@ namespace EventHandlingSystem
     public partial class WebPage
     {
         public int Id { get; set; }
+        public Nullable<int> AssociationId { get; set; }
+        public Nullable<int> ContentId { get; set; }
+        public string LogoUrl { get; set; }
+        public System.DateTime Created { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual Calendar Calendar { get; set; }
     }
