@@ -32,7 +32,7 @@ namespace EventHandlingSystem
         public System.DateTime EndDate { get; set; }
         public string TargetGroup { get; set; }
         public long ApproximateAttendees { get; set; }
-        public string AssociationId { get; set; }
+        public int AssociationId { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public bool IsDeleted { get; set; }
