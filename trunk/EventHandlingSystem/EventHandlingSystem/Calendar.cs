@@ -21,6 +21,10 @@ namespace EventHandlingSystem
         }
     
         public int Id { get; set; }
+        public string ViewMode { get; set; }
+        public string Mode { get; set; }
+        public System.DateTime Created { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual ICollection<Term> Term { get; set; }
         public virtual ICollection<Event> Event { get; set; }

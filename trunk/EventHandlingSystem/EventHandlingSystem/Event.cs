@@ -21,6 +21,21 @@ namespace EventHandlingSystem
         }
     
         public int Id { get; set; }
+        public string Title { get; set; }
+        public string Description { get; set; }
+        public string Summary { get; set; }
+        public string Other { get; set; }
+        public string Location { get; set; }
+        public string ImageUrl { get; set; }
+        public bool DayEvent { get; set; }
+        public System.DateTime StartDate { get; set; }
+        public System.DateTime EndDate { get; set; }
+        public string TargetGroup { get; set; }
+        public long ApproximateAttendees { get; set; }
+        public string AssociationId { get; set; }
+        public string Created { get; set; }
+        public string CreatedBy { get; set; }
+        public string IsDeleted { get; set; }
     
         public virtual ICollection<Term> Term { get; set; }
         public virtual ICollection<Calendar> Calendar { get; set; }

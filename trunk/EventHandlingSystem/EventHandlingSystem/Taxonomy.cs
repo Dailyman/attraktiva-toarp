@@ -20,6 +20,9 @@ namespace EventHandlingSystem
         }
     
         public int Id { get; set; }
+        public string Name { get; set; }
+        public string Created { get; set; }
+        public string IsDeleted { get; set; }
     
         public virtual ICollection<TermSet> TermSet { get; set; }
     }
