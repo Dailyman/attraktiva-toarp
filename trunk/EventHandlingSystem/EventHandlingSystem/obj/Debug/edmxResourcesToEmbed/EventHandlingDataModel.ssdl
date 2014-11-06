@@ -1,0 +1,245 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="EventHandlingDataModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityContainer Name="EventHandlingDataModelStoreContainer">
+    <EntitySet Name="Taxonomies" EntityType="EventHandlingDataModel.Store.Taxonomies" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TermSets" EntityType="EventHandlingDataModel.Store.TermSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Terms" EntityType="EventHandlingDataModel.Store.Terms" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Events" EntityType="EventHandlingDataModel.Store.Events" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Calendars" EntityType="EventHandlingDataModel.Store.Calendars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="WebPages" EntityType="EventHandlingDataModel.Store.WebPages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TermsInTermSets" EntityType="EventHandlingDataModel.Store.TermsInTermSets" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TermsInEvents" EntityType="EventHandlingDataModel.Store.TermsInEvents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TermsInCalendars" EntityType="EventHandlingDataModel.Store.TermsInCalendars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventsInCalendars" EntityType="EventHandlingDataModel.Store.EventsInCalendars" store:Type="Tables" Schema="dbo" />
+    <AssociationSet Name="TaxonomyTermSet" Association="EventHandlingDataModel.Store.TaxonomyTermSet">
+      <End Role="Taxonomy" EntitySet="Taxonomies" />
+      <End Role="TermSet" EntitySet="TermSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInTermSets_Term" Association="EventHandlingDataModel.Store.FK_TermsInTermSets_Term">
+      <End Role="Term" EntitySet="Terms" />
+      <End Role="TermsInTermSets" EntitySet="TermsInTermSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInTermSets_TermSet" Association="EventHandlingDataModel.Store.FK_TermsInTermSets_TermSet">
+      <End Role="TermSet" EntitySet="TermSets" />
+      <End Role="TermsInTermSets" EntitySet="TermsInTermSets" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInEvents_Term" Association="EventHandlingDataModel.Store.FK_TermsInEvents_Term">
+      <End Role="Term" EntitySet="Terms" />
+      <End Role="TermsInEvents" EntitySet="TermsInEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInEvents_Event" Association="EventHandlingDataModel.Store.FK_TermsInEvents_Event">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="TermsInEvents" EntitySet="TermsInEvents" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInCalendars_Term" Association="EventHandlingDataModel.Store.FK_TermsInCalendars_Term">
+      <End Role="Term" EntitySet="Terms" />
+      <End Role="TermsInCalendars" EntitySet="TermsInCalendars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInCalendars_Calendar" Association="EventHandlingDataModel.Store.FK_TermsInCalendars_Calendar">
+      <End Role="Calendar" EntitySet="Calendars" />
+      <End Role="TermsInCalendars" EntitySet="TermsInCalendars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventsInCalendars_Event" Association="EventHandlingDataModel.Store.FK_EventsInCalendars_Event">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="EventsInCalendars" EntitySet="EventsInCalendars" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventsInCalendars_Calendar" Association="EventHandlingDataModel.Store.FK_EventsInCalendars_Calendar">
+      <End Role="Calendar" EntitySet="Calendars" />
+      <End Role="EventsInCalendars" EntitySet="EventsInCalendars" />
+    </AssociationSet>
+    <AssociationSet Name="WebPageCalendar" Association="EventHandlingDataModel.Store.WebPageCalendar">
+      <End Role="WebPage" EntitySet="WebPages" />
+      <End Role="Calendar" EntitySet="Calendars" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Taxonomies">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TermSets">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TaxonomyId" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Terms">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Events">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Calendars">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+  </EntityType>
+  <EntityType Name="WebPages">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Calendar_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TermsInTermSets">
+    <Key>
+      <PropertyRef Name="Term_Id" />
+      <PropertyRef Name="TermSet_Id" />
+    </Key>
+    <Property Name="Term_Id" Type="int" Nullable="false" />
+    <Property Name="TermSet_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TermsInEvents">
+    <Key>
+      <PropertyRef Name="Term_Id" />
+      <PropertyRef Name="Event_Id" />
+    </Key>
+    <Property Name="Term_Id" Type="int" Nullable="false" />
+    <Property Name="Event_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TermsInCalendars">
+    <Key>
+      <PropertyRef Name="Term_Id" />
+      <PropertyRef Name="Calendar_Id" />
+    </Key>
+    <Property Name="Term_Id" Type="int" Nullable="false" />
+    <Property Name="Calendar_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EventsInCalendars">
+    <Key>
+      <PropertyRef Name="Event_Id" />
+      <PropertyRef Name="Calendar_Id" />
+    </Key>
+    <Property Name="Event_Id" Type="int" Nullable="false" />
+    <Property Name="Calendar_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <Association Name="TaxonomyTermSet">
+    <End Role="Taxonomy" Type="EventHandlingDataModel.Store.Taxonomies" Multiplicity="1" />
+    <End Role="TermSet" Type="EventHandlingDataModel.Store.TermSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Taxonomy">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermSet">
+        <PropertyRef Name="TaxonomyId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WebPageCalendar">
+    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
+    <End Role="Calendar" Type="EventHandlingDataModel.Store.Calendars" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Calendar">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WebPage">
+        <PropertyRef Name="Calendar_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInTermSets_Term">
+    <End Role="Term" Type="EventHandlingDataModel.Store.Terms" Multiplicity="1" />
+    <End Role="TermsInTermSets" Type="EventHandlingDataModel.Store.TermsInTermSets" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Term">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInTermSets">
+        <PropertyRef Name="Term_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInTermSets_TermSet">
+    <End Role="TermsInTermSets" Type="EventHandlingDataModel.Store.TermsInTermSets" Multiplicity="*" />
+    <End Role="TermSet" Type="EventHandlingDataModel.Store.TermSets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TermSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInTermSets">
+        <PropertyRef Name="TermSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInEvents_Term">
+    <End Role="Term" Type="EventHandlingDataModel.Store.Terms" Multiplicity="1" />
+    <End Role="TermsInEvents" Type="EventHandlingDataModel.Store.TermsInEvents" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Term">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInEvents">
+        <PropertyRef Name="Term_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInEvents_Event">
+    <End Role="TermsInEvents" Type="EventHandlingDataModel.Store.TermsInEvents" Multiplicity="*" />
+    <End Role="Event" Type="EventHandlingDataModel.Store.Events" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInEvents">
+        <PropertyRef Name="Event_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInCalendars_Term">
+    <End Role="Term" Type="EventHandlingDataModel.Store.Terms" Multiplicity="1" />
+    <End Role="TermsInCalendars" Type="EventHandlingDataModel.Store.TermsInCalendars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Term">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInCalendars">
+        <PropertyRef Name="Term_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInCalendars_Calendar">
+    <End Role="TermsInCalendars" Type="EventHandlingDataModel.Store.TermsInCalendars" Multiplicity="*" />
+    <End Role="Calendar" Type="EventHandlingDataModel.Store.Calendars" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Calendar">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInCalendars">
+        <PropertyRef Name="Calendar_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventsInCalendars_Event">
+    <End Role="Event" Type="EventHandlingDataModel.Store.Events" Multiplicity="1" />
+    <End Role="EventsInCalendars" Type="EventHandlingDataModel.Store.EventsInCalendars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventsInCalendars">
+        <PropertyRef Name="Event_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventsInCalendars_Calendar">
+    <End Role="EventsInCalendars" Type="EventHandlingDataModel.Store.EventsInCalendars" Multiplicity="*" />
+    <End Role="Calendar" Type="EventHandlingDataModel.Store.Calendars" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Calendar">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventsInCalendars">
+        <PropertyRef Name="Calendar_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>
