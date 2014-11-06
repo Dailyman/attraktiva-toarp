@@ -102,7 +102,7 @@
     <Property Name="EndDate" Type="datetime" Nullable="false" />
     <Property Name="TargetGroup" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ApproximateAttendees" Type="bigint" Nullable="false" />
-    <Property Name="AssociationId" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="AssociationId" Type="int" Nullable="false" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -370,7 +370,7 @@
           <Property Type="DateTime" Name="EndDate" Nullable="false" />
           <Property Type="String" Name="TargetGroup" Nullable="true" />
           <Property Type="Int64" Name="ApproximateAttendees" Nullable="false" />
-          <Property Type="String" Name="AssociationId" Nullable="false" />
+          <Property Type="Int32" Name="AssociationId" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="String" Name="CreatedBy" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
