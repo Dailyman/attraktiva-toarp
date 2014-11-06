@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="EventHandlingDataModelStoreContainer" CdmEntityContainer="EventHandlingDataModelContainer">
+    <EntitySetMapping Name="Taxonomies">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Taxonomy)">
+        <MappingFragment StoreEntitySet="Taxonomies">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="TermSets">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.TermSet)">
+        <MappingFragment StoreEntitySet="TermSets">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="TaxonomyId" ColumnName="TaxonomyId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Terms">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Term)">
+        <MappingFragment StoreEntitySet="Terms">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Events">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Event)">
+        <MappingFragment StoreEntitySet="Events">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Calendars">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Calendar)">
+        <MappingFragment StoreEntitySet="Calendars">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="WebPages">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.WebPage)">
+        <MappingFragment StoreEntitySet="WebPages">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="TermsInTermSets" TypeName="EventHandlingDataModel.TermsInTermSets" StoreEntitySet="TermsInTermSets">
+      <EndProperty Name="Term">
+        <ScalarProperty Name="Id" ColumnName="Term_Id" />
+      </EndProperty>
+      <EndProperty Name="TermSet">
+        <ScalarProperty Name="Id" ColumnName="TermSet_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TermsInEvents" TypeName="EventHandlingDataModel.TermsInEvents" StoreEntitySet="TermsInEvents">
+      <EndProperty Name="Term">
+        <ScalarProperty Name="Id" ColumnName="Term_Id" />
+      </EndProperty>
+      <EndProperty Name="Event">
+        <ScalarProperty Name="Id" ColumnName="Event_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TermsInCalendars" TypeName="EventHandlingDataModel.TermsInCalendars" StoreEntitySet="TermsInCalendars">
+      <EndProperty Name="Term">
+        <ScalarProperty Name="Id" ColumnName="Term_Id" />
+      </EndProperty>
+      <EndProperty Name="Calendar">
+        <ScalarProperty Name="Id" ColumnName="Calendar_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EventsInCalendars" TypeName="EventHandlingDataModel.EventsInCalendars" StoreEntitySet="EventsInCalendars">
+      <EndProperty Name="Event">
+        <ScalarProperty Name="Id" ColumnName="Event_Id" />
+      </EndProperty>
+      <EndProperty Name="Calendar">
+        <ScalarProperty Name="Id" ColumnName="Calendar_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WebPageCalendar" TypeName="EventHandlingDataModel.WebPageCalendar" StoreEntitySet="WebPages">
+      <EndProperty Name="Calendar">
+        <ScalarProperty Name="Id" ColumnName="Calendar_Id" />
+      </EndProperty>
+      <EndProperty Name="WebPage">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>
