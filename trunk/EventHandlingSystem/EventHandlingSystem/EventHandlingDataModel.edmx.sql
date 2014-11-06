@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2014 16:12:27
+-- Date Created: 11/06/2014 16:30:18
 -- Generated from EDMX file: C:\Users\Robin\Documents\EventHandSys\EventHandlingSystem\EventHandlingSystem\EventHandlingDataModel.edmx
 -- --------------------------------------------------
 
@@ -101,7 +101,7 @@ CREATE TABLE [dbo].[TermSets] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
     [TaxonomyId] int  NOT NULL,
-    [ParentTermSetId] int  NOT NULL,
+    [ParentTermSetId] int  NULL,
     [Created] datetime  NOT NULL,
     [IsDeleted] bit  NOT NULL
 );

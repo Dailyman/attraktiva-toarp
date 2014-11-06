@@ -73,7 +73,7 @@
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
     <Property Name="TaxonomyId" Type="int" Nullable="false" />
-    <Property Name="ParentTermSetId" Type="int" Nullable="false" />
+    <Property Name="ParentTermSetId" Type="int" Nullable="true" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
@@ -336,7 +336,7 @@
           <NavigationProperty Name="Taxonomy" Relationship="EventHandlingDataModel.TaxonomyTermSet" FromRole="TermSet" ToRole="Taxonomy" />
           <Property Type="Int32" Name="TaxonomyId" Nullable="false" />
           <NavigationProperty Name="Term" Relationship="EventHandlingDataModel.TermsInTermSets" FromRole="TermSet" ToRole="Term" />
-          <Property Type="Int32" Name="ParentTermSetId" Nullable="false" />
+          <Property Type="Int32" Name="ParentTermSetId" Nullable="true" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
         </EntityType>
