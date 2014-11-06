@@ -33,9 +33,9 @@ namespace EventHandlingSystem
         public string TargetGroup { get; set; }
         public long ApproximateAttendees { get; set; }
         public string AssociationId { get; set; }
-        public string Created { get; set; }
+        public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
-        public string IsDeleted { get; set; }
+        public bool IsDeleted { get; set; }
     
         public virtual ICollection<Term> Term { get; set; }
         public virtual ICollection<Calendar> Calendar { get; set; }

@@ -2,7 +2,7 @@
 -- --------------------------------------------------
 -- Entity Designer DDL Script for SQL Server 2005, 2008, and Azure
 -- --------------------------------------------------
--- Date Created: 11/06/2014 13:07:03
+-- Date Created: 11/06/2014 15:12:09
 -- Generated from EDMX file: C:\Users\Robin\Documents\EventHandSys\EventHandlingSystem\EventHandlingSystem\EventHandlingDataModel.edmx
 -- --------------------------------------------------
 
@@ -91,8 +91,8 @@ GO
 CREATE TABLE [dbo].[Taxonomies] (
     [Id] int IDENTITY(1,1) NOT NULL,
     [Name] nvarchar(max)  NOT NULL,
-    [Created] nvarchar(max)  NOT NULL,
-    [IsDeleted] nvarchar(max)  NOT NULL
+    [Created] datetime  NOT NULL,
+    [IsDeleted] bit  NOT NULL
 );
 GO
 
@@ -131,9 +131,9 @@ CREATE TABLE [dbo].[Events] (
     [TargetGroup] nvarchar(max)  NULL,
     [ApproximateAttendees] bigint  NOT NULL,
     [AssociationId] nvarchar(max)  NOT NULL,
-    [Created] nvarchar(max)  NOT NULL,
+    [Created] datetime  NOT NULL,
     [CreatedBy] nvarchar(max)  NOT NULL,
-    [IsDeleted] nvarchar(max)  NOT NULL
+    [IsDeleted] bit  NOT NULL
 );
 GO
 

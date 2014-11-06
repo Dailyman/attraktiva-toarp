@@ -63,8 +63,8 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Created" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="IsDeleted" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TermSets">
     <Key>
@@ -103,9 +103,9 @@
     <Property Name="TargetGroup" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ApproximateAttendees" Type="bigint" Nullable="false" />
     <Property Name="AssociationId" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="Created" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
-    <Property Name="IsDeleted" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Calendars">
     <Key>
@@ -324,8 +324,8 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="TermSet" Relationship="EventHandlingDataModel.TaxonomyTermSet" FromRole="Taxonomy" ToRole="TermSet" />
           <Property Type="String" Name="Name" Nullable="false" />
-          <Property Type="String" Name="Created" Nullable="false" />
-          <Property Type="String" Name="IsDeleted" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
         </EntityType>
         <EntityType Name="TermSet">
           <Key>
@@ -371,9 +371,9 @@
           <Property Type="String" Name="TargetGroup" Nullable="true" />
           <Property Type="Int64" Name="ApproximateAttendees" Nullable="false" />
           <Property Type="String" Name="AssociationId" Nullable="false" />
-          <Property Type="String" Name="Created" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="String" Name="CreatedBy" Nullable="false" />
-          <Property Type="String" Name="IsDeleted" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
         </EntityType>
         <EntityType Name="Calendar">
           <Key>
