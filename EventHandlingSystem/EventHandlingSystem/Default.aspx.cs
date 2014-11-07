@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using  EventHandlingSystem.Database;
 
 namespace EventHandlingSystem
 {
@@ -11,7 +12,11 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            foreach (var @event in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
+            {
+                TestLable.Text += @event.Title + "<br />";
+            }
+            
         }
     }
 }
