@@ -138,6 +138,9 @@
     <Content Include="Account\Register.aspx" />
     <Content Include="Account\RegisterExternalLogin.aspx" />
     <Content Include="App_Data\aspnet-EventHandlingSystem-20141031134503.mdf" />
+    <Content Include="App_Data\aspnet-EventHandlingSystem-20141031134503_log.ldf">
+      <DependentUpon>aspnet-EventHandlingSystem-20141031134503.mdf</DependentUpon>
+    </Content>
     <Content Include="Contact.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
