@@ -198,6 +198,7 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Default.aspx" />
+    <Content Include="Event.aspx" />
     <Content Include="EventHandlingDataModel.edmx.sql" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -349,6 +350,13 @@
     </Compile>
     <Compile Include="Defaultoriginal.aspx.designer.cs">
       <DependentUpon>Defaultoriginal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Event.aspx.cs">
+      <DependentUpon>Event.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Event.aspx.designer.cs">
+      <DependentUpon>Event.aspx</DependentUpon>
     </Compile>
     <Compile Include="Event.cs">
       <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
