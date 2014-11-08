@@ -20,5 +20,6 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedEvents().Where(e => (e.StartDate > defaulTimeSpan)).ToList();
         }
         
+        
     }
 }
