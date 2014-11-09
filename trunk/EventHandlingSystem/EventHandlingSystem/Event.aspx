@@ -20,17 +20,19 @@
     <asp:CheckBox ID="ChkBoxDayEvent" runat="server" />
     <br/>
     <h6>Start date*</h6>
-    <asp:TextBox ID="TxtBoxStartDate" runat="server"></asp:TextBox><asp:ImageButton ID="ImageButtonStartDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonStartDate_OnClick" />
+    <asp:TextBox ID="TxtBoxStartDate" runat="server" OnTextChanged="TxtBoxStartDate_OnTextChanged"></asp:TextBox><asp:TextBox ID="TxtBoxStartTime" runat="server"></asp:TextBox><asp:ImageButton ID="ImageButtonStartDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonStartDate_OnClick" />
     <br/>
     <asp:calendar ID="CalendarStartDate" runat="server" OnSelectionChanged="CalendarStartDate_OnSelectionChanged"></asp:calendar>
     <br/>
     <h6>End date*</h6>
-    <asp:TextBox ID="TxtBoxEndDate" runat="server"></asp:TextBox><asp:ImageButton ID="ImageButtonEndDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonEndDate_OnClick" />
+    <asp:TextBox ID="TxtBoxEndDate" runat="server" OnTextChanged="TxtBoxEndDate_OnTextChanged"></asp:TextBox><asp:TextBox ID="TxtBoxEndTime" runat="server"></asp:TextBox><asp:ImageButton ID="ImageButtonEndDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonEndDate_OnClick" />
     <br/>
     <asp:Calendar ID="CalendarEndDate" runat="server" OnSelectionChanged="CalendarEndDate_OnSelectionChanged"></asp:Calendar>
     <br/>
     <h6>Approximate attendees*</h6>
     <asp:TextBox ID="TxtBoxApproximateAttendees" runat="server"></asp:TextBox>
+    <asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field"></asp:RequiredFieldValidator>
+    <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" />
     <br/>
     <asp:Button ID="BtnCreateEvent" runat="server" Text="Create event" OnClick="BtnCreateEvent_OnClick" />
     <br/>
