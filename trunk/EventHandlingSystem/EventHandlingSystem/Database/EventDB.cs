@@ -19,6 +19,16 @@ namespace EventHandlingSystem.Database
             DateTime defaulTimeSpan = DateTime.Now.AddMonths(-(nrOfMonths));
             return GetAllNotDeletedEvents().Where(e => (e.StartDate > defaulTimeSpan)).ToList();
         }
+
+        public static bool AddEvent(Event @event)
+        {
+            Context.Events.Add(@event);
+            if (Context.SaveChanges() != 0)
+            {
+                return true;
+            }
+            return false;
+        }
         
         
     }
