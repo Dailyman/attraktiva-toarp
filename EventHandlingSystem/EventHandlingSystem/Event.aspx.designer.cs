@@ -58,6 +58,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxStartDate;
         
         /// <summary>
+        /// TxtBoxStartTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxStartTime;
+        
+        /// <summary>
         /// ImageButtonStartDate control.
         /// </summary>
         /// <remarks>
@@ -85,6 +94,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxEndDate;
         
         /// <summary>
+        /// TxtBoxEndTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxEndTime;
+        
+        /// <summary>
         /// ImageButtonEndDate control.
         /// </summary>
         /// <remarks>
@@ -110,6 +128,24 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtBoxApproximateAttendees;
+        
+        /// <summary>
+        /// ReqFieldValiApproxAttend control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqFieldValiApproxAttend;
+        
+        /// <summary>
+        /// CompValiApproxAttend control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator CompValiApproxAttend;
         
         /// <summary>
         /// BtnCreateEvent control.

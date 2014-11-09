@@ -31,20 +31,41 @@ namespace EventHandlingSystem
             CalendarEndDate.Visible = CalendarEndDate.Visible == false ? true : false;
         }
 
+        protected void TxtBoxStartDate_OnTextChanged(object sender, EventArgs e)
+        {
+            DateTime startDate = Convert.ToDateTime(TxtBoxStartDate.Text);
+            CalendarStartDate.SelectedDate = startDate;
+        }
+
+        protected void TxtBoxEndDate_OnTextChanged(object sender, EventArgs e)
+        {
+
+        }
 
         protected void CalendarStartDate_OnSelectionChanged(object sender, EventArgs e)
         {
-            TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd hh:mm");
+            TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd");
+            TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
         }
 
         protected void CalendarEndDate_OnSelectionChanged(object sender, EventArgs e)
         {
-            TxtBoxEndDate.Text = CalendarEndDate.SelectedDate.ToString("yyyy-MM-dd hh:mm");
+            TxtBoxEndDate.Text = CalendarEndDate.SelectedDate.ToString("yyyy-MM-dd");
+            TxtBoxEndTime.Text = CalendarEndDate.SelectedDate.ToString("HH:mm");
         }
 
 
         protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
         {
+
+            var start = Convert.ToDateTime(TxtBoxStartDate.Text)
+                .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
+                .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
+
+            var end = Convert.ToDateTime(TxtBoxEndDate.Text)
+                .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
+                .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
+
             var @event = new Event
             {
                 Title = TxtBoxTitle.Text,
@@ -54,10 +75,8 @@ namespace EventHandlingSystem
                 Location = "",
                 ImageUrl = "",
                 DayEvent = ChkBoxDayEvent.Checked,
-                //StartDate = CalendarStartDate.SelectedDate,
-                //EndDate = CalendarEndDate.SelectedDate,
-                StartDate = Convert.ToDateTime(TxtBoxStartDate.Text),
-                EndDate = Convert.ToDateTime(TxtBoxEndDate.Text),
+                StartDate = start,
+                EndDate = end,
                 TargetGroup = "",
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                 AssociationId = 1,
