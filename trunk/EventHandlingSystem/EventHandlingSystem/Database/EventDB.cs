@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Validation;
 using System.Linq;
+using System.Text;
 using System.Web;
 
 namespace EventHandlingSystem.Database
@@ -23,11 +26,15 @@ namespace EventHandlingSystem.Database
         public static bool AddEvent(Event @event)
         {
             Context.Events.Add(@event);
-            if (Context.SaveChanges() != 0)
+            try
             {
-                return true;
+                Context.SaveChanges();
             }
-            return false;
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            return true;
         }
         
         
