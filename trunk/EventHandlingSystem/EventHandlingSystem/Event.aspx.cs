@@ -13,8 +13,24 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+            RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
+
+            ImageButtonStartDate.Style.Add("vertical-align", "top");
+            ImageButtonEndDate.Style.Add("vertical-align", "top");
+
             if (!IsPostBack)
             {
+                TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                //TxtBoxStartTime.Text = DateTime.Now.ToString("HH:mm");
+                TxtBoxStartTime.Text = "00:00";
+                CalendarStartDate.SelectedDate = DateTime.Now;
+
+                TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                //TxtBoxEndTime.Text = DateTime.Now.ToString("HH:mm");
+                TxtBoxEndTime.Text = "00:00";
+                CalendarEndDate.SelectedDate = DateTime.Now;
+
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
             }
@@ -39,19 +55,20 @@ namespace EventHandlingSystem
 
         protected void TxtBoxEndDate_OnTextChanged(object sender, EventArgs e)
         {
-
+            DateTime endDate = Convert.ToDateTime(TxtBoxEndDate.Text);
+            CalendarEndDate.SelectedDate = endDate;
         }
 
         protected void CalendarStartDate_OnSelectionChanged(object sender, EventArgs e)
         {
             TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd");
-            TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
+            //TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
         }
 
         protected void CalendarEndDate_OnSelectionChanged(object sender, EventArgs e)
         {
             TxtBoxEndDate.Text = CalendarEndDate.SelectedDate.ToString("yyyy-MM-dd");
-            TxtBoxEndTime.Text = CalendarEndDate.SelectedDate.ToString("HH:mm");
+            //TxtBoxEndTime.Text = CalendarEndDate.SelectedDate.ToString("HH:mm");
         }
 
 
@@ -71,13 +88,13 @@ namespace EventHandlingSystem
                 Title = TxtBoxTitle.Text,
                 Description = TxtBoxDescription.Text,
                 Summary = TxtBoxSummary.Text,
-                Other = "",
-                Location = "",
-                ImageUrl = "",
+                Other = TxtBoxOther.Text,
+                Location = TxtBoxLocation.Text,
+                ImageUrl = TxtBoxImageUrl.Text,
                 DayEvent = ChkBoxDayEvent.Checked,
                 StartDate = start,
                 EndDate = end,
-                TargetGroup = "",
+                TargetGroup = TxtBoxTargetGroup.Text,
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                 AssociationId = 1,
                 Created = DateTime.Now,

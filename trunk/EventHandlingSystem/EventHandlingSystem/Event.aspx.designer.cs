@@ -40,6 +40,33 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxSummary;
         
         /// <summary>
+        /// TxtBoxOther control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxOther;
+        
+        /// <summary>
+        /// TxtBoxLocation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxLocation;
+        
+        /// <summary>
+        /// TxtBoxImageUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxImageUrl;
+        
+        /// <summary>
         /// ChkBoxDayEvent control.
         /// </summary>
         /// <remarks>
@@ -74,6 +101,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ImageButton ImageButtonStartDate;
+        
+        /// <summary>
+        /// RegExpValStartTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegExpValStartTime;
         
         /// <summary>
         /// CalendarStartDate control.
@@ -112,6 +148,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.ImageButton ImageButtonEndDate;
         
         /// <summary>
+        /// RegExpValEndTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegExpValEndTime;
+        
+        /// <summary>
         /// CalendarEndDate control.
         /// </summary>
         /// <remarks>
@@ -119,6 +164,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar CalendarEndDate;
+        
+        /// <summary>
+        /// TxtBoxTargetGroup control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxTargetGroup;
         
         /// <summary>
         /// TxtBoxApproximateAttendees control.
