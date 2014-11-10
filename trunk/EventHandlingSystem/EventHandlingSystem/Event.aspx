@@ -31,7 +31,7 @@
     <br/>
     <h6>Approximate attendees*</h6>
     <asp:TextBox ID="TxtBoxApproximateAttendees" runat="server"></asp:TextBox>
-    <asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field"></asp:RequiredFieldValidator>
+    <asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field" Enabled="False" SetFocusOnError="True"></asp:RequiredFieldValidator>
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" />
     <br/>
     <asp:Button ID="BtnCreateEvent" runat="server" Text="Create event" OnClick="BtnCreateEvent_OnClick" />
