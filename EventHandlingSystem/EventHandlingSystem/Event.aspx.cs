@@ -57,7 +57,7 @@ namespace EventHandlingSystem
 
         protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
         {
-
+            ReqFieldValiApproxAttend.Enabled = true;
             var start = Convert.ToDateTime(TxtBoxStartDate.Text)
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
