@@ -19,6 +19,12 @@ namespace EventHandlingSystem
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
 
+            ReqFieldValiStartDate.Validate();
+            ReqFieldValiStartTime.Validate();
+            ReqFieldValiEndDate.Validate();
+            ReqFieldValiEndTime.Validate();
+            ReqFieldValiApproxAttend.Validate();
+
             if (!IsPostBack)
             {
                 TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
@@ -37,27 +43,82 @@ namespace EventHandlingSystem
         }
 
 
+
+        protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
+        {
+
+            TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
+            TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
+
+            TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
+            TxtBoxEndTime.Visible = !ChkBoxDayEvent.Checked;
+        }
+
+
+
+
         protected void ImageButtonStartDate_OnClick(object sender, ImageClickEventArgs e)
         {
-            CalendarStartDate.Visible = CalendarStartDate.Visible == false ? true : false;
+            CalendarStartDate.Visible = CalendarStartDate.Visible == false;
         }
 
         protected void ImageButtonEndDate_OnClick(object sender, ImageClickEventArgs e)
         {
-            CalendarEndDate.Visible = CalendarEndDate.Visible == false ? true : false;
+            CalendarEndDate.Visible = CalendarEndDate.Visible == false;
         }
+
+
+
+
 
         protected void TxtBoxStartDate_OnTextChanged(object sender, EventArgs e)
         {
-            DateTime startDate = Convert.ToDateTime(TxtBoxStartDate.Text);
-            CalendarStartDate.SelectedDate = startDate;
+            CustomValiStartDate.Validate();
+            if (TxtBoxStartDate.Text != "")
+            {
+                if (CustomValiStartDate.IsValid)
+                {
+                    CalendarStartDate.SelectedDate = Convert.ToDateTime(TxtBoxStartDate.Text);
+                }
+                else
+                {
+                    TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    CalendarStartDate.SelectedDate = DateTime.Now;
+                }
+            }
+        }
+
+        protected void CustomValiStartDate_OnServerValidate(object source, ServerValidateEventArgs args)
+        {
+            DateTime result;
+            args.IsValid = DateTime.TryParse(TxtBoxStartDate.Text, out result);
         }
 
         protected void TxtBoxEndDate_OnTextChanged(object sender, EventArgs e)
         {
-            DateTime endDate = Convert.ToDateTime(TxtBoxEndDate.Text);
-            CalendarEndDate.SelectedDate = endDate;
+            CustomValiEndDate.Validate();
+            if (TxtBoxEndDate.Text != "")
+            {
+                if (CustomValiEndDate.IsValid)
+                {
+                    CalendarEndDate.SelectedDate = Convert.ToDateTime(TxtBoxEndDate.Text);
+                }
+                else
+                {
+                    TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    CalendarEndDate.SelectedDate = DateTime.Now;
+                }
+            }
         }
+
+        protected void CustomValiEndDate_OnServerValidate(object source, ServerValidateEventArgs args)
+        {
+            DateTime result;
+            args.IsValid = DateTime.TryParse(TxtBoxEndDate.Text, out result);
+        }
+
+
+
 
         protected void CalendarStartDate_OnSelectionChanged(object sender, EventArgs e)
         {
@@ -72,9 +133,11 @@ namespace EventHandlingSystem
         }
 
 
+
+
+
         protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
         {
-            ReqFieldValiApproxAttend.Enabled = true;
             var start = Convert.ToDateTime(TxtBoxStartDate.Text)
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
@@ -92,8 +155,11 @@ namespace EventHandlingSystem
                 Location = TxtBoxLocation.Text,
                 ImageUrl = TxtBoxImageUrl.Text,
                 DayEvent = ChkBoxDayEvent.Checked,
-                StartDate = start,
-                EndDate = end,
+                StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
+                EndDate =
+                    (ChkBoxDayEvent.Checked)
+                        ? Convert.ToDateTime(TxtBoxStartDate.Text).Add(new TimeSpan(23, 59, 0))
+                        : start,
                 TargetGroup = TxtBoxTargetGroup.Text,
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                 AssociationId = 1,
@@ -104,12 +170,9 @@ namespace EventHandlingSystem
 
 
             LabelMessage.Text = (EventDB.AddEvent(@event)) ? "Event was created" : "Event couldn't be created";
-
-            //LabelMessage.Text = EventDB.AddEvent(@event);
-
         }
 
 
-        
+
     }
 }
