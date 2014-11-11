@@ -103,6 +103,24 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.ImageButton ImageButtonStartDate;
         
         /// <summary>
+        /// ReqFieldValiStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqFieldValiStartDate;
+        
+        /// <summary>
+        /// ReqFieldValiStartTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqFieldValiStartTime;
+        
+        /// <summary>
         /// RegExpValStartTime control.
         /// </summary>
         /// <remarks>
@@ -110,6 +128,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegExpValStartTime;
+        
+        /// <summary>
+        /// CustomValiStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator CustomValiStartDate;
         
         /// <summary>
         /// CalendarStartDate control.
@@ -148,6 +175,24 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.ImageButton ImageButtonEndDate;
         
         /// <summary>
+        /// ReqFieldValiEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqFieldValiEndDate;
+        
+        /// <summary>
+        /// ReqFieldValiEndTime control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqFieldValiEndTime;
+        
+        /// <summary>
         /// RegExpValEndTime control.
         /// </summary>
         /// <remarks>
@@ -155,6 +200,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.RegularExpressionValidator RegExpValEndTime;
+        
+        /// <summary>
+        /// CustomValiEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator CustomValiEndDate;
         
         /// <summary>
         /// CalendarEndDate control.
