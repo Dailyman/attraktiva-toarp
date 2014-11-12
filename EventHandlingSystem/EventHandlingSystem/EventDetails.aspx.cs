@@ -16,7 +16,7 @@ namespace EventHandlingSystem
         {
             string id = Request.QueryString["Id"];
 
-            Event @event = EventDB.GetEventById(int.Parse("28"));
+            Event @event = EventDB.GetEventById(int.Parse("1"));
 
             var title = new HtmlGenericControl("h2") {InnerHtml = @event.Title};
             var imageUrl = new HtmlImage() { Src = @event.ImageUrl };
