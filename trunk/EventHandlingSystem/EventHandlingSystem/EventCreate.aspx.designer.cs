@@ -10,7 +10,7 @@
 namespace EventHandlingSystem {
     
     
-    public partial class Event1 {
+    public partial class EventCreate {
         
         /// <summary>
         /// TxtBoxTitle control.
@@ -254,6 +254,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CompareValidator CompValiApproxAttend;
+        
+        /// <summary>
+        /// DropDownAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownAssociation;
         
         /// <summary>
         /// BtnCreateEvent control.

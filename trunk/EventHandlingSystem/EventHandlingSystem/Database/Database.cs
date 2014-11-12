@@ -5,7 +5,7 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    public class Database
+    class Database
     {
         public static  readonly EventHandlingDataModelContainer Context = new EventHandlingDataModelContainer();
     }

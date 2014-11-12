@@ -9,7 +9,7 @@ using EventHandlingSystem.Database;
 
 namespace EventHandlingSystem
 {
-    public partial class Event1 : System.Web.UI.Page
+    public partial class EventCreate : Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -39,6 +39,15 @@ namespace EventHandlingSystem
 
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
+
+                Term term = TermDB.GetTermById(1);
+
+                DropDownAssociation.Items.Add(new ListItem
+                {
+                    Text = term.Name,
+                    Value = "1"
+                });
+
             }
         }
 

@@ -198,7 +198,8 @@
     <Content Include="Content\themes\base\minified\jquery.ui.tabs.min.css" />
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="Default.aspx" />
-    <Content Include="Event.aspx" />
+    <Content Include="EventCreate.aspx" />
+    <Content Include="EventDetails.aspx" />
     <Content Include="EventHandlingDataModel.edmx.sql" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -339,8 +340,12 @@
     <Compile Include="Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Database\CalendarDB.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\EventDB.cs" />
+    <Compile Include="Database\TaxonomyDB.cs" />
+    <Compile Include="Database\TermDB.cs" />
+    <Compile Include="Database\TermSetDB.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -355,15 +360,22 @@
     <Compile Include="Defaultoriginal.aspx.designer.cs">
       <DependentUpon>Defaultoriginal.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Event.aspx.cs">
-      <DependentUpon>Event.aspx</DependentUpon>
+    <Compile Include="EventCreate.aspx.cs">
+      <DependentUpon>EventCreate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Event.aspx.designer.cs">
-      <DependentUpon>Event.aspx</DependentUpon>
+    <Compile Include="EventCreate.aspx.designer.cs">
+      <DependentUpon>EventCreate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Event.cs">
       <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EventDetails.aspx.cs">
+      <DependentUpon>EventDetails.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventDetails.aspx.designer.cs">
+      <DependentUpon>EventDetails.aspx</DependentUpon>
     </Compile>
     <Compile Include="EventHandlingDataModel.Context.cs">
       <AutoGen>True</AutoGen>

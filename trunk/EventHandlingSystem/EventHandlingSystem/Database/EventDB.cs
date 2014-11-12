@@ -10,8 +10,9 @@ namespace EventHandlingSystem.Database
 {
     public class EventDB
     {
-        private  static  readonly  EventHandlingDataModelContainer  Context = new EventHandlingDataModelContainer();
+        private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
+        
         private static IEnumerable<Event> GetAllNotDeletedEvents()
         {
             return Context.Events.Where(e => !e.IsDeleted);
@@ -21,6 +22,11 @@ namespace EventHandlingSystem.Database
         {
             DateTime defaulTimeSpan = DateTime.Now.AddMonths(-(nrOfMonths));
             return GetAllNotDeletedEvents().Where(e => (e.StartDate > defaulTimeSpan)).ToList();
+        }
+
+        public static Event GetEventById(int id)
+        {
+            return GetAllNotDeletedEvents().SingleOrDefault(e => e.Id.Equals(id));
         }
 
         public static bool AddEvent(Event @event)
