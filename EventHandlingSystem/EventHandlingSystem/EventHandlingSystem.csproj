@@ -204,6 +204,7 @@
     <Content Include="Images\bullet.png" />
     <Content Include="Images\calendar-22x21.png" />
     <Content Include="Images\heroAccent.png" />
+    <Content Include="Images\md_images.jpg" />
     <Content Include="Images\orderedList0.png" />
     <Content Include="Images\orderedList1.png" />
     <Content Include="Images\orderedList2.png" />
@@ -217,6 +218,8 @@
     <Content Include="Defaultoriginal.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
+    <Content Include="Images\top_back.jpg" />
+    <Content Include="Images\top_back_1.jpg" />
     <Content Include="packages.config" />
     <EntityDeploy Include="EventHandlingDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>

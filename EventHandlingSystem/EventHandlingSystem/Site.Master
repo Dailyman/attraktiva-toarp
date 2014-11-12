@@ -40,7 +40,7 @@
         <div class="content-wrapper">
             <div class="float-left">
                 <p class="site-title">
-                    <a runat="server" href="~/">your logo here</a>
+                    <a runat="server" href="~/"><img src="Images/md_images.jpg" /></a>
                 </p>
             </div>
             <div class="float-right">
