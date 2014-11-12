@@ -30,12 +30,12 @@ namespace EventHandlingSystem
                 TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 //TxtBoxStartTime.Text = DateTime.Now.ToString("HH:mm");
                 TxtBoxStartTime.Text = "00:00";
-                CalendarStartDate.SelectedDate = DateTime.Now;
+                CalendarStartDate.SelectedDate = DateTime.Now.Date;
 
                 TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 //TxtBoxEndTime.Text = DateTime.Now.ToString("HH:mm");
                 TxtBoxEndTime.Text = "00:00";
-                CalendarEndDate.SelectedDate = DateTime.Now;
+                CalendarEndDate.SelectedDate = DateTime.Now.Date;
 
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
@@ -83,7 +83,7 @@ namespace EventHandlingSystem
                 else
                 {
                     TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                    CalendarStartDate.SelectedDate = DateTime.Now;
+                    CalendarStartDate.SelectedDate = DateTime.Now.Date;
                 }
             }
         }
@@ -106,7 +106,7 @@ namespace EventHandlingSystem
                 else
                 {
                     TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                    CalendarEndDate.SelectedDate = DateTime.Now;
+                    CalendarEndDate.SelectedDate = DateTime.Now.Date;
                 }
             }
         }
@@ -158,8 +158,8 @@ namespace EventHandlingSystem
                 StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
                 EndDate =
                     (ChkBoxDayEvent.Checked)
-                        ? Convert.ToDateTime(TxtBoxStartDate.Text).Add(new TimeSpan(23, 59, 0))
-                        : start,
+                        ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0))
+                        : end,
                 TargetGroup = TxtBoxTargetGroup.Text,
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                 AssociationId = 1,
