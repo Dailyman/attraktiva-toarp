@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
-namespace EventHandlingSystem
+namespace EventHandlingSystem.Admin
 {
     public partial class PageSettings : System.Web.UI.Page
     {
