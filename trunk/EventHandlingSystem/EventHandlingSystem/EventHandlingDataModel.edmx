@@ -105,6 +105,8 @@
     <Property Name="AssociationId" Type="int" Nullable="false" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="LatestUpdate" Type="datetime" Nullable="true" />
+    <Property Name="UpdatedBy" Type="nvarchar(max)" Nullable="true" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="Calendars">
@@ -373,6 +375,8 @@
           <Property Type="Int32" Name="AssociationId" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="String" Name="CreatedBy" Nullable="false" />
+          <Property Type="DateTime" Name="LatestUpdate" Nullable="true" />
+          <Property Type="String" Name="UpdatedBy" Nullable="true" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
         </EntityType>
         <EntityType Name="Calendar">
@@ -488,6 +492,8 @@
           <ScalarProperty Name="AssociationId" ColumnName="AssociationId" />
           <ScalarProperty Name="Created" ColumnName="Created" />
           <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
+          <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>

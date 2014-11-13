@@ -83,6 +83,7 @@ namespace EventHandlingSystem
                     };
                     var createdBy = new HtmlGenericControl("p") {InnerHtml = "<b>Created by:</b> " + @event.CreatedBy};
 
+                    var updateLink = new HtmlAnchor() {HRef = "~/EventUpdate?Id=" + @event.Id, InnerText = "Update the event here!"};
 
                     Main.Controls.Add(title);
                     Main.Controls.Add(imageUrl);
@@ -98,6 +99,8 @@ namespace EventHandlingSystem
                     Main.Controls.Add(association);
                     Main.Controls.Add(created);
                     Main.Controls.Add(createdBy);
+                    Main.Controls.Add(new HtmlGenericControl("br"));
+                    Main.Controls.Add(updateLink);
                 }
                 else
                 {
