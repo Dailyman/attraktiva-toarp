@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventHandlingSystem {
+namespace EventHandlingSystem.Admin {
     
     
     public partial class PageSettings {
