@@ -119,7 +119,7 @@ namespace EventHandlingSystem
                 //DropDownListEvents.Visible = true;
                 //BtnSearch.Visible = true;
 
-                var error = new HtmlGenericControl("h4") { InnerHtml = "Use an correct event ID to show the event!"};
+                var error = new HtmlGenericControl("h4") { InnerHtml = "Use a correct event ID to show the event!"};
 
                 Main.Controls.Add(error);
             }

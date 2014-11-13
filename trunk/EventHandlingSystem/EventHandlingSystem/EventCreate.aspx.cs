@@ -13,17 +13,31 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Request.UrlReferrer != null)
+            {
+                int index1 = Request.UrlReferrer.ToString().LastIndexOf("/");
+                string url1 = Request.UrlReferrer.ToString().Substring(index1);
+
+                int index2 = Request.ServerVariables["SCRIPT_NAME"].ToString().LastIndexOf("/");
+                string url2 = Request.ServerVariables["SCRIPT_NAME"].ToString().Substring(index2);
+
+
+                LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+                LabelMessage.Text = (url1 == url2 ? "The event was created" : "Event couldn't be created");
+            }
+
+
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
             RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
 
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
 
-            ReqFieldValiStartDate.Validate();
-            ReqFieldValiStartTime.Validate();
-            ReqFieldValiEndDate.Validate();
-            ReqFieldValiEndTime.Validate();
-            ReqFieldValiApproxAttend.Validate();
+            //ReqFieldValiStartDate.Validate();
+            //ReqFieldValiStartTime.Validate();
+            //ReqFieldValiEndDate.Validate();
+            //ReqFieldValiEndTime.Validate();
+            //ReqFieldValiApproxAttend.Validate();
 
             if (!IsPostBack)
             {
@@ -83,47 +97,45 @@ namespace EventHandlingSystem
         protected void TxtBoxStartDate_OnTextChanged(object sender, EventArgs e)
         {
             CustomValiStartDate.Validate();
-            if (TxtBoxStartDate.Text != "")
-            {
+            
                 if (CustomValiStartDate.IsValid)
                 {
                     CalendarStartDate.SelectedDate = Convert.ToDateTime(TxtBoxStartDate.Text);
                 }
                 else
                 {
-                    TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                    CalendarStartDate.SelectedDate = DateTime.Now.Date;
+                    //TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    //CalendarStartDate.SelectedDate = DateTime.Now.Date;
                 }
-            }
+            
         }
 
         protected void CustomValiStartDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
             DateTime result;
-            args.IsValid = DateTime.TryParse(TxtBoxStartDate.Text, out result);
+            args.IsValid = !string.IsNullOrWhiteSpace(TxtBoxStartDate.Text) && DateTime.TryParse(TxtBoxStartDate.Text, out result);
         }
 
         protected void TxtBoxEndDate_OnTextChanged(object sender, EventArgs e)
         {
             CustomValiEndDate.Validate();
-            if (TxtBoxEndDate.Text != "")
-            {
+            
                 if (CustomValiEndDate.IsValid)
                 {
                     CalendarEndDate.SelectedDate = Convert.ToDateTime(TxtBoxEndDate.Text);
                 }
                 else
                 {
-                    TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                    CalendarEndDate.SelectedDate = DateTime.Now.Date;
+                    //TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    //CalendarEndDate.SelectedDate = DateTime.Now.Date;
                 }
-            }
+            
         }
 
         protected void CustomValiEndDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
             DateTime result;
-            args.IsValid = DateTime.TryParse(TxtBoxEndDate.Text, out result);
+            args.IsValid = !string.IsNullOrWhiteSpace(TxtBoxEndDate.Text) && DateTime.TryParse(TxtBoxEndDate.Text, out result);
         }
 
 
@@ -177,8 +189,17 @@ namespace EventHandlingSystem
                 //IsDeleted = false
             };
 
+            
 
-            LabelMessage.Text = (EventDB.AddEvent(@event)) ? "Event was created" : "Event couldn't be created";
+            if (EventDB.AddEvent(@event))
+            {
+                Server.Transfer(Request.Url.AbsolutePath);
+                //LabelMessage.Text = "Event was created";
+            }
+            {
+                //LabelMessage.Text = "Event couldn't be created";
+            }
+            
         }
 
 
