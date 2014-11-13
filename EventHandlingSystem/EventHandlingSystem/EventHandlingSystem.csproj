@@ -201,6 +201,7 @@
     <Content Include="EventCreate.aspx" />
     <Content Include="EventDetails.aspx" />
     <Content Include="EventHandlingDataModel.edmx.sql" />
+    <Content Include="EventUpdate.aspx" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\calendar-22x21.png" />
@@ -391,6 +392,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EventHandlingDataModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EventUpdate.aspx.cs">
+      <DependentUpon>EventUpdate.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventUpdate.aspx.designer.cs">
+      <DependentUpon>EventUpdate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

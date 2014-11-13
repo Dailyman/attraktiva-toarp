@@ -33,21 +33,14 @@ namespace EventHandlingSystem
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
 
-            //ReqFieldValiStartDate.Validate();
-            //ReqFieldValiStartTime.Validate();
-            //ReqFieldValiEndDate.Validate();
-            //ReqFieldValiEndTime.Validate();
-            //ReqFieldValiApproxAttend.Validate();
 
             if (!IsPostBack)
             {
                 TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                //TxtBoxStartTime.Text = DateTime.Now.ToString("HH:mm");
                 TxtBoxStartTime.Text = "00:00";
                 CalendarStartDate.SelectedDate = DateTime.Now.Date;
 
                 TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                //TxtBoxEndTime.Text = DateTime.Now.ToString("HH:mm");
                 TxtBoxEndTime.Text = "00:00";
                 CalendarEndDate.SelectedDate = DateTime.Now.Date;
 
@@ -196,6 +189,7 @@ namespace EventHandlingSystem
                 Server.Transfer(Request.Url.AbsolutePath);
                 //LabelMessage.Text = "Event was created";
             }
+            else
             {
                 //LabelMessage.Text = "Event couldn't be created";
             }

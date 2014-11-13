@@ -46,6 +46,21 @@ namespace EventHandlingSystem.Database
             }
             return true;
         }
+
+        public static int UpdateEvent(Event @event)
+        {
+            Event eventToUpdate = GetEventById(@event.Id);
+
+            eventToUpdate.Title = @event.Title;
+            eventToUpdate.StartDate = @event.StartDate;
+            eventToUpdate.EndDate = @event.EndDate;
+            eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
+            eventToUpdate.Created = @event.Created;
+            eventToUpdate.CreatedBy = @event.CreatedBy;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
         
         
     }
