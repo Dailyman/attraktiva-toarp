@@ -45,13 +45,22 @@ namespace EventHandlingSystem
                     Event @event = GetEventToUpdate();
 
                     TxtBoxTitle.Text = @event.Title;
+                    TxtBoxDescription.Text = @event.Description;
+                    TxtBoxSummary.Text = @event.Summary;
+                    TxtBoxOther.Text = @event.Other;
+                    TxtBoxLocation.Text = @event.Location;
+                    TxtBoxImageUrl.Text = @event.ImageUrl;
+                    ChkBoxDayEvent.Checked = @event.DayEvent;
                     TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
                     TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
                     TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
                     TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
+                    TxtBoxTargetGroup.Text = @event.TargetGroup;
                     CalendarStartDate.SelectedDate = @event.StartDate;
                     CalendarEndDate.SelectedDate = @event.EndDate;
                     TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
+                    DropDownAssociation.SelectedValue = @event.AssociationId.ToString();
+
 
                     CalendarEndDate.Visible = false;
                     CalendarStartDate.Visible = false;
