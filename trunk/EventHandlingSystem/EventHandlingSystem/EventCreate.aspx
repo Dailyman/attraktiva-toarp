@@ -63,7 +63,9 @@
     <asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" />
     <br />
+    <h6>Association</h6>
     <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
+    <br />
     <br />
     <asp:Button ID="BtnCreateEvent" runat="server" Text="Create event" OnClick="BtnCreateEvent_OnClick" ValidationGroup="ValGroupCreateEvent" />
     <br />
