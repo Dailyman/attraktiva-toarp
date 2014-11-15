@@ -52,11 +52,20 @@ namespace EventHandlingSystem.Database
             Event eventToUpdate = GetEventById(@event.Id);
 
             eventToUpdate.Title = @event.Title;
+            eventToUpdate.Description = @event.Description;
+            eventToUpdate.Summary = @event.Summary;
+            eventToUpdate.Other = @event.Other;
+            eventToUpdate.Location = @event.Location;
+            eventToUpdate.ImageUrl = @event.ImageUrl;
+            eventToUpdate.DayEvent = @event.DayEvent;
             eventToUpdate.StartDate = @event.StartDate;
             eventToUpdate.EndDate = @event.EndDate;
+            eventToUpdate.TargetGroup = @event.TargetGroup;
             eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
             eventToUpdate.Created = @event.Created;
             eventToUpdate.CreatedBy = @event.CreatedBy;
+            eventToUpdate.LatestUpdate = @event.LatestUpdate;
+            eventToUpdate.UpdatedBy = @event.UpdatedBy;
 
             int affectedRows = Context.SaveChanges();
             return affectedRows;

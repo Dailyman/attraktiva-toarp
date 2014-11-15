@@ -27,7 +27,7 @@ namespace EventHandlingSystem
 
             string stId = Request.QueryString["Id"];
 
-            foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
+            foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday(12))
             {
                 DropDownListEvents.Items.Add(new ListItem(ev.Title, ev.Id.ToString()));
             }
