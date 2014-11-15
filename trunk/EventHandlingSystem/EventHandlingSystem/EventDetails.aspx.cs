@@ -75,7 +75,7 @@ namespace EventHandlingSystem
                     };
                     var association = new HtmlGenericControl("p")
                     {
-                        InnerHtml = "<b>Association:</b> " + @event.AssociationId.ToString()
+                        InnerHtml = "<b>Association:</b> " + TermDB.GetTermById(@event.AssociationId).Name
                     };
                     var created = new HtmlGenericControl("p")
                     {

@@ -178,7 +178,7 @@ namespace EventHandlingSystem
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                 AssociationId = 1,
                 Created = DateTime.Now,
-                CreatedBy = "System",
+                CreatedBy = HttpContext.Current.User.Identity.Name
                 //IsDeleted = false
             };
 
