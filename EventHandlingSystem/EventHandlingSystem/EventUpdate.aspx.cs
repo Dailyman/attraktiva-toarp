@@ -222,9 +222,9 @@ namespace EventHandlingSystem
                     ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                     AssociationId = 1,
                     Created = @event.Created,
-                    CreatedBy = "System",
+                    CreatedBy = @event.CreatedBy,
                     LatestUpdate = DateTime.Now,
-                    UpdatedBy = "System"
+                    UpdatedBy = HttpContext.Current.User.Identity.Name
                     //IsDeleted = false
                 };
 
