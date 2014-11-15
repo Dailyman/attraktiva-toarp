@@ -13,18 +13,18 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (Request.UrlReferrer != null)
-            {
-                int index1 = Request.UrlReferrer.ToString().LastIndexOf("/");
-                string url1 = Request.UrlReferrer.ToString().Substring(index1);
+            //if (Request.UrlReferrer != null)
+            //{
+            //    int index1 = Request.UrlReferrer.ToString().LastIndexOf("/");
+            //    string url1 = Request.UrlReferrer.ToString().Substring(index1);
 
-                int index2 = Request.ServerVariables["SCRIPT_NAME"].ToString().LastIndexOf("/");
-                string url2 = Request.ServerVariables["SCRIPT_NAME"].ToString().Substring(index2);
+            //    int index2 = Request.ServerVariables["SCRIPT_NAME"].ToString().LastIndexOf("/");
+            //    string url2 = Request.ServerVariables["SCRIPT_NAME"].ToString().Substring(index2);
 
 
-                LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-                LabelMessage.Text = (url1 == url2 ? "The event was created" : "Event couldn't be created");
-            }
+            //    LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+            //    LabelMessage.Text = (url1 == url2 ? "The event was created" : "Event couldn't be created");
+            //}
 
 
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
@@ -182,16 +182,16 @@ namespace EventHandlingSystem
                 //IsDeleted = false
             };
 
-            
 
+            LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(@event))
             {
-                Server.Transfer(Request.Url.AbsolutePath);
+                Response.Redirect(HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + @event.Id, false);
                 //LabelMessage.Text = "Event was created";
             }
             else
             {
-                //LabelMessage.Text = "Event couldn't be created";
+                LabelMessage.Text = "Event couldn't be created";
             }
             
         }
