@@ -82,7 +82,8 @@ namespace EventHandlingSystem
                         InnerHtml = "<b>Created:</b> " + @event.Created.ToString("yyyy-MM-dd HH:mm")
                     };
                     var createdBy = new HtmlGenericControl("p") {InnerHtml = "<b>Created by:</b> " + @event.CreatedBy};
-
+                    var latestUpdate = new HtmlGenericControl("p") { InnerHtml = "<b>Latest update:</b> " + @event.LatestUpdate };
+                    var updatedBy = new HtmlGenericControl("p") { InnerHtml = "<b>Updated by:</b> " + @event.UpdatedBy };
                     var updateLink = new HtmlAnchor() {HRef = "~/EventUpdate?Id=" + @event.Id, InnerText = "Update the event here!"};
 
                     Main.Controls.Add(title);
@@ -97,9 +98,12 @@ namespace EventHandlingSystem
                     Main.Controls.Add(targetGroup);
                     Main.Controls.Add(approximateAttendees);
                     Main.Controls.Add(association);
+                    Main.Controls.Add(new LiteralControl("<br />"));
                     Main.Controls.Add(created);
                     Main.Controls.Add(createdBy);
-                    Main.Controls.Add(new HtmlGenericControl("br"));
+                    Main.Controls.Add(latestUpdate);
+                    Main.Controls.Add(updatedBy);
+                    Main.Controls.Add(new LiteralControl("<br />"));
                     Main.Controls.Add(updateLink);
                 }
                 else
