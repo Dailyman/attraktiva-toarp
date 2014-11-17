@@ -16,13 +16,12 @@ namespace EventHandlingSystem
     {
         public Association()
         {
-            this.WebPage = new HashSet<WebPage>();
             this.TermSet = new HashSet<TermSet>();
         }
     
         public int Id { get; set; }
         public int CommunityId { get; set; }
-        public int ParentAssociationId { get; set; }
+        public Nullable<int> ParentAssociationId { get; set; }
         public int PublishingTermSetId { get; set; }
         public Nullable<int> AssociationType { get; set; }
         public System.DateTime Created { get; set; }
@@ -30,7 +29,7 @@ namespace EventHandlingSystem
         public bool IsDeleted { get; set; }
     
         public virtual Community Community { get; set; }
-        public virtual ICollection<WebPage> WebPage { get; set; }
         public virtual ICollection<TermSet> TermSet { get; set; }
+        public virtual WebPage WebPage { get; set; }
     }
 }
