@@ -31,5 +31,13 @@ namespace EventHandlingSystem
         public DbSet<Event> Events { get; set; }
         public DbSet<Calendar> Calendars { get; set; }
         public DbSet<WebPage> WebPages { get; set; }
+        public DbSet<Community> Communities { get; set; }
+        public DbSet<Association> Associations { get; set; }
+        public DbSet<Content> Contents { get; set; }
+        public DbSet<Component> Components { get; set; }
+        public DbSet<Link> Links { get; set; }
+        public DbSet<Navigation> Navigations { get; set; }
+        public DbSet<Feed> Feeds { get; set; }
+        public DbSet<ContentLayout> ContentLayouts { get; set; }
     }
 }

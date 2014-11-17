@@ -12,10 +12,21 @@
     <EntitySet Name="Events" EntityType="EventHandlingDataModel.Store.Events" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="Calendars" EntityType="EventHandlingDataModel.Store.Calendars" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="WebPages" EntityType="EventHandlingDataModel.Store.WebPages" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Communities" EntityType="EventHandlingDataModel.Store.Communities" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Associations" EntityType="EventHandlingDataModel.Store.Associations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Contents" EntityType="EventHandlingDataModel.Store.Contents" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Components" EntityType="EventHandlingDataModel.Store.Components" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Links" EntityType="EventHandlingDataModel.Store.Links" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Navigations" EntityType="EventHandlingDataModel.Store.Navigations" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="Feeds" EntityType="EventHandlingDataModel.Store.Feeds" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="ContentLayouts" EntityType="EventHandlingDataModel.Store.ContentLayouts" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TermsInTermSets" EntityType="EventHandlingDataModel.Store.TermsInTermSets" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TermsInEvents" EntityType="EventHandlingDataModel.Store.TermsInEvents" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="TermsInCalendars" EntityType="EventHandlingDataModel.Store.TermsInCalendars" store:Type="Tables" Schema="dbo" />
     <EntitySet Name="EventsInCalendars" EntityType="EventHandlingDataModel.Store.EventsInCalendars" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="AssociationCategories" EntityType="EventHandlingDataModel.Store.AssociationCategories" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="EventsInFeed" EntityType="EventHandlingDataModel.Store.EventsInFeed" store:Type="Tables" Schema="dbo" />
+    <EntitySet Name="TermsInFeed" EntityType="EventHandlingDataModel.Store.TermsInFeed" store:Type="Tables" Schema="dbo" />
     <AssociationSet Name="TaxonomyTermSet" Association="EventHandlingDataModel.Store.TaxonomyTermSet">
       <End Role="Taxonomy" EntitySet="Taxonomies" />
       <End Role="TermSet" EntitySet="TermSets" />
@@ -52,9 +63,69 @@
       <End Role="Calendar" EntitySet="Calendars" />
       <End Role="EventsInCalendars" EntitySet="EventsInCalendars" />
     </AssociationSet>
-    <AssociationSet Name="WebPageCalendar" Association="EventHandlingDataModel.Store.WebPageCalendar">
+    <AssociationSet Name="CommunityAssociation" Association="EventHandlingDataModel.Store.CommunityAssociation">
+      <End Role="Community" EntitySet="Communities" />
+      <End Role="Association" EntitySet="Associations" />
+    </AssociationSet>
+    <AssociationSet Name="AssociationWebPage" Association="EventHandlingDataModel.Store.AssociationWebPage">
+      <End Role="Association" EntitySet="Associations" />
       <End Role="WebPage" EntitySet="WebPages" />
+    </AssociationSet>
+    <AssociationSet Name="WebPageContent" Association="EventHandlingDataModel.Store.WebPageContent">
+      <End Role="WebPage" EntitySet="WebPages" />
+      <End Role="Content" EntitySet="Contents" />
+    </AssociationSet>
+    <AssociationSet Name="ContentComponent" Association="EventHandlingDataModel.Store.ContentComponent">
+      <End Role="Content" EntitySet="Contents" />
+      <End Role="Component" EntitySet="Components" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssociationCategories_Association" Association="EventHandlingDataModel.Store.FK_AssociationCategories_Association">
+      <End Role="Association" EntitySet="Associations" />
+      <End Role="AssociationCategories" EntitySet="AssociationCategories" />
+    </AssociationSet>
+    <AssociationSet Name="FK_AssociationCategories_TermSet" Association="EventHandlingDataModel.Store.FK_AssociationCategories_TermSet">
+      <End Role="TermSet" EntitySet="TermSets" />
+      <End Role="AssociationCategories" EntitySet="AssociationCategories" />
+    </AssociationSet>
+    <AssociationSet Name="ComponentCalendar" Association="EventHandlingDataModel.Store.ComponentCalendar">
+      <End Role="Component" EntitySet="Components" />
       <End Role="Calendar" EntitySet="Calendars" />
+    </AssociationSet>
+    <AssociationSet Name="ComponentFeed" Association="EventHandlingDataModel.Store.ComponentFeed">
+      <End Role="Component" EntitySet="Components" />
+      <End Role="Feed" EntitySet="Feeds" />
+    </AssociationSet>
+    <AssociationSet Name="ComponentNavigation" Association="EventHandlingDataModel.Store.ComponentNavigation">
+      <End Role="Component" EntitySet="Components" />
+      <End Role="Navigation" EntitySet="Navigations" />
+    </AssociationSet>
+    <AssociationSet Name="NavigationLink" Association="EventHandlingDataModel.Store.NavigationLink">
+      <End Role="Navigation" EntitySet="Navigations" />
+      <End Role="Link" EntitySet="Links" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventsInFeed_Feed" Association="EventHandlingDataModel.Store.FK_EventsInFeed_Feed">
+      <End Role="Feed" EntitySet="Feeds" />
+      <End Role="EventsInFeed" EntitySet="EventsInFeed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EventsInFeed_Event" Association="EventHandlingDataModel.Store.FK_EventsInFeed_Event">
+      <End Role="Event" EntitySet="Events" />
+      <End Role="EventsInFeed" EntitySet="EventsInFeed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInFeed_Term" Association="EventHandlingDataModel.Store.FK_TermsInFeed_Term">
+      <End Role="Term" EntitySet="Terms" />
+      <End Role="TermsInFeed" EntitySet="TermsInFeed" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TermsInFeed_Feed" Association="EventHandlingDataModel.Store.FK_TermsInFeed_Feed">
+      <End Role="Feed" EntitySet="Feeds" />
+      <End Role="TermsInFeed" EntitySet="TermsInFeed" />
+    </AssociationSet>
+    <AssociationSet Name="CommunityWebPage" Association="EventHandlingDataModel.Store.CommunityWebPage">
+      <End Role="Community" EntitySet="Communities" />
+      <End Role="WebPage" EntitySet="WebPages" />
+    </AssociationSet>
+    <AssociationSet Name="ContentContentLayout" Association="EventHandlingDataModel.Store.ContentContentLayout">
+      <End Role="Content" EntitySet="Contents" />
+      <End Role="ContentLayout" EntitySet="ContentLayouts" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Taxonomies">
@@ -118,18 +189,104 @@
     <Property Name="Mode" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Component_Id" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="WebPages">
     <Key>
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="AssociationId" Type="int" Nullable="true" />
-    <Property Name="ContentId" Type="int" Nullable="true" />
+    <Property Name="CommunityId" Type="int" Nullable="false" />
+    <Property Name="AssociationId" Type="int" Nullable="false" />
     <Property Name="LogoUrl" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="NavigationComponentId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
-    <Property Name="Calendar_Id" Type="int" Nullable="false" />
+    <Property Name="Content_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Communities">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PublishingTermSetId" Type="int" Nullable="true" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Associations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="CommunityId" Type="int" Nullable="false" />
+    <Property Name="ParentAssociationId" Type="int" Nullable="false" />
+    <Property Name="PublishingTermSetId" Type="int" Nullable="false" />
+    <Property Name="AssociationType" Type="int" Nullable="true" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Contents">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Components">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContentId" Type="int" Nullable="false" />
+    <Property Name="Title" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Width" Type="int" Nullable="true" />
+    <Property Name="Height" Type="int" Nullable="true" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Links">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NavigationId" Type="int" Nullable="false" />
+    <Property Name="TermId" Type="int" Nullable="false" />
+    <Property Name="Url" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="ParentLinkId" Type="int" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Navigations">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="PublishingTermSetId" Type="int" Nullable="false" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Component_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Feeds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Mode" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="Created" Type="datetime" Nullable="false" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="Component_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ContentLayouts">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="ContentId" Type="int" Nullable="false" />
+    <Property Name="Rows" Type="int" Nullable="true" />
+    <Property Name="Columns" Type="int" Nullable="true" />
+    <Property Name="IsDeleted" Type="bit" Nullable="false" />
   </EntityType>
   <EntityType Name="TermsInTermSets">
     <Key>
@@ -163,6 +320,30 @@
     <Property Name="Event_Id" Type="int" Nullable="false" />
     <Property Name="Calendar_Id" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="AssociationCategories">
+    <Key>
+      <PropertyRef Name="Association_Id" />
+      <PropertyRef Name="TermSet_Id" />
+    </Key>
+    <Property Name="Association_Id" Type="int" Nullable="false" />
+    <Property Name="TermSet_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EventsInFeed">
+    <Key>
+      <PropertyRef Name="Feed_Id" />
+      <PropertyRef Name="Event_Id" />
+    </Key>
+    <Property Name="Feed_Id" Type="int" Nullable="false" />
+    <Property Name="Event_Id" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="TermsInFeed">
+    <Key>
+      <PropertyRef Name="Term_Id" />
+      <PropertyRef Name="Feed_Id" />
+    </Key>
+    <Property Name="Term_Id" Type="int" Nullable="false" />
+    <Property Name="Feed_Id" Type="int" Nullable="false" />
+  </EntityType>
   <Association Name="TaxonomyTermSet">
     <End Role="Taxonomy" Type="EventHandlingDataModel.Store.Taxonomies" Multiplicity="1" />
     <End Role="TermSet" Type="EventHandlingDataModel.Store.TermSets" Multiplicity="*" />
@@ -175,15 +356,123 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="WebPageCalendar">
-    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
-    <End Role="Calendar" Type="EventHandlingDataModel.Store.Calendars" Multiplicity="1" />
+  <Association Name="CommunityAssociation">
+    <End Role="Community" Type="EventHandlingDataModel.Store.Communities" Multiplicity="1" />
+    <End Role="Association" Type="EventHandlingDataModel.Store.Associations" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="Calendar">
+      <Principal Role="Community">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Association">
+        <PropertyRef Name="CommunityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="AssociationWebPage">
+    <End Role="Association" Type="EventHandlingDataModel.Store.Associations" Multiplicity="1" />
+    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Association">
         <PropertyRef Name="Id" />
       </Principal>
       <Dependent Role="WebPage">
-        <PropertyRef Name="Calendar_Id" />
+        <PropertyRef Name="AssociationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WebPageContent">
+    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
+    <End Role="Content" Type="EventHandlingDataModel.Store.Contents" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Content">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WebPage">
+        <PropertyRef Name="Content_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ContentComponent">
+    <End Role="Content" Type="EventHandlingDataModel.Store.Contents" Multiplicity="1" />
+    <End Role="Component" Type="EventHandlingDataModel.Store.Components" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Content">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Component">
+        <PropertyRef Name="ContentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ComponentCalendar">
+    <End Role="Component" Type="EventHandlingDataModel.Store.Components" Multiplicity="1" />
+    <End Role="Calendar" Type="EventHandlingDataModel.Store.Calendars" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Component">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Calendar">
+        <PropertyRef Name="Component_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ComponentFeed">
+    <End Role="Component" Type="EventHandlingDataModel.Store.Components" Multiplicity="1" />
+    <End Role="Feed" Type="EventHandlingDataModel.Store.Feeds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Component">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Feed">
+        <PropertyRef Name="Component_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ComponentNavigation">
+    <End Role="Component" Type="EventHandlingDataModel.Store.Components" Multiplicity="1" />
+    <End Role="Navigation" Type="EventHandlingDataModel.Store.Navigations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Component">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Navigation">
+        <PropertyRef Name="Component_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="NavigationLink">
+    <End Role="Navigation" Type="EventHandlingDataModel.Store.Navigations" Multiplicity="1" />
+    <End Role="Link" Type="EventHandlingDataModel.Store.Links" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Navigation">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Link">
+        <PropertyRef Name="NavigationId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="CommunityWebPage">
+    <End Role="Community" Type="EventHandlingDataModel.Store.Communities" Multiplicity="1" />
+    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Community">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="WebPage">
+        <PropertyRef Name="CommunityId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="ContentContentLayout">
+    <End Role="Content" Type="EventHandlingDataModel.Store.Contents" Multiplicity="1" />
+    <End Role="ContentLayout" Type="EventHandlingDataModel.Store.ContentLayouts" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Content">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ContentLayout">
+        <PropertyRef Name="ContentId" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -283,6 +572,78 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_AssociationCategories_Association">
+    <End Role="Association" Type="EventHandlingDataModel.Store.Associations" Multiplicity="1" />
+    <End Role="AssociationCategories" Type="EventHandlingDataModel.Store.AssociationCategories" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Association">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssociationCategories">
+        <PropertyRef Name="Association_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_AssociationCategories_TermSet">
+    <End Role="AssociationCategories" Type="EventHandlingDataModel.Store.AssociationCategories" Multiplicity="*" />
+    <End Role="TermSet" Type="EventHandlingDataModel.Store.TermSets" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="TermSet">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="AssociationCategories">
+        <PropertyRef Name="TermSet_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventsInFeed_Feed">
+    <End Role="Feed" Type="EventHandlingDataModel.Store.Feeds" Multiplicity="1" />
+    <End Role="EventsInFeed" Type="EventHandlingDataModel.Store.EventsInFeed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Feed">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventsInFeed">
+        <PropertyRef Name="Feed_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EventsInFeed_Event">
+    <End Role="EventsInFeed" Type="EventHandlingDataModel.Store.EventsInFeed" Multiplicity="*" />
+    <End Role="Event" Type="EventHandlingDataModel.Store.Events" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Event">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="EventsInFeed">
+        <PropertyRef Name="Event_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInFeed_Term">
+    <End Role="Term" Type="EventHandlingDataModel.Store.Terms" Multiplicity="1" />
+    <End Role="TermsInFeed" Type="EventHandlingDataModel.Store.TermsInFeed" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Term">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInFeed">
+        <PropertyRef Name="Term_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_TermsInFeed_Feed">
+    <End Role="TermsInFeed" Type="EventHandlingDataModel.Store.TermsInFeed" Multiplicity="*" />
+    <End Role="Feed" Type="EventHandlingDataModel.Store.Feeds" Multiplicity="1" />
+    <ReferentialConstraint>
+      <Principal Role="Feed">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TermsInFeed">
+        <PropertyRef Name="Feed_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
@@ -314,9 +675,65 @@
             <End Role="Calendar" EntitySet="Calendars" />
           </AssociationSet>
           <EntitySet Name="WebPages" EntityType="EventHandlingDataModel.WebPage" />
-          <AssociationSet Name="WebPageCalendar" Association="EventHandlingDataModel.WebPageCalendar">
+          <EntitySet Name="Communities" EntityType="EventHandlingDataModel.Community" />
+          <EntitySet Name="Associations" EntityType="EventHandlingDataModel.Association" />
+          <EntitySet Name="Contents" EntityType="EventHandlingDataModel.Content" />
+          <EntitySet Name="Components" EntityType="EventHandlingDataModel.Component" />
+          <EntitySet Name="Links" EntityType="EventHandlingDataModel.Link" />
+          <EntitySet Name="Navigations" EntityType="EventHandlingDataModel.Navigation" />
+          <EntitySet Name="Feeds" EntityType="EventHandlingDataModel.Feed" />
+          <AssociationSet Name="CommunityAssociation" Association="EventHandlingDataModel.CommunityAssociation">
+            <End Role="Community" EntitySet="Communities" />
+            <End Role="Association" EntitySet="Associations" />
+          </AssociationSet>
+          <AssociationSet Name="AssociationWebPage" Association="EventHandlingDataModel.AssociationWebPage">
+            <End Role="Association" EntitySet="Associations" />
             <End Role="WebPage" EntitySet="WebPages" />
+          </AssociationSet>
+          <AssociationSet Name="WebPageContent" Association="EventHandlingDataModel.WebPageContent">
+            <End Role="WebPage" EntitySet="WebPages" />
+            <End Role="Content" EntitySet="Contents" />
+          </AssociationSet>
+          <AssociationSet Name="ContentComponent" Association="EventHandlingDataModel.ContentComponent">
+            <End Role="Content" EntitySet="Contents" />
+            <End Role="Component" EntitySet="Components" />
+          </AssociationSet>
+          <AssociationSet Name="AssociationCategories" Association="EventHandlingDataModel.AssociationCategories">
+            <End EntitySet="Associations" Role="Association" />
+            <End EntitySet="TermSets" Role="TermSet" />
+          </AssociationSet>
+          <AssociationSet Name="ComponentCalendar" Association="EventHandlingDataModel.ComponentCalendar">
+            <End Role="Component" EntitySet="Components" />
             <End Role="Calendar" EntitySet="Calendars" />
+          </AssociationSet>
+          <AssociationSet Name="ComponentFeed" Association="EventHandlingDataModel.ComponentFeed">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="Feed" EntitySet="Feeds" />
+          </AssociationSet>
+          <AssociationSet Name="ComponentNavigation" Association="EventHandlingDataModel.ComponentNavigation">
+            <End Role="Component" EntitySet="Components" />
+            <End Role="Navigation" EntitySet="Navigations" />
+          </AssociationSet>
+          <AssociationSet Name="NavigationLink" Association="EventHandlingDataModel.NavigationLink">
+            <End Role="Navigation" EntitySet="Navigations" />
+            <End Role="Link" EntitySet="Links" />
+          </AssociationSet>
+          <AssociationSet Name="EventsInFeed" Association="EventHandlingDataModel.EventsInFeed">
+            <End Role="Feed" EntitySet="Feeds" />
+            <End Role="Event" EntitySet="Events" />
+          </AssociationSet>
+          <AssociationSet Name="TermsInFeed" Association="EventHandlingDataModel.TermsInFeed">
+            <End Role="Term" EntitySet="Terms" />
+            <End Role="Feed" EntitySet="Feeds" />
+          </AssociationSet>
+          <AssociationSet Name="CommunityWebPage" Association="EventHandlingDataModel.CommunityWebPage">
+            <End Role="Community" EntitySet="Communities" />
+            <End Role="WebPage" EntitySet="WebPages" />
+          </AssociationSet>
+          <EntitySet Name="ContentLayouts" EntityType="EventHandlingDataModel.ContentLayout" />
+          <AssociationSet Name="ContentContentLayout" Association="EventHandlingDataModel.ContentContentLayout">
+            <End Role="Content" EntitySet="Contents" />
+            <End Role="ContentLayout" EntitySet="ContentLayouts" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Taxonomy">
@@ -341,6 +758,7 @@
           <Property Type="Int32" Name="ParentTermSetId" Nullable="true" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="Association" Relationship="EventHandlingDataModel.AssociationCategories" FromRole="TermSet" ToRole="Association" />
         </EntityType>
         <EntityType Name="Term">
           <Key>
@@ -353,6 +771,7 @@
           <Property Type="String" Name="Name" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="Feed" Relationship="EventHandlingDataModel.TermsInFeed" FromRole="Term" ToRole="Feed" />
         </EntityType>
         <EntityType Name="Event">
           <Key>
@@ -378,6 +797,7 @@
           <Property Type="DateTime" Name="LatestUpdate" Nullable="true" />
           <Property Type="String" Name="UpdatedBy" Nullable="true" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="Feed" Relationship="EventHandlingDataModel.EventsInFeed" FromRole="Event" ToRole="Feed" />
         </EntityType>
         <EntityType Name="Calendar">
           <Key>
@@ -390,7 +810,7 @@
           <Property Type="String" Name="Mode" Nullable="true" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.WebPageCalendar" FromRole="Calendar" ToRole="WebPage" />
+          <NavigationProperty Name="Component" Relationship="EventHandlingDataModel.ComponentCalendar" FromRole="Calendar" ToRole="Component" />
         </EntityType>
         <Association Name="TaxonomyTermSet">
           <End Type="EventHandlingDataModel.Taxonomy" Role="Taxonomy" Multiplicity="1" />
@@ -425,16 +845,216 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="AssociationId" Nullable="true" />
-          <Property Type="Int32" Name="ContentId" Nullable="true" />
+          <Property Type="Int32" Name="CommunityId" Nullable="false" />
+          <Property Type="Int32" Name="AssociationId" Nullable="false" />
           <Property Type="String" Name="LogoUrl" Nullable="true" />
-          <NavigationProperty Name="Calendar" Relationship="EventHandlingDataModel.WebPageCalendar" FromRole="WebPage" ToRole="Calendar" />
+          <Property Type="String" Name="NavigationComponentId" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="Association" Relationship="EventHandlingDataModel.AssociationWebPage" FromRole="WebPage" ToRole="Association" />
+          <NavigationProperty Name="Content" Relationship="EventHandlingDataModel.WebPageContent" FromRole="WebPage" ToRole="Content" />
+          <NavigationProperty Name="Community" Relationship="EventHandlingDataModel.CommunityWebPage" FromRole="WebPage" ToRole="Community" />
+        </EntityType>
+        <EntityType Name="Community">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Association" Relationship="EventHandlingDataModel.CommunityAssociation" FromRole="Community" ToRole="Association" />
+          <Property Type="Int32" Name="PublishingTermSetId" Nullable="true" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.CommunityWebPage" FromRole="Community" ToRole="WebPage" />
+        </EntityType>
+        <EntityType Name="Association">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Community" Relationship="EventHandlingDataModel.CommunityAssociation" FromRole="Association" ToRole="Community" />
+          <Property Type="Int32" Name="CommunityId" Nullable="false" />
+          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.AssociationWebPage" FromRole="Association" ToRole="WebPage" />
+          <NavigationProperty Name="TermSet" Relationship="EventHandlingDataModel.AssociationCategories" FromRole="Association" ToRole="TermSet" />
+          <Property Type="Int32" Name="ParentAssociationId" Nullable="false" />
+          <Property Type="Int32" Name="PublishingTermSetId" Nullable="false" />
+          <Property Type="Int32" Name="AssociationType" Nullable="true" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Content">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.WebPageContent" FromRole="Content" ToRole="WebPage" />
+          <NavigationProperty Name="Component" Relationship="EventHandlingDataModel.ContentComponent" FromRole="Content" ToRole="Component" />
+          <NavigationProperty Name="ContentLayout" Relationship="EventHandlingDataModel.ContentContentLayout" FromRole="Content" ToRole="ContentLayout" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
         </EntityType>
-        <Association Name="WebPageCalendar">
-          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="1" />
-          <End Type="EventHandlingDataModel.Calendar" Role="Calendar" Multiplicity="1" />
+        <EntityType Name="Component">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Content" Relationship="EventHandlingDataModel.ContentComponent" FromRole="Component" ToRole="Content" />
+          <Property Type="Int32" Name="ContentId" Nullable="false" />
+          <NavigationProperty Name="Calendar" Relationship="EventHandlingDataModel.ComponentCalendar" FromRole="Component" ToRole="Calendar" />
+          <NavigationProperty Name="Feed" Relationship="EventHandlingDataModel.ComponentFeed" FromRole="Component" ToRole="Feed" />
+          <NavigationProperty Name="Navigation" Relationship="EventHandlingDataModel.ComponentNavigation" FromRole="Component" ToRole="Navigation" />
+          <Property Type="String" Name="Title" Nullable="true" />
+          <Property Type="Int32" Name="Width" Nullable="true" />
+          <Property Type="Int32" Name="Height" Nullable="true" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Link">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Navigation" Relationship="EventHandlingDataModel.NavigationLink" FromRole="Link" ToRole="Navigation" />
+          <Property Type="Int32" Name="NavigationId" Nullable="false" />
+          <Property Type="Int32" Name="TermId" Nullable="false" />
+          <Property Type="String" Name="Url" Nullable="true" />
+          <Property Type="Int32" Name="ParentLinkId" Nullable="true" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Navigation">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Component" Relationship="EventHandlingDataModel.ComponentNavigation" FromRole="Navigation" ToRole="Component" />
+          <NavigationProperty Name="Link" Relationship="EventHandlingDataModel.NavigationLink" FromRole="Navigation" ToRole="Link" />
+          <Property Type="Int32" Name="PublishingTermSetId" Nullable="false" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Feed">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Component" Relationship="EventHandlingDataModel.ComponentFeed" FromRole="Feed" ToRole="Component" />
+          <NavigationProperty Name="Event" Relationship="EventHandlingDataModel.EventsInFeed" FromRole="Feed" ToRole="Event" />
+          <NavigationProperty Name="Term" Relationship="EventHandlingDataModel.TermsInFeed" FromRole="Feed" ToRole="Term" />
+          <Property Type="String" Name="Mode" Nullable="true" />
+          <Property Type="DateTime" Name="Created" Nullable="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <Association Name="CommunityAssociation">
+          <End Type="EventHandlingDataModel.Community" Role="Community" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.Association" Role="Association" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Community">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Association">
+              <PropertyRef Name="CommunityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AssociationWebPage">
+          <End Type="EventHandlingDataModel.Association" Role="Association" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Association">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WebPage">
+              <PropertyRef Name="AssociationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="WebPageContent">
+          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="*" />
+          <End Type="EventHandlingDataModel.Content" Role="Content" Multiplicity="1" />
+        </Association>
+        <Association Name="ContentComponent">
+          <End Type="EventHandlingDataModel.Content" Role="Content" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.Component" Role="Component" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Component">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="AssociationCategories">
+          <End Type="EventHandlingDataModel.Association" Multiplicity="*" Role="Association" />
+          <End Type="EventHandlingDataModel.TermSet" Multiplicity="*" Role="TermSet" />
+        </Association>
+        <Association Name="ComponentCalendar">
+          <End Type="EventHandlingDataModel.Component" Role="Component" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.Calendar" Role="Calendar" Multiplicity="0..1" />
+        </Association>
+        <Association Name="ComponentFeed">
+          <End Type="EventHandlingDataModel.Component" Role="Component" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.Feed" Role="Feed" Multiplicity="0..1" />
+        </Association>
+        <Association Name="ComponentNavigation">
+          <End Type="EventHandlingDataModel.Component" Role="Component" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.Navigation" Role="Navigation" Multiplicity="0..1" />
+        </Association>
+        <Association Name="NavigationLink">
+          <End Type="EventHandlingDataModel.Navigation" Role="Navigation" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.Link" Role="Link" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Navigation">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Link">
+              <PropertyRef Name="NavigationId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EventsInFeed">
+          <End Type="EventHandlingDataModel.Feed" Role="Feed" Multiplicity="*" />
+          <End Type="EventHandlingDataModel.Event" Role="Event" Multiplicity="*" />
+        </Association>
+        <Association Name="TermsInFeed">
+          <End Type="EventHandlingDataModel.Term" Role="Term" Multiplicity="*" />
+          <End Type="EventHandlingDataModel.Feed" Role="Feed" Multiplicity="*" />
+        </Association>
+        <Association Name="CommunityWebPage">
+          <End Type="EventHandlingDataModel.Community" Role="Community" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Community">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="WebPage">
+              <PropertyRef Name="CommunityId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ContentLayout">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Content" Relationship="EventHandlingDataModel.ContentContentLayout" FromRole="ContentLayout" ToRole="Content" />
+          <Property Type="Int32" Name="ContentId" Nullable="false" />
+          <Property Type="Int32" Name="Rows" Nullable="true" />
+          <Property Type="Int32" Name="Columns" Nullable="true" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+        </EntityType>
+        <Association Name="ContentContentLayout">
+          <End Type="EventHandlingDataModel.Content" Role="Content" Multiplicity="1" />
+          <End Type="EventHandlingDataModel.ContentLayout" Role="ContentLayout" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Content">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ContentLayout">
+              <PropertyRef Name="ContentId" />
+            </Dependent>
+          </ReferentialConstraint>
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -513,10 +1133,101 @@
       <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.WebPage)">
         <MappingFragment StoreEntitySet="WebPages">
           <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CommunityId" ColumnName="CommunityId" />
           <ScalarProperty Name="AssociationId" ColumnName="AssociationId" />
-          <ScalarProperty Name="ContentId" ColumnName="ContentId" />
           <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+          <ScalarProperty Name="NavigationComponentId" ColumnName="NavigationComponentId" />
           <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Communities">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Community)">
+        <MappingFragment StoreEntitySet="Communities">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PublishingTermSetId" ColumnName="PublishingTermSetId" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Associations">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Association)">
+        <MappingFragment StoreEntitySet="Associations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="CommunityId" ColumnName="CommunityId" />
+          <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
+          <ScalarProperty Name="PublishingTermSetId" ColumnName="PublishingTermSetId" />
+          <ScalarProperty Name="AssociationType" ColumnName="AssociationType" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Contents">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Content)">
+        <MappingFragment StoreEntitySet="Contents">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Components">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Component)">
+        <MappingFragment StoreEntitySet="Components">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+          <ScalarProperty Name="Title" ColumnName="Title" />
+          <ScalarProperty Name="Width" ColumnName="Width" />
+          <ScalarProperty Name="Height" ColumnName="Height" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Links">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Link)">
+        <MappingFragment StoreEntitySet="Links">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="NavigationId" ColumnName="NavigationId" />
+          <ScalarProperty Name="TermId" ColumnName="TermId" />
+          <ScalarProperty Name="Url" ColumnName="Url" />
+          <ScalarProperty Name="ParentLinkId" ColumnName="ParentLinkId" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Navigations">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Navigation)">
+        <MappingFragment StoreEntitySet="Navigations">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="PublishingTermSetId" ColumnName="PublishingTermSetId" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Feeds">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.Feed)">
+        <MappingFragment StoreEntitySet="Feeds">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Mode" ColumnName="Mode" />
+          <ScalarProperty Name="Created" ColumnName="Created" />
+          <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="ContentLayouts">
+      <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.ContentLayout)">
+        <MappingFragment StoreEntitySet="ContentLayouts">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="ContentId" ColumnName="ContentId" />
+          <ScalarProperty Name="Rows" ColumnName="Rows" />
+          <ScalarProperty Name="Columns" ColumnName="Columns" />
           <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
         </MappingFragment>
       </EntityTypeMapping>
@@ -553,12 +1264,60 @@
         <ScalarProperty Name="Id" ColumnName="Calendar_Id" />
       </EndProperty>
     </AssociationSetMapping>
-    <AssociationSetMapping Name="WebPageCalendar" TypeName="EventHandlingDataModel.WebPageCalendar" StoreEntitySet="WebPages">
-      <EndProperty Name="Calendar">
-        <ScalarProperty Name="Id" ColumnName="Calendar_Id" />
+    <AssociationSetMapping Name="WebPageContent" TypeName="EventHandlingDataModel.WebPageContent" StoreEntitySet="WebPages">
+      <EndProperty Name="Content">
+        <ScalarProperty Name="Id" ColumnName="Content_Id" />
       </EndProperty>
       <EndProperty Name="WebPage">
         <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="AssociationCategories" TypeName="EventHandlingDataModel.AssociationCategories" StoreEntitySet="AssociationCategories">
+      <EndProperty Name="Association">
+        <ScalarProperty Name="Id" ColumnName="Association_Id" />
+      </EndProperty>
+      <EndProperty Name="TermSet">
+        <ScalarProperty Name="Id" ColumnName="TermSet_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ComponentCalendar" TypeName="EventHandlingDataModel.ComponentCalendar" StoreEntitySet="Calendars">
+      <EndProperty Name="Component">
+        <ScalarProperty Name="Id" ColumnName="Component_Id" />
+      </EndProperty>
+      <EndProperty Name="Calendar">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ComponentFeed" TypeName="EventHandlingDataModel.ComponentFeed" StoreEntitySet="Feeds">
+      <EndProperty Name="Component">
+        <ScalarProperty Name="Id" ColumnName="Component_Id" />
+      </EndProperty>
+      <EndProperty Name="Feed">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="ComponentNavigation" TypeName="EventHandlingDataModel.ComponentNavigation" StoreEntitySet="Navigations">
+      <EndProperty Name="Component">
+        <ScalarProperty Name="Id" ColumnName="Component_Id" />
+      </EndProperty>
+      <EndProperty Name="Navigation">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="EventsInFeed" TypeName="EventHandlingDataModel.EventsInFeed" StoreEntitySet="EventsInFeed">
+      <EndProperty Name="Feed">
+        <ScalarProperty Name="Id" ColumnName="Feed_Id" />
+      </EndProperty>
+      <EndProperty Name="Event">
+        <ScalarProperty Name="Id" ColumnName="Event_Id" />
+      </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="TermsInFeed" TypeName="EventHandlingDataModel.TermsInFeed" StoreEntitySet="TermsInFeed">
+      <EndProperty Name="Term">
+        <ScalarProperty Name="Id" ColumnName="Term_Id" />
+      </EndProperty>
+      <EndProperty Name="Feed">
+        <ScalarProperty Name="Id" ColumnName="Feed_Id" />
       </EndProperty>
     </AssociationSetMapping>
   </EntityContainerMapping>

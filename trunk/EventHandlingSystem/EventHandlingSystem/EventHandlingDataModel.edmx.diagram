@@ -4,19 +4,39 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="c9e782dd39704f3882c942d008f35394" Name="Diagram1" ZoomLevel="86" >
-        <EntityTypeShape EntityType="EventHandlingDataModel.Taxonomy" Width="1.5" PointX="5.75" PointY="3" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.TermSet" Width="1.5" PointX="7.75" PointY="3" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Term" Width="1.5" PointX="9.75" PointY="3" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Event" Width="1.5" PointX="4" PointY="1" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Calendar" Width="1.5" PointX="11.875" PointY="3" />
+      <Diagram DiagramId="c9e782dd39704f3882c942d008f35394" Name="Diagram1" ZoomLevel="93" >
+        <EntityTypeShape EntityType="EventHandlingDataModel.Taxonomy" Width="1.5" PointX="2.25" PointY="8" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.TermSet" Width="1.5" PointX="5.375" PointY="7.5" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Term" Width="1.5" PointX="7.125" PointY="11.75" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Event" Width="1.5" PointX="12.5" PointY="10.375" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Calendar" Width="1.5" PointX="8.25" PointY="7.875" />
         <AssociationConnector Association="EventHandlingDataModel.TaxonomyTermSet" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInTermSets" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInEvents" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInCalendars" />
         <AssociationConnector Association="EventHandlingDataModel.EventsInCalendars" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.WebPage" Width="1.5" PointX="14" PointY="2.875" />
-        <AssociationConnector Association="EventHandlingDataModel.WebPageCalendar" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.WebPage" Width="1.5" PointX="8.125" PointY="1.5" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Community" Width="1.5" PointX="2.875" PointY="1.5" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Association" Width="1.875" PointX="5.625" PointY="1.125" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Content" Width="1.5" PointX="8" PointY="5" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Component" Width="1.5" PointX="11" PointY="5.125" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Link" Width="1.5" PointX="2.5" PointY="4.875" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Navigation" Width="1.75" PointX="4.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Feed" Width="1.5" PointX="9.875" PointY="11.75" />
+        <AssociationConnector Association="EventHandlingDataModel.CommunityAssociation" />
+        <AssociationConnector Association="EventHandlingDataModel.AssociationWebPage" />
+        <AssociationConnector Association="EventHandlingDataModel.WebPageContent" />
+        <AssociationConnector Association="EventHandlingDataModel.ContentComponent" />
+        <AssociationConnector Association="EventHandlingDataModel.AssociationCategories" />
+        <AssociationConnector Association="EventHandlingDataModel.ComponentCalendar" />
+        <AssociationConnector Association="EventHandlingDataModel.ComponentFeed" />
+        <AssociationConnector Association="EventHandlingDataModel.ComponentNavigation" />
+        <AssociationConnector Association="EventHandlingDataModel.NavigationLink" />
+        <AssociationConnector Association="EventHandlingDataModel.EventsInFeed" />
+        <AssociationConnector Association="EventHandlingDataModel.TermsInFeed" />
+        <AssociationConnector Association="EventHandlingDataModel.CommunityWebPage" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.ContentLayout" Width="1.5" PointX="10.75" PointY="2.875" />
+        <AssociationConnector Association="EventHandlingDataModel.ContentContentLayout" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
