@@ -17,7 +17,6 @@ namespace EventHandlingSystem
         public Community()
         {
             this.Association = new HashSet<Association>();
-            this.WebPage = new HashSet<WebPage>();
         }
     
         public int Id { get; set; }
@@ -27,6 +26,6 @@ namespace EventHandlingSystem
         public bool IsDeleted { get; set; }
     
         public virtual ICollection<Association> Association { get; set; }
-        public virtual ICollection<WebPage> WebPage { get; set; }
+        public virtual WebPage WebPage { get; set; }
     }
 }

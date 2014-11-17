@@ -67,10 +67,6 @@
       <End Role="Community" EntitySet="Communities" />
       <End Role="Association" EntitySet="Associations" />
     </AssociationSet>
-    <AssociationSet Name="AssociationWebPage" Association="EventHandlingDataModel.Store.AssociationWebPage">
-      <End Role="Association" EntitySet="Associations" />
-      <End Role="WebPage" EntitySet="WebPages" />
-    </AssociationSet>
     <AssociationSet Name="WebPageContent" Association="EventHandlingDataModel.Store.WebPageContent">
       <End Role="WebPage" EntitySet="WebPages" />
       <End Role="Content" EntitySet="Contents" />
@@ -119,13 +115,17 @@
       <End Role="Feed" EntitySet="Feeds" />
       <End Role="TermsInFeed" EntitySet="TermsInFeed" />
     </AssociationSet>
-    <AssociationSet Name="CommunityWebPage" Association="EventHandlingDataModel.Store.CommunityWebPage">
-      <End Role="Community" EntitySet="Communities" />
-      <End Role="WebPage" EntitySet="WebPages" />
-    </AssociationSet>
     <AssociationSet Name="ContentContentLayout" Association="EventHandlingDataModel.Store.ContentContentLayout">
       <End Role="Content" EntitySet="Contents" />
       <End Role="ContentLayout" EntitySet="ContentLayouts" />
+    </AssociationSet>
+    <AssociationSet Name="WebPageCommunity" Association="EventHandlingDataModel.Store.WebPageCommunity">
+      <End Role="WebPage" EntitySet="WebPages" />
+      <End Role="Community" EntitySet="Communities" />
+    </AssociationSet>
+    <AssociationSet Name="WebPageAssociation" Association="EventHandlingDataModel.Store.WebPageAssociation">
+      <End Role="WebPage" EntitySet="WebPages" />
+      <End Role="Association" EntitySet="Associations" />
     </AssociationSet>
   </EntityContainer>
   <EntityType Name="Taxonomies">
@@ -196,8 +196,6 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="CommunityId" Type="int" Nullable="false" />
-    <Property Name="AssociationId" Type="int" Nullable="false" />
     <Property Name="LogoUrl" Type="nvarchar(max)" Nullable="true" />
     <Property Name="NavigationComponentId" Type="nvarchar(max)" Nullable="false" />
     <Property Name="Created" Type="datetime" Nullable="false" />
@@ -213,6 +211,7 @@
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="WebPage_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Associations">
     <Key>
@@ -220,12 +219,13 @@
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="CommunityId" Type="int" Nullable="false" />
-    <Property Name="ParentAssociationId" Type="int" Nullable="false" />
+    <Property Name="ParentAssociationId" Type="int" Nullable="true" />
     <Property Name="PublishingTermSetId" Type="int" Nullable="false" />
     <Property Name="AssociationType" Type="int" Nullable="true" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
+    <Property Name="WebPage_Id" Type="int" Nullable="true" />
   </EntityType>
   <EntityType Name="Contents">
     <Key>
@@ -368,18 +368,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="AssociationWebPage">
-    <End Role="Association" Type="EventHandlingDataModel.Store.Associations" Multiplicity="1" />
-    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Association">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="WebPage">
-        <PropertyRef Name="AssociationId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="WebPageContent">
     <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
     <End Role="Content" Type="EventHandlingDataModel.Store.Contents" Multiplicity="1" />
@@ -452,18 +440,6 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="CommunityWebPage">
-    <End Role="Community" Type="EventHandlingDataModel.Store.Communities" Multiplicity="1" />
-    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="Community">
-        <PropertyRef Name="Id" />
-      </Principal>
-      <Dependent Role="WebPage">
-        <PropertyRef Name="CommunityId" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="ContentContentLayout">
     <End Role="Content" Type="EventHandlingDataModel.Store.Contents" Multiplicity="1" />
     <End Role="ContentLayout" Type="EventHandlingDataModel.Store.ContentLayouts" Multiplicity="*" />
@@ -473,6 +449,30 @@
       </Principal>
       <Dependent Role="ContentLayout">
         <PropertyRef Name="ContentId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WebPageCommunity">
+    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="0..1" />
+    <End Role="Community" Type="EventHandlingDataModel.Store.Communities" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WebPage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Community">
+        <PropertyRef Name="WebPage_Id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="WebPageAssociation">
+    <End Role="WebPage" Type="EventHandlingDataModel.Store.WebPages" Multiplicity="0..1" />
+    <End Role="Association" Type="EventHandlingDataModel.Store.Associations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="WebPage">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Association">
+        <PropertyRef Name="WebPage_Id" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -686,10 +686,6 @@
             <End Role="Community" EntitySet="Communities" />
             <End Role="Association" EntitySet="Associations" />
           </AssociationSet>
-          <AssociationSet Name="AssociationWebPage" Association="EventHandlingDataModel.AssociationWebPage">
-            <End Role="Association" EntitySet="Associations" />
-            <End Role="WebPage" EntitySet="WebPages" />
-          </AssociationSet>
           <AssociationSet Name="WebPageContent" Association="EventHandlingDataModel.WebPageContent">
             <End Role="WebPage" EntitySet="WebPages" />
             <End Role="Content" EntitySet="Contents" />
@@ -726,14 +722,18 @@
             <End Role="Term" EntitySet="Terms" />
             <End Role="Feed" EntitySet="Feeds" />
           </AssociationSet>
-          <AssociationSet Name="CommunityWebPage" Association="EventHandlingDataModel.CommunityWebPage">
-            <End Role="Community" EntitySet="Communities" />
-            <End Role="WebPage" EntitySet="WebPages" />
-          </AssociationSet>
           <EntitySet Name="ContentLayouts" EntityType="EventHandlingDataModel.ContentLayout" />
           <AssociationSet Name="ContentContentLayout" Association="EventHandlingDataModel.ContentContentLayout">
             <End Role="Content" EntitySet="Contents" />
             <End Role="ContentLayout" EntitySet="ContentLayouts" />
+          </AssociationSet>
+          <AssociationSet Name="WebPageCommunity" Association="EventHandlingDataModel.WebPageCommunity">
+            <End Role="WebPage" EntitySet="WebPages" />
+            <End Role="Community" EntitySet="Communities" />
+          </AssociationSet>
+          <AssociationSet Name="WebPageAssociation" Association="EventHandlingDataModel.WebPageAssociation">
+            <End Role="WebPage" EntitySet="WebPages" />
+            <End Role="Association" EntitySet="Associations" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="Taxonomy">
@@ -845,15 +845,13 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="Int32" Name="CommunityId" Nullable="false" />
-          <Property Type="Int32" Name="AssociationId" Nullable="false" />
           <Property Type="String" Name="LogoUrl" Nullable="true" />
           <Property Type="String" Name="NavigationComponentId" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <NavigationProperty Name="Association" Relationship="EventHandlingDataModel.AssociationWebPage" FromRole="WebPage" ToRole="Association" />
           <NavigationProperty Name="Content" Relationship="EventHandlingDataModel.WebPageContent" FromRole="WebPage" ToRole="Content" />
-          <NavigationProperty Name="Community" Relationship="EventHandlingDataModel.CommunityWebPage" FromRole="WebPage" ToRole="Community" />
+          <NavigationProperty Name="Community" Relationship="EventHandlingDataModel.WebPageCommunity" FromRole="WebPage" ToRole="Community" />
+          <NavigationProperty Name="Association" Relationship="EventHandlingDataModel.WebPageAssociation" FromRole="WebPage" ToRole="Association" />
         </EntityType>
         <EntityType Name="Community">
           <Key>
@@ -865,7 +863,7 @@
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="String" Name="CreatedBy" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.CommunityWebPage" FromRole="Community" ToRole="WebPage" />
+          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.WebPageCommunity" FromRole="Community" ToRole="WebPage" />
         </EntityType>
         <EntityType Name="Association">
           <Key>
@@ -874,14 +872,14 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Community" Relationship="EventHandlingDataModel.CommunityAssociation" FromRole="Association" ToRole="Community" />
           <Property Type="Int32" Name="CommunityId" Nullable="false" />
-          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.AssociationWebPage" FromRole="Association" ToRole="WebPage" />
           <NavigationProperty Name="TermSet" Relationship="EventHandlingDataModel.AssociationCategories" FromRole="Association" ToRole="TermSet" />
-          <Property Type="Int32" Name="ParentAssociationId" Nullable="false" />
+          <Property Type="Int32" Name="ParentAssociationId" Nullable="true" />
           <Property Type="Int32" Name="PublishingTermSetId" Nullable="false" />
           <Property Type="Int32" Name="AssociationType" Nullable="true" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="String" Name="CreatedBy" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="WebPage" Relationship="EventHandlingDataModel.WebPageAssociation" FromRole="Association" ToRole="WebPage" />
         </EntityType>
         <EntityType Name="Content">
           <Key>
@@ -957,18 +955,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="AssociationWebPage">
-          <End Type="EventHandlingDataModel.Association" Role="Association" Multiplicity="1" />
-          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Association">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WebPage">
-              <PropertyRef Name="AssociationId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="WebPageContent">
           <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="*" />
           <End Type="EventHandlingDataModel.Content" Role="Content" Multiplicity="1" />
@@ -1021,18 +1007,6 @@
           <End Type="EventHandlingDataModel.Term" Role="Term" Multiplicity="*" />
           <End Type="EventHandlingDataModel.Feed" Role="Feed" Multiplicity="*" />
         </Association>
-        <Association Name="CommunityWebPage">
-          <End Type="EventHandlingDataModel.Community" Role="Community" Multiplicity="1" />
-          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Community">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="WebPage">
-              <PropertyRef Name="CommunityId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityType Name="ContentLayout">
           <Key>
             <PropertyRef Name="Id" />
@@ -1055,6 +1029,14 @@
               <PropertyRef Name="ContentId" />
             </Dependent>
           </ReferentialConstraint>
+        </Association>
+        <Association Name="WebPageCommunity">
+          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="0..1" />
+          <End Type="EventHandlingDataModel.Community" Role="Community" Multiplicity="0..1" />
+        </Association>
+        <Association Name="WebPageAssociation">
+          <End Type="EventHandlingDataModel.WebPage" Role="WebPage" Multiplicity="0..1" />
+          <End Type="EventHandlingDataModel.Association" Role="Association" Multiplicity="0..1" />
         </Association>
       </Schema>
     </edmx:ConceptualModels>
@@ -1133,8 +1115,6 @@
       <EntityTypeMapping TypeName="IsTypeOf(EventHandlingDataModel.WebPage)">
         <MappingFragment StoreEntitySet="WebPages">
           <ScalarProperty Name="Id" ColumnName="Id" />
-          <ScalarProperty Name="CommunityId" ColumnName="CommunityId" />
-          <ScalarProperty Name="AssociationId" ColumnName="AssociationId" />
           <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
           <ScalarProperty Name="NavigationComponentId" ColumnName="NavigationComponentId" />
           <ScalarProperty Name="Created" ColumnName="Created" />
@@ -1319,6 +1299,24 @@
       <EndProperty Name="Feed">
         <ScalarProperty Name="Id" ColumnName="Feed_Id" />
       </EndProperty>
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WebPageCommunity" TypeName="EventHandlingDataModel.WebPageCommunity" StoreEntitySet="Communities">
+      <EndProperty Name="WebPage">
+        <ScalarProperty Name="Id" ColumnName="WebPage_Id" />
+      </EndProperty>
+      <EndProperty Name="Community">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="WebPage_Id" IsNull="false" />
+    </AssociationSetMapping>
+    <AssociationSetMapping Name="WebPageAssociation" TypeName="EventHandlingDataModel.WebPageAssociation" StoreEntitySet="Associations">
+      <EndProperty Name="WebPage">
+        <ScalarProperty Name="Id" ColumnName="WebPage_Id" />
+      </EndProperty>
+      <EndProperty Name="Association">
+        <ScalarProperty Name="Id" ColumnName="Id" />
+      </EndProperty>
+      <Condition ColumnName="WebPage_Id" IsNull="false" />
     </AssociationSetMapping>
   </EntityContainerMapping>
 </Mapping></edmx:Mappings>
