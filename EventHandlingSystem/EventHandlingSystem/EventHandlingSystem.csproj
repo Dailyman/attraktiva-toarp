@@ -131,7 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="About.aspx" />
+    <Content Include="OldPages\About.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
     <Content Include="Account\OpenAuthProviders.ascx" />
@@ -141,7 +141,7 @@
     <Content Include="App_Data\aspnet-EventHandlingSystem-20141031134503_log.ldf">
       <DependentUpon>aspnet-EventHandlingSystem-20141031134503.mdf</DependentUpon>
     </Content>
-    <Content Include="Contact.aspx" />
+    <Content Include="OldPages\Contact.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
     <Content Include="Content\themes\base\images\ui-bg_flat_75_ffffff_40x100.png" />
@@ -217,7 +217,7 @@
     <Content Include="Images\orderedList7.png" />
     <Content Include="Images\orderedList8.png" />
     <Content Include="Images\orderedList9.png" />
-    <Content Include="Defaultoriginal.aspx" />
+    <Content Include="OldPages\Defaultoriginal.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Images\top_back.jpg" />
@@ -290,11 +290,11 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
-    <Compile Include="About.aspx.cs">
+    <Compile Include="OldPages\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="About.aspx.designer.cs">
+    <Compile Include="OldPages\About.aspx.designer.cs">
       <DependentUpon>About.aspx</DependentUpon>
     </Compile>
     <Compile Include="Account\Login.aspx.cs">
@@ -345,11 +345,11 @@
     <Compile Include="Component.cs">
       <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Contact.aspx.cs">
+    <Compile Include="OldPages\Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Contact.aspx.designer.cs">
+    <Compile Include="OldPages\Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
     <Compile Include="Content.cs">
@@ -371,11 +371,11 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Defaultoriginal.aspx.cs">
+    <Compile Include="OldPages\Defaultoriginal.aspx.cs">
       <DependentUpon>Defaultoriginal.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Defaultoriginal.aspx.designer.cs">
+    <Compile Include="OldPages\Defaultoriginal.aspx.designer.cs">
       <DependentUpon>Defaultoriginal.aspx</DependentUpon>
     </Compile>
     <Compile Include="EventCreate.aspx.cs">
