@@ -19,5 +19,19 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedTermSets().SingleOrDefault(ts => ts.Id.Equals(id));
         }
 
+        public static List<TermSet> GetTermSetsByTaxonomyId(int id)
+        {
+            return GetAllNotDeletedTermSets().Where(ts => ts.TaxonomyId.Equals(id)).ToList();
+        }
+
+        public static List<TermSet> GetAllParentTermSetsByTaxonomyId(int id)
+        {
+            return GetTermSetsByTaxonomyId(id).Where(ts => ts.ParentTermSetId.Equals(null)).ToList();
+        }
+
+        public static List<TermSet> GetTermSetsByParentTermSetId(int id)
+        {
+            return GetAllNotDeletedTermSets().Where(ts => ts.ParentTermSetId.Equals(id)).ToList();
+        }
     }
 }
