@@ -207,7 +207,7 @@
       <PropertyRef Name="Id" />
     </Key>
     <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-    <Property Name="PublishingTermSetId" Type="int" Nullable="true" />
+    <Property Name="PublishingTermSetId" Type="int" Nullable="false" />
     <Property Name="Created" Type="datetime" Nullable="false" />
     <Property Name="CreatedBy" Type="nvarchar(max)" Nullable="false" />
     <Property Name="IsDeleted" Type="bit" Nullable="false" />
@@ -859,7 +859,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <NavigationProperty Name="Association" Relationship="EventHandlingDataModel.CommunityAssociation" FromRole="Community" ToRole="Association" />
-          <Property Type="Int32" Name="PublishingTermSetId" Nullable="true" />
+          <Property Type="Int32" Name="PublishingTermSetId" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" />
           <Property Type="String" Name="CreatedBy" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />

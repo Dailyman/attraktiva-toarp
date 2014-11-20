@@ -138,6 +138,7 @@ namespace EventHandlingSystem
             //Response.Redirect(Request.Url.AbsoluteUri + "?id=" + TxtBoxSearch.Text, true);
             
             
-            Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListEvents.SelectedValue, true);}
+            Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListEvents.SelectedValue, true);
+        }
     }
 }

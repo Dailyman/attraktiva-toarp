@@ -19,17 +19,17 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedTermSets().SingleOrDefault(ts => ts.Id.Equals(id));
         }
 
-        public static List<TermSet> GetTermSetsByTaxonomyId(int id)
+        public static List<TermSet> GetTermSetsByTaxonomy(Taxonomy tax)
         {
-            return GetAllNotDeletedTermSets().Where(ts => ts.TaxonomyId.Equals(id)).ToList();
+            return GetAllNotDeletedTermSets().Where(ts => ts.TaxonomyId.Equals(tax.Id)).ToList();
         }
 
-        public static List<TermSet> GetAllParentTermSetsByTaxonomyId(int id)
+        public static List<TermSet> GetAllParentTermSetsByTaxonomy(Taxonomy tax)
         {
-            return GetTermSetsByTaxonomyId(id).Where(ts => ts.ParentTermSetId.Equals(null)).ToList();
+            return GetTermSetsByTaxonomy(tax).Where(ts => ts.ParentTermSetId.Equals(null)).ToList();
         }
 
-        public static List<TermSet> GetTermSetsByParentTermSetId(int id)
+        public static List<TermSet> GetChildTermSetsByParentTermSetId(int id)
         {
             return GetAllNotDeletedTermSets().Where(ts => ts.ParentTermSetId.Equals(id)).ToList();
         }

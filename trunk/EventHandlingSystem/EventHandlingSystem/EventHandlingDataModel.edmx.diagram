@@ -16,7 +16,7 @@
         <AssociationConnector Association="EventHandlingDataModel.TermsInCalendars" />
         <AssociationConnector Association="EventHandlingDataModel.EventsInCalendars" />
         <EntityTypeShape EntityType="EventHandlingDataModel.WebPage" Width="1.5" PointX="8.125" PointY="1.5" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Community" Width="1.5" PointX="2.875" PointY="1.5" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Community" Width="1.875" PointX="2.5" PointY="1.5" />
         <EntityTypeShape EntityType="EventHandlingDataModel.Association" Width="1.875" PointX="5.625" PointY="1.125" />
         <EntityTypeShape EntityType="EventHandlingDataModel.Content" Width="1.5" PointX="8" PointY="5" />
         <EntityTypeShape EntityType="EventHandlingDataModel.Component" Width="1.5" PointX="11" PointY="5.125" />
