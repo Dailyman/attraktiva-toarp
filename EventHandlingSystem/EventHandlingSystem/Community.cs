@@ -20,7 +20,7 @@ namespace EventHandlingSystem
         }
     
         public int Id { get; set; }
-        public Nullable<int> PublishingTermSetId { get; set; }
+        public int PublishingTermSetId { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public bool IsDeleted { get; set; }

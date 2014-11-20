@@ -10,42 +10,33 @@
 namespace EventHandlingSystem {
     
     
-    public partial class SiteMaster {
+    public partial class SitePage {
         
         /// <summary>
-        /// HeadContent control.
+        /// DropDownListWePages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListWePages;
         
         /// <summary>
-        /// A1 control.
+        /// BtnLoadPage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlAnchor A1;
+        protected global::System.Web.UI.WebControls.Button BtnLoadPage;
         
         /// <summary>
-        /// FeaturedContent control.
+        /// LabelTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder FeaturedContent;
-        
-        /// <summary>
-        /// MainContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::System.Web.UI.WebControls.Label LabelTitle;
     }
 }

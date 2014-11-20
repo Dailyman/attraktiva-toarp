@@ -66,9 +66,11 @@
                         <li><a runat="server" href="~/">Home</a></li>
                         <li><a runat="server" href="~/EventCreate">Create event</a></li>
                         <li><a runat="server" href="~/EventDetails">View events</a></li>
-                        <li><a runat="server" href="~/About">About</a></li>
+                        <li><a runat="server" href="~/SitePage">SitePage.aspx</a></li>
+                        <li><a id="A1" runat="server" href="~/SiteSettings">SiteSetings.aspx</a></li>
+                        <%--<li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
-                        <li><a runat="server" href="~/Admin/PageSettings.aspx">Settings</a></li>
+                        <li><a runat="server" href="~/Admin/PageSettings.aspx">Settings</a></li>--%>
                     </ul>
                 </nav>
             </div>

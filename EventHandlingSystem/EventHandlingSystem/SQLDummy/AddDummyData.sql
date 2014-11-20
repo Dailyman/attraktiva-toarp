@@ -37,13 +37,17 @@ INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDele
      VALUES
            ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
 GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
 
 
 
 
 INSERT INTO [dbo].[Communities]([PublishingTermSetId],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
      VALUES
-           (1, '2014-11-10', 'Erica', '0', 1)
+           (1, '2014-11-10', 'Erica', '0', 2)
 GO
 INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
      VALUES
