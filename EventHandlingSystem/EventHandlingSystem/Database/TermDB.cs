@@ -18,5 +18,10 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedTerms().SingleOrDefault(term => term.Id.Equals(id));
         }
+
+        public static List<Term> GetAllTermsByTermSet(TermSet termSet)
+        {
+            return TermSetDB.GetTermSetById(termSet.Id).Term.ToList();
+        } 
     }
 }
