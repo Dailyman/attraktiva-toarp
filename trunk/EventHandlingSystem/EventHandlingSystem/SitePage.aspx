@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    <asp:DropDownList ID="DropDownListWePages" runat="server"></asp:DropDownList>
+    <asp:DropDownList ID="DropDownListWebPages" runat="server"></asp:DropDownList>
     <asp:Button ID="BtnLoadPage" runat="server" Text="Load page" OnClick="BtnLoadPage_OnClick" />
     <br />
     <br />

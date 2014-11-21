@@ -4,6 +4,7 @@
 <asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
 <br />
 <br />
+<asp:Button ID="BtnEdit" runat="server" Text="Edit" OnClick="BtnEdit_OnClick" />
 <asp:Button ID="BtnDelete" runat="server" Text="Delete" OnClick="BtnDelete_OnClick" />
 <br />
-<asp:TreeView ID="TreeViewTaxonomy" runat="server" OnSelectedNodeChanged="TreeViewTaxonomy_OnSelectedNodeChanged"></asp:TreeView>
+<asp:TreeView ID="TreeViewTaxonomy" runat="server" OnTreeNodeCheckChanged="TreeViewTaxonomy_OnTreeNodeCheckChanged" ShowLines="True"></asp:TreeView>

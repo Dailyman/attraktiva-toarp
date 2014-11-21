@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
+using Microsoft.Ajax.Utilities;
 
 namespace EventHandlingSystem
 {
@@ -107,9 +109,47 @@ namespace EventHandlingSystem
             }
         }
 
-        protected void TreeViewTaxonomy_OnSelectedNodeChanged(object sender, EventArgs e)
+
+        protected void TreeViewTaxonomy_OnTreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
         {
+            //foreach (TreeNode parentNode in TreeViewTaxonomy.Nodes)
+            //{
+            //    parentNode.Checked = !parentNode.Checked;
+            //    CheckAllNodesNodesRecursive(parentNode);
+            //}
+        }
+
+
+        public static List<TreeNode> CheckedTreeNodes;
+
+        protected void BtnEdit_OnClick(object sender, EventArgs e)
+        {
+            CheckedTreeNodes = new List<TreeNode>();
+            foreach (TreeNode parentNode in TreeViewTaxonomy.Nodes)
+            {
+                if (parentNode.Checked)
+                {
+                    CheckedTreeNodes.Add(parentNode);
+                }
+                FindCheckedNodesFromAllNodesNodesRecursive(parentNode);
+            }
             
+                LabelDisplay.Text = CheckedTreeNodes.Count == 1
+                    ? CheckedTreeNodes[0].Text
+                    : "Please select one and only one!";
+            
+        }
+
+        public void FindCheckedNodesFromAllNodesNodesRecursive(TreeNode parentNode)
+        {
+            foreach (TreeNode subNode in parentNode.ChildNodes)
+            {
+                if (subNode.Checked)
+                {
+                    CheckedTreeNodes.Add(subNode);
+                }
+                FindCheckedNodesFromAllNodesNodesRecursive(subNode);
+            }
         }
 
         protected void BtnDelete_OnClick(object sender, EventArgs e)
@@ -130,5 +170,8 @@ namespace EventHandlingSystem
             
 
         }
+
+
+        
     }
 }
