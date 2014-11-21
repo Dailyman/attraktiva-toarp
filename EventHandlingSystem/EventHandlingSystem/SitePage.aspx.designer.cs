@@ -13,13 +13,13 @@ namespace EventHandlingSystem {
     public partial class SitePage {
         
         /// <summary>
-        /// DropDownListWePages control.
+        /// DropDownListWebPages control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListWePages;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListWebPages;
         
         /// <summary>
         /// BtnLoadPage control.

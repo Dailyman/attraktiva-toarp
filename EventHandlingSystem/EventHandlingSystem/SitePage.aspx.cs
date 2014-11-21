@@ -14,7 +14,7 @@ namespace EventHandlingSystem
         {
             foreach (var wP in WebPageDB.GetAllWebPages())
             {
-                DropDownListWePages.Items.Add(new ListItem(wP.Id.ToString(), wP.Id.ToString()));
+                DropDownListWebPages.Items.Add(new ListItem(wP.Id.ToString(), wP.Id.ToString()));
             }
 
             
@@ -48,7 +48,7 @@ namespace EventHandlingSystem
 
         protected void BtnLoadPage_OnClick(object sender, EventArgs e)
         {
-            Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListWePages.SelectedValue, true);
+            Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListWebPages.SelectedValue, true);
         }
     }
 }
