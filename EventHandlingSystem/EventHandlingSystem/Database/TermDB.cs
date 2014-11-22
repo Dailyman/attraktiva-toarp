@@ -22,6 +22,15 @@ namespace EventHandlingSystem.Database
         public static List<Term> GetAllTermsByTermSet(TermSet termSet)
         {
             return TermSetDB.GetTermSetById(termSet.Id).Term.ToList();
-        } 
+        }
+
+        public static int UpdateTerm(Term term)
+        {
+            Term termToUpdate = GetTermById(term.Id);
+            termToUpdate.Name = term.Name;
+          
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }
