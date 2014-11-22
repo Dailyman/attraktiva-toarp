@@ -33,5 +33,16 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedTermSets().Where(ts => ts.ParentTermSetId.Equals(id)).ToList();
         }
+
+        public static int UpdateTermSet(TermSet termSet)
+        {
+            TermSet termSetToUpdate = GetTermSetById(termSet.Id);
+            termSetToUpdate.Name = termSet.Name;
+            termSetToUpdate.ParentTermSetId = termSet.ParentTermSetId;
+            termSetToUpdate.TaxonomyId = termSet.TaxonomyId;
+            
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }

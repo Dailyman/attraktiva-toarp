@@ -103,7 +103,7 @@ namespace EventHandlingSystem
                     Value = term.Id.ToString(),
                     ShowCheckBox = true,
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/Tag_30x30.png"
+                    ImageUrl = "~/Images/Tag-16_cyan.png"
                 };
 
                 tNode.ChildNodes.Add(termNode);
@@ -134,11 +134,25 @@ namespace EventHandlingSystem
                 }
                 FindCheckedNodesFromAllNodesNodesRecursive(parentNode);
             }
-            
-                LabelDisplay.Text = CheckedTreeNodes.Count == 1
-                    ? CheckedTreeNodes[0].Text
-                    : "Please select one and only one!";
-            
+            LabelDisplay.Text = CheckedTreeNodes.Count == 1
+                ? CheckedTreeNodes[0].Text
+                : "Please select one and only one!";
+
+            //Båda if-alternativen kan inte finnas samtidigt. Den tar den som står först.
+            //HUR hittar man terms och termsets från TreeViewTaxonomy (som är en control i aspx)?
+
+            //if (CheckedTreeNodes.Count == 1)
+            //{
+            //    LabelDisplay.Text = CheckedTreeNodes[0].Text;
+            //}
+            //else if (CheckedTreeNodes.Count == 0)
+            //{
+            //    LabelDisplay.Text = "Please select a termset or a term!";
+            //}
+            //else
+            //{
+            //    LabelDisplay.Text = "Please check one checkbox ONLY!";
+            //}
         }
 
         public void FindCheckedNodesFromAllNodesNodesRecursive(TreeNode parentNode)
