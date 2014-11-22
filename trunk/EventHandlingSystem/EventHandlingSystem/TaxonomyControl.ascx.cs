@@ -14,12 +14,13 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
             LabelDisplay.Text = "";
             if (!IsPostBack)
             {
-                AddNodesToTreeView(TreeViewTaxonomy, 1);
-                AddNodesToTreeView(TreeViewTaxonomy, 2);
-                AddNodesToTreeView(TreeViewTaxonomy, 3);
+                //AddNodesToTreeView(TreeViewTaxonomy, 1);
+                //AddNodesToTreeView(TreeViewTaxonomy, 2);
+                //AddNodesToTreeView(TreeViewTaxonomy, 3);
             }
         }
 
@@ -172,6 +173,46 @@ namespace EventHandlingSystem
         }
 
 
-        
+        protected void BtnPublishTax_OnClick(object sender, EventArgs e)
+        {
+            TreeViewTaxonomy.Nodes.Clear();
+            AddNodesToTreeView(TreeViewTaxonomy, 1);
+        }
+
+        protected void BtnCategoryTax_OnClick(object sender, EventArgs e)
+        {
+            TreeViewTaxonomy.Nodes.Clear();
+            AddNodesToTreeView(TreeViewTaxonomy, 2);
+        }
+
+        protected void BtnCustomCategoryTax_OnClick(object sender, EventArgs e)
+        {
+            TreeViewTaxonomy.Nodes.Clear();
+            AddNodesToTreeView(TreeViewTaxonomy, 3);
+        }
+
+        protected void BtnClearSelected_OnClick(object sender, EventArgs e)
+        {
+            foreach (TreeNode parentNode in TreeViewTaxonomy.Nodes)
+            {
+                if (parentNode.Checked)
+                {
+                    parentNode.Checked = false;
+                }
+                UncheckAllNodesNodesRecursive(parentNode);
+            }
+        }
+
+        public void UncheckAllNodesNodesRecursive(TreeNode parentNode)
+        {
+            foreach (TreeNode subNode in parentNode.ChildNodes)
+            {
+                if (subNode.Checked)
+                {
+                    subNode.Checked = false;
+                }
+                UncheckAllNodesNodesRecursive(subNode);
+            }
+        }
     }
 }

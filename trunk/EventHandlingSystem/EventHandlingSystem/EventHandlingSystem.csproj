@@ -131,6 +131,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\SiteCustom.css" />
     <Content Include="Images\Aux_folder_16x16.gif" />
     <Content Include="Images\Tag_30x30.png" />
     <Content Include="Navigation.ascx" />
