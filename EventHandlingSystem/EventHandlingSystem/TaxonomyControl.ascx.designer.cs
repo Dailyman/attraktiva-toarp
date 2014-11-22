@@ -22,6 +22,51 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Label LabelDisplay;
         
         /// <summary>
+        /// BtnPublishTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnPublishTax;
+        
+        /// <summary>
+        /// BtnCategoryTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCategoryTax;
+        
+        /// <summary>
+        /// BtnCustomCategoryTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCustomCategoryTax;
+        
+        /// <summary>
+        /// TreeViewTaxonomy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TreeView TreeViewTaxonomy;
+        
+        /// <summary>
+        /// BtnClearSelected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnClearSelected;
+        
+        /// <summary>
         /// BtnEdit control.
         /// </summary>
         /// <remarks>
@@ -38,14 +83,5 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnDelete;
-        
-        /// <summary>
-        /// TreeViewTaxonomy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TreeView TreeViewTaxonomy;
     }
 }
