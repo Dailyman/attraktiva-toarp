@@ -83,7 +83,7 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Läger','2014-11-06','0')
+           ('KanotKlubben','2014-11-06','0')
 GO
 
 

@@ -36,7 +36,7 @@ namespace EventHandlingSystem
                     Text = tax.Name,
                     Value = tax.Id.ToString(),
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/Aux_folder_16x16.gif"
+                    ImageUrl = "~/Images/folder_16x16.png"
                 };
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
                 treeView.Nodes.Add(taxNode);
@@ -53,7 +53,7 @@ namespace EventHandlingSystem
                         Value = parentTermSet.Id.ToString(),
                         ShowCheckBox = true,
                         SelectAction = TreeNodeSelectAction.Expand,
-                        ImageUrl = "~/Images/Aux_folder_16x16.gif"
+                        ImageUrl = "~/Images/folder_16x16.png"
                     };
 
                     FindTermNodesAndAddToTermSetNode(parentTermSet, node);
@@ -77,7 +77,7 @@ namespace EventHandlingSystem
                     Value = ts.Id.ToString(),
                     ShowCheckBox = true,
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/Aux_folder_16x16.gif"
+                    ImageUrl = "~/Images/folder_16x16.png"
                 };
 
 
@@ -103,7 +103,7 @@ namespace EventHandlingSystem
                     Value = term.Id.ToString(),
                     ShowCheckBox = true,
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/Tag-16_cyan.png"
+                    ImageUrl = "~/Images/tag-16x16.png"
                 };
 
                 tNode.ChildNodes.Add(termNode);
