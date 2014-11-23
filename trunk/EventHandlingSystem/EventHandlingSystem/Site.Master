@@ -40,7 +40,7 @@
         <div class="content-wrapper">
             <div class="float-left">
                 <p class="site-title">
-                    <a runat="server" href="~/"><img src="/Images/md_images.jpg" /></a>
+                    <a runat="server" href="~/"><img src="/Images/AT-logga.png" width="233px" height="138px" /></a>
                 </p>
             </div>
             <div class="float-right">
@@ -85,7 +85,7 @@
     <footer>
         <div class="content-wrapper">
             <div class="float-left">
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - Attraktiva Toarp</p>
             </div>
         </div>
     </footer>

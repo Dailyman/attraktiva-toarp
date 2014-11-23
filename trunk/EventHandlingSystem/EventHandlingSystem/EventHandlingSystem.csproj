@@ -132,6 +132,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\SiteCustom.css" />
+    <Content Include="Images\AT-logga.png" />
     <Content Include="Images\Aux_folder_16x16.gif" />
     <Content Include="Images\folder_16x16.png" />
     <Content Include="Images\tag-16x16.png" />
