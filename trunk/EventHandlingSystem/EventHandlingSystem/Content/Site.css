@@ -17,7 +17,8 @@ body {
 a {
     color: #333;
     outline: none;
-    padding-left: 3px;
+    /*padding left make problem with treeview line alignment*/
+    /*padding-left: 3px;*/
     padding-right: 3px;
     text-decoration: underline;
 }

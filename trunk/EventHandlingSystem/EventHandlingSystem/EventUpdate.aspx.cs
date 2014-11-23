@@ -66,7 +66,13 @@ namespace EventHandlingSystem
                     CalendarStartDate.Visible = false;
 
                 }
+                else
+                {
+                    BtnUpdateEvent.Enabled = false;
+                    BtnUpdateEvent.Visible = false;
+                }
 
+                //Ändra denna kod!
                 Term term = TermDB.GetTermById(1);
 
                 DropDownAssociation.Items.Add(new ListItem
@@ -188,7 +194,7 @@ namespace EventHandlingSystem
 
 
 
-        protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
+        protected void BtnUpdateEvent_OnClick(object sender, EventArgs e)
         {
             var start = Convert.ToDateTime(TxtBoxStartDate.Text)
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
