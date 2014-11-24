@@ -135,19 +135,19 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Dam Senior','2014-11-24','0')
+           ('Rödhaken IF Dam Senior','2014-11-24','0')
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Dam Junior','2014-11-24','0')
+           ('Rödhaken IF Dam Junior','2014-11-24','0')
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Herr Senior','2014-11-24','0')
+           ('Rödhaken IF Herr Senior','2014-11-24','0')
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Herr Junior','2014-11-24','0')
+           ('Rödhaken IF Herr Junior','2014-11-24','0')
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
