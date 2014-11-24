@@ -14,10 +14,20 @@ namespace EventHandlingSystem.Database
             return Context.Associations.Where(a => !a.IsDeleted);
         }
 
+        public static List<Association> GetAllAssociations()
+        {
+            return GetAllNotDeletedAssociations().ToList();
+        } 
+
         public static Association GetAssociationById(int id)
         {
             return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Id.Equals(id));
         }
+
+        public static List<Association> GetAllAssociationsInCommunity(Community com)
+        {
+            return GetAllAssociations().Where(a => a.Community.Equals(com)).ToList();
+        } 
 
 
     }
