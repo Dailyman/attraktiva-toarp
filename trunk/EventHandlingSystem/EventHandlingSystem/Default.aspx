@@ -12,6 +12,5 @@
         </div>
         <br />
         <asp:Label ID="TestLable" runat="server" Text=""></asp:Label>
-        <asp:TreeView ID="TreeViewTerms" runat="server"></asp:TreeView>
     </div>
 </asp:Content>

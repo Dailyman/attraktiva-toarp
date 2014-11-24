@@ -17,9 +17,10 @@ namespace EventHandlingSystem
         {
             //Återställ texten.
             LabelDisplay.Text = "";
+
             if (!IsPostBack)
             {
-                
+
             }
         }
 
@@ -43,8 +44,9 @@ namespace EventHandlingSystem
                 treeView.Nodes.Add(taxNode);
 
                 //Hämtar all TermSets som ligger på den översta nivån i taxonomin.
-                List<TermSet> parentTermSets = TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
-                
+                List<TermSet> parentTermSets =
+                    TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
+
                 //Lägger till alla ParentNodes (ex. Äspered).
                 foreach (var parentTermSet in parentTermSets)
                 {
@@ -62,7 +64,7 @@ namespace EventHandlingSystem
 
                     //För att hitta alla ChildNodes till den aktuella ParentNoden.
                     FindChildNodesAndAddToParentNode(parentTermSet, node);
-                    
+
                 }
             }
         }
@@ -84,14 +86,14 @@ namespace EventHandlingSystem
 
                 FindTermNodesAndAddToTermSetNode(ts, childNode);
                 parentNode.ChildNodes.Add(childNode);
-                
+
 
                 //För att hitta alla ChildNodes till den aktuella ParentNoden. 
                 //Redundant anropning av metoden görs för att bygga upp hela "grenen".
                 FindChildNodesAndAddToParentNode(ts, childNode);
             }
-            
-            
+
+
         }
 
         public void FindTermNodesAndAddToTermSetNode(TermSet tSet, TreeNode tNode)
@@ -118,20 +120,34 @@ namespace EventHandlingSystem
         }
 
 
+        //Ersattes då TreeView.CheckedNodes fungerar.
+
+        //public void FindCheckedNodesFromAllNodesNodesRecursive(TreeNode parentNode)
+        //{
+        //    foreach (TreeNode subNode in parentNode.ChildNodes)
+        //    {
+        //        if (subNode.Checked)
+        //        {
+        //            CheckedTreeNodes.Add(subNode);
+        //        }
+        //        FindCheckedNodesFromAllNodesNodesRecursive(subNode);
+        //    }
+        //}
+
+
+
         public static List<TreeNode> CheckedTreeNodes;
+
+
 
         protected void BtnEdit_OnClick(object sender, EventArgs e)
         {
             CheckedTreeNodes = new List<TreeNode>();
-            foreach (TreeNode parentNode in TreeViewTaxonomy.Nodes)
+            foreach (TreeNode node in TreeViewTaxonomy.CheckedNodes)
             {
-                if (parentNode.Checked)
-                {
-                    CheckedTreeNodes.Add(parentNode);
-                }
-                FindCheckedNodesFromAllNodesNodesRecursive(parentNode);
+                if (node.Checked) CheckedTreeNodes.Add(node);
             }
-            
+
             if (CheckedTreeNodes.Count == 1)
             {
                 string nodeValue = CheckedTreeNodes[0].Value;
@@ -139,7 +155,7 @@ namespace EventHandlingSystem
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
 
-                
+
 
                 int id;
                 if (type == "taxonomy" && int.TryParse(strId, out id))
@@ -182,39 +198,121 @@ namespace EventHandlingSystem
                 LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
         }
-        
-        
 
-        public void FindCheckedNodesFromAllNodesNodesRecursive(TreeNode parentNode)
+
+
+
+
+
+
+        private void DeleteAllCheckedItemsInTreeView(List<TreeNode> nodes )
         {
-            foreach (TreeNode subNode in parentNode.ChildNodes)
+            //foreach (TreeNode checkedNode in TreeViewTaxonomy.CheckedNodes)
+            //{
+            //    LabelDisplay.Text += checkedNode.Value + " ";
+            //}
+            foreach (TreeNode treeNode in nodes)
             {
-                if (subNode.Checked)
+                string nodeValue = treeNode.Value;
+
+                string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+                string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+
+                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+                
+                int id;
+                LabelDisplay.Text += "Deleted: ";
+                if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
-                    CheckedTreeNodes.Add(subNode);
+                    //TaxonomyDB.DeleteTaxonomyById(id);
+                    //LabelDisplay.Text += id + ", ";
                 }
-                FindCheckedNodesFromAllNodesNodesRecursive(subNode);
+                else if (type == "termset" && int.TryParse(strId, out id))
+                {
+                    //TermSetDB.DeleteTermSetById(id);
+                    //LabelDisplay.Text += id + ", ";
+                }
+                else if (type == "term" && int.TryParse(strId, out id))
+                {
+                    TermDB.DeleteTermById(id);
+                    LabelDisplay.Text += id + ", ";
+                }
+                else
+                {
+                    LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
+                }
             }
+            
+            TreeViewTaxonomy.Nodes.Clear();
         }
 
         protected void BtnDelete_OnClick(object sender, EventArgs e)
         {
+            CheckedTreeNodes = new List<TreeNode>();
             foreach (TreeNode node in TreeViewTaxonomy.CheckedNodes)
             {
-                LabelDisplay.Text += node.Value + ", ";
+                if (node.Checked) CheckedTreeNodes.Add(node);
             }
 
-            if(!String.IsNullOrEmpty(LabelDisplay.Text))
+            if (CheckedTreeNodes.Count != 0)
             {
-                LabelDisplay.Text += "has been deleted, or have they...?";
+                string nodeValue = CheckedTreeNodes[0].Value;
+
+                string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+                string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+
+                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+                int id;
+                if (type == "taxonomy" && int.TryParse(strId, out id))
+                {
+                    if (id == 1)
+                    {
+                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\". Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                    }
+                    else
+                    {
+                        DeleteAllCheckedItemsInTreeView(CheckedTreeNodes);
+                    }
+                }
+                else if (type == "termset" && int.TryParse(strId, out id))
+                {
+                    if (TermSetDB.GetTermSetById(id).TaxonomyId == 1)
+                    {
+                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\". Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                    }
+                    else
+                    {
+                        DeleteAllCheckedItemsInTreeView(CheckedTreeNodes);
+                    }
+                }
+                else if (type == "term" && int.TryParse(strId, out id))
+                {
+                    if (TermDB.GetTermById(id).TermSet.ToList()[0].TaxonomyId == 1)
+                    {
+                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\". Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                    }
+                    else
+                    {
+                        DeleteAllCheckedItemsInTreeView(CheckedTreeNodes);
+                    }
+                }
+                else
+                {
+                    LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
+                }
+
+            }
+            else if (CheckedTreeNodes.Count == 0)
+            {
+                LabelDisplay.Text = "Please select a termset or a term!";
             }
             else
             {
-                LabelDisplay.Text += "None has been deleted";
+                LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
-            
 
         }
+
 
 
         protected void BtnPublishTax_OnClick(object sender, EventArgs e)
@@ -234,6 +332,8 @@ namespace EventHandlingSystem
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 3);
         }
+
+
 
         protected void BtnClearSelected_OnClick(object sender, EventArgs e)
         {
@@ -262,6 +362,8 @@ namespace EventHandlingSystem
             }
         }
 
+
+
         //Här skickas ändringar av Taxonomi objektet i "EditView".
         protected void BtnUpdateTax_OnClick(object sender, EventArgs e)
         {
@@ -272,9 +374,11 @@ namespace EventHandlingSystem
                 Name = TxtBoxNameTax.Text,
                 Created = originalTax.Created
             };
-            
+
             LabelMessageTax.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            LabelMessageTax.Text = TaxonomyDB.UpdateTaxonomy(tax) != 0 ? "Taxonomy was updated" : "Taxonomy couldn't be updated";
+            LabelMessageTax.Text = TaxonomyDB.UpdateTaxonomy(tax) != 0
+                ? "Taxonomy was updated"
+                : "Taxonomy couldn't be updated";
         }
 
         //Här skickas ändringar av TermSet objektet i "EditView".
@@ -291,7 +395,9 @@ namespace EventHandlingSystem
             };
 
             LabelMessageTS.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            LabelMessageTS.Text = TermSetDB.UpdateTermSet(tS) != 0 ? "Termset was updated" : "Termset couldn't be updated";
+            LabelMessageTS.Text = TermSetDB.UpdateTermSet(tS) != 0
+                ? "Termset was updated"
+                : "Termset couldn't be updated";
         }
 
         //Här skickas ändringar av Term objektet i "EditView".
@@ -303,7 +409,7 @@ namespace EventHandlingSystem
                 Id = originalTerm.Id,
                 Name = TxtBoxNameT.Text,
                 Created = originalTerm.Created
-                
+
             };
             LabelMessageT.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             LabelMessageT.Text = TermDB.UpdateTerm(term) != 0 ? "Term was updated" : "Term couldn't be updated";

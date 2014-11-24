@@ -44,5 +44,16 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
+
+        public static int DeleteTermSetById(int id)
+        {
+            TermSet termSetToDelete = GetTermSetById(id);
+
+            if (termSetToDelete != null)
+                termSetToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }

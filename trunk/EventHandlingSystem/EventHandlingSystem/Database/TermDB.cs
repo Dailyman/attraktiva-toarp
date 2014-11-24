@@ -21,7 +21,7 @@ namespace EventHandlingSystem.Database
 
         public static List<Term> GetAllTermsByTermSet(TermSet termSet)
         {
-            return TermSetDB.GetTermSetById(termSet.Id).Term.ToList();
+            return TermSetDB.GetTermSetById(termSet.Id).Term.Where(t => !t.IsDeleted).ToList();
         }
 
         public static int UpdateTerm(Term term)
@@ -29,6 +29,17 @@ namespace EventHandlingSystem.Database
             Term termToUpdate = GetTermById(term.Id);
             termToUpdate.Name = term.Name;
           
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
+
+        public static int DeleteTermById(int id)
+        {
+            Term termToDelete = GetTermById(id);
+
+            if (termToDelete != null)
+                termToDelete.IsDeleted = true;
+
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }

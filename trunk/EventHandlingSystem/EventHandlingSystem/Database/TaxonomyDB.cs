@@ -41,5 +41,16 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
+
+        public static int DeleteTaxonomyById(int id)
+        {
+            Taxonomy taxonomyToDelete = GetTaxonomyById(id);
+
+            if (taxonomyToDelete != null) 
+                taxonomyToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }

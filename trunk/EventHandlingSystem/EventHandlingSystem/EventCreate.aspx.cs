@@ -47,7 +47,7 @@ namespace EventHandlingSystem
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
 
-                //Skapar och lägger till alla associations i dropboxen.
+                //Skapar och lägger till alla associations i dropdownboxen.
                 foreach (var association in AssociationDB.GetAllAssociations())
                 {
                     Term associationTerm = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault();
