@@ -57,14 +57,19 @@ namespace EventHandlingSystem
                     BtnUpdateEvent.Visible = false;
                 }
 
-                //Ändra denna kod!
-                Term term = TermDB.GetTermById(1);
-
-                DropDownAssociation.Items.Add(new ListItem
+                //Skapar och lägger till alla associations i dropboxen.
+                foreach (var association in AssociationDB.GetAllAssociations())
                 {
-                    Text = term.Name,
-                    Value = "1"
-                });
+                    Term associationTerm = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault();
+                    if (associationTerm != null)
+                    {
+                        DropDownAssociation.Items.Add(new ListItem
+                        {
+                            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
+                            Value = associationTerm.Id.ToString()
+                        });
+                    }
+                }
 
             }
         }

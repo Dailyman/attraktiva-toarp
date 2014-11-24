@@ -47,17 +47,19 @@ namespace EventHandlingSystem
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
 
-
-
+                //Skapar och lägger till alla associations i dropboxen.
                 foreach (var association in AssociationDB.GetAllAssociations())
                 {
-                    DropDownAssociation.Items.Add(new ListItem
+                    Term associationTerm = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault();
+                    if (associationTerm != null)
                     {
-                        Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
-                        Value = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault().Id.ToString()
-                    });
+                        DropDownAssociation.Items.Add(new ListItem
+                        {
+                            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
+                            Value = associationTerm.Id.ToString()
+                        });
+                    }
                 }
-                
             }
         }
 
