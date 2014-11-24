@@ -35,6 +35,7 @@ namespace EventHandlingSystem
                     Text = tax.Name,
                     Value = "taxonomy_" + tax.Id,
                     ShowCheckBox = true,
+                    Expanded = true,
                     SelectAction = TreeNodeSelectAction.Expand,
                     ImageUrl = "~/Images/folder_16x16.png"
                 };
@@ -130,10 +131,7 @@ namespace EventHandlingSystem
                 }
                 FindCheckedNodesFromAllNodesNodesRecursive(parentNode);
             }
-            //LabelDisplay.Text = CheckedTreeNodes.Count != 1
-            //    ? CheckedTreeNodes[0].Text
-            //    : "Please select one and only one!";
-
+            
             if (CheckedTreeNodes.Count == 1)
             {
                 string nodeValue = CheckedTreeNodes[0].Value;
@@ -148,7 +146,7 @@ namespace EventHandlingSystem
                 {
                     MultiViewEdit.ActiveViewIndex = 0;
                     Taxonomy tax = TaxonomyDB.GetTaxonomyById(id);
-                    TxtBoxIdTax.Text = tax.Id.ToString();
+                    LabelIdTax.Text = tax.Id.ToString();
                     TxtBoxNameTax.Text = tax.Name;
                     LabelCreatedTax.Text = "<b>Created:</b> " + tax.Created.ToString("yyyy-MM-dd HH:mm");
                 }
@@ -156,7 +154,7 @@ namespace EventHandlingSystem
                 {
                     MultiViewEdit.ActiveViewIndex = 1;
                     TermSet tS = TermSetDB.GetTermSetById(id);
-                    TxtBoxIdTS.Text = tS.Id.ToString();
+                    LabelIdTS.Text = tS.Id.ToString();
                     TxtBoxNameTS.Text = tS.Name;
                     LabelCreatedTS.Text = "<b>Created:</b> " + tS.Created.ToString("yyyy-MM-dd HH:mm");
                 }
@@ -164,7 +162,7 @@ namespace EventHandlingSystem
                 {
                     MultiViewEdit.ActiveViewIndex = 2;
                     Term t = TermDB.GetTermById(id);
-                    TxtBoxIdT.Text = t.Id.ToString();
+                    LabelIdT.Text = t.Id.ToString();
                     TxtBoxNameT.Text = t.Name;
                     LabelCreatedT.Text = "<b>Created:</b> " + t.Created.ToString("yyyy-MM-dd HH:mm");
                 }
@@ -175,26 +173,14 @@ namespace EventHandlingSystem
                 }
 
             }
+            else if (CheckedTreeNodes.Count == 0)
+            {
+                LabelDisplay.Text = "Please select a termset or a term!";
+            }
             else
             {
-                LabelDisplay.Text = "Please select one and ONLY one!";
+                LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
-
-            //Båda if-alternativen kan inte finnas samtidigt. Den tar den som står först.
-            //HUR hittar man terms och termsets från TreeViewTaxonomy (som är en control i aspx)?
-
-            //if (CheckedTreeNodes.Count == 1)
-            //{
-            //    LabelDisplay.Text = CheckedTreeNodes[0].Text;
-            //}
-            //else if (CheckedTreeNodes.Count == 0)
-            //{
-            //    LabelDisplay.Text = "Please select a termset or a term!";
-            //}
-            //else
-            //{
-            //    LabelDisplay.Text = "Please check one checkbox ONLY!";
-            //}
         }
         
         
@@ -279,7 +265,7 @@ namespace EventHandlingSystem
         //Här skickas ändringar av Taxonomi objektet i "EditView".
         protected void BtnUpdateTax_OnClick(object sender, EventArgs e)
         {
-            Taxonomy originalTax = TaxonomyDB.GetTaxonomyById(int.Parse(TxtBoxIdTax.Text));
+            Taxonomy originalTax = TaxonomyDB.GetTaxonomyById(int.Parse(LabelIdTax.Text));
             Taxonomy tax = new Taxonomy
             {
                 Id = originalTax.Id,
@@ -294,7 +280,7 @@ namespace EventHandlingSystem
         //Här skickas ändringar av TermSet objektet i "EditView".
         protected void BtnUpdateTS_OnClick(object sender, EventArgs e)
         {
-            TermSet originalTermSet = TermSetDB.GetTermSetById(int.Parse(TxtBoxIdTS.Text));
+            TermSet originalTermSet = TermSetDB.GetTermSetById(int.Parse(LabelIdTS.Text));
             TermSet tS = new TermSet
             {
                 Id = originalTermSet.Id,
@@ -311,7 +297,7 @@ namespace EventHandlingSystem
         //Här skickas ändringar av Term objektet i "EditView".
         protected void BtnUpdateT_OnClick(object sender, EventArgs e)
         {
-            Term originalTerm = TermDB.GetTermById(int.Parse(TxtBoxIdT.Text));
+            Term originalTerm = TermDB.GetTermById(int.Parse(LabelIdT.Text));
             Term term = new Term
             {
                 Id = originalTerm.Id,

@@ -31,13 +31,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewTaxonomyEdit;
         
         /// <summary>
-        /// TxtBoxIdTax control.
+        /// LabelIdTxtTax control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtBoxIdTax;
+        protected global::System.Web.UI.WebControls.Label LabelIdTxtTax;
+        
+        /// <summary>
+        /// LabelIdTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelIdTax;
         
         /// <summary>
         /// TxtBoxNameTax control.
@@ -85,13 +94,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewTermSetEdit;
         
         /// <summary>
-        /// TxtBoxIdTS control.
+        /// LabelIdTxtTS control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtBoxIdTS;
+        protected global::System.Web.UI.WebControls.Label LabelIdTxtTS;
+        
+        /// <summary>
+        /// LabelIdTS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelIdTS;
         
         /// <summary>
         /// TxtBoxNameTS control.
@@ -139,13 +157,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewTermEdit;
         
         /// <summary>
-        /// TxtBoxIdT control.
+        /// LabelIdTxtT control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtBoxIdT;
+        protected global::System.Web.UI.WebControls.Label LabelIdTxtT;
+        
+        /// <summary>
+        /// LabelIdT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelIdT;
         
         /// <summary>
         /// TxtBoxNameT control.
@@ -184,15 +211,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Label LabelMessageT;
         
         /// <summary>
-        /// LabelDisplay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelDisplay;
-        
-        /// <summary>
         /// BtnPublishTax control.
         /// </summary>
         /// <remarks>
@@ -227,6 +245,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TreeView TreeViewTaxonomy;
+        
+        /// <summary>
+        /// LabelDisplay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelDisplay;
         
         /// <summary>
         /// BtnClearSelected control.
