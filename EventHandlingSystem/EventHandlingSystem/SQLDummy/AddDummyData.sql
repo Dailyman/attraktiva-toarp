@@ -41,6 +41,61 @@ INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDele
      VALUES
            ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
 GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
+
+INSERT INTO [dbo].[WebPages]([LogoUrl],[NavigationComponentId],[Created],[IsDeleted],[Content_Id])
+     VALUES
+           ('http://upload.wikimedia.org/wikipedia/commons/6/6f/Bor%C3%A5s_municipal_arms.svg', 3, '2014-11-10', '0', 1)
+GO
 
 
 
@@ -49,11 +104,61 @@ INSERT INTO [dbo].[Communities]([PublishingTermSetId],[Created],[CreatedBy],[IsD
      VALUES
            (1, '2014-11-10', 'Erica', '0', 2)
 GO
-INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+INSERT INTO [dbo].[Communities]([PublishingTermSetId],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
      VALUES
-           (1, null, 3, 2, '2014-11-10', 'Erica', '0', 1)
+           (5, '2014-11-10', 'Erica', '0', 4)
+GO
+INSERT INTO [dbo].[Communities]([PublishingTermSetId],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (8, '2014-11-10', 'Erica', '0', 5)
 GO
 
+
+
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (1, null, 3, 3, '2014-11-10', 'Erica', '0', 6)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (2, null, 7, 3, '2014-11-10', 'Robin', '0', 7)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (2, null, 6, 2, '2014-11-10', 'Robin', '0', 8)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (3, null, 9, 2, '2014-11-10', 'Erica', '0', 9)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (3, 4, 11, 2, '2014-11-10', 'Erica', '0', 10)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (3, 5, 13, 2, '2014-11-10', 'Erica', '0', 11)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (3, 4, 10, 2, '2014-11-10', 'Erica', '0', 12)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (3, 7, 12, 2, '2014-11-10', 'Erica', '0', 13)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (1, null, 4, 2, '2014-11-10', 'Erica', '0', 14)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (1, null, 16, 17, '2014-11-10', 'Robin', '0', 15)
+GO
+INSERT INTO [dbo].[Associations]([CommunityId],[ParentAssociationId],[PublishingTermSetId],[AssociationType],[Created],[CreatedBy],[IsDeleted],[WebPage_Id])
+     VALUES
+           (2, null, 17, 3, '2014-11-10', 'Robin', '0', 16)
+GO
 
 
 
