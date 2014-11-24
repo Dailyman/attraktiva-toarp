@@ -101,7 +101,6 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
            ('#Röd haka','2014-11-06','0')
 GO
-
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
            ('Dalsjöfors','2014-11-24','0')
@@ -124,9 +123,28 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Dalsjöfors','2014-11-24','0')
+           ('Dam Senior','2014-11-24','0')
 GO
-
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Dam Junior','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Herr Senior','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Herr Junior','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Vikingen IF','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Kultur','2014-11-24','0')
+GO
 
 
 
@@ -155,8 +173,47 @@ INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
      VALUES
            (6,15)
 GO
-
 INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
      VALUES
            (7,5)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (8,7)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (9,6)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (10,8)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (11,9)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (12,11)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (13,13)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (14,10)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (15,12)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (16,4)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (17,2)
 GO
