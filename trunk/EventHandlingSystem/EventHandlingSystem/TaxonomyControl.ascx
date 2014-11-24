@@ -11,11 +11,10 @@
     <asp:MultiView ID="MultiViewEdit" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewTaxonomyEdit" runat="server">
             <h2>Edit taxonomy item</h2>
-            <h6>Id</h6>
-            <asp:TextBox ID="TxtBoxIdTax" runat="server" Enabled="False"></asp:TextBox>
             <br />
-            <h6>Name</h6>
-            <asp:TextBox ID="TxtBoxNameTax" runat="server"></asp:TextBox>
+            <asp:Label ID="LabelIdTxtTax" runat="server" Text="Id: " CssClass="bold-txt"></asp:Label><asp:Label ID="LabelIdTax" runat="server" Text=""></asp:Label>
+            <br />
+            <span><b>Name: </b></span><asp:TextBox ID="TxtBoxNameTax" runat="server"></asp:TextBox>
             <br />
             <asp:Label ID="LabelCreatedTax" runat="server" Text=""></asp:Label>
             <br />
@@ -26,11 +25,10 @@
         </asp:View>
         <asp:View ID="ViewTermSetEdit" runat="server">
             <h2>Edit Termset item</h2>
-            <h6>Id</h6>
-            <asp:TextBox ID="TxtBoxIdTS" runat="server" Enabled="False"></asp:TextBox>
             <br />
-            <h6>Name</h6>
-            <asp:TextBox ID="TxtBoxNameTS" runat="server"></asp:TextBox>
+            <asp:Label ID="LabelIdTxtTS" runat="server" Text="Id: " CssClass="bold-txt"></asp:Label><asp:Label ID="LabelIdTS" runat="server" Text=""></asp:Label>
+            <br />
+            <span><b>Name: </b></span><asp:TextBox ID="TxtBoxNameTS" runat="server"></asp:TextBox>
             <br />
             <asp:Label ID="LabelCreatedTS" runat="server" Text=""></asp:Label>
             <br />
@@ -41,11 +39,10 @@
         </asp:View>
         <asp:View ID="ViewTermEdit" runat="server">
             <h2>Edit Term item</h2>
-            <h6>Id</h6>
-            <asp:TextBox ID="TxtBoxIdT" runat="server" Enabled="False"></asp:TextBox>
             <br />
-            <h6>Name</h6>
-            <asp:TextBox ID="TxtBoxNameT" runat="server"></asp:TextBox>
+            <asp:Label ID="LabelIdTxtT" runat="server" Text="Id: " CssClass="bold-txt"></asp:Label><asp:Label ID="LabelIdT" runat="server" Text="Label"></asp:Label> 
+            <br />           
+            <span><b>Name: </b></span><asp:TextBox ID="TxtBoxNameT" runat="server"></asp:TextBox>
             <br />
             <asp:Label ID="LabelCreatedT" runat="server" Text=""></asp:Label>
             <br />
@@ -58,13 +55,13 @@
 
     <br />
     <h3>Choose a taxonomy</h3>
-    <asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
     <br />
     <asp:Button ID="BtnPublishTax" runat="server" Text="Publishing taxonomy" OnClick="BtnPublishTax_OnClick" />
     <asp:Button ID="BtnCategoryTax" runat="server" Text="Category taxonomy" OnClick="BtnCategoryTax_OnClick" />
     <asp:Button ID="BtnCustomCategoryTax" runat="server" Text="Custom category taxonomy" OnClick="BtnCustomCategoryTax_OnClick" />
     <asp:TreeView ID="TreeViewTaxonomy" runat="server" OnTreeNodeCheckChanged="TreeViewTaxonomy_OnTreeNodeCheckChanged" ShowLines="True"></asp:TreeView>
     <div class="btn-align-right">
+        <asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
         <asp:Button ID="BtnClearSelected" runat="server" Text="Uncheck all" OnClick="BtnClearSelected_OnClick" />
         <asp:Button ID="BtnEdit" runat="server" Text="Edit" OnClick="BtnEdit_OnClick" />
         <asp:Button ID="BtnDelete" runat="server" Text="Delete" OnClick="BtnDelete_OnClick" />

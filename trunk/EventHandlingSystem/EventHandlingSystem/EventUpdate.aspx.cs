@@ -14,26 +14,11 @@ namespace EventHandlingSystem
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            
-
-            //if (Request.UrlReferrer != null)
-            //{
-            //    int index1 = Request.UrlReferrer.ToString().LastIndexOf("/");
-            //    string url1 = Request.UrlReferrer.ToString().Substring(index1);
-
-            //    int index2 = Request.ServerVariables["SCRIPT_NAME"].ToString().LastIndexOf("/");
-            //    string url2 = Request.ServerVariables["SCRIPT_NAME"].ToString().Substring(index2);
-
-
-            //    LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            //    LabelMessage.Text = (url1 == url2 ? "The event was Updated" : "Event couldn't be updated");
-            //}
-
-
-
+            //RegEx för att kontrollera att rätt tidsformat används i TimeTextboxarna.
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
             RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
 
+            //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
 
