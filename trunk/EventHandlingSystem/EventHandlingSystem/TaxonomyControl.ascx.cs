@@ -13,6 +13,7 @@ namespace EventHandlingSystem
 {
     public partial class TaxonomyControl : System.Web.UI.UserControl
     {
+        #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
             //Återställ texten.
@@ -20,10 +21,12 @@ namespace EventHandlingSystem
 
             if (!IsPostBack)
             {
-
             }
         }
+        #endregion
 
+
+        #region AddNodesToTreeView
         private void AddNodesToTreeView(TreeView treeView, int taxId)
         {
             //Hämtar taxonomin.
@@ -64,11 +67,13 @@ namespace EventHandlingSystem
 
                     //För att hitta alla ChildNodes till den aktuella ParentNoden.
                     FindChildNodesAndAddToParentNode(parentTermSet, node);
-
                 }
             }
         }
+        #endregion
 
+
+        #region FindChildNodesAndAddToParentNode
         private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
         {
             //Lägger till alla ChildrenNodes (ex. Vikingen IF).
@@ -83,19 +88,18 @@ namespace EventHandlingSystem
                     ImageUrl = "~/Images/folder_16x16.png"
                 };
 
-
                 FindTermNodesAndAddToTermSetNode(ts, childNode);
                 parentNode.ChildNodes.Add(childNode);
-
-
+                
                 //För att hitta alla ChildNodes till den aktuella ParentNoden. 
                 //Redundant anropning av metoden görs för att bygga upp hela "grenen".
                 FindChildNodesAndAddToParentNode(ts, childNode);
             }
-
-
         }
+        #endregion
 
+
+        #region FindTermNodesAndAddToTermSetNode
         public void FindTermNodesAndAddToTermSetNode(TermSet tSet, TreeNode tNode)
         {
             foreach (var term in TermDB.GetAllTermsByTermSet(tSet))
@@ -112,8 +116,11 @@ namespace EventHandlingSystem
                 tNode.ChildNodes.Add(termNode);
             }
         }
+        #endregion
 
-
+        
+        //Bortkommenterad kod
+        #region TreeViewTaxonomy_OnTreeNodeCheckChanged 
         protected void TreeViewTaxonomy_OnTreeNodeCheckChanged(object sender, TreeNodeEventArgs e)
         {
             //Behövs inte då den inte kan köras om man inte gör en manuell postback.
@@ -134,12 +141,13 @@ namespace EventHandlingSystem
         //    }
         //}
 
+        #endregion
 
 
         public static List<TreeNode> CheckedTreeNodes;
 
 
-
+        #region BtnEdit_OnClick
         protected void BtnEdit_OnClick(object sender, EventArgs e)
         {
             CheckedTreeNodes = new List<TreeNode>();
@@ -154,9 +162,7 @@ namespace EventHandlingSystem
 
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
-
-
-
+                
                 int id;
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
@@ -187,7 +193,6 @@ namespace EventHandlingSystem
                     MultiViewEdit.ActiveViewIndex = -1;
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
-
             }
             else if (CheckedTreeNodes.Count == 0)
             {
@@ -198,19 +203,17 @@ namespace EventHandlingSystem
                 LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
         }
+        #endregion
 
 
-
-
-
-
-
+        #region DeleteAllCheckedItemsInTreeView
         private void DeleteAllCheckedItemsInTreeView(List<TreeNode> nodes )
         {
             //foreach (TreeNode checkedNode in TreeViewTaxonomy.CheckedNodes)
             //{
             //    LabelDisplay.Text += checkedNode.Value + " ";
             //}
+
             foreach (TreeNode treeNode in nodes)
             {
                 string nodeValue = treeNode.Value;
@@ -242,10 +245,12 @@ namespace EventHandlingSystem
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
             }
-            
             TreeViewTaxonomy.Nodes.Clear();
         }
+        #endregion
 
+
+        #region BtnDelete_OnClick
         protected void BtnDelete_OnClick(object sender, EventArgs e)
         {
             CheckedTreeNodes = new List<TreeNode>();
@@ -300,7 +305,6 @@ namespace EventHandlingSystem
                 {
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
-
             }
             else if (CheckedTreeNodes.Count == 0)
             {
@@ -310,11 +314,11 @@ namespace EventHandlingSystem
             {
                 LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
-
         }
+        #endregion
 
 
-
+        #region BtnPublishTax_OnClick : BtnCategoryTax_OnClick : BtnCustomCategoryTax_OnClick
         protected void BtnPublishTax_OnClick(object sender, EventArgs e)
         {
             TreeViewTaxonomy.Nodes.Clear();
@@ -332,9 +336,10 @@ namespace EventHandlingSystem
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 3);
         }
+        #endregion
 
 
-
+        #region BtnClearSelected_OnClick
         protected void BtnClearSelected_OnClick(object sender, EventArgs e)
         {
             foreach (TreeNode parentNode in TreeViewTaxonomy.Nodes)
@@ -346,7 +351,10 @@ namespace EventHandlingSystem
                 UncheckAllNodesNodesRecursive(parentNode);
             }
         }
+        #endregion
 
+
+        #region UncheckAllNodesNodesRecursive
         public void UncheckAllNodesNodesRecursive(TreeNode parentNode)
         {
             //Gömmer "Edit view".
@@ -361,10 +369,11 @@ namespace EventHandlingSystem
                 UncheckAllNodesNodesRecursive(subNode);
             }
         }
-
+        #endregion
 
 
         //Här skickas ändringar av Taxonomi objektet i "EditView".
+        #region BtnUpdateTax_OnClick
         protected void BtnUpdateTax_OnClick(object sender, EventArgs e)
         {
             Taxonomy originalTax = TaxonomyDB.GetTaxonomyById(int.Parse(LabelIdTax.Text));
@@ -380,8 +389,11 @@ namespace EventHandlingSystem
                 ? "Taxonomy was updated"
                 : "Taxonomy couldn't be updated";
         }
+        #endregion
+
 
         //Här skickas ändringar av TermSet objektet i "EditView".
+        #region BtnUpdateTS_OnClick
         protected void BtnUpdateTS_OnClick(object sender, EventArgs e)
         {
             TermSet originalTermSet = TermSetDB.GetTermSetById(int.Parse(LabelIdTS.Text));
@@ -399,8 +411,11 @@ namespace EventHandlingSystem
                 ? "Termset was updated"
                 : "Termset couldn't be updated";
         }
+        #endregion
+
 
         //Här skickas ändringar av Term objektet i "EditView".
+        #region BtnUpdateT_OnClick
         protected void BtnUpdateT_OnClick(object sender, EventArgs e)
         {
             Term originalTerm = TermDB.GetTermById(int.Parse(LabelIdT.Text));
@@ -414,5 +429,6 @@ namespace EventHandlingSystem
             LabelMessageT.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             LabelMessageT.Text = TermDB.UpdateTerm(term) != 0 ? "Term was updated" : "Term couldn't be updated";
         }
+        #endregion
     }
 }
