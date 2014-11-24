@@ -30,6 +30,16 @@ namespace EventHandlingSystem.Database
         public static Taxonomy GetCustomizedTaxonomy()
         {
             return GetTaxonomyById(3);
-        } 
+        }
+
+        public static int UpdateTaxonomy(Taxonomy tax)
+        {
+            Taxonomy taxonomyToUpdate = GetTaxonomyById(tax.Id);
+
+            taxonomyToUpdate.Name = tax.Name;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }
