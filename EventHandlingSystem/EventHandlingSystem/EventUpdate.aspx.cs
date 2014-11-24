@@ -58,17 +58,24 @@ namespace EventHandlingSystem
                 }
 
                 //Skapar och lägger till alla associations i dropdownboxen.
+                List<ListItem> listItems = new List<ListItem>();
                 foreach (var association in AssociationDB.GetAllAssociations())
                 {
-                    Term associationTerm = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault();
+                    Term associationTerm =
+                        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
+                            .SingleOrDefault();
                     if (associationTerm != null)
                     {
-                        DropDownAssociation.Items.Add(new ListItem
+                        listItems.Add(new ListItem
                         {
                             Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
                             Value = associationTerm.Id.ToString()
                         });
                     }
+                }
+                foreach (var item in listItems.OrderBy(item => item.Text))
+                {
+                    DropDownAssociation.Items.Add(item);
                 }
 
             }

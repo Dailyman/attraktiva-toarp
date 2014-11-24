@@ -7,7 +7,6 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <br />
     <div class="content-box">
-        <br />
         <div class="titlebox">
             <h1>Create event</h1>
         </div>

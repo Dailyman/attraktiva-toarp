@@ -13,20 +13,7 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //if (Request.UrlReferrer != null)
-            //{
-            //    int index1 = Request.UrlReferrer.ToString().LastIndexOf("/");
-            //    string url1 = Request.UrlReferrer.ToString().Substring(index1);
-
-            //    int index2 = Request.ServerVariables["SCRIPT_NAME"].ToString().LastIndexOf("/");
-            //    string url2 = Request.ServerVariables["SCRIPT_NAME"].ToString().Substring(index2);
-
-
-            //    LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            //    LabelMessage.Text = (url1 == url2 ? "The event was created" : "Event couldn't be created");
-            //}
-
-
+            
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
             RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
 
@@ -48,18 +35,26 @@ namespace EventHandlingSystem
                 CalendarStartDate.Visible = false;
 
                 //Skapar och lägger till alla associations i dropdownboxen.
+                List<ListItem> listItems = new List<ListItem>();
                 foreach (var association in AssociationDB.GetAllAssociations())
                 {
-                    Term associationTerm = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault();
+                    Term associationTerm =
+                        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
+                            .SingleOrDefault();
                     if (associationTerm != null)
                     {
-                        DropDownAssociation.Items.Add(new ListItem
+                        listItems.Add(new ListItem
                         {
                             Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
                             Value = associationTerm.Id.ToString()
                         });
                     }
                 }
+                foreach (var item in listItems.OrderBy(item => item.Text))
+                {
+                    DropDownAssociation.Items.Add(item);
+                }
+                
             }
         }
 
