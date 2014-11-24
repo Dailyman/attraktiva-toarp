@@ -102,6 +102,32 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
            ('#Röd haka','2014-11-06','0')
 GO
 
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Dalsjöfors','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Dalsjöfors Scoutförening','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Silverhajen IF','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Rångedala','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Rödhaken IF','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Dalsjöfors','2014-11-24','0')
+GO
+
+
 
 
 
@@ -128,4 +154,9 @@ GO
 INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
      VALUES
            (6,15)
+GO
+
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (7,5)
 GO
