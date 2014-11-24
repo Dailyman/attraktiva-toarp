@@ -12,9 +12,9 @@ namespace EventHandlingSystem
 {
     public partial class EventDetails : System.Web.UI.Page
     {
+        #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
-
             //TxtBoxSearch.Enabled = true;
             //CompValiSearch.Enabled = true;
             DropDownListEvents.Enabled = true;
@@ -131,7 +131,10 @@ namespace EventHandlingSystem
                 Main.Controls.Add(error);
             }
         }
+        #endregion
 
+
+        #region BtnSearch_OnClick
         protected void BtnSearch_OnClick(object sender, EventArgs e)
         {
             //Server.Transfer("EventDetails.aspx?Id="+TxtBoxSearch.Text);
@@ -140,5 +143,6 @@ namespace EventHandlingSystem
             
             Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListEvents.SelectedValue, true);
         }
+        #endregion
     }
 }

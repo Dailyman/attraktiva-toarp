@@ -86,6 +86,11 @@ INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[Is
            ('Dalsjöfors Hajklubb', 1, 5, '2014-11-22','0') 		   
 GO
 
+INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
+     VALUES
+           ('Eventtyp', 2, null, '2014-11-22','0') 		   
+GO
+
 
 
 
@@ -155,7 +160,7 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Kultur','2014-11-24','0')
+           ('Gastronomi','2014-11-24','0')
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
@@ -167,9 +172,60 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
 GO
 INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
-           ('Dalsjöfors Hajklubb','2014-11-24','0')
+           ('Musik','2014-11-24','0')
 GO
-
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Kultur','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Djur','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Match','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Tävling','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Träning','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Konsert','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Kurs','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Läger','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Avslutning','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Auktion','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Musikafton','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Fest','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Film','2014-11-24','0')
+GO
 
 
 
@@ -248,4 +304,60 @@ GO
 INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
      VALUES
            (19,17)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (20,2)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (21,2)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (22,2)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (23,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (24,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (25,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (26,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (27,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (28,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (29,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (30,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (31,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (32,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (33,18)
 GO

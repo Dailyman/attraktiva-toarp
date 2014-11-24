@@ -172,13 +172,13 @@ GO
 INSERT INTO [dbo].[Events]([Title],[Description],[Summary],[Other],[Location],[ImageUrl],[DayEvent],[StartDate],[EndDate],
 [TargetGroup],[ApproximateAttendees],[AssociationId],[Created],[CreatedBy],[LatestUpdate],[UpdatedBy],[IsDeleted])
      VALUES
-           ('Fest1','Introduktion, stor fest', 'Nice','','Löwaskog','http://www.photolakedistrict.co.uk/wp-content/uploads/events-FIREWORKS.jpg', '1','2014-08-03','2014-08-04',
+           ('Trollfest','Introduktion, stor fest', 'Nice','','Löwaskog','http://www.photolakedistrict.co.uk/wp-content/uploads/events-FIREWORKS.jpg', '1','2014-08-03','2014-08-04',
 		   'Kompisar','15',1,'2014-11-01','Robin','2014-11-10','Erica','0')
 GO
 INSERT INTO [dbo].[Events]([Title],[Description],[Summary],[Other],[Location],[ImageUrl],[DayEvent],[StartDate],[EndDate],
 [TargetGroup],[ApproximateAttendees],[AssociationId],[Created],[CreatedBy],[LatestUpdate],[UpdatedBy],[IsDeleted])
      VALUES
-           ('Fest2','Introduktion, stor fest', 'Nice','','Löwaskog','http://www.photolakedistrict.co.uk/wp-content/uploads/events-FIREWORKS.jpg', '1','2015-01-15','2015-01-16',
+           ('Nyårsmiddag','Introduktion, stor fest', 'Nice','','Löwaskog','http://www.photolakedistrict.co.uk/wp-content/uploads/events-FIREWORKS.jpg', '1','2015-01-15','2015-01-16',
 		   'Kompisar','15',1,'2014-11-01','Robin','2014-11-10','Erica','0')
 GO
 INSERT INTO [dbo].[Events]([Title],[Description],[Summary],[Other],[Location],[ImageUrl],[DayEvent],[StartDate],[EndDate],

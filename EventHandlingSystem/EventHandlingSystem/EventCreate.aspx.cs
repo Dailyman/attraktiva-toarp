@@ -11,16 +11,15 @@ namespace EventHandlingSystem
 {
     public partial class EventCreate : Page
     {
+        #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
-            
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
             RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
 
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
-
-
+            
             if (!IsPostBack)
             {
                 TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
@@ -54,12 +53,12 @@ namespace EventHandlingSystem
                 {
                     DropDownAssociation.Items.Add(item);
                 }
-                
             }
         }
+        #endregion
 
 
-
+        #region ChkBoxDayEvent_OnCheckedChanged
         protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
         {
 
@@ -69,24 +68,24 @@ namespace EventHandlingSystem
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Visible = !ChkBoxDayEvent.Checked;
         }
+        #endregion
 
 
-
-
+        #region ImageButtonStartDate_OnClick : ImageButtonEndDate_OnClick
         protected void ImageButtonStartDate_OnClick(object sender, ImageClickEventArgs e)
         {
             CalendarStartDate.Visible = CalendarStartDate.Visible == false;
         }
 
+
         protected void ImageButtonEndDate_OnClick(object sender, ImageClickEventArgs e)
         {
             CalendarEndDate.Visible = CalendarEndDate.Visible == false;
         }
+        #endregion
 
 
-
-
-
+        #region TxtBoxStartDate_OnTextChanged
         protected void TxtBoxStartDate_OnTextChanged(object sender, EventArgs e)
         {
             CustomValiStartDate.Validate();
@@ -100,15 +99,20 @@ namespace EventHandlingSystem
                     //TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     //CalendarStartDate.SelectedDate = DateTime.Now.Date;
                 }
-            
         }
+        #endregion
 
+
+        #region CustomValiStartDate_OnServerValidate
         protected void CustomValiStartDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
             DateTime result;
             args.IsValid = !string.IsNullOrWhiteSpace(TxtBoxStartDate.Text) && DateTime.TryParse(TxtBoxStartDate.Text, out result);
         }
+        #endregion
 
+
+        #region TxtBoxEndDate_OnTextChanged
         protected void TxtBoxEndDate_OnTextChanged(object sender, EventArgs e)
         {
             CustomValiEndDate.Validate();
@@ -122,34 +126,36 @@ namespace EventHandlingSystem
                     //TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                     //CalendarEndDate.SelectedDate = DateTime.Now.Date;
                 }
-            
         }
+        #endregion
 
+
+        #region CustomValiEndDate_OnServerValidate
         protected void CustomValiEndDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
             DateTime result;
             args.IsValid = !string.IsNullOrWhiteSpace(TxtBoxEndDate.Text) && DateTime.TryParse(TxtBoxEndDate.Text, out result);
         }
+        #endregion
 
 
-
-
+        #region CalendarStartDate_OnSelectionChanged : CalendarEndDate_OnSelectionChanged
         protected void CalendarStartDate_OnSelectionChanged(object sender, EventArgs e)
         {
             TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd");
             //TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
         }
 
+
         protected void CalendarEndDate_OnSelectionChanged(object sender, EventArgs e)
         {
             TxtBoxEndDate.Text = CalendarEndDate.SelectedDate.ToString("yyyy-MM-dd");
             //TxtBoxEndTime.Text = CalendarEndDate.SelectedDate.ToString("HH:mm");
         }
+        #endregion
 
 
-
-
-
+        #region BtnCreateEvent_OnClick
         protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
         {
             var start = Convert.ToDateTime(TxtBoxStartDate.Text)
@@ -181,8 +187,7 @@ namespace EventHandlingSystem
                 CreatedBy = HttpContext.Current.User.Identity.Name
                 //IsDeleted = false
             };
-
-
+            
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(@event))
             {
@@ -193,10 +198,7 @@ namespace EventHandlingSystem
             {
                 LabelMessage.Text = "Event couldn't be created";
             }
-            
         }
-
-
-
+        #endregion
     }
 }
