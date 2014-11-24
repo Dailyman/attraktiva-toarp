@@ -47,14 +47,17 @@ namespace EventHandlingSystem
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
 
-                Term term = TermDB.GetTermById(1);
 
-                DropDownAssociation.Items.Add(new ListItem
+
+                foreach (var association in AssociationDB.GetAllAssociations())
                 {
-                    Text = term.Name,
-                    Value = "1"
-                });
-
+                    DropDownAssociation.Items.Add(new ListItem
+                    {
+                        Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
+                        Value = TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId)).SingleOrDefault().Id.ToString()
+                    });
+                }
+                
             }
         }
 

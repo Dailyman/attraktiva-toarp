@@ -18,5 +18,10 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Id.Equals(id));
         }
+
+        public static List<Community> GetAllCommunities()
+        {
+            return GetAllNotDeletedCommunities().ToList();
+        }
     }
 }
