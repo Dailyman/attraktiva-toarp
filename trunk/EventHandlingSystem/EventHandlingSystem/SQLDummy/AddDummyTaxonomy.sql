@@ -17,10 +17,12 @@ INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[Is
      VALUES
            ('Äspered', 1, null, '2014-11-06','0') 		   
 GO
+
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
            ('Föreningstyp', 2, null, '2014-11-06','0')
 GO
+
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
            ('KanotKlubben', 1, 1, '2014-11-06','0') 		   
@@ -51,20 +53,21 @@ INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[Is
 GO
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
-           ('Herr Senior', 1, 9, '2014-11-06','0') 		   
+           ('Rödhaken IF Herr Senior', 1, 9, '2014-11-06','0') 		   
 GO
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
-           ('Dam Senior', 1, 9, '2014-11-06','0') 		   
+           ('Rödhaken IF Dam Senior', 1, 9, '2014-11-06','0') 		   
 GO
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
-           ('Herr Junior', 1, 10, '2014-11-06','0') 		   
+           ('Rödhaken IF Herr Junior', 1, 10, '2014-11-06','0') 		   
 GO
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
-           ('Dam Junior', 1, 11, '2014-11-06','0') 		   
+           ('Rödhaken IF Dam Junior', 1, 11, '2014-11-06','0') 		   
 GO
+
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
            ('Rödhaken IF', 3, null, '2014-11-06','0') 		   
@@ -72,6 +75,15 @@ GO
 INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
      VALUES
            ('Hashtags', 3, 14, '2014-11-06','0') 		   
+GO
+
+INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
+     VALUES
+           ('Mästerätarna', 1, 1, '2014-11-24','0') 		   
+GO
+INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
+     VALUES
+           ('Dalsjöfors Hajklubb', 1, 5, '2014-11-22','0') 		   
 GO
 
 
@@ -145,6 +157,18 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
            ('Kultur','2014-11-24','0')
 GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Mästerätarna','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Dalsjöfors Hajklubb','2014-11-24','0')
+GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Dalsjöfors Hajklubb','2014-11-24','0')
+GO
 
 
 
@@ -216,4 +240,12 @@ GO
 INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
      VALUES
            (17,2)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (18,16)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (19,17)
 GO
