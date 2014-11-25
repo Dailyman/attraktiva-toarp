@@ -44,8 +44,11 @@ namespace EventHandlingSystem
                 {
                     DropDownAssociation.Items.Add(item);
                 }
-                //Slut 'lägger till objekt i associationdropdownlist'. 
 
+                //Slut 'lägger till objekt i associationdropdownlist'. 
+                //Gömmer kaledrarna från början.
+                CalendarEndDate.Visible = false;
+                CalendarStartDate.Visible = false;
 
                 if (!String.IsNullOrWhiteSpace(Request.QueryString["Id"]))
                 {
@@ -69,9 +72,8 @@ namespace EventHandlingSystem
                     DropDownAssociation.SelectedIndex =
                         DropDownAssociation.Items.IndexOf(
                             DropDownAssociation.Items.FindByValue(@event.AssociationId.ToString()));
-                    
-                    CalendarEndDate.Visible = false;
-                    CalendarStartDate.Visible = false;
+
+                   
                 }
                 else
                 {

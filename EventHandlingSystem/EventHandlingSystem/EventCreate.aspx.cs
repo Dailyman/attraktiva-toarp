@@ -14,9 +14,11 @@ namespace EventHandlingSystem
         #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
+            //RegEx för att kontrollera att rätt tidsformat används i TimeTextboxarna.
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
             RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
 
+            //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
             
@@ -44,14 +46,15 @@ namespace EventHandlingSystem
                 }
                 //Slut 'lägger till objekt i associationdropdownlist'. 
 
+                //Sätter in dagens datum och tid i textboxarna.
                 TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 TxtBoxStartTime.Text = "00:00";
                 CalendarStartDate.SelectedDate = DateTime.Now.Date;
-
                 TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 TxtBoxEndTime.Text = "00:00";
                 CalendarEndDate.SelectedDate = DateTime.Now.Date;
 
+                //Gömmer kaledrarna från början. 
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
                 
@@ -63,10 +66,9 @@ namespace EventHandlingSystem
         #region ChkBoxDayEvent_OnCheckedChanged
         protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
         {
-
+            //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
             TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
-
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Visible = !ChkBoxDayEvent.Checked;
         }
@@ -76,38 +78,37 @@ namespace EventHandlingSystem
         #region ImageButtonStartDate_OnClick : ImageButtonEndDate_OnClick
         protected void ImageButtonStartDate_OnClick(object sender, ImageClickEventArgs e)
         {
+            //Gömmer/Visar StartDatekalendern när användaren klickar på kalenderikonen(knappen).
             CalendarStartDate.Visible = CalendarStartDate.Visible == false;
         }
 
-
         protected void ImageButtonEndDate_OnClick(object sender, ImageClickEventArgs e)
         {
+            //Gömmer/Visar EndDatekalendern när användaren klickar på kalenderikonen(knappen).
             CalendarEndDate.Visible = CalendarEndDate.Visible == false;
         }
         #endregion
 
 
         #region TxtBoxStartDate_OnTextChanged
+
         protected void TxtBoxStartDate_OnTextChanged(object sender, EventArgs e)
         {
+            //Validerar StartDateTextBoxen. Om datumet i textboxen är giltig väljs den in i kalendern.
             CustomValiStartDate.Validate();
-            
-                if (CustomValiStartDate.IsValid)
-                {
-                    CalendarStartDate.SelectedDate = Convert.ToDateTime(TxtBoxStartDate.Text);
-                }
-                else
-                {
-                    //TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                    //CalendarStartDate.SelectedDate = DateTime.Now.Date;
-                }
+            if (CustomValiStartDate.IsValid)
+            {
+                CalendarStartDate.SelectedDate = Convert.ToDateTime(TxtBoxStartDate.Text);
+            }
         }
+
         #endregion
 
 
         #region CustomValiStartDate_OnServerValidate
         protected void CustomValiStartDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
+            //Validerar om texten i StartDateTextBoxen är ett giltig datum. 
             DateTime result;
             args.IsValid = !string.IsNullOrWhiteSpace(TxtBoxStartDate.Text) && DateTime.TryParse(TxtBoxStartDate.Text, out result);
         }
@@ -117,6 +118,7 @@ namespace EventHandlingSystem
         #region TxtBoxEndDate_OnTextChanged
         protected void TxtBoxEndDate_OnTextChanged(object sender, EventArgs e)
         {
+            //Validerar EndDateTextBoxen. Om datumet i textboxen är giltig väljs den in i kalendern.
             CustomValiEndDate.Validate();
             
                 if (CustomValiEndDate.IsValid)
@@ -135,6 +137,7 @@ namespace EventHandlingSystem
         #region CustomValiEndDate_OnServerValidate
         protected void CustomValiEndDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
+            //Validerar om texten i EndDateTextBoxen är ett giltig datum. 
             DateTime result;
             args.IsValid = !string.IsNullOrWhiteSpace(TxtBoxEndDate.Text) && DateTime.TryParse(TxtBoxEndDate.Text, out result);
         }
@@ -144,6 +147,7 @@ namespace EventHandlingSystem
         #region CalendarStartDate_OnSelectionChanged : CalendarEndDate_OnSelectionChanged
         protected void CalendarStartDate_OnSelectionChanged(object sender, EventArgs e)
         {
+            //Lägger in det valda kalenderdatumet som text i StartDateTextBoxen.
             TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd");
             //TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
         }
@@ -151,6 +155,7 @@ namespace EventHandlingSystem
 
         protected void CalendarEndDate_OnSelectionChanged(object sender, EventArgs e)
         {
+            //Lägger in det valda kalenderdatumet som text i EndDateTextBoxen.
             TxtBoxEndDate.Text = CalendarEndDate.SelectedDate.ToString("yyyy-MM-dd");
             //TxtBoxEndTime.Text = CalendarEndDate.SelectedDate.ToString("HH:mm");
         }
@@ -160,14 +165,15 @@ namespace EventHandlingSystem
         #region BtnCreateEvent_OnClick
         protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
         {
+            //Gör om texterna i textboxarna Start- och EndDate till typen DateTime, som används vid skapandet av evenemanget.
             var start = Convert.ToDateTime(TxtBoxStartDate.Text)
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
-
             var end = Convert.ToDateTime(TxtBoxEndDate.Text)
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
 
+            //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet
             var @event = new Event
             {
                 Title = TxtBoxTitle.Text,
@@ -190,6 +196,7 @@ namespace EventHandlingSystem
                 //IsDeleted = false
             };
             
+            //Ger LabelMessage en större font-storlek som visar om eventet kunde skapas eller ej (!!om evenemanget kunde skapas skickas användaren just nu till dessa visningssida!!). 
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(@event))
             {
