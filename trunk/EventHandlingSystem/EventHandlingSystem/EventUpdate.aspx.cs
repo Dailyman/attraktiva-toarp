@@ -42,7 +42,9 @@ namespace EventHandlingSystem
                     CalendarStartDate.SelectedDate = @event.StartDate;
                     CalendarEndDate.SelectedDate = @event.EndDate;
                     TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
-                    DropDownAssociation.SelectedValue = @event.AssociationId.ToString();
+                    DropDownAssociation.SelectedIndex =
+                        DropDownAssociation.Items.IndexOf(
+                            DropDownAssociation.Items.FindByValue(@event.AssociationId.ToString()));
                     
                     CalendarEndDate.Visible = false;
                     CalendarStartDate.Visible = false;
@@ -223,7 +225,7 @@ namespace EventHandlingSystem
                             : end,
                     TargetGroup = TxtBoxTargetGroup.Text,
                     ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
-                    AssociationId = 1,
+                    AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
                     Created = @event.Created,
                     CreatedBy = @event.CreatedBy,
                     LatestUpdate = DateTime.Now,

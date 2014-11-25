@@ -182,7 +182,7 @@ namespace EventHandlingSystem
                         : end,
                 TargetGroup = TxtBoxTargetGroup.Text,
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
-                AssociationId = 1,
+                AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
                 Created = DateTime.Now,
                 CreatedBy = HttpContext.Current.User.Identity.Name
                 //IsDeleted = false

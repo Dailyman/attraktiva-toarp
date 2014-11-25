@@ -62,6 +62,7 @@ namespace EventHandlingSystem.Database
             eventToUpdate.EndDate = @event.EndDate;
             eventToUpdate.TargetGroup = @event.TargetGroup;
             eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
+            eventToUpdate.AssociationId = @event.AssociationId;
             eventToUpdate.Created = @event.Created;
             eventToUpdate.CreatedBy = @event.CreatedBy;
             eventToUpdate.LatestUpdate = @event.LatestUpdate;
