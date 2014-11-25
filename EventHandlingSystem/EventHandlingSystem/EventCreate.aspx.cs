@@ -64,9 +64,9 @@ namespace EventHandlingSystem
 
 
         #region ChkBoxDayEvent_OnCheckedChanged
+        //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
         protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
         {
-            //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
             TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
@@ -125,11 +125,6 @@ namespace EventHandlingSystem
                 {
                     CalendarEndDate.SelectedDate = Convert.ToDateTime(TxtBoxEndDate.Text);
                 }
-                else
-                {
-                    //TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                    //CalendarEndDate.SelectedDate = DateTime.Now.Date;
-                }
         }
         #endregion
 
@@ -151,7 +146,6 @@ namespace EventHandlingSystem
             TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd");
             //TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
         }
-
 
         protected void CalendarEndDate_OnSelectionChanged(object sender, EventArgs e)
         {
