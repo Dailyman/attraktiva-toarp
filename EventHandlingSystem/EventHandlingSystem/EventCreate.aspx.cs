@@ -22,17 +22,6 @@ namespace EventHandlingSystem
             
             if (!IsPostBack)
             {
-                TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                TxtBoxStartTime.Text = "00:00";
-                CalendarStartDate.SelectedDate = DateTime.Now.Date;
-
-                TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                TxtBoxEndTime.Text = "00:00";
-                CalendarEndDate.SelectedDate = DateTime.Now.Date;
-
-                CalendarEndDate.Visible = false;
-                CalendarStartDate.Visible = false;
-
                 //Skapar och lägger till alla associations i dropdownboxen.
                 List<ListItem> listItems = new List<ListItem>();
                 foreach (var association in AssociationDB.GetAllAssociations())
@@ -53,6 +42,19 @@ namespace EventHandlingSystem
                 {
                     DropDownAssociation.Items.Add(item);
                 }
+                //Slut 'lägger till objekt i associationdropdownlist'. 
+
+                TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                TxtBoxStartTime.Text = "00:00";
+                CalendarStartDate.SelectedDate = DateTime.Now.Date;
+
+                TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                TxtBoxEndTime.Text = "00:00";
+                CalendarEndDate.SelectedDate = DateTime.Now.Date;
+
+                CalendarEndDate.Visible = false;
+                CalendarStartDate.Visible = false;
+                
             }
         }
         #endregion
