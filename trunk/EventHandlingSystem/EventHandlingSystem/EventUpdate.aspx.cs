@@ -20,9 +20,33 @@ namespace EventHandlingSystem
             //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
+
             
             if (!IsPostBack)
             {
+                //Skapar och lägger till alla associations i dropdownboxen.
+                List<ListItem> listItems = new List<ListItem>();
+                foreach (var association in AssociationDB.GetAllAssociations())
+                {
+                    Term associationTerm =
+                        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
+                            .SingleOrDefault();
+                    if (associationTerm != null)
+                    {
+                        listItems.Add(new ListItem
+                        {
+                            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
+                            Value = associationTerm.Id.ToString()
+                        });
+                    }
+                }
+                foreach (var item in listItems.OrderBy(item => item.Text))
+                {
+                    DropDownAssociation.Items.Add(item);
+                }
+                //Slut 'lägger till objekt i associationdropdownlist'. 
+
+
                 if (!String.IsNullOrWhiteSpace(Request.QueryString["Id"]))
                 {
                     Event @event = GetEventToUpdate();
@@ -55,26 +79,7 @@ namespace EventHandlingSystem
                     BtnUpdateEvent.Visible = false;
                 }
 
-                //Skapar och lägger till alla associations i dropdownboxen.
-                List<ListItem> listItems = new List<ListItem>();
-                foreach (var association in AssociationDB.GetAllAssociations())
-                {
-                    Term associationTerm =
-                        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
-                            .SingleOrDefault();
-                    if (associationTerm != null)
-                    {
-                        listItems.Add(new ListItem
-                        {
-                            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
-                            Value = associationTerm.Id.ToString()
-                        });
-                    }
-                }
-                foreach (var item in listItems.OrderBy(item => item.Text))
-                {
-                    DropDownAssociation.Items.Add(item);
-                }
+                
             }
         }
         #endregion
