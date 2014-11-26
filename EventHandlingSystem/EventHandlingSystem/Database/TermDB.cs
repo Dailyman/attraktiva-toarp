@@ -44,6 +44,7 @@ namespace EventHandlingSystem.Database
         {
             Term termToUpdate = GetTermById(term.Id);
             termToUpdate.Name = term.Name;
+            termToUpdate.TermSet = term.TermSet;
           
             int affectedRows = Context.SaveChanges();
             return affectedRows;
