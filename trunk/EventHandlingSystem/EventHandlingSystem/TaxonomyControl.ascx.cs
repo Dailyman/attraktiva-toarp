@@ -16,7 +16,7 @@ namespace EventHandlingSystem
         #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Återställ texten.
+            //Återställer texten.
             LabelDisplay.Text = "";
 
             if (!IsPostBack)
@@ -102,6 +102,7 @@ namespace EventHandlingSystem
         #region FindTermNodesAndAddToTermSetNode
         public void FindTermNodesAndAddToTermSetNode(TermSet tSet, TreeNode tNode)
         {
+            //Hittar alla terms i ett termset och lägger till dem i TreeView.
             foreach (var term in TermDB.GetAllTermsByTermSet(tSet))
             {
                 TreeNode termNode = new TreeNode
@@ -143,19 +144,23 @@ namespace EventHandlingSystem
 
         #endregion
 
-
+        //Lista som används för att spara CheckedTreeNodes under körning mellan olika metoder. (En global variabel)
         public static List<TreeNode> CheckedTreeNodes;
 
 
         #region BtnEdit_OnClick
         protected void BtnEdit_OnClick(object sender, EventArgs e)
         {
+            //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
+            
+            //Lägger till alla CheckedTreeNodes i listan.
             foreach (TreeNode node in TreeViewTaxonomy.CheckedNodes)
             {
                 if (node.Checked) CheckedTreeNodes.Add(node);
             }
 
+            //Om listan innehåller ett objekt kommer dess information läggas in i Edit formuläret.
             if (CheckedTreeNodes.Count == 1)
             {
                 string nodeValue = CheckedTreeNodes[0].Value;
@@ -190,16 +195,24 @@ namespace EventHandlingSystem
                 }
                 else
                 {
+                    //Gömmer "Edit view".
                     MultiViewEdit.ActiveViewIndex = -1;
+
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
             }
             else if (CheckedTreeNodes.Count == 0)
             {
+                //Gömmer "Edit view".
+                MultiViewEdit.ActiveViewIndex = -1;
+
                 LabelDisplay.Text = "Please select a termset or a term!";
             }
             else
             {
+                //Gömmer "Edit view".
+                MultiViewEdit.ActiveViewIndex = -1;
+
                 LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
         }
@@ -213,7 +226,8 @@ namespace EventHandlingSystem
             //{
             //    LabelDisplay.Text += checkedNode.Value + " ";
             //}
-
+            
+            //För varje TreeNode i listan 'nodes' kontrolleras vilken typ objekt är som ska tas bort.
             foreach (TreeNode treeNode in nodes)
             {
                 string nodeValue = treeNode.Value;
@@ -223,6 +237,7 @@ namespace EventHandlingSystem
 
                 LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
                 
+                //Här tas olika typer av objekt bort på olika sätt.
                 int id;
                 LabelDisplay.Text += "Deleted: ";
                 if (type == "taxonomy" && int.TryParse(strId, out id))
@@ -253,18 +268,24 @@ namespace EventHandlingSystem
         #region BtnDelete_OnClick
         protected void BtnDelete_OnClick(object sender, EventArgs e)
         {
+            //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
+
+            //Lägger till alla CheckedTreeNodes i listan.
             foreach (TreeNode node in TreeViewTaxonomy.CheckedNodes)
             {
                 if (node.Checked) CheckedTreeNodes.Add(node);
             }
 
+            //Om listan med CheckedNodes innehåller minst ett objekt kommer alla objekt som inte ligger i PubliceringsTaxonomin att tas bort (IsDeleted).
             if (CheckedTreeNodes.Count != 0)
             {
+                //Tar ut värdet från det första objektet i listan.
                 string nodeValue = CheckedTreeNodes[0].Value;
 
-                string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+                //Bryter upp värdet i två delar (Type(taxonomy, termset eller term) och Id)
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+                string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
                 LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
                 int id;
@@ -321,18 +342,21 @@ namespace EventHandlingSystem
         #region BtnPublishTax_OnClick : BtnCategoryTax_OnClick : BtnCustomCategoryTax_OnClick
         protected void BtnPublishTax_OnClick(object sender, EventArgs e)
         {
+            //Rensar den nuvarande TreeViewn och bygger upp PubliceringsTaxonomin.
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 1);
         }
 
         protected void BtnCategoryTax_OnClick(object sender, EventArgs e)
         {
+            //Rensar den nuvarande TreeViewn och bygger upp KategoriseringsTaxonomin.
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 2);
         }
 
         protected void BtnCustomCategoryTax_OnClick(object sender, EventArgs e)
         {
+            //Rensar den nuvarande TreeViewn och bygger upp den AnpassadeKategoriserngsTaxonomin.
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 3);
         }
@@ -342,31 +366,14 @@ namespace EventHandlingSystem
         #region BtnClearSelected_OnClick
         protected void BtnClearSelected_OnClick(object sender, EventArgs e)
         {
-            foreach (TreeNode parentNode in TreeViewTaxonomy.Nodes)
-            {
-                if (parentNode.Checked)
-                {
-                    parentNode.Checked = false;
-                }
-                UncheckAllNodesNodesRecursive(parentNode);
-            }
-        }
-        #endregion
-
-
-        #region UncheckAllNodesNodesRecursive
-        public void UncheckAllNodesNodesRecursive(TreeNode parentNode)
-        {
             //Gömmer "Edit view".
             MultiViewEdit.ActiveViewIndex = -1;
 
-            foreach (TreeNode subNode in parentNode.ChildNodes)
+            //Uncheckar alla checkade noder i TreeView.
+            List<TreeNode> nodes = TreeViewTaxonomy.CheckedNodes.Cast<TreeNode>().ToList();
+            foreach (TreeNode node in nodes)
             {
-                if (subNode.Checked)
-                {
-                    subNode.Checked = false;
-                }
-                UncheckAllNodesNodesRecursive(subNode);
+                node.Checked = false;
             }
         }
         #endregion
