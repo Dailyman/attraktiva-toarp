@@ -6,9 +6,9 @@
     <edmx:Diagrams>
       <Diagram DiagramId="c9e782dd39704f3882c942d008f35394" Name="Diagram1" ZoomLevel="93" >
         <EntityTypeShape EntityType="EventHandlingDataModel.Taxonomy" Width="1.5" PointX="2.25" PointY="8" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.TermSet" Width="1.5" PointX="5.375" PointY="7.5" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.TermSet" Width="1.5" PointX="5.375" PointY="7.625" />
         <EntityTypeShape EntityType="EventHandlingDataModel.Term" Width="1.5" PointX="7.125" PointY="11.75" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.Event" Width="1.5" PointX="12.5" PointY="10.375" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.Event" Width="1.5" PointX="12.5" PointY="9.625" />
         <EntityTypeShape EntityType="EventHandlingDataModel.Calendar" Width="1.5" PointX="8.25" PointY="7.875" />
         <AssociationConnector Association="EventHandlingDataModel.TaxonomyTermSet" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInTermSets" />
@@ -33,7 +33,7 @@
         <AssociationConnector Association="EventHandlingDataModel.NavigationLink" />
         <AssociationConnector Association="EventHandlingDataModel.EventsInFeed" />
         <AssociationConnector Association="EventHandlingDataModel.TermsInFeed" />
-        <EntityTypeShape EntityType="EventHandlingDataModel.ContentLayout" Width="1.5" PointX="10.75" PointY="2.875" />
+        <EntityTypeShape EntityType="EventHandlingDataModel.ContentLayout" Width="1.5" PointX="10.75" PointY="2.625" />
         <AssociationConnector Association="EventHandlingDataModel.ContentContentLayout" />
         <AssociationConnector Association="EventHandlingDataModel.WebPageCommunity" />
         <AssociationConnector Association="EventHandlingDataModel.WebPageAssociation" />

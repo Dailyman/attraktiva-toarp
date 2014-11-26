@@ -168,6 +168,7 @@
     <Property Name="Other" Type="nvarchar(max)" Nullable="true" />
     <Property Name="Location" Type="nvarchar(max)" Nullable="true" />
     <Property Name="ImageUrl" Type="nvarchar(max)" Nullable="true" />
+    <Property Name="LinkUrl" Type="nvarchar(max)" Nullable="true" />
     <Property Name="DayEvent" Type="bit" Nullable="false" />
     <Property Name="StartDate" Type="datetime" Nullable="false" />
     <Property Name="EndDate" Type="datetime" Nullable="false" />
@@ -786,6 +787,7 @@
           <Property Type="String" Name="Other" Nullable="true" />
           <Property Type="String" Name="Location" Nullable="true" />
           <Property Type="String" Name="ImageUrl" Nullable="true" />
+          <Property Type="String" Name="LinkUrl" Nullable="true" />
           <Property Type="Boolean" Name="DayEvent" Nullable="false" />
           <Property Type="DateTime" Name="StartDate" Nullable="false" />
           <Property Type="DateTime" Name="EndDate" Nullable="false" />
@@ -1086,6 +1088,7 @@
           <ScalarProperty Name="Other" ColumnName="Other" />
           <ScalarProperty Name="Location" ColumnName="Location" />
           <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+          <ScalarProperty Name="LinkUrl" ColumnName="LinkUrl" />
           <ScalarProperty Name="DayEvent" ColumnName="DayEvent" />
           <ScalarProperty Name="StartDate" ColumnName="StartDate" />
           <ScalarProperty Name="EndDate" ColumnName="EndDate" />
