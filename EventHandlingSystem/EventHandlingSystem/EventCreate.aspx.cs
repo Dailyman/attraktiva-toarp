@@ -185,6 +185,7 @@ namespace EventHandlingSystem
                 TargetGroup = TxtBoxTargetGroup.Text,
                 ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                 AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
+                LinkUrl = TxtBoxLink.Text,
                 Created = DateTime.Now,
                 CreatedBy = HttpContext.Current.User.Identity.Name
                 //IsDeleted = false

@@ -69,6 +69,9 @@
         <h6>Association</h6>
         <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
         <br />
+        <h6>Link</h6>
+        <asp:TextBox ID="TxtBoxLink" runat="server"></asp:TextBox>
+        <br />
         <br />
         <asp:Button ID="BtnCreateEvent" runat="server" Text="Create event" OnClick="BtnCreateEvent_OnClick" ValidationGroup="ValGroupCreateEvent" />
         <br />

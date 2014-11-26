@@ -63,6 +63,7 @@ namespace EventHandlingSystem.Database
             eventToUpdate.TargetGroup = @event.TargetGroup;
             eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
             eventToUpdate.AssociationId = @event.AssociationId;
+            eventToUpdate.LinkUrl = @event.LinkUrl;
             eventToUpdate.Created = @event.Created;
             eventToUpdate.CreatedBy = @event.CreatedBy;
             eventToUpdate.LatestUpdate = @event.LatestUpdate;
@@ -71,7 +72,6 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
-        
         
     }
 }

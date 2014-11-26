@@ -73,6 +73,7 @@ namespace EventHandlingSystem
                     DropDownAssociation.SelectedIndex =
                         DropDownAssociation.Items.IndexOf(
                             DropDownAssociation.Items.FindByValue(@event.AssociationId.ToString()));
+                    TxtBoxLink.Text = @event.LinkUrl;
                 }
                 else
                 {
@@ -229,6 +230,7 @@ namespace EventHandlingSystem
                     TargetGroup = TxtBoxTargetGroup.Text,
                     ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
                     AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
+                    LinkUrl = TxtBoxLink.Text,
                     Created = @event.Created,
                     CreatedBy = @event.CreatedBy,
                     LatestUpdate = DateTime.Now,

@@ -68,6 +68,11 @@ namespace EventHandlingSystem
                     {
                         InnerHtml = "<b>Association:</b> " + TermDB.GetTermById(@event.AssociationId).Name
                     };
+                    var linkText = new HtmlGenericControl("span")
+                    {
+                        InnerHtml = "<b>Link: </b> "
+                    };
+                    var link = new HtmlAnchor() { HRef = @event.LinkUrl, InnerText = @event.LinkUrl };
                     var created = new HtmlGenericControl("p")
                     {
                         InnerHtml = "<b>Created:</b> " + @event.Created.ToString("yyyy-MM-dd HH:mm")
@@ -89,6 +94,8 @@ namespace EventHandlingSystem
                     Main.Controls.Add(targetGroup);
                     Main.Controls.Add(approximateAttendees);
                     Main.Controls.Add(association);
+                    Main.Controls.Add(linkText);
+                    Main.Controls.Add(link);
                     Main.Controls.Add(new LiteralControl("<br />"));
                     Main.Controls.Add(created);
                     Main.Controls.Add(createdBy);
