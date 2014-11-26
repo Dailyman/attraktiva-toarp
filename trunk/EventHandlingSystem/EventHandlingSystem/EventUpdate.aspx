@@ -70,6 +70,9 @@
         <h6>Association</h6>
         <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
         <br />
+        <h6>Link</h6>
+        <asp:TextBox ID="TxtBoxLink" runat="server"></asp:TextBox>
+        <br />
         <br />
         <div class="btn-align-right">
             <asp:Button ID="BtnUpdateEvent" CssClass="btn-align-right" runat="server" Text="Update event" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
