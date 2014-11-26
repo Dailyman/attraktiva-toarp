@@ -44,7 +44,7 @@ namespace EventHandlingSystem
                     ShowCheckBox = true,
                     Expanded = true,
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/folder_16x16.png"
+                    ImageUrl = "~/Images/folder_25x25.png"
                 };
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
                 treeView.Nodes.Add(taxNode);
@@ -62,7 +62,7 @@ namespace EventHandlingSystem
                         Value = "termset_" + parentTermSet.Id,
                         ShowCheckBox = true,
                         SelectAction = TreeNodeSelectAction.Expand,
-                        ImageUrl = "~/Images/folder_16x16.png"
+                        ImageUrl = "~/Images/folder_25x25.png"
                     };
 
                     FindTermNodesAndAddToTermSetNode(parentTermSet, node);
@@ -88,7 +88,7 @@ namespace EventHandlingSystem
                     Value = "termset_" + ts.Id,
                     ShowCheckBox = true,
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/folder_16x16.png"
+                    ImageUrl = "~/Images/folder_25x25.png"
                 };
 
                 FindTermNodesAndAddToTermSetNode(ts, childNode);
@@ -114,7 +114,8 @@ namespace EventHandlingSystem
                     Value = "term_" + term.Id,
                     ShowCheckBox = true,
                     SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/tag-16x16.png"
+                    ImageUrl = "~/Images/tag_25x25.png"
+                    
                 };
 
                 tNode.ChildNodes.Add(termNode);

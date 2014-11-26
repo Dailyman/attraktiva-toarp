@@ -136,8 +136,10 @@
     <Content Include="Images\Aux_folder_16x16.gif" />
     <Content Include="favicon.ico" />
     <Content Include="Images\folder_16x16.png" />
-    <Content Include="Images\tag-16x16.png" />
+    <Content Include="Images\folder_25x25.png" />
     <Content Include="Images\Tag-16_cyan.png" />
+    <Content Include="Images\tag_25x25.png" />
+    <Content Include="Images\tag_16x16.png" />
     <Content Include="Images\Tag_30x30.png" />
     <Content Include="Navigation.ascx" />
     <Content Include="OldPages\About.aspx" />
