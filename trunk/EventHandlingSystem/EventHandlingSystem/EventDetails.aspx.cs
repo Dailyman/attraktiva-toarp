@@ -15,29 +15,20 @@ namespace EventHandlingSystem
         #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
-            //TxtBoxSearch.Enabled = true;
-            //CompValiSearch.Enabled = true;
-            DropDownListEvents.Enabled = true;
-            BtnSearch.Enabled = true;
-
-            //TxtBoxSearch.Visible = true;
-            //CompValiSearch.Visible = true;
-            DropDownListEvents.Visible = true;
-            BtnSearch.Visible = true;
-
+            //Hämtar EventId från URL.
             string stId = Request.QueryString["Id"];
 
+            //Lägger till alla evenemang Titel och Id i DropDownListan.
             foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday(12))
             {
                 DropDownListEvents.Items.Add(new ListItem(ev.Title, ev.Id.ToString()));
             }
 
+            //Om Id värdet som tas från URLn är i giltigt format kommer evenemangets information att laddas och skrivas på sidan.
             int id;
-
             if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id ))
             {
                 var @event = EventDB.GetEventById(id);
-
                 if (@event != null)
                 {
                     var title = new HtmlGenericControl("h2") {InnerHtml = @event.Title};
@@ -109,25 +100,13 @@ namespace EventHandlingSystem
                 else
                 {
                     var error = new HtmlGenericControl("h4") {InnerHtml = "The event does not exist!"};
-
                     Main.Controls.Add(error);
                 }
 
             }
             else
             {
-                //TxtBoxSearch.Enabled = true;
-                //CompValiSearch.Enabled = true;
-                //DropDownListEvents.Enabled = true;
-                //BtnSearch.Enabled = true;
-
-                //TxtBoxSearch.Visible = true;
-                //CompValiSearch.Visible = true;
-                //DropDownListEvents.Visible = true;
-                //BtnSearch.Visible = true;
-
                 var error = new HtmlGenericControl("h4") { InnerHtml = "Use a correct event ID to show the event!"};
-
                 Main.Controls.Add(error);
             }
         }
@@ -137,10 +116,7 @@ namespace EventHandlingSystem
         #region BtnSearch_OnClick
         protected void BtnSearch_OnClick(object sender, EventArgs e)
         {
-            //Server.Transfer("EventDetails.aspx?Id="+TxtBoxSearch.Text);
-            //Response.Redirect(Request.Url.AbsoluteUri + "?id=" + TxtBoxSearch.Text, true);
-            
-            
+            //Skickar användaren till EventDetails.aspx med det EventId som man valt i DropDownListan.
             Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListEvents.SelectedValue, true);
         }
         #endregion
