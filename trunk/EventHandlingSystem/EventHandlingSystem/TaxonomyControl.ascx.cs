@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Threading;
 using System.Web;
@@ -46,7 +49,7 @@ namespace EventHandlingSystem
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
                 treeView.Nodes.Add(taxNode);
 
-                //Hämtar all TermSets som ligger på den översta nivån i taxonomin.
+                //Hämtar alla TermSets som ligger på den översta nivån i taxonomin och sorterar dem efter namn.
                 List<TermSet> parentTermSets =
                     TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
 
@@ -103,7 +106,7 @@ namespace EventHandlingSystem
         public void FindTermNodesAndAddToTermSetNode(TermSet tSet, TreeNode tNode)
         {
             //Hittar alla terms i ett termset och lägger till dem i TreeView.
-            foreach (var term in TermDB.GetAllTermsByTermSet(tSet))
+            foreach (var term in TermDB.GetAllTermsByTermSet(tSet).OrderBy(t => t.Name).ToList())
             {
                 TreeNode termNode = new TreeNode
                 {
@@ -144,13 +147,32 @@ namespace EventHandlingSystem
 
         #endregion
 
+
+        #region BtnClearSelected_OnClick
+        protected void BtnClearSelected_OnClick(object sender, EventArgs e)
+        {
+            //Gömmer "Edit view" och "Create view".
+            MultiViewEdit.ActiveViewIndex = -1;
+            MultiViewCreate.ActiveViewIndex = -1;
+
+            //Uncheckar alla checkade noder i TreeView.
+            List<TreeNode> nodes = TreeViewTaxonomy.CheckedNodes.Cast<TreeNode>().ToList();
+            foreach (TreeNode node in nodes)
+            {
+                node.Checked = false;
+            }
+        }
+        #endregion
+
         //Lista som används för att spara CheckedTreeNodes under körning mellan olika metoder. (En global variabel)
         public static List<TreeNode> CheckedTreeNodes;
-
-
+        
         #region BtnEdit_OnClick
         protected void BtnEdit_OnClick(object sender, EventArgs e)
         {
+            //Gömmer "Create view".
+            MultiViewCreate.ActiveViewIndex = -1;
+
             //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
             
@@ -219,48 +241,36 @@ namespace EventHandlingSystem
         #endregion
 
 
-        #region DeleteAllCheckedItemsInTreeView
-        private void DeleteAllCheckedItemsInTreeView(List<TreeNode> nodes )
+        #region BtnCreate_OnClick
+        protected void BtnCreate_OnClick(object sender, EventArgs e)
         {
-            //foreach (TreeNode checkedNode in TreeViewTaxonomy.CheckedNodes)
-            //{
-            //    LabelDisplay.Text += checkedNode.Value + " ";
-            //}
-            
-            //För varje TreeNode i listan 'nodes' kontrolleras vilken typ objekt är som ska tas bort.
-            foreach (TreeNode treeNode in nodes)
+            if (TreeViewTaxonomy.Nodes.Count != 0)
             {
-                string nodeValue = treeNode.Value;
+                string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
 
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
-                string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+                //string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
 
-                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
-                
-                //Här tas olika typer av objekt bort på olika sätt.
-                int id;
-                LabelDisplay.Text += "Deleted: ";
-                if (type == "taxonomy" && int.TryParse(strId, out id))
+                if (strId != "1")
                 {
-                    //TaxonomyDB.DeleteTaxonomyById(id);
-                    //LabelDisplay.Text += id + ", ";
-                }
-                else if (type == "termset" && int.TryParse(strId, out id))
-                {
-                    //TermSetDB.DeleteTermSetById(id);
-                    //LabelDisplay.Text += id + ", ";
-                }
-                else if (type == "term" && int.TryParse(strId, out id))
-                {
-                    TermDB.DeleteTermById(id);
-                    LabelDisplay.Text += id + ", ";
+                    MultiViewCreate.ActiveViewIndex = 0;
                 }
                 else
                 {
-                    LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
+                    MultiViewCreate.ActiveViewIndex = -1;
+
+                    LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    LabelDisplay.Text =
+                        "You can't create new termsets/terms in the publishing taxonomy. Creating communities/associations will create an publishingTerm/TermSet in the taxonomy.";
                 }
+
             }
-            TreeViewTaxonomy.Nodes.Clear();
+            else
+            {
+                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelDisplay.Text = "Select a taxonomy to create in";
+            }
+
         }
         #endregion
 
@@ -339,6 +349,52 @@ namespace EventHandlingSystem
         #endregion
 
 
+        #region DeleteAllCheckedItemsInTreeView
+        private void DeleteAllCheckedItemsInTreeView(List<TreeNode> nodes)
+        {
+            //foreach (TreeNode checkedNode in TreeViewTaxonomy.CheckedNodes)
+            //{
+            //    LabelDisplay.Text += checkedNode.Value + " ";
+            //}
+
+            //För varje TreeNode i listan 'nodes' kontrolleras vilken typ objekt är som ska tas bort.
+            foreach (TreeNode treeNode in nodes)
+            {
+                string nodeValue = treeNode.Value;
+
+                string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+                string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+
+                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+
+                //Här tas olika typer av objekt bort på olika sätt.
+                int id;
+                LabelDisplay.Text += "Deleted: ";
+                if (type == "taxonomy" && int.TryParse(strId, out id))
+                {
+                    //TaxonomyDB.DeleteTaxonomyById(id);
+                    //LabelDisplay.Text += id + ", ";
+                }
+                else if (type == "termset" && int.TryParse(strId, out id))
+                {
+                    //TermSetDB.DeleteTermSetById(id);
+                    //LabelDisplay.Text += id + ", ";
+                }
+                else if (type == "term" && int.TryParse(strId, out id))
+                {
+                    TermDB.DeleteTermById(id);
+                    LabelDisplay.Text += id + ", ";
+                }
+                else
+                {
+                    LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
+                }
+            }
+            TreeViewTaxonomy.Nodes.Clear();
+        }
+        #endregion
+
+
         #region BtnPublishTax_OnClick : BtnCategoryTax_OnClick : BtnCustomCategoryTax_OnClick
         protected void BtnPublishTax_OnClick(object sender, EventArgs e)
         {
@@ -363,22 +419,9 @@ namespace EventHandlingSystem
         #endregion
 
 
-        #region BtnClearSelected_OnClick
-        protected void BtnClearSelected_OnClick(object sender, EventArgs e)
-        {
-            //Gömmer "Edit view".
-            MultiViewEdit.ActiveViewIndex = -1;
-
-            //Uncheckar alla checkade noder i TreeView.
-            List<TreeNode> nodes = TreeViewTaxonomy.CheckedNodes.Cast<TreeNode>().ToList();
-            foreach (TreeNode node in nodes)
-            {
-                node.Checked = false;
-            }
-        }
-        #endregion
 
 
+        #region MultiViewEdit
         //Här skickas ändringar av Taxonomi objektet i "EditView".
         #region BtnUpdateTax_OnClick
         protected void BtnUpdateTax_OnClick(object sender, EventArgs e)
@@ -437,5 +480,105 @@ namespace EventHandlingSystem
             LabelMessageT.Text = TermDB.UpdateTerm(term) != 0 ? "Term was updated" : "Term couldn't be updated";
         }
         #endregion
+        #endregion
+
+
+        #region MultiViewCreate
+        protected void BtnCreateTerm_OnClick(object sender, EventArgs e)
+        {
+            MultiViewCreate.ActiveViewIndex = 1;
+            string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
+            string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+
+            H2CreateTerm.InnerText = "";
+            H2CreateTerm.InnerText = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
+
+            DropDownListTInTS.Items.Clear();
+            foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
+            {
+                DropDownListTInTS.Items.Add(new ListItem
+                {
+                    Text = termSet.Name,
+                    Value = termSet.Id.ToString()
+                });
+            }
+        }
+
+        protected void BtnCreateTermSet_OnClick(object sender, EventArgs e)
+        {
+            MultiViewCreate.ActiveViewIndex = 2;
+
+            string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
+            string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+
+            H2CreateTermSet.InnerText = "";
+            H2CreateTermSet.InnerText = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
+
+            DropDownListParentTS.Items.Clear();
+            DropDownListParentTS.Items.Add(new ListItem());
+            foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
+            {
+                DropDownListParentTS.Items.Add(new ListItem
+                {
+                    Text = termSet.Name,
+                    Value = termSet.Id.ToString()
+                });
+            }
+        }
+
+        protected void BtnCreateT_OnClick(object sender, EventArgs e)
+        {
+
+            //!!Framtids kod (ಠ ‿  ಠ)!!!
+            //ICollection<TermSet> iSets = new Collection<TermSet>() { TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue)) };
+            
+            //iSets.Add(TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue)));
+
+            Term term = new Term
+            {
+                Name = TxtBoxNameCreateT.Text,
+                TermSet = new Collection<TermSet>() { TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue)) }
+                
+            };
+
+            if (TermDB.CreateTerm(term) != 0)
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+                LabelMessageCreateT.Text = "Term was created!";
+            }
+            else
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelMessageCreateT.Text = "Term was not created!";
+            }
+
+
+            //LabelMessageCreateT.Text = TxtBoxNameCreateT.Text;
+        }
+
+        protected void BtnCreateTS_OnClick(object sender, EventArgs e)
+        {
+            TermSet termSet = new TermSet
+            {
+                Name = TxtBoxNameCreateTS.Text,
+                ParentTermSetId = DropDownListParentTS.SelectedValue == "" ? new int?[1]{null}[0] : int.Parse(DropDownListParentTS.SelectedValue),
+                TaxonomyId = TermSetDB.GetTermSetById(int.Parse(DropDownListParentTS.Items[DropDownListParentTS.Items.Count-1].Value)).TaxonomyId
+            };
+
+            if (TermSetDB.CreateTermSet(termSet) != 0)
+            {
+                LabelMessageCreateTS.Style.Add(HtmlTextWriterStyle.Color, "green");
+                LabelMessageCreateTS.Text = "Termset was created!";
+            }
+            else
+            {
+                LabelMessageCreateTS.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelMessageCreateTS.Text = "Termset was not created!";
+            }
+            
+            //LabelMessageCreateTS.Text = TxtBoxNameCreateTS.Text;
+        }
+        #endregion
+
     }
 }

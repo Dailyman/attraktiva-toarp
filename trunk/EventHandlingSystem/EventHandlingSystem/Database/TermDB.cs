@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -22,6 +23,21 @@ namespace EventHandlingSystem.Database
         public static List<Term> GetAllTermsByTermSet(TermSet termSet)
         {
             return TermSetDB.GetTermSetById(termSet.Id).Term.Where(t => !t.IsDeleted).ToList();
+        }
+
+        public static int CreateTerm(Term term)
+        {
+            Term termToCreate = new Term()
+            {
+                Name = !string.IsNullOrWhiteSpace(term.Name) ? term.Name : "Untitled",
+                TermSet = term.TermSet,
+                Created = DateTime.Now
+            };
+
+            Context.Terms.Add(termToCreate);
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
         }
 
         public static int UpdateTerm(Term term)
