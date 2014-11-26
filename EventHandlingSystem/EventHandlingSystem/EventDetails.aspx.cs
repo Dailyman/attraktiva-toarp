@@ -72,7 +72,7 @@ namespace EventHandlingSystem
                     {
                         InnerHtml = "<b>Link: </b> "
                     };
-                    var link = new HtmlAnchor() { HRef = @event.LinkUrl, InnerText = @event.LinkUrl };
+                    var link = new HtmlAnchor() { HRef = @event.LinkUrl, InnerText = @event.LinkUrl, Target = "_blank"};
                     var created = new HtmlGenericControl("p")
                     {
                         InnerHtml = "<b>Created:</b> " + @event.Created.ToString("yyyy-MM-dd HH:mm")
