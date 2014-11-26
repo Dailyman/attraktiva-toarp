@@ -7,6 +7,39 @@
         <h1>Create your terms here ^^v</h1>
     </div>
     <br />
+    <asp:MultiView ID="MultiViewCreate" runat="server" ActiveViewIndex="-1">
+        <asp:View ID="View1" runat="server">
+            <h2>Choose what to create</h2>
+            <br />
+            <asp:Button ID="BtnCreateTerm" runat="server" Text="Term" OnClick="BtnCreateTerm_OnClick"/><asp:Button ID="BtnCreateTermSet" runat="server" Text="TermSet" OnClick="BtnCreateTermSet_OnClick" />
+            <br />
+        </asp:View>
+        <asp:View ID="ViewTermCreate" runat="server">
+            <h2 ID="H2CreateTerm" runat="server"></h2>
+            <br />
+            <span><b>Name: </b></span><asp:TextBox ID="TxtBoxNameCreateT" runat="server"></asp:TextBox>
+            <br />
+            <span><b>Termset: </b></span><asp:DropDownList ID="DropDownListTInTS" runat="server"></asp:DropDownList>
+            <br />
+            <br />
+            <asp:Button ID="BtnCreateT" runat="server" Text="Create" OnClick="BtnCreateT_OnClick" />
+            <asp:Label ID="LabelMessageCreateT" runat="server" Text=""></asp:Label>
+            <br />
+        </asp:View>
+        <asp:View ID="ViewTermSetCreate" runat="server">
+            <h2 ID="H2CreateTermSet" runat="server"></h2>
+            <br />
+            <span><b>Name: </b></span><asp:TextBox ID="TxtBoxNameCreateTS" runat="server"></asp:TextBox>
+            <br />
+            <span><b>Parent termset: </b></span><asp:DropDownList ID="DropDownListParentTS" runat="server"></asp:DropDownList>
+            <br />
+            <br />
+            <asp:Button ID="BtnCreateTS" runat="server" Text="Create" OnClick="BtnCreateTS_OnClick" />
+            <asp:Label ID="LabelMessageCreateTS" runat="server" Text=""></asp:Label>
+            <br />
+        </asp:View>
+    </asp:MultiView>
+    
 
     <asp:MultiView ID="MultiViewEdit" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewTaxonomyEdit" runat="server">
@@ -65,6 +98,7 @@
     <div class="btn-align-right">
         <asp:Button ID="BtnClearSelected" runat="server" Text="Uncheck all" OnClick="BtnClearSelected_OnClick" />
         <asp:Button ID="BtnEdit" runat="server" Text="Edit" OnClick="BtnEdit_OnClick" />
+        <asp:Button ID="BtnCreate" runat="server" Text="Create" OnClick="BtnCreate_OnClick"/>
         <asp:Button ID="BtnDelete" runat="server" Text="Delete" OnClick="BtnDelete_OnClick" />
     </div>
 </div>
