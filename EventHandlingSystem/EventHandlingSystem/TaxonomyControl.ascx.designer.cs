@@ -22,13 +22,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.MultiView MultiViewCreate;
         
         /// <summary>
-        /// View1 control.
+        /// ViewSelectCreate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View View1;
+        protected global::System.Web.UI.WebControls.View ViewSelectCreate;
         
         /// <summary>
         /// BtnCreateTerm control.
@@ -130,13 +130,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameCreateTS;
         
         /// <summary>
-        /// DropDownListParentTS control.
+        /// DropDownListCreateParentTS control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListParentTS;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateParentTS;
         
         /// <summary>
         /// BtnCreateTS control.
@@ -265,6 +265,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameTS;
         
         /// <summary>
+        /// DropDownListEditParentTS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListEditParentTS;
+        
+        /// <summary>
         /// LabelCreatedTS control.
         /// </summary>
         /// <remarks>
@@ -326,6 +335,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameT;
+        
+        /// <summary>
+        /// DropDownListTermSetForTerm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListTermSetForTerm;
         
         /// <summary>
         /// LabelCreatedT control.

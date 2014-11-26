@@ -207,6 +207,22 @@ namespace EventHandlingSystem
                     LabelIdTS.Text = tS.Id.ToString();
                     TxtBoxNameTS.Text = tS.Name;
                     LabelCreatedTS.Text = "<b>Created:</b> " + tS.Created.ToString("yyyy-MM-dd HH:mm");
+
+                    DropDownListEditParentTS.Items.Clear();
+                    DropDownListEditParentTS.Items.Add(new ListItem());
+                    foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(tS.Taxonomy))
+                    {
+                        DropDownListEditParentTS.Items.Add(new ListItem
+                        {
+                            Text = termSet.Name,
+                            Value = termSet.Id.ToString()
+                        });
+                    }
+                    DropDownListEditParentTS.Items.Remove(DropDownListEditParentTS.Items.FindByValue(tS.Id.ToString()));
+
+                    DropDownListEditParentTS.SelectedIndex =
+                        DropDownListEditParentTS.Items.IndexOf(
+                            DropDownListEditParentTS.Items.FindByValue(tS.ParentTermSetId.ToString()));
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
@@ -215,6 +231,25 @@ namespace EventHandlingSystem
                     LabelIdT.Text = t.Id.ToString();
                     TxtBoxNameT.Text = t.Name;
                     LabelCreatedT.Text = "<b>Created:</b> " + t.Created.ToString("yyyy-MM-dd HH:mm");
+
+                    string taxId =
+                        TreeViewTaxonomy.Nodes[0].Value.Substring(TreeViewTaxonomy.Nodes[0].Value.IndexOf('_') + 1);
+                    
+                    DropDownListTermSetForTerm.Items.Clear();
+                    foreach (
+                        var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(taxId))))
+                    {
+                        DropDownListTermSetForTerm.Items.Add(new ListItem
+                        {
+                            Text = termSet.Name,
+                            Value = termSet.Id.ToString()
+                        });
+                    }
+
+                    var firstOrDefault = t.TermSet.FirstOrDefault();
+                    if (firstOrDefault != null)
+                        DropDownListTermSetForTerm.SelectedIndex = DropDownListTermSetForTerm.Items.IndexOf(
+                            DropDownListTermSetForTerm.Items.FindByValue(firstOrDefault.Id.ToString()));
                 }
                 else
                 {
@@ -375,11 +410,12 @@ namespace EventHandlingSystem
                 {
                     //TaxonomyDB.DeleteTaxonomyById(id);
                     //LabelDisplay.Text += id + ", ";
+                    LabelDisplay.Text = "A taxonomi can't be deleted!";
                 }
                 else if (type == "termset" && int.TryParse(strId, out id))
                 {
                     //TermSetDB.DeleteTermSetById(id);
-                    //LabelDisplay.Text += id + ", ";
+                    LabelDisplay.Text += id + ", ";
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
@@ -453,7 +489,7 @@ namespace EventHandlingSystem
                 Id = originalTermSet.Id,
                 Name = TxtBoxNameTS.Text,
                 Created = originalTermSet.Created,
-                ParentTermSetId = originalTermSet.ParentTermSetId,
+                ParentTermSetId = DropDownListEditParentTS.SelectedValue == "" ? new int?[1] { null }[0] : int.Parse(DropDownListEditParentTS.SelectedValue),
                 TaxonomyId = originalTermSet.TaxonomyId
             };
 
@@ -474,7 +510,8 @@ namespace EventHandlingSystem
             {
                 Id = originalTerm.Id,
                 Name = TxtBoxNameT.Text,
-                Created = originalTerm.Created
+                Created = originalTerm.Created,
+                TermSet = new Collection<TermSet>(){TermSetDB.GetTermSetById(int.Parse(DropDownListTermSetForTerm.SelectedValue))}
 
             };
             LabelMessageT.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
@@ -515,11 +552,11 @@ namespace EventHandlingSystem
             H2CreateTermSet.InnerText = "";
             H2CreateTermSet.InnerText = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
-            DropDownListParentTS.Items.Clear();
-            DropDownListParentTS.Items.Add(new ListItem());
+            DropDownListCreateParentTS.Items.Clear();
+            DropDownListCreateParentTS.Items.Add(new ListItem());
             foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
             {
-                DropDownListParentTS.Items.Add(new ListItem
+                DropDownListCreateParentTS.Items.Add(new ListItem
                 {
                     Text = termSet.Name,
                     Value = termSet.Id.ToString()
@@ -562,8 +599,8 @@ namespace EventHandlingSystem
             TermSet termSet = new TermSet
             {
                 Name = TxtBoxNameCreateTS.Text,
-                ParentTermSetId = DropDownListParentTS.SelectedValue == "" ? new int?[1]{null}[0] : int.Parse(DropDownListParentTS.SelectedValue),
-                TaxonomyId = TermSetDB.GetTermSetById(int.Parse(DropDownListParentTS.Items[DropDownListParentTS.Items.Count-1].Value)).TaxonomyId
+                ParentTermSetId = DropDownListCreateParentTS.SelectedValue == "" ? new int?[1] { null }[0] : int.Parse(DropDownListCreateParentTS.SelectedValue),
+                TaxonomyId = TermSetDB.GetTermSetById(int.Parse(DropDownListCreateParentTS.Items[DropDownListCreateParentTS.Items.Count - 1].Value)).TaxonomyId
             };
 
             if (TermSetDB.CreateTermSet(termSet) != 0)
