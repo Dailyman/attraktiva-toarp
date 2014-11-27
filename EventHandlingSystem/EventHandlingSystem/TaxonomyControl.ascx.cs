@@ -395,6 +395,8 @@ namespace EventHandlingSystem
         #region DeleteAllCheckedItemsInTreeView
         private void DeleteAllCheckedItemsInTreeView(List<TreeNode> nodes)
         {
+            LabelDisplay.Text = "Deleted: ";
+
             //foreach (TreeNode checkedNode in TreeViewTaxonomy.CheckedNodes)
             //{
             //    LabelDisplay.Text += checkedNode.Value + " ";
@@ -412,7 +414,6 @@ namespace EventHandlingSystem
 
                 //Här tas olika typer av objekt bort på olika sätt.
                 int id;
-                LabelDisplay.Text = "Deleted: ";
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
                     //TaxonomyDB.DeleteTaxonomyById(id);
@@ -423,12 +424,19 @@ namespace EventHandlingSystem
                 {
                     TermSet termSetToDelete = TermSetDB.GetTermSetById(id);
                     DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
-                    if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += termSetToDelete.Name + " ";
+                    if (termSetToDelete != null)
+                    {
+                        if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += termSetToDelete.Name + " ";
+                    }
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
-                    string termName = TermDB.GetTermById(id).Name;
-                    if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += termName + " ";
+                    Term t = TermDB.GetTermById(id);
+                    if (t != null)
+                    {
+                        if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += t.Name + " ";
+                    }
+
                 }
                 else
                 {
@@ -442,15 +450,23 @@ namespace EventHandlingSystem
         {
             foreach (var t in termSet.Term)
             {
-                if (TermDB.DeleteTermById(t.Id) != 0) LabelDisplay.Text += t.Name + " ";
+                Term term = TermDB.GetTermById(t.Id);
+                if (term != null)
+                {
+                    if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += term.Name + " ";
+                }
             }
 
             foreach (var tS in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
             {
                 DeleteAllChildTermsAndTermSetsForTermSet(tS);
 
-                if (TermSetDB.DeleteTermSetById(tS.Id) != 0)
-                    LabelDisplay.Text += tS.Name + " ";
+                TermSet termS = TermSetDB.GetTermSetById(tS.Id);
+                if (termS != null)
+                {
+                    if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
+                        LabelDisplay.Text += termS.Name + " ";
+                }
             }
         }
         #endregion
