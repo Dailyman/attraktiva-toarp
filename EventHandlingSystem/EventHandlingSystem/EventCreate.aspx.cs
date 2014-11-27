@@ -28,6 +28,7 @@ namespace EventHandlingSystem
                 List<ListItem> listItems = new List<ListItem>();
                 foreach (var association in AssociationDB.GetAllAssociations())
                 {
+                    //Hämta Term för Association genom PublishingTermSet
                     Term associationTerm =
                         TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
                             .SingleOrDefault();
@@ -40,6 +41,7 @@ namespace EventHandlingSystem
                         });
                     }
                 }
+                //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
                 foreach (var item in listItems.OrderBy(item => item.Text))
                 {
                     DropDownAssociation.Items.Add(item);
@@ -64,9 +66,9 @@ namespace EventHandlingSystem
 
 
         #region ChkBoxDayEvent_OnCheckedChanged
-        //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
         protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
         {
+            //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
             TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
@@ -144,14 +146,12 @@ namespace EventHandlingSystem
         {
             //Lägger in det valda kalenderdatumet som text i StartDateTextBoxen.
             TxtBoxStartDate.Text = CalendarStartDate.SelectedDate.ToString("yyyy-MM-dd");
-            //TxtBoxStartTime.Text = CalendarStartDate.SelectedDate.ToString("HH:mm");
         }
 
         protected void CalendarEndDate_OnSelectionChanged(object sender, EventArgs e)
         {
             //Lägger in det valda kalenderdatumet som text i EndDateTextBoxen.
             TxtBoxEndDate.Text = CalendarEndDate.SelectedDate.ToString("yyyy-MM-dd");
-            //TxtBoxEndTime.Text = CalendarEndDate.SelectedDate.ToString("HH:mm");
         }
         #endregion
 
@@ -188,7 +188,6 @@ namespace EventHandlingSystem
                 LinkUrl = TxtBoxLink.Text,
                 Created = DateTime.Now,
                 CreatedBy = HttpContext.Current.User.Identity.Name
-                //IsDeleted = false
             };
             
             //Ger LabelMessage en större font-storlek som visar om eventet kunde skapas eller ej (!!om evenemanget kunde skapas skickas användaren just nu till dessa visningssida!!). 

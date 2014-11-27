@@ -19,12 +19,10 @@ namespace EventHandlingSystem
         #region Page_Load
         protected void Page_Load(object sender, EventArgs e)
         {
-            //Återställer texten.
+            //Återställer Displaytexten.
             LabelDisplay.Text = "";
 
-            if (!IsPostBack)
-            {
-            }
+            if (!IsPostBack) { }
         }
         #endregion
 
@@ -35,8 +33,10 @@ namespace EventHandlingSystem
             //Hämtar taxonomin.
             Taxonomy tax = TaxonomyDB.GetTaxonomyById(taxId);
 
+            //Om Taxonomin hittas i DBn skapas en HuvudNode med taxonomins namn.
             if (tax != null)
             {
+                //Här skapas HuvudNoden till TreeViewn.
                 TreeNode taxNode = new TreeNode
                 {
                     Text = tax.Name,
@@ -46,6 +46,7 @@ namespace EventHandlingSystem
                     SelectAction = TreeNodeSelectAction.Expand,
                     ImageUrl = "~/Images/folder_25x25.png"
                 };
+
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
                 treeView.Nodes.Add(taxNode);
 
@@ -65,6 +66,7 @@ namespace EventHandlingSystem
                         ImageUrl = "~/Images/folder_25x25.png"
                     };
 
+                    //Kallar på en redundant metod för att hitta alla undernoder(Terms & TermSets) till det aktuella TermSet'et.
                     FindTermNodesAndAddToTermSetNode(parentTermSet, node);
                     taxNode.ChildNodes.Add(node);
 
@@ -79,7 +81,7 @@ namespace EventHandlingSystem
         #region FindChildNodesAndAddToParentNode
         private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
         {
-            //Lägger till alla ChildrenNodes (ex. Vikingen IF).
+            //Lägger till alla ChildrenNodes (ex. Vikingen IF(TermSet)).
             foreach (var ts in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id).OrderBy(ts => ts.Name).ToList())
             {
                 TreeNode childNode = new TreeNode
@@ -91,7 +93,10 @@ namespace EventHandlingSystem
                     ImageUrl = "~/Images/folder_25x25.png"
                 };
 
+                //Hittar alla terms i ett termset och lägger till dem i TreeView.
                 FindTermNodesAndAddToTermSetNode(ts, childNode);
+
+                //Lägger det aktuella TermSet'et.
                 parentNode.ChildNodes.Add(childNode);
                 
                 //För att hitta alla ChildNodes till den aktuella ParentNoden. 
@@ -163,6 +168,7 @@ namespace EventHandlingSystem
                 node.Checked = false;
             }
 
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
@@ -187,6 +193,7 @@ namespace EventHandlingSystem
                 if (node.Checked) CheckedTreeNodes.Add(node);
             }
 
+            //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
             LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
             //Om listan innehåller ett objekt kommer dess information läggas in i Edit formuläret.
@@ -197,10 +204,16 @@ namespace EventHandlingSystem
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
                 
+                //Här sparas resultatet från "TryParse" av strId.
                 int id;
+
+                //Kollar vilken typ av node som ska editeras. 
+                //Olika Views visas i MultiViewControl beroende på vilken typ som ska editeras. 
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
+                    //Ändra till Taxonomy View med alla dess Controls.
                     MultiViewEdit.ActiveViewIndex = 0;
+
                     Taxonomy tax = TaxonomyDB.GetTaxonomyById(id);
                     LabelIdTax.Text = tax.Id.ToString();
                     TxtBoxNameTax.Text = tax.Name;
@@ -208,7 +221,9 @@ namespace EventHandlingSystem
                 }
                 else if (type == "termset" && int.TryParse(strId, out id))
                 {
+                    //Ändra till TermSet View med alla dess Controls.
                     MultiViewEdit.ActiveViewIndex = 1;
+
                     TermSet tS = TermSetDB.GetTermSetById(id);
                     LabelIdTS.Text = tS.Id.ToString();
                     TxtBoxNameTS.Text = tS.Name;
@@ -232,7 +247,9 @@ namespace EventHandlingSystem
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
+                    //Ändra till Term View med alla dess Controls.
                     MultiViewEdit.ActiveViewIndex = 2;
+
                     Term t = TermDB.GetTermById(id);
                     LabelIdT.Text = t.Id.ToString();
                     TxtBoxNameT.Text = t.Name;
@@ -280,6 +297,7 @@ namespace EventHandlingSystem
                 LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
 
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
@@ -289,14 +307,21 @@ namespace EventHandlingSystem
         #region BtnCreate_OnClick
         protected void BtnCreate_OnClick(object sender, EventArgs e)
         {
+            //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
             LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+
             if (TreeViewTaxonomy.Nodes.Count != 0)
             {
+                //Hämtar huvudnodens(Taxonomin) value från TreeView.
                 string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
 
+                //Delar upp nodeValue till Id delen.
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+
+                //Delar upp nodeValue till type delen.
                 //string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
 
+                //Om Id inte är samma som PubliceringsTaxonomin visas View där man kan välja vad man ska skapa.
                 if (strId != "1")
                 {
                     MultiViewCreate.ActiveViewIndex = 0;
@@ -312,9 +337,11 @@ namespace EventHandlingSystem
             }
             else
             {
+                //Användare måste ha laddat in en taxonomi i TreeViewn.
                 LabelDisplay.Text = "Select a taxonomy to create in";
             }
 
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
@@ -333,6 +360,7 @@ namespace EventHandlingSystem
                 if (node.Checked) CheckedTreeNodes.Add(node);
             }
 
+            //Ger Displaytexten en röd färg (Display texten inneåller endast varningar i denna metoden).
             LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
             //Om listan med CheckedNodes innehåller minst ett objekt kommer alla objekt som inte ligger i PubliceringsTaxonomin att tas bort (IsDeleted).
@@ -344,8 +372,11 @@ namespace EventHandlingSystem
                 //Bryter upp värdet i två delar (Type(taxonomy, termset eller term) och Id)
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
-                
+
+                //Här sparas resultatet från "TryParse" av strId.
                 int id;
+
+                //Kontrollerar att användaren inte försöka ta bort objekt från Publiseringstaxonomin. 
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
                     if (id == 1)
@@ -405,11 +436,16 @@ namespace EventHandlingSystem
             //För varje TreeNode i listan 'nodes' kontrolleras vilken typ objekt är som ska tas bort.
             foreach (TreeNode treeNode in nodes)
             {
+                //Lägger in nodens värde.
                 string nodeValue = treeNode.Value;
 
+                //Delar upp nodens värde till Id delen.
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+
+                //Delar upp nodens värde till type delen.
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
 
+                //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
                 LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
                 //Här tas olika typer av objekt bort på olika sätt.
@@ -443,9 +479,12 @@ namespace EventHandlingSystem
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
             }
+
+            //Rensar TreeViewn så användaren kan återuppbygga den med de kvarstående objekten.
             TreeViewTaxonomy.Nodes.Clear();
         }
 
+        //Redundant metod för att hitta alla ChildTerm och TermSets för att sedan ta bort dem.
         private void DeleteAllChildTermsAndTermSetsForTermSet(TermSet termSet)
         {
             foreach (var t in termSet.Term)
@@ -453,6 +492,7 @@ namespace EventHandlingSystem
                 Term term = TermDB.GetTermById(t.Id);
                 if (term != null)
                 {
+                    //Tar bort Terms och visar att de gick att ta bort.
                     if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += term.Name + " ";
                 }
             }
@@ -464,6 +504,7 @@ namespace EventHandlingSystem
                 TermSet termS = TermSetDB.GetTermSetById(tS.Id);
                 if (termS != null)
                 {
+                    //Tar bort TermSets och visar att de gick att ta bort.
                     if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
                         LabelDisplay.Text += termS.Name + " ";
                 }
@@ -499,7 +540,7 @@ namespace EventHandlingSystem
 
 
         #region MultiViewEdit
-        //Här skickas ändringar av Taxonomi objektet i "EditView".
+        //Här skickas ändringar av Taxonomi objektet i "EditView" till DBn och skriver ut om editeringen lyckades.
         #region BtnUpdateTax_OnClick
         protected void BtnUpdateTax_OnClick(object sender, EventArgs e)
         {
@@ -525,7 +566,7 @@ namespace EventHandlingSystem
         #endregion
 
 
-        //Här skickas ändringar av TermSet objektet i "EditView".
+        //Här skickas ändringar av TermSet objektet i "EditView" till DBn och skriver ut om editeringen lyckades.
         #region BtnUpdateTS_OnClick
         protected void BtnUpdateTS_OnClick(object sender, EventArgs e)
         {
@@ -553,7 +594,7 @@ namespace EventHandlingSystem
         #endregion
 
 
-        //Här skickas ändringar av Term objektet i "EditView".
+        //Här skickas ändringar av Term objektet i "EditView" till DBn och skriver ut om editeringen lyckades.
         #region BtnUpdateT_OnClick
         protected void BtnUpdateT_OnClick(object sender, EventArgs e)
         {
@@ -585,14 +626,20 @@ namespace EventHandlingSystem
         #region MultiViewCreate
         protected void BtnCreateTerm_OnClick(object sender, EventArgs e)
         {
+            //Ändra till TaxonomyView med alla dess Controls.
             MultiViewCreate.ActiveViewIndex = 1;
+
             string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
+            //h2-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
             H2CreateTerm.InnerText = "";
             H2CreateTerm.InnerText = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
+            //Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
             DropDownListTInTS.Items.Clear();
+
+            //Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
             foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
             {
                 DropDownListTInTS.Items.Add(new ListItem
@@ -602,21 +649,27 @@ namespace EventHandlingSystem
                 });
             }
 
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         protected void BtnCreateTermSet_OnClick(object sender, EventArgs e)
         {
+            //Ändra till TermSetView med alla dess Controls.
             MultiViewCreate.ActiveViewIndex = 2;
 
             string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
+            //h2-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
             H2CreateTermSet.InnerText = "";
             H2CreateTermSet.InnerText = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
+            //Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
             DropDownListCreateParentTS.Items.Clear();
+
+            //Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
             DropDownListCreateParentTS.Items.Add(new ListItem());
             foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
             {
@@ -627,6 +680,7 @@ namespace EventHandlingSystem
                 });
             }
 
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
