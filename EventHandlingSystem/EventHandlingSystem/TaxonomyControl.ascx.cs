@@ -162,6 +162,9 @@ namespace EventHandlingSystem
             {
                 node.Checked = false;
             }
+
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
         #endregion
 
@@ -173,6 +176,7 @@ namespace EventHandlingSystem
         {
             //Gömmer "Create view".
             MultiViewCreate.ActiveViewIndex = -1;
+            
 
             //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
@@ -182,6 +186,8 @@ namespace EventHandlingSystem
             {
                 if (node.Checked) CheckedTreeNodes.Add(node);
             }
+
+            LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
             //Om listan innehåller ett objekt kommer dess information läggas in i Edit formuläret.
             if (CheckedTreeNodes.Count == 1)
@@ -273,6 +279,9 @@ namespace EventHandlingSystem
 
                 LabelDisplay.Text = "Please check one checkbox ONLY!";
             }
+
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
         #endregion
 
@@ -280,6 +289,7 @@ namespace EventHandlingSystem
         #region BtnCreate_OnClick
         protected void BtnCreate_OnClick(object sender, EventArgs e)
         {
+            LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
             if (TreeViewTaxonomy.Nodes.Count != 0)
             {
                 string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
@@ -295,7 +305,6 @@ namespace EventHandlingSystem
                 {
                     MultiViewCreate.ActiveViewIndex = -1;
 
-                    LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
                     LabelDisplay.Text =
                         "You can't create new termsets/terms in the publishing taxonomy. Creating communities/associations will create an publishingTerm/TermSet in the taxonomy.";
                 }
@@ -303,10 +312,11 @@ namespace EventHandlingSystem
             }
             else
             {
-                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
                 LabelDisplay.Text = "Select a taxonomy to create in";
             }
 
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
         #endregion
 
@@ -323,8 +333,10 @@ namespace EventHandlingSystem
                 if (node.Checked) CheckedTreeNodes.Add(node);
             }
 
+            LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+
             //Om listan med CheckedNodes innehåller minst ett objekt kommer alla objekt som inte ligger i PubliceringsTaxonomin att tas bort (IsDeleted).
-            if (CheckedTreeNodes.Count != 0)
+            if (CheckedTreeNodes.Count > 0)
             {
                 //Tar ut värdet från det första objektet i listan.
                 string nodeValue = CheckedTreeNodes[0].Value;
@@ -332,14 +344,13 @@ namespace EventHandlingSystem
                 //Bryter upp värdet i två delar (Type(taxonomy, termset eller term) och Id)
                 string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
                 string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
-
-                LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
+                
                 int id;
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
                     if (id == 1)
                     {
-                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\". Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
                     }
                     else
                     {
@@ -350,7 +361,7 @@ namespace EventHandlingSystem
                 {
                     if (TermSetDB.GetTermSetById(id).TaxonomyId == 1)
                     {
-                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\". Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
                     }
                     else
                     {
@@ -361,7 +372,7 @@ namespace EventHandlingSystem
                 {
                     if (TermDB.GetTermById(id).TermSet.ToList()[0].TaxonomyId == 1)
                     {
-                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\". Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                        LabelDisplay.Text = "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
                     }
                     else
                     {
@@ -373,13 +384,9 @@ namespace EventHandlingSystem
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
             }
-            else if (CheckedTreeNodes.Count == 0)
-            {
-                LabelDisplay.Text = "Please select a termset or a term!";
-            }
             else
             {
-                LabelDisplay.Text = "Please check one checkbox ONLY!";
+                LabelDisplay.Text = "Please select a termset or a term!";
             }
         }
         #endregion
@@ -405,7 +412,7 @@ namespace EventHandlingSystem
 
                 //Här tas olika typer av objekt bort på olika sätt.
                 int id;
-                LabelDisplay.Text += "Deleted: ";
+                LabelDisplay.Text = "Deleted: ";
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
                     //TaxonomyDB.DeleteTaxonomyById(id);
@@ -414,13 +421,14 @@ namespace EventHandlingSystem
                 }
                 else if (type == "termset" && int.TryParse(strId, out id))
                 {
-                    //TermSetDB.DeleteTermSetById(id);
-                    LabelDisplay.Text += id + ", ";
+                    TermSet termSetToDelete = TermSetDB.GetTermSetById(id);
+                    DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
+                    if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += termSetToDelete.Name + " ";
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
-                    TermDB.DeleteTermById(id);
-                    LabelDisplay.Text += id + ", ";
+                    string termName = TermDB.GetTermById(id).Name;
+                    if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += termName + " ";
                 }
                 else
                 {
@@ -428,6 +436,22 @@ namespace EventHandlingSystem
                 }
             }
             TreeViewTaxonomy.Nodes.Clear();
+        }
+
+        private void DeleteAllChildTermsAndTermSetsForTermSet(TermSet termSet)
+        {
+            foreach (var t in termSet.Term)
+            {
+                if (TermDB.DeleteTermById(t.Id) != 0) LabelDisplay.Text += t.Name + " ";
+            }
+
+            foreach (var tS in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
+            {
+                DeleteAllChildTermsAndTermSetsForTermSet(tS);
+
+                if (TermSetDB.DeleteTermSetById(tS.Id) != 0)
+                    LabelDisplay.Text += tS.Name + " ";
+            }
         }
         #endregion
 
@@ -471,10 +495,16 @@ namespace EventHandlingSystem
                 Created = originalTax.Created
             };
 
-            LabelMessageTax.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            LabelMessageTax.Text = TaxonomyDB.UpdateTaxonomy(tax) != 0
-                ? "Taxonomy was updated"
-                : "Taxonomy couldn't be updated";
+            if (TaxonomyDB.UpdateTaxonomy(tax) != 0)
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+                LabelMessageTax.Text = "Taxonomy was updated";
+            }
+            else
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelMessageTax.Text = "Taxonomy couldn't be updated";
+            }
         }
         #endregion
 
@@ -493,10 +523,16 @@ namespace EventHandlingSystem
                 TaxonomyId = originalTermSet.TaxonomyId
             };
 
-            LabelMessageTS.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            LabelMessageTS.Text = TermSetDB.UpdateTermSet(tS) != 0
-                ? "Termset was updated"
-                : "Termset couldn't be updated";
+            if (TermSetDB.UpdateTermSet(tS) != 0)
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+                LabelMessageTS.Text = "Termset was updated";
+            }
+            else
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelMessageTS.Text = "Termset couldn't be updated";
+            }
         }
         #endregion
 
@@ -514,8 +550,17 @@ namespace EventHandlingSystem
                 TermSet = new Collection<TermSet>(){TermSetDB.GetTermSetById(int.Parse(DropDownListTermSetForTerm.SelectedValue))}
 
             };
-            LabelMessageT.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            LabelMessageT.Text = TermDB.UpdateTerm(term) != 0 ? "Term was updated" : "Term couldn't be updated";
+            
+            if (TermDB.UpdateTerm(term) != 0)
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+                LabelMessageT.Text = "Term was updated";
+            }
+            else
+            {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelMessageT.Text = "Term couldn't be updated";
+            }
         }
         #endregion
         #endregion
@@ -540,6 +585,9 @@ namespace EventHandlingSystem
                     Value = termSet.Id.ToString()
                 });
             }
+
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         protected void BtnCreateTermSet_OnClick(object sender, EventArgs e)
@@ -562,6 +610,9 @@ namespace EventHandlingSystem
                     Value = termSet.Id.ToString()
                 });
             }
+
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         protected void BtnCreateT_OnClick(object sender, EventArgs e)

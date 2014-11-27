@@ -13,6 +13,15 @@ namespace EventHandlingSystem {
     public partial class TaxonomyControl {
         
         /// <summary>
+        /// CreateBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl CreateBox;
+        
+        /// <summary>
         /// MultiViewCreate control.
         /// </summary>
         /// <remarks>
@@ -155,6 +164,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LabelMessageCreateTS;
+        
+        /// <summary>
+        /// EditBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl EditBox;
         
         /// <summary>
         /// MultiViewEdit control.
