@@ -183,7 +183,6 @@ namespace EventHandlingSystem
             //Gömmer "Create view".
             MultiViewCreate.ActiveViewIndex = -1;
             
-
             //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
             
@@ -225,6 +224,7 @@ namespace EventHandlingSystem
                     MultiViewEdit.ActiveViewIndex = 1;
 
                     TermSet tS = TermSetDB.GetTermSetById(id);
+                    LabelTaxNameTSView.Text = tS.Taxonomy.Name;
                     LabelIdTS.Text = tS.Id.ToString();
                     TxtBoxNameTS.Text = tS.Name;
                     LabelCreatedTS.Text = "<b>Created:</b> " + tS.Created.ToString("yyyy-MM-dd HH:mm");
@@ -251,6 +251,7 @@ namespace EventHandlingSystem
                     MultiViewEdit.ActiveViewIndex = 2;
 
                     Term t = TermDB.GetTermById(id);
+                    LabelTaxNameTView.Text = t.TermSet.FirstOrDefault().Taxonomy.Name;
                     LabelIdT.Text = t.Id.ToString();
                     TxtBoxNameT.Text = t.Name;
                     LabelCreatedT.Text = "<b>Created:</b> " + t.Created.ToString("yyyy-MM-dd HH:mm");
@@ -351,6 +352,16 @@ namespace EventHandlingSystem
         #region BtnDelete_OnClick
         protected void BtnDelete_OnClick(object sender, EventArgs e)
         {
+            //Gömmer "Create view".
+            MultiViewCreate.ActiveViewIndex = -1;
+
+            //Gömmer "Edit view".
+            MultiViewEdit.ActiveViewIndex = -1;
+
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
+
             //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
 
@@ -385,7 +396,8 @@ namespace EventHandlingSystem
                     }
                     else
                     {
-                        DeleteAllCheckedItemsInTreeView(CheckedTreeNodes);
+                        LabelDisplay.Text = "You can't delete taxonomies!";
+                        //ConfirmDeletion(CheckedTreeNodes);
                     }
                 }
                 else if (type == "termset" && int.TryParse(strId, out id))
@@ -396,7 +408,7 @@ namespace EventHandlingSystem
                     }
                     else
                     {
-                        DeleteAllCheckedItemsInTreeView(CheckedTreeNodes);
+                        ConfirmDeletion(CheckedTreeNodes);
                     }
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
@@ -407,7 +419,7 @@ namespace EventHandlingSystem
                     }
                     else
                     {
-                        DeleteAllCheckedItemsInTreeView(CheckedTreeNodes);
+                        ConfirmDeletion(CheckedTreeNodes);
                     }
                 }
                 else
@@ -423,27 +435,100 @@ namespace EventHandlingSystem
         #endregion
 
 
-        #region DeleteAllCheckedItemsInTreeView
-        private void DeleteAllCheckedItemsInTreeView(List<TreeNode> nodes)
+        #region BtnConfirmDeletion_OnClick mm.
+
+        private void ConfirmDeletion(List<TreeNode> nodes)
         {
-            LabelDisplay.Text = "Deleted: ";
+            //Visar Delete(Create)View
+            MultiViewCreate.ActiveViewIndex = 3;
 
-            //foreach (TreeNode checkedNode in TreeViewTaxonomy.CheckedNodes)
-            //{
-            //    LabelDisplay.Text += checkedNode.Value + " ";
-            //}
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
 
-            //För varje TreeNode i listan 'nodes' kontrolleras vilken typ objekt är som ska tas bort.
-            foreach (TreeNode treeNode in nodes)
+            //Kommer innehålla nodvärde.
+            string nodeValue;
+
+            //Kommer innehålla Id för objekt från taxonomin.
+            string strId;
+
+            //Kommer innehålla Type(ex. term, termset eller taxonomi) för objekt från taxonomin.
+            string type;
+
+            CheckBoxListItemsToDelete.Items.Clear();
+            foreach (var treeNode in nodes)
             {
                 //Lägger in nodens värde.
-                string nodeValue = treeNode.Value;
+                nodeValue = treeNode.Value;
 
                 //Delar upp nodens värde till Id delen.
-                string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+                strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
                 //Delar upp nodens värde till type delen.
-                string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+                type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+
+                //Ger texten en röd färg (LabelWarning inneåller endast varningar i denna metoden).
+                LabelWarning.Style.Add(HtmlTextWriterStyle.Color, "red");
+
+                //Här tas olika typer av objekt bort på olika sätt.
+                int id;
+                if (type == "taxonomy" && int.TryParse(strId, out id))
+                {
+                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Taxonomi*) " + treeNode.Text, treeNode.Value));
+                    LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
+                }
+                else if (type == "termset" && int.TryParse(strId, out id))
+                {
+                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Termset*) " + treeNode.Text, treeNode.Value));
+                    LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
+                }
+                else if (type == "term" && int.TryParse(strId, out id))
+                {
+                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Term) " + treeNode.Text, treeNode.Value));
+                }
+                else
+                {
+                    LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
+                }
+
+            }
+        }
+
+        protected void BtnConfirmDeletion_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> items = new List<ListItem>();
+            foreach (ListItem item in CheckBoxListItemsToDelete.Items)
+            {
+                if (item.Selected) { items.Add(item); }
+            }
+
+            //Ta bort checkade objekt i ConfirmDeletionCheckBoxList.
+            DeleteAllItemsInList(items);
+
+            //Gömmer Delete(Create)View
+            MultiViewCreate.ActiveViewIndex = -1;
+
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
+
+        }
+
+        private void DeleteAllItemsInList(List<ListItem> items)
+        {
+            LabelDisplay.Text = "Deleted: ";
+            
+            //För varje ListItem i listan 'items' kontrolleras vilken typ objekt är som ska tas bort.
+            foreach (ListItem treeNode in items)
+            {
+                //Lägger in nodens värde.
+                string itemValue = treeNode.Value;
+
+                //Delar upp nodens värde till Id delen.
+                string strId = itemValue.Substring(itemValue.IndexOf('_') + 1);
+
+                //Delar upp nodens värde till type delen.
+                string type = itemValue.Substring(0, itemValue.IndexOf('_'));
 
                 //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
                 LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
@@ -452,27 +537,32 @@ namespace EventHandlingSystem
                 int id;
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
-                    //TaxonomyDB.DeleteTaxonomyById(id);
-                    //LabelDisplay.Text += id + ", ";
-                    LabelDisplay.Text = "A taxonomi can't be deleted!";
+                    Taxonomy taxonomyToDelete = TaxonomyDB.GetTaxonomyById(id);
+                    foreach (TermSet termSet in TermSetDB.GetTermSetsByTaxonomy(taxonomyToDelete))
+                    {
+                        DeleteAllChildTermsAndTermSetsForTermSet(termSet);
+                    }
+                    if (taxonomyToDelete != null)
+                    {
+                        if (TaxonomyDB.DeleteTaxonomyById(id) != 0) LabelDisplay.Text += id + "<br>";
+                    }
                 }
                 else if (type == "termset" && int.TryParse(strId, out id))
                 {
                     TermSet termSetToDelete = TermSetDB.GetTermSetById(id);
-                    DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
                     if (termSetToDelete != null)
                     {
-                        if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += termSetToDelete.Name + " ";
+                        DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
+                        if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += termSetToDelete.Name + "<br>";
                     }
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
-                    Term t = TermDB.GetTermById(id);
-                    if (t != null)
+                    Term termToDelete = TermDB.GetTermById(id);
+                    if (termToDelete != null)
                     {
-                        if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += t.Name + " ";
+                        if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += termToDelete.Name + "<br>";
                     }
-
                 }
                 else
                 {
@@ -493,7 +583,7 @@ namespace EventHandlingSystem
                 if (term != null)
                 {
                     //Tar bort Terms och visar att de gick att ta bort.
-                    if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += term.Name + " ";
+                    if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += term.Name + "<br>";
                 }
             }
 
@@ -506,7 +596,7 @@ namespace EventHandlingSystem
                 {
                     //Tar bort TermSets och visar att de gick att ta bort.
                     if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
-                        LabelDisplay.Text += termS.Name + " ";
+                        LabelDisplay.Text += termS.Name + "<br>";
                 }
             }
         }
@@ -739,5 +829,6 @@ namespace EventHandlingSystem
         }
         #endregion
 
+        
     }
 }
