@@ -466,9 +466,11 @@ fieldset
 
 label
 {
-    display: block;
+    display: inline-block; /*old - block*/
     font-size: 1.2em;
     font-weight: 600;
+    margin-left: 15px; /*added*/
+
 }
 
     label.checkbox

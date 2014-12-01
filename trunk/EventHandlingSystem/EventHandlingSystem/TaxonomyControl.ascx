@@ -1,8 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TaxonomyControl.ascx.cs" Inherits="EventHandlingSystem.TaxonomyControl" %>
-
-
-<br />
-<div class="content-box">
     <div class="titlebox">
         <h1>Create your terms here ^^v</h1>
     </div>
@@ -52,6 +48,17 @@
                 <br />
                 <br />
             </asp:View>
+            <asp:View ID="ViewDelete" runat="server">
+                <h2>Do you want to delete these?</h2>
+                <br />
+                <br />                
+                <asp:CheckBoxList ID="CheckBoxListItemsToDelete" runat="server"></asp:CheckBoxList>
+                <br />
+                <br />
+                <asp:Label ID="LabelWarning" runat="server" Text=""></asp:Label>
+                <br />
+                <asp:Button ID="BtnConfirmDeletion" runat="server" Text="Confirm deletion" OnClick="BtnConfirmDeletion_OnClick" />
+            </asp:View>
         </asp:MultiView>
     </div>
 
@@ -61,7 +68,7 @@
             <h2>Edit taxonomy item</h2>
             <br />
             <br />
-            <asp:Label ID="LabelIdTxtTax" runat="server" Text="Id: " CssClass="bold-txt"></asp:Label><asp:Label ID="LabelIdTax" runat="server" Text=""></asp:Label>
+            <span><b>Id: </b></span><asp:Label ID="LabelIdTax" runat="server" Text=""></asp:Label>
             <br />
             <br />
             <span><b>Name: </b></span>
@@ -81,7 +88,10 @@
             <h2>Edit Termset item</h2>
             <br />
             <br />
-            <asp:Label ID="LabelIdTxtTS" runat="server" Text="Id: " CssClass="bold-txt"></asp:Label><asp:Label ID="LabelIdTS" runat="server" Text=""></asp:Label>
+            <span><b>Taxonomy name: </b></span><asp:Label ID="LabelTaxNameTSView" runat="server" Text=""></asp:Label>
+            <br />
+            <br />
+            <span><b>Id: </b></span><asp:Label ID="LabelIdTS" runat="server" Text=""></asp:Label>
             <br />
             <br />
             <span><b>Name: </b></span>
@@ -105,7 +115,10 @@
             <h2>Edit Term item</h2>
             <br />
             <br />
-            <asp:Label ID="LabelIdTxtT" runat="server" Text="Id: " CssClass="bold-txt"></asp:Label><asp:Label ID="LabelIdT" runat="server" Text="Label"></asp:Label>
+            <span><b>Taxonomy name: </b></span><asp:Label ID="LabelTaxNameTView" runat="server" Text=""></asp:Label>
+            <br />
+            <br />
+            <span><b>Id: </b></span><asp:Label ID="LabelIdT" runat="server" Text="Label"></asp:Label>
             <br />
             <br />
             <span><b>Name: </b></span>
@@ -145,7 +158,7 @@
         <asp:Button ID="BtnDelete" runat="server" Text="Delete" OnClick="BtnDelete_OnClick" />
     </div>
 </div>
-</div>
+
 <br />
 
 
