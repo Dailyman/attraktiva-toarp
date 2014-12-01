@@ -13,6 +13,87 @@ namespace EventHandlingSystem {
     public partial class TaxonomyControl {
         
         /// <summary>
+        /// BtnPublishTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnPublishTax;
+        
+        /// <summary>
+        /// BtnCategoryTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCategoryTax;
+        
+        /// <summary>
+        /// BtnCustomCategoryTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCustomCategoryTax;
+        
+        /// <summary>
+        /// TreeViewTaxonomy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TreeView TreeViewTaxonomy;
+        
+        /// <summary>
+        /// LabelDisplay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelDisplay;
+        
+        /// <summary>
+        /// BtnClearSelected control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnClearSelected;
+        
+        /// <summary>
+        /// BtnEdit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnEdit;
+        
+        /// <summary>
+        /// BtnCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnCreate;
+        
+        /// <summary>
+        /// BtnDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnDelete;
+        
+        /// <summary>
         /// CreateBox control.
         /// </summary>
         /// <remarks>
@@ -85,6 +166,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameCreateT;
         
         /// <summary>
+        /// RequiredFieldValidatorCreateTerm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorCreateTerm;
+        
+        /// <summary>
         /// DropDownListTInTS control.
         /// </summary>
         /// <remarks>
@@ -137,6 +227,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameCreateTS;
+        
+        /// <summary>
+        /// RequiredFieldValidatorCreateTermSet control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorCreateTermSet;
         
         /// <summary>
         /// DropDownListCreateParentTS control.
@@ -247,6 +346,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameTax;
         
         /// <summary>
+        /// RequiredFieldValidatorEditTax control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorEditTax;
+        
+        /// <summary>
         /// LabelCreatedTax control.
         /// </summary>
         /// <remarks>
@@ -308,6 +416,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameTS;
+        
+        /// <summary>
+        /// RequiredFieldValidatorEditTS control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorEditTS;
         
         /// <summary>
         /// DropDownListEditParentTS control.
@@ -382,6 +499,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxNameT;
         
         /// <summary>
+        /// RequiredFieldValidatorEditT control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorEditT;
+        
+        /// <summary>
         /// DropDownListTermSetForTerm control.
         /// </summary>
         /// <remarks>
@@ -416,86 +542,5 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LabelMessageT;
-        
-        /// <summary>
-        /// BtnPublishTax control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnPublishTax;
-        
-        /// <summary>
-        /// BtnCategoryTax control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnCategoryTax;
-        
-        /// <summary>
-        /// BtnCustomCategoryTax control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnCustomCategoryTax;
-        
-        /// <summary>
-        /// TreeViewTaxonomy control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TreeView TreeViewTaxonomy;
-        
-        /// <summary>
-        /// LabelDisplay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelDisplay;
-        
-        /// <summary>
-        /// BtnClearSelected control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnClearSelected;
-        
-        /// <summary>
-        /// BtnEdit control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnEdit;
-        
-        /// <summary>
-        /// BtnCreate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnCreate;
-        
-        /// <summary>
-        /// BtnDelete control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnDelete;
     }
 }
