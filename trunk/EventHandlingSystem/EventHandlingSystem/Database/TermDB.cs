@@ -27,7 +27,7 @@ namespace EventHandlingSystem.Database
 
         public static int CreateTerm(Term term)
         {
-            Term termToCreate = new Term()
+            Term termToCreate = new Term
             {
                 Name = !string.IsNullOrWhiteSpace(term.Name) ? term.Name : "Untitled",
                 TermSet = term.TermSet,

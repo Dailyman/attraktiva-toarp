@@ -36,7 +36,7 @@ namespace EventHandlingSystem
                     {
                         listItems.Add(new ListItem
                         {
-                            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
+                            Text = associationTerm.Name,
                             Value = associationTerm.Id.ToString()
                         });
                     }

@@ -9,6 +9,17 @@
     <br />
     <br />
     <div class="content-box">
+        <div class="titlebox">
+        <h1>Taxonomy Manager</h1>
+    </div>
         <aspTaxonomy:TaxonomyHandler runat="server" />
+    </div>
+    <br />
+    <br />
+    <div class="content-box">
+        <div class="titlebox">
+        <h1>Community/Association Manager</h1>
+    </div>
+        
     </div>
 </asp:Content>
