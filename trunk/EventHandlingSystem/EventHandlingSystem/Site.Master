@@ -1,5 +1,7 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="EventHandlingSystem.SiteMaster" %>
 
+<%@ Register TagPrefix="aspNavigation" TagName="SiteNavigation" Src="Navigation.ascx" %>
+
 <!DOCTYPE html>
 <html lang="en">
 <head runat="server">
@@ -77,6 +79,9 @@
         </div>
     </header>
     <div id="body">
+        <section id="Site-navigation">
+            <aspNavigation:SiteNavigation runat="server" />
+        </section>
         <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
         <section class="content-wrapper main-content clear-fix">
             <asp:ContentPlaceHolder runat="server" ID="MainContent" />

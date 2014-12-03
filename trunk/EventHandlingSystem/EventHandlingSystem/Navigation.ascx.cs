@@ -25,14 +25,15 @@ namespace EventHandlingSystem
 
             if (tax != null)
             {
-                TreeNode taxNode = new TreeNode
+                TreeNode startNode = new TreeNode
                 {
-                    Text = tax.Name,
+                    Text = "Start",
                     Value = tax.Id.ToString(),
-                    SelectAction = TreeNodeSelectAction.Expand
+                    Expanded = true,
+                    SelectAction = TreeNodeSelectAction.Select
                 };
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
-                treeView.Nodes.Add(taxNode);
+                treeView.Nodes.Add(startNode);
 
                 //Hämtar all TermSets som ligger på den översta nivån i taxonomin
                 List<TermSet> parentTermSets = TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
@@ -44,10 +45,10 @@ namespace EventHandlingSystem
                     {
                         Text = parentTermSet.Name,
                         Value = parentTermSet.Id.ToString(),
-                        ShowCheckBox = true,
-                        SelectAction = TreeNodeSelectAction.Expand
+                        Expanded = false,
+                        SelectAction = TreeNodeSelectAction.Select
                     };
-                    taxNode.ChildNodes.Add(node);
+                    startNode.ChildNodes.Add(node);
 
                     //För att hitta alla ChildNodes till den aktuella ParentNoden.
                     FindChildNodesAndAddToParentNode(parentTermSet, node);
@@ -65,8 +66,8 @@ namespace EventHandlingSystem
                 {
                     Text = ts.Name,
                     Value = ts.Id.ToString(),
-                    ShowCheckBox = true,
-                    SelectAction = TreeNodeSelectAction.Expand
+                    Expanded = false,
+                    SelectAction = TreeNodeSelectAction.Select
                 };
 
                 parentNode.ChildNodes.Add(childNode);

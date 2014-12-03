@@ -137,6 +137,7 @@
     <Content Include="favicon.ico" />
     <Content Include="Images\folder_16x16.png" />
     <Content Include="Images\folder_25x25.png" />
+    <Content Include="Images\img-noise-361x370.png" />
     <Content Include="Images\Tag-16_cyan.png" />
     <Content Include="Images\tag_25x25.png" />
     <Content Include="Images\tag_16x16.png" />
