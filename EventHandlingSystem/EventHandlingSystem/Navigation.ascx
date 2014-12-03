@@ -13,4 +13,10 @@
     
 </script>
 <div id="toggle-btn" class="arrow-left"></div>
-<asp:TreeView ID="TreeViewNavigation" runat="server" OnSelectedNodeChanged="TreeViewNavigation_OnSelectedNodeChanged"></asp:TreeView>
+<asp:TreeView ID="TreeViewNavigation" runat="server" OnSelectedNodeChanged="TreeViewNavigation_OnSelectedNodeChanged"
+            ExpandImageUrl="~/Images/icon-arrow-right-b-16.png"
+            CollapseImageUrl="~/Images/icon-arrow-down-b-16.png"
+    
+            SelectedNodeStyle-BackColor="Cyan"
+            SelectedNodeStyle-CssClass="selectedNodesNav">
+</asp:TreeView>

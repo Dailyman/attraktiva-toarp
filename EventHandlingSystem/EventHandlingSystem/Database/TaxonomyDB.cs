@@ -21,6 +21,7 @@ namespace EventHandlingSystem.Database
 
         public static Taxonomy GetPublishingTaxonomy()
         {
+            //Publishing Taxonomy är först i Taxonomi-tabellen och har id=1.
             return GetTaxonomyById(1);
         }
         public static Taxonomy GetCategoryTaxonomy()
@@ -46,9 +47,10 @@ namespace EventHandlingSystem.Database
         {
             Taxonomy taxonomyToDelete = GetTaxonomyById(id);
 
-            if (taxonomyToDelete != null) 
+            if (taxonomyToDelete != null)
+            {
                 taxonomyToDelete.IsDeleted = true;
-
+            }
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }

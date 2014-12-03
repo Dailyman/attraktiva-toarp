@@ -204,7 +204,8 @@ namespace EventHandlingSystem
             //Lägger till alla CheckedTreeNodes i listan.
             foreach (TreeNode node in TreeViewTaxonomy.CheckedNodes)
             {
-                if (node.Checked) CheckedTreeNodes.Add(node);
+                if (node.Checked) 
+                    CheckedTreeNodes.Add(node);
             }
 
             //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
@@ -344,16 +345,10 @@ namespace EventHandlingSystem
                 LabelDisplay.Text = "Select a taxonomy to edit in!";
             }
 
-
-
-
             
-
             //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
-
-            
         }
 
         #endregion
@@ -363,7 +358,7 @@ namespace EventHandlingSystem
 
         protected void BtnCreate_OnClick(object sender, EventArgs e)
         {
-            //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
+            //Ger Displaytexten en röd färg (Displaytexten innehåller endast varningar i denna metoden).
             LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
             if (TreeViewTaxonomy.Nodes.Count != 0)

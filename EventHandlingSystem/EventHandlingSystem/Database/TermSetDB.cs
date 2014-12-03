@@ -26,6 +26,7 @@ namespace EventHandlingSystem.Database
 
         public static List<TermSet> GetAllParentTermSetsByTaxonomy(Taxonomy tax)
         {
+            //Om en termset inte har ett ParentTermSetId är det själv en parent
             return GetTermSetsByTaxonomy(tax).Where(ts => ts.ParentTermSetId.Equals(null)).ToList();
         }
 
