@@ -5,6 +5,7 @@
 {
     position: absolute;
     margin-top: 10px;
+    padding-left: 10px;
     left: 0;
     margin-bottom: 50px;
     padding-right: 30px;
@@ -28,11 +29,10 @@
 
 .selectedNodesNav
 {
-    border: 1px pink solid;
+    border: 1px cyan solid;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    radius
 }
 
 #toggle-btn {
