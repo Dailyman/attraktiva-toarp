@@ -26,6 +26,15 @@
     padding: 0;
 }
 
+.selectedNodesNav
+{
+    border: 1px pink solid;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    radius
+}
+
 #toggle-btn {
      position: absolute;
     margin-top: 10px;
@@ -110,6 +119,7 @@ border-color: transparent transparent transparent #007bff;
     box-shadow: 0px 0px 3px rgba(0,0,0,0.55);
     background-image: -webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#cecece));
     background-image: -moz-linear-gradient(top,#E0E0E0,#cecece);
+    background-color: #E0E0E0;
 }
 
 .inner-content-box {

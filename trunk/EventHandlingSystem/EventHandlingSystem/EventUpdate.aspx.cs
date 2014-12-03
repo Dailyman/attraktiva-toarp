@@ -48,7 +48,7 @@ namespace EventHandlingSystem
                 }
                 //Slut 'lägger till objekt i associationdropdownlist'. 
 
-                //Gömmer kaledrarna från början.
+                //Gömmer kalendrarna från början.
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
 
@@ -95,11 +95,11 @@ namespace EventHandlingSystem
             int id;
             if (!string.IsNullOrWhiteSpace(Request.QueryString["Id"]) && int.TryParse(Request.QueryString["Id"], out id))
             {
-                //Om denna retuneras...
+                //Om denna returneras...
                 return EventDB.GetEventById(id);
             }
             
-            //...kommer denna ej retuneras
+            //...kommer denna ej returneras
             return null;
         }
         #endregion
@@ -108,7 +108,7 @@ namespace EventHandlingSystem
         #region ChkBoxDayEvent_OnCheckedChanged
         protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
         {
-            //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
+            //Gömmer tidsTextboxarna om man checkar heldagscheckboxen.
             TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;

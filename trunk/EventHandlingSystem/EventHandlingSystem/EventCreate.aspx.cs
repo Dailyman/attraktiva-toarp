@@ -37,6 +37,7 @@ namespace EventHandlingSystem
                         listItems.Add(new ListItem
                         {
                             Text = associationTerm.Name,
+                            //Text = associationTerm.Name, //Denna verkar också funka, men de är inte samma ju...?
                             Value = associationTerm.Id.ToString()
                         });
                     }
@@ -56,7 +57,7 @@ namespace EventHandlingSystem
                 TxtBoxEndTime.Text = "00:00";
                 CalendarEndDate.SelectedDate = DateTime.Now.Date;
 
-                //Gömmer kaledrarna från början. 
+                //Gömmer kalendrarna från början. 
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
                 
@@ -190,7 +191,7 @@ namespace EventHandlingSystem
                 CreatedBy = HttpContext.Current.User.Identity.Name
             };
             
-            //Ger LabelMessage en större font-storlek som visar om eventet kunde skapas eller ej (!!om evenemanget kunde skapas skickas användaren just nu till dessa visningssida!!). 
+            //Ger LabelMessage en större font-storlek som visar om eventet kunde skapas eller ej (!!om evenemanget kunde skapas skickas användaren just nu till denna visningssida!!). 
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(@event))
             {

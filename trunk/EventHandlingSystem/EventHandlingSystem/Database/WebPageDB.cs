@@ -14,7 +14,7 @@ namespace EventHandlingSystem.Database
             return Context.WebPages.Where(wP => !wP.IsDeleted);
         }
 
-        //Ta bort denna?
+        //Ta bort denna? -Kan väl spara den, vem vet om vi behöver använda den i framtiden? =P
         public static List<WebPage> GetAllWebPages()
         {
             return GetAllNotDeletedWebPages().ToList();

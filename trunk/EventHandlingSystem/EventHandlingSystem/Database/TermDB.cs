@@ -42,7 +42,6 @@ namespace EventHandlingSystem.Database
 
         public static int UpdateTerm(Term term)
         {
-
             Term termToUpdate = GetTermById(term.Id);
             termToUpdate.Name = term.Name;
             termToUpdate.TermSet = term.TermSet;

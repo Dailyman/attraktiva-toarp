@@ -19,7 +19,7 @@ namespace EventHandlingSystem
             string stId = Request.QueryString["Id"];
 
             //Lägger till alla evenemang som ListItems, Titel(Text) och Id(Value), i DropDownListan.
-            foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday(12))
+            foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
             {
                 DropDownListEvents.Items.Add(new ListItem(ev.Title, ev.Id.ToString()));
             }
@@ -31,7 +31,7 @@ namespace EventHandlingSystem
                 //Hämtar evenemanget som skall visas.
                 var @event = EventDB.GetEventById(id);
 
-                //Om evenemaget fanns i DBn läggs all dess information in i på sidan.
+                //Om evenemanget fanns i DBn läggs all dess information in på sidan.
                 if (@event != null)
                 {
                     //Skapar alla olika controls med informationen.
@@ -85,7 +85,7 @@ namespace EventHandlingSystem
                     var latestUpdate = new HtmlGenericControl("p") { InnerHtml = "<b>Latest update:</b> " + @event.LatestUpdate };
                     var updatedBy = new HtmlGenericControl("p") { InnerHtml = "<b>Updated by:</b> " + @event.UpdatedBy };
                     var updateLink = new HtmlAnchor() {HRef = "~/EventUpdate?Id=" + @event.Id, InnerText = "Update the event here!"};
-
+                    
 
                     //Lägger in alla skapade controls i Main(en Div-tag på sidan).
                     Main.Controls.Add(title);
@@ -112,7 +112,7 @@ namespace EventHandlingSystem
                 }
                 else
                 {
-                    //Om evenemanget ej kunde hittas i DBn skriv ett felmeddelande ut på sidan.
+                    //Om evenemanget ej kunde hittas i DBn skrivs ett felmeddelande ut på sidan.
                     var error = new HtmlGenericControl("h4") {InnerHtml = "The event does not exist!"};
                     Main.Controls.Add(error);
                 }
@@ -120,7 +120,7 @@ namespace EventHandlingSystem
             }
             else
             {
-                //Om Id värdet som tas från URLn INTE är i giltigt format skrivs ett felmeddelande ut på sidan.
+                //Om Id-värdet som tas från URLn INTE är i giltigt format skrivs ett felmeddelande ut på sidan.
                 var error = new HtmlGenericControl("h4") { InnerHtml = "Use a correct event ID to show the event!"};
                 Main.Controls.Add(error);
             }
