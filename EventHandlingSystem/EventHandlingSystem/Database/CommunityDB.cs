@@ -23,5 +23,10 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedCommunities().ToList();
         }
+
+        public static Community GetCommunityByPublishingTermSetId(int id)
+        {
+            return GetAllNotDeletedCommunities().SingleOrDefault(c => c.PublishingTermSetId.Equals(id));
+        }
     }
 }

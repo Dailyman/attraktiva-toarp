@@ -46,6 +46,7 @@ namespace EventHandlingSystem
                         Text = parentTermSet.Name,
                         Value = parentTermSet.Id.ToString(),
                         Expanded = false,
+                        NavigateUrl = "SitePage.aspx?id="+ CommunityDB.GetCommunityByPublishingTermSetId(parentTermSet.Id).WebPage.Id,
                         SelectAction = TreeNodeSelectAction.Select
                     };
                     startNode.ChildNodes.Add(node);
@@ -67,6 +68,7 @@ namespace EventHandlingSystem
                     Text = ts.Name,
                     Value = ts.Id.ToString(),
                     Expanded = false,
+                    NavigateUrl = "SitePage.aspx?id=" + AssociationDB.GetAssociationByPublishingTermSetId(ts.Id).WebPage.Id,
                     SelectAction = TreeNodeSelectAction.Select
                 };
 

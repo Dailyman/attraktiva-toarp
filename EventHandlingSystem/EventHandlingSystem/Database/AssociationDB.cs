@@ -24,6 +24,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Id.Equals(id));
         }
 
+        public static Association GetAssociationByPublishingTermSetId(int id)
+        {
+            return GetAllNotDeletedAssociations().SingleOrDefault(a => a.PublishingTermSetId.Equals(id));
+        }
+
         public static List<Association> GetAllAssociationsInCommunity(Community com)
         {
             return GetAllAssociations().Where(a => a.Community.Equals(com)).ToList();
