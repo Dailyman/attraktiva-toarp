@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
+using Microsoft.Ajax.Utilities;
 
 namespace EventHandlingSystem
 {
@@ -14,7 +15,28 @@ namespace EventHandlingSystem
         {
             if (!IsPostBack)
             {
-                AddNodesToTreeView(TreeViewNavigation, 1);
+                AddNodesToTreeView(TreeViewNavigation, 1); 
+            }
+
+            foreach (TreeNode node in TreeViewNavigation.Nodes)
+            {
+                if(node.NavigateUrl == Request.Url.PathAndQuery)
+                {
+                    TreeViewNavigation.FindNode(node.ValuePath).Select();
+                }
+                SelectTreeNodeByNavUrl(node);
+            }
+        }
+
+        private void SelectTreeNodeByNavUrl(TreeNode node)
+        {
+            foreach (TreeNode n in node.ChildNodes)
+            {
+                if (n.NavigateUrl == Request.Url.PathAndQuery)
+                {
+                    TreeViewNavigation.FindNode(n.ValuePath).Select();
+                }
+                SelectTreeNodeByNavUrl(n);
             }
         }
 
@@ -46,7 +68,7 @@ namespace EventHandlingSystem
                         Text = parentTermSet.Name,
                         Value = parentTermSet.Id.ToString(),
                         Expanded = false,
-                        NavigateUrl = "SitePage.aspx?id="+ CommunityDB.GetCommunityByPublishingTermSetId(parentTermSet.Id).WebPage.Id,
+                        NavigateUrl = "/SitePage.aspx?id="+ CommunityDB.GetCommunityByPublishingTermSetId(parentTermSet.Id).WebPage.Id,
                         SelectAction = TreeNodeSelectAction.Select
                     };
                     startNode.ChildNodes.Add(node);
@@ -68,7 +90,7 @@ namespace EventHandlingSystem
                     Text = ts.Name,
                     Value = ts.Id.ToString(),
                     Expanded = false,
-                    NavigateUrl = "SitePage.aspx?id=" + AssociationDB.GetAssociationByPublishingTermSetId(ts.Id).WebPage.Id,
+                    NavigateUrl = "/SitePage.aspx?id=" + AssociationDB.GetAssociationByPublishingTermSetId(ts.Id).WebPage.Id,
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
