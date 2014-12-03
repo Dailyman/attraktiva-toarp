@@ -119,15 +119,16 @@ h5, h6
 #body
 {
     background-color: #5faee3;
+    /*background: url("../Images/img-noise-361x370.png");*/ /*<- new*/
     clear: both;
     padding-bottom: 35px;
 }
 
 .main-content
 {
-    background: url("../Images/accent.png") no-repeat;
-    padding-left: 10px;
-    padding-top: 30px;
+    /*background: url("../Images/accent.png") no-repeat;*/ /*<- old*/
+    padding-left: 100px;    /*old - 10px*/
+    padding-top: 0;         /*old - 30px*/
 }
 
 .featured + .main-content
