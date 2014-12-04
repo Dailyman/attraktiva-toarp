@@ -11,6 +11,10 @@
     <br />
     <div class="content-box">
         <br />
-        <asp:Label ID="LabelTitle" runat="server" Text="Unknown community or association"></asp:Label>
+        <div class="titlebox">
+        <h1><asp:Label ID="LabelTitle" runat="server" Text="Unknown community or association"></asp:Label></h1>
+            </div>
+        <br/><br/>
+        <asp:Label ID="LabelWelcome" runat="server" Text=""></asp:Label>
     </div>
 </asp:Content>

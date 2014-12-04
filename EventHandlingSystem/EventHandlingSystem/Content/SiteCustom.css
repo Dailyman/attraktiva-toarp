@@ -145,6 +145,11 @@ border-color: transparent transparent transparent #007bff;
         padding: 0;
     }
 
+    .inner-content-box input[type="image"] {
+        border: none;
+        vertical-align: middle;
+    }
+
 
 .btn-align-right {
     text-align: right;

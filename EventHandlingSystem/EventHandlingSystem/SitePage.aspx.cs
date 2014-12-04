@@ -33,15 +33,18 @@ namespace EventHandlingSystem
                     {
                         LabelTitle.Text =
                             TermSetDB.GetTermSetById(webPage.Community.PublishingTermSetId).Name;
+                        LabelWelcome.Text = "Welcome to this community!";
                     }
                     else if (webPage.Association != null)
                     {
                         LabelTitle.Text =
                             TermSetDB.GetTermSetById(webPage.Association.PublishingTermSetId).Name;
+                        LabelWelcome.Text = "Welcome to this association!";
                     }
                     else
                     {
-                        LabelTitle.Text = "Startpage?";
+                        LabelTitle.Text = "Unknown";
+                        LabelWelcome.Text = "Empty page?";
                     }
                 }
             }

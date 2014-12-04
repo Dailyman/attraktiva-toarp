@@ -872,8 +872,8 @@ namespace EventHandlingSystem
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
             //h2-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
-            H2CreateTerm.InnerText = "";
-            H2CreateTerm.InnerText = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
+            LabelCreateTerm.Text = "";
+            LabelCreateTerm.Text = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
             //Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
             DropDownListTInTS.Items.Clear();
@@ -902,8 +902,8 @@ namespace EventHandlingSystem
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
             //h2-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
-            H2CreateTermSet.InnerText = "";
-            H2CreateTermSet.InnerText = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
+            LabelCreateTermSet.Text = "";
+            LabelCreateTermSet.Text = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
             //Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
             DropDownListCreateParentTS.Items.Clear();
@@ -1013,5 +1013,9 @@ namespace EventHandlingSystem
 
         #endregion
 
+        protected void ImageButtonBack_OnClick(object sender, ImageClickEventArgs e)
+        {
+            MultiViewCreate.ActiveViewIndex = 0;
+        }
     }
 }

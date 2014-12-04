@@ -135,6 +135,7 @@
     <Content Include="Images\AT-logga.png" />
     <Content Include="Images\Aux_folder_16x16.gif" />
     <Content Include="favicon.ico" />
+    <Content Include="Images\back-32x32.png" />
     <Content Include="Images\folder_16x16.png" />
     <Content Include="Images\folder_25x25.png" />
     <Content Include="Images\icon-arrow-down-b-16.png" />

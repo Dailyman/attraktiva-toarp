@@ -29,7 +29,8 @@
                 <br />
             </asp:View>
             <asp:View ID="ViewTermCreate" runat="server">
-                <h2 id="H2CreateTerm" runat="server"></h2>
+                <h2>
+                    <asp:Label ID="LabelCreateTerm" runat="server" Text="Label"></asp:Label></h2>
                 <br />
                 <br />
                 <span><b>Name: </b></span>
@@ -41,6 +42,7 @@
                 <asp:DropDownList ID="DropDownListTInTS" runat="server"></asp:DropDownList>
                 <br />
                 <br />
+                <asp:ImageButton ID="ImageButtonBack1" runat="server" ImageUrl="Images/back-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonBack_OnClick"/>
                 <asp:Button ID="BtnCreateT" runat="server" Text="Create" OnClick="BtnCreateT_OnClick" ValidationGroup="CreateTerm" />
                 <span style="width: 20px; height: 20px; display: inline-block;"></span>
                 <asp:Label ID="LabelMessageCreateT" runat="server" Text=""></asp:Label>
@@ -48,7 +50,8 @@
                 <br />
             </asp:View>
             <asp:View ID="ViewTermSetCreate" runat="server">
-                <h2 id="H2CreateTermSet" runat="server"></h2>
+                <h2>
+                    <asp:Label ID="LabelCreateTermSet" runat="server" Text="Label"></asp:Label></h2>
                 <br />
                 <br />
                 <span><b>Name: </b></span>
@@ -60,6 +63,7 @@
                 <asp:DropDownList ID="DropDownListCreateParentTS" runat="server"></asp:DropDownList>
                 <br />
                 <br />
+                <asp:ImageButton ID="ImageButtonBack2" runat="server" ImageUrl="Images/back-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonBack_OnClick" />
                 <asp:Button ID="BtnCreateTS" runat="server" Text="Create" OnClick="BtnCreateTS_OnClick" ValidationGroup="CreateTermSet" />
                 <span style="width: 20px; height: 20px; display: inline-block;"></span>
                 <asp:Label ID="LabelMessageCreateTS" runat="server" Text=""></asp:Label>
