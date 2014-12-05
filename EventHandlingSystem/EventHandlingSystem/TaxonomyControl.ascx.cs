@@ -358,6 +358,9 @@ namespace EventHandlingSystem
 
         protected void BtnCreate_OnClick(object sender, EventArgs e)
         {
+            //Gömmer "Edit view".
+            MultiViewEdit.ActiveViewIndex = -1;
+
             //Ger Displaytexten en röd färg (Displaytexten innehåller endast varningar i denna metoden).
             LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
@@ -504,8 +507,8 @@ namespace EventHandlingSystem
 
         private void ConfirmDeletion(List<TreeNode> nodes)
         {
-            //Visar Delete(Create)View
-            MultiViewCreate.ActiveViewIndex = 3;
+            //Visar Delete(Edit)View
+            MultiViewEdit.ActiveViewIndex = 3;
 
             //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
@@ -871,7 +874,7 @@ namespace EventHandlingSystem
             string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
-            //h2-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
+            //h1-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
             LabelCreateTerm.Text = "";
             LabelCreateTerm.Text = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
@@ -901,7 +904,7 @@ namespace EventHandlingSystem
             string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
-            //h2-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
+            //h1-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
             LabelCreateTermSet.Text = "";
             LabelCreateTermSet.Text = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 

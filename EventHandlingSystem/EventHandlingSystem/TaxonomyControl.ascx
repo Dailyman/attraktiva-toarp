@@ -69,18 +69,7 @@
                 <asp:Label ID="LabelMessageCreateTS" runat="server" Text=""></asp:Label>
                 <br />
                 <br />
-            </asp:View>
-            <asp:View ID="ViewDelete" runat="server">
-                <h2>Do you want to delete these?</h2>
-                <br />
-                <br />                
-                <asp:CheckBoxList ID="CheckBoxListItemsToDelete" runat="server"></asp:CheckBoxList>
-                <br />
-                <br />
-                <asp:Label ID="LabelWarning" runat="server" Text=""></asp:Label>
-                <br />
-                <asp:Button ID="BtnConfirmDeletion" runat="server" Text="Confirm deletion" OnClick="BtnConfirmDeletion_OnClick" />
-            </asp:View>
+            </asp:View>           
         </asp:MultiView>
     </div>
 
@@ -163,6 +152,17 @@
             <br />
             <br />
         </asp:View>
+         <asp:View ID="ViewDelete" runat="server">
+                <h2>Do you want to delete these?</h2>
+                <br />
+                <br />                
+                <asp:CheckBoxList ID="CheckBoxListItemsToDelete" runat="server"></asp:CheckBoxList>
+                <br />
+                <br />
+                <asp:Label ID="LabelWarning" runat="server" Text=""></asp:Label>
+                <br />
+                <asp:Button ID="BtnConfirmDeletion" runat="server" Text="Confirm deletion" OnClick="BtnConfirmDeletion_OnClick" />
+            </asp:View>
     </asp:MultiView>
 </div>
 

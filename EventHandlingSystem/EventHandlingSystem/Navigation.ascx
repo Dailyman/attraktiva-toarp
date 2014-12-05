@@ -20,3 +20,4 @@
             SelectedNodeStyle-BackColor="Cyan"
             SelectedNodeStyle-CssClass="selectedNodesNav">
 </asp:TreeView>
+<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>
