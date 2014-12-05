@@ -15,9 +15,10 @@ namespace EventHandlingSystem
         {
             if (!IsPostBack)
             {
-                AddNodesToTreeView(TreeViewNavigation, 1); 
+               AddNodesToTreeView(TreeViewNavigation, 1); 
             }
 
+            //Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
             foreach (TreeNode node in TreeViewNavigation.Nodes)
             {
                 if(node.NavigateUrl == Request.Url.PathAndQuery)
@@ -28,20 +29,25 @@ namespace EventHandlingSystem
             }
         }
 
+        //Går igenom childnodes för att hitta och markera den aktiva sidan/länken/noden i navigeringen.
         private void SelectTreeNodeByNavUrl(TreeNode node)
         {
             foreach (TreeNode n in node.ChildNodes)
             {
                 if (n.NavigateUrl == Request.Url.PathAndQuery)
                 {
-                    TreeViewNavigation.FindNode(n.ValuePath).Select();
+                    TreeViewNavigation.FindNode(n.ValuePath).Select(); 
+                    LabelDisplay.Text += "<br>" + n.ValuePath + ","; // <- Remove
                 }
                 SelectTreeNodeByNavUrl(n);
             }
         }
 
+       
+
         private void AddNodesToTreeView(TreeView treeView, int taxId)
         {
+            TreeViewNavigation.Nodes.Clear();
             //Hämtar taxonomin
             Taxonomy tax = TaxonomyDB.GetTaxonomyById(taxId);
 
@@ -60,7 +66,7 @@ namespace EventHandlingSystem
                 //Hämtar all TermSets som ligger på den översta nivån i taxonomin
                 List<TermSet> parentTermSets = TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
 
-                //Lägger till alla ParentNodes (ex. Äspered).
+                //Lägger till alla ParentNodes (ex. Äspered/Orter).
                 foreach (var parentTermSet in parentTermSets)
                 {
                     TreeNode node = new TreeNode
@@ -80,24 +86,75 @@ namespace EventHandlingSystem
             }
         }
 
+        private List<TreeNode> associationTypesNodes = new List<TreeNode>();
+
         private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
         {
-            //Lägger till alla ChildrenNodes (ex. Vikingen IF).
+            //Lägger till alla ChildrenNodes (ex. Vikingen IF/Föreningar).
             foreach (var ts in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id).OrderBy(ts => ts.Name).ToList())
             {
+                Association a = AssociationDB.GetAssociationByPublishingTermSetId(ts.Id);
+
                 TreeNode childNode = new TreeNode
                 {
                     Text = ts.Name,
                     Value = ts.Id.ToString(),
                     Expanded = false,
-                    NavigateUrl = "/SitePage.aspx?id=" + AssociationDB.GetAssociationByPublishingTermSetId(ts.Id).WebPage.Id,
+                    NavigateUrl = "/SitePage.aspx?id=" + a.WebPage.Id,
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
-                parentNode.ChildNodes.Add(childNode);
+                if (a.ParentAssociationId == null)
+                {
+                    if (a.AssociationType == null)
+                    {
+                        TreeNode uncategorized = new TreeNode()
+                        {
+                            Text = "Övrigt",
+                            Value = "Övrigt-" + parentNode.Value,
+                            Expanded = false,
+                            SelectAction = TreeNodeSelectAction.Expand
+                        };
+                        if (!associationTypesNodes.Exists(
+                                categoryNode => categoryNode.Value.Equals("Övrigt-" + parentNode.Value)))
+                        {
+                            parentNode.ChildNodes.Add(uncategorized);
+                            associationTypesNodes.Add(uncategorized);
+                        }
+
+                        associationTypesNodes.Find(t => t.Value.Equals("Övrigt-" + parentNode.Value))
+                            .ChildNodes.Add(childNode);
+                    }
+                    else
+                    {
+                        string typeName = TermDB.GetTermById((int) a.AssociationType).Name;
+
+                        TreeNode category = new TreeNode()
+                        {
+                            Text = typeName,
+                            Value = typeName + "-" + parentNode.Value,
+                            Expanded = false,
+                            SelectAction = TreeNodeSelectAction.Expand
+                        };
+
+                        if (
+                            !associationTypesNodes.Exists(
+                                categoryNode => categoryNode.Value.Equals(typeName + "-" + parentNode.Value)))
+                        {
+                            parentNode.ChildNodes.Add(category);
+                            associationTypesNodes.Add(category);
+                        }
+                        associationTypesNodes.Find(t => t.Value.Equals(typeName + "-" + parentNode.Value))
+                            .ChildNodes.Add(childNode);
+                    }
+                }
+                else
+                {
+                    parentNode.ChildNodes.Add(childNode);
+                }
 
                 //För att hitta alla ChildNodes till den aktuella ParentNoden. 
-                //Redundant anropning av metoden görs för att bygga upp hela "grenen".
+                //Rekursiv anropning av metoden görs för att bygga upp hela "grenen".
                 FindChildNodesAndAddToParentNode(ts, childNode);
             }
 
