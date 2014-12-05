@@ -58,6 +58,7 @@ namespace EventHandlingSystem
                     Text = "Start",
                     Value = tax.Id.ToString(),
                     Expanded = true,
+                    NavigateUrl = "/",
                     SelectAction = TreeNodeSelectAction.Select
                 };
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
