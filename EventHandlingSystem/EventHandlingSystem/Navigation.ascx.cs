@@ -83,9 +83,15 @@ namespace EventHandlingSystem
                     FindChildNodesAndAddToParentNode(parentTermSet, node);
 
                 }
+                
+                foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
+                {
+                    item.Value.ChildNodes.Add(item.Key);
+                }
             }
         }
 
+        private Dictionary<TreeNode, TreeNode> categoryNodesToAdd = new Dictionary<TreeNode, TreeNode>();
         private List<TreeNode> associationTypesNodes = new List<TreeNode>();
 
         private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
@@ -118,7 +124,8 @@ namespace EventHandlingSystem
                         if (!associationTypesNodes.Exists(
                                 categoryNode => categoryNode.Value.Equals("Övrigt-" + parentNode.Value)))
                         {
-                            parentNode.ChildNodes.Add(uncategorized);
+                            //parentNode.ChildNodes.Add(uncategorized);
+                            categoryNodesToAdd.Add(uncategorized, parentNode);
                             associationTypesNodes.Add(uncategorized);
                         }
 
@@ -141,7 +148,8 @@ namespace EventHandlingSystem
                             !associationTypesNodes.Exists(
                                 categoryNode => categoryNode.Value.Equals(typeName + "-" + parentNode.Value)))
                         {
-                            parentNode.ChildNodes.Add(category);
+                            //parentNode.ChildNodes.Add(category);
+                            categoryNodesToAdd.Add(category, parentNode);
                             associationTypesNodes.Add(category);
                         }
                         associationTypesNodes.Find(t => t.Value.Equals(typeName + "-" + parentNode.Value))
@@ -157,8 +165,6 @@ namespace EventHandlingSystem
                 //Rekursiv anropning av metoden görs för att bygga upp hela "grenen".
                 FindChildNodesAndAddToParentNode(ts, childNode);
             }
-
-
         }
 
         protected void TreeViewNavigation_OnSelectedNodeChanged(object sender, EventArgs e)
