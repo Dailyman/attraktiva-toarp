@@ -90,6 +90,10 @@ INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[Is
      VALUES
            ('Eventtyp', 2, null, '2014-11-22','0') 		   
 GO
+INSERT INTO [dbo].[TermSets]([Name],[TaxonomyId],[ParentTermSetId],[Created],[IsDeleted])
+     VALUES
+           ('Guldgrävarna', 1, 8, '2014-11-22','0') 		   
+GO
 
 
 
@@ -226,6 +230,10 @@ INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
      VALUES
            ('Film','2014-11-24','0')
 GO
+INSERT INTO [dbo].[Terms]([Name],[Created],[IsDeleted])
+     VALUES
+           ('Guldgrävarna','2014-11-24','0')
+GO
 
 
 
@@ -360,4 +368,8 @@ GO
 INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
      VALUES
            (33,18)
+GO
+INSERT INTO [dbo].[TermsInTermSets]([Term_Id],[TermSet_Id])
+     VALUES
+           (34,19)
 GO
