@@ -577,7 +577,7 @@ namespace EventHandlingSystem
             DeleteAllItemsInList(items);
 
             //Gömmer Delete(Create)View
-            MultiViewCreate.ActiveViewIndex = -1;
+            MultiViewEdit.ActiveViewIndex = -1;
 
             //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;

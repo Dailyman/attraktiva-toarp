@@ -15,11 +15,11 @@ namespace EventHandlingSystem
             //Hämtar EventId från URL.
             var stId = Request.QueryString["Id"];
 
-            //Lägger till alla evenemang Titel och Id i DropDownListan.
-            foreach (var wP in WebPageDB.GetAllWebPages())
-            {
-                DropDownListWebPages.Items.Add(new ListItem(wP.Id.ToString(), wP.Id.ToString()));
-            }
+            ////Lägger till alla evenemang Titel och Id i DropDownListan.
+            //foreach (var wP in WebPageDB.GetAllWebPages())
+            //{
+            //    DropDownListWebPages.Items.Add(new ListItem(wP.Id.ToString(), wP.Id.ToString()));
+            //}
 
             //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
             int id;
@@ -50,10 +50,10 @@ namespace EventHandlingSystem
             }
         }
 
-        protected void BtnLoadPage_OnClick(object sender, EventArgs e)
-        {
-            //Skickar användaren till SitePage.aspx med det WebPageId som man valt i DropDownListan.
-            Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListWebPages.SelectedValue, true);
-        }
+        //protected void BtnLoadPage_OnClick(object sender, EventArgs e)
+        //{
+        //    //Skickar användaren till SitePage.aspx med det WebPageId som man valt i DropDownListan.
+        //    Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListWebPages.SelectedValue, true);
+        //}
     }
 }

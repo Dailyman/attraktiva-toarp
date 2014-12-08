@@ -1,5 +1,4 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TaxonomyControl.ascx.cs" Inherits="EventHandlingSystem.TaxonomyControl" %>
-    <br />
 <div class="inner-content-box">
     <h3>Choose a taxonomy</h3>
     <br />
@@ -19,67 +18,68 @@
     </div>
 </div>
 <br />
-    <div id="CreateBox" class="inner-content-box" runat="server" Visible="False">
-        <asp:MultiView ID="MultiViewCreate" runat="server" ActiveViewIndex="-1">
-            <asp:View ID="ViewSelectCreate" runat="server">
-                <h2>Choose what to create</h2>
-                <br />
-                <asp:Button ID="BtnCreateTerm" runat="server" Text="Term" OnClick="BtnCreateTerm_OnClick" /><span style="width: 20px; height: 20px; display: inline-block;"></span><asp:Button ID="BtnCreateTermSet" runat="server" Text="TermSet" OnClick="BtnCreateTermSet_OnClick" />
-                <br />
-                <br />
-            </asp:View>
-            <asp:View ID="ViewTermCreate" runat="server">
-                <h2>
-                    <asp:Label ID="LabelCreateTerm" runat="server" Text="Label"></asp:Label></h2>
-                <br />
-                <br />
-                <span><b>Name: </b></span>
-                <asp:TextBox ID="TxtBoxNameCreateT" runat="server"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidatorCreateTerm" runat="server" ErrorMessage="Required field!" ControlToValidate="TxtBoxNameCreateT" ValidationGroup="CreateTerm"></asp:RequiredFieldValidator>
-                <br />
-                <br />
-                <span><b>Termset: </b></span>
-                <asp:DropDownList ID="DropDownListTInTS" runat="server"></asp:DropDownList>
-                <br />
-                <br />
-                <asp:ImageButton ID="ImageButtonBack1" runat="server" ImageUrl="Images/back-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonBack_OnClick"/>
-                <asp:Button ID="BtnCreateT" runat="server" Text="Create" OnClick="BtnCreateT_OnClick" ValidationGroup="CreateTerm" />
-                <span style="width: 20px; height: 20px; display: inline-block;"></span>
-                <asp:Label ID="LabelMessageCreateT" runat="server" Text=""></asp:Label>
-                <br />
-                <br />
-            </asp:View>
-            <asp:View ID="ViewTermSetCreate" runat="server">
-                <h2>
-                    <asp:Label ID="LabelCreateTermSet" runat="server" Text="Label"></asp:Label></h2>
-                <br />
-                <br />
-                <span><b>Name: </b></span>
-                <asp:TextBox ID="TxtBoxNameCreateTS" runat="server"></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidatorCreateTermSet" runat="server" ErrorMessage="Required field!" ControlToValidate="TxtBoxNameCreateTS" ValidationGroup="CreateTermSet"></asp:RequiredFieldValidator>
-                <br />
-                <br />
-                <span><b>Parent termset: </b></span>
-                <asp:DropDownList ID="DropDownListCreateParentTS" runat="server"></asp:DropDownList>
-                <br />
-                <br />
-                <asp:ImageButton ID="ImageButtonBack2" runat="server" ImageUrl="Images/back-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonBack_OnClick" />
-                <asp:Button ID="BtnCreateTS" runat="server" Text="Create" OnClick="BtnCreateTS_OnClick" ValidationGroup="CreateTermSet" />
-                <span style="width: 20px; height: 20px; display: inline-block;"></span>
-                <asp:Label ID="LabelMessageCreateTS" runat="server" Text=""></asp:Label>
-                <br />
-                <br />
-            </asp:View>           
-        </asp:MultiView>
-    </div>
+<div id="CreateBox" class="inner-content-box" runat="server" visible="False">
+    <asp:MultiView ID="MultiViewCreate" runat="server" ActiveViewIndex="-1">
+        <asp:View ID="ViewSelectCreate" runat="server">
+            <h2>Choose what to create</h2>
+            <br />
+            <asp:Button ID="BtnCreateTerm" runat="server" Text="Term" OnClick="BtnCreateTerm_OnClick" /><span style="width: 20px; height: 20px; display: inline-block;"></span><asp:Button ID="BtnCreateTermSet" runat="server" Text="TermSet" OnClick="BtnCreateTermSet_OnClick" />
+            <br />
+            <br />
+        </asp:View>
+        <asp:View ID="ViewTermCreate" runat="server">
+            <h2>
+                <asp:Label ID="LabelCreateTerm" runat="server" Text="Label"></asp:Label></h2>
+            <br />
+            <br />
+            <span><b>Name: </b></span>
+            <asp:TextBox ID="TxtBoxNameCreateT" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidatorCreateTerm" runat="server" ErrorMessage="Required field!" ControlToValidate="TxtBoxNameCreateT" ValidationGroup="CreateTerm"></asp:RequiredFieldValidator>
+            <br />
+            <br />
+            <span><b>Termset: </b></span>
+            <asp:DropDownList ID="DropDownListTInTS" runat="server"></asp:DropDownList>
+            <br />
+            <br />
+            <asp:ImageButton ID="ImageButtonBack1" runat="server" ImageUrl="Images/back-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonBack_OnClick" />
+            <asp:Button ID="BtnCreateT" runat="server" Text="Create" OnClick="BtnCreateT_OnClick" ValidationGroup="CreateTerm" />
+            <span style="width: 20px; height: 20px; display: inline-block;"></span>
+            <asp:Label ID="LabelMessageCreateT" runat="server" Text=""></asp:Label>
+            <br />
+            <br />
+        </asp:View>
+        <asp:View ID="ViewTermSetCreate" runat="server">
+            <h2>
+                <asp:Label ID="LabelCreateTermSet" runat="server" Text="Label"></asp:Label></h2>
+            <br />
+            <br />
+            <span><b>Name: </b></span>
+            <asp:TextBox ID="TxtBoxNameCreateTS" runat="server"></asp:TextBox>
+            <asp:RequiredFieldValidator ID="RequiredFieldValidatorCreateTermSet" runat="server" ErrorMessage="Required field!" ControlToValidate="TxtBoxNameCreateTS" ValidationGroup="CreateTermSet"></asp:RequiredFieldValidator>
+            <br />
+            <br />
+            <span><b>Parent termset: </b></span>
+            <asp:DropDownList ID="DropDownListCreateParentTS" runat="server"></asp:DropDownList>
+            <br />
+            <br />
+            <asp:ImageButton ID="ImageButtonBack2" runat="server" ImageUrl="Images/back-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonBack_OnClick" />
+            <asp:Button ID="BtnCreateTS" runat="server" Text="Create" OnClick="BtnCreateTS_OnClick" ValidationGroup="CreateTermSet" />
+            <span style="width: 20px; height: 20px; display: inline-block;"></span>
+            <asp:Label ID="LabelMessageCreateTS" runat="server" Text=""></asp:Label>
+            <br />
+            <br />
+        </asp:View>
+    </asp:MultiView>
+</div>
 
-<div id="EditBox" class="inner-content-box" runat="server" Visible="False">
+<div id="EditBox" class="inner-content-box" runat="server" visible="False">
     <asp:MultiView ID="MultiViewEdit" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewTaxonomyEdit" runat="server">
             <h2>Edit taxonomy item</h2>
             <br />
             <br />
-            <span><b>Id: </b></span><asp:Label ID="LabelIdTax" runat="server" Text=""></asp:Label>
+            <span><b>Id: </b></span>
+            <asp:Label ID="LabelIdTax" runat="server" Text=""></asp:Label>
             <br />
             <br />
             <span><b>Name: </b></span>
@@ -100,10 +100,12 @@
             <h2>Edit Termset item</h2>
             <br />
             <br />
-            <span><b>Taxonomy name: </b></span><asp:Label ID="LabelTaxNameTSView" runat="server" Text=""></asp:Label>
+            <span><b>Taxonomy name: </b></span>
+            <asp:Label ID="LabelTaxNameTSView" runat="server" Text=""></asp:Label>
             <br />
             <br />
-            <span><b>Id: </b></span><asp:Label ID="LabelIdTS" runat="server" Text=""></asp:Label>
+            <span><b>Id: </b></span>
+            <asp:Label ID="LabelIdTS" runat="server" Text=""></asp:Label>
             <br />
             <br />
             <span><b>Name: </b></span>
@@ -128,10 +130,12 @@
             <h2>Edit Term item</h2>
             <br />
             <br />
-            <span><b>Taxonomy name: </b></span><asp:Label ID="LabelTaxNameTView" runat="server" Text=""></asp:Label>
+            <span><b>Taxonomy name: </b></span>
+            <asp:Label ID="LabelTaxNameTView" runat="server" Text=""></asp:Label>
             <br />
             <br />
-            <span><b>Id: </b></span><asp:Label ID="LabelIdT" runat="server" Text="Label"></asp:Label>
+            <span><b>Id: </b></span>
+            <asp:Label ID="LabelIdT" runat="server" Text="Label"></asp:Label>
             <br />
             <br />
             <span><b>Name: </b></span>
@@ -152,17 +156,17 @@
             <br />
             <br />
         </asp:View>
-         <asp:View ID="ViewDelete" runat="server">
-                <h2>Do you want to delete these?</h2>
-                <br />
-                <br />                
-                <asp:CheckBoxList ID="CheckBoxListItemsToDelete" runat="server"></asp:CheckBoxList>
-                <br />
-                <br />
-                <asp:Label ID="LabelWarning" runat="server" Text=""></asp:Label>
-                <br />
-                <asp:Button ID="BtnConfirmDeletion" runat="server" Text="Confirm deletion" OnClick="BtnConfirmDeletion_OnClick" />
-            </asp:View>
+        <asp:View ID="ViewDelete" runat="server">
+            <h2>Do you want to delete these?</h2>
+            <br />
+            <br />
+            <asp:CheckBoxList ID="CheckBoxListItemsToDelete" runat="server"></asp:CheckBoxList>
+            <br />
+            <br />
+            <asp:Label ID="LabelWarning" runat="server" Text=""></asp:Label>
+            <br />
+            <asp:Button ID="BtnConfirmDeletion" runat="server" Text="Confirm deletion" OnClick="BtnConfirmDeletion_OnClick" />
+        </asp:View>
     </asp:MultiView>
 </div>
 

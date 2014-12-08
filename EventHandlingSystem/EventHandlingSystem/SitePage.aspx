@@ -6,9 +6,8 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <br />
-    <asp:DropDownList ID="DropDownListWebPages" runat="server"></asp:DropDownList>
-    <asp:Button ID="BtnLoadPage" runat="server" Text="Load page" OnClick="BtnLoadPage_OnClick" />
-    <br />
+    <%--<asp:DropDownList ID="DropDownListWebPages" runat="server"></asp:DropDownList>
+    <asp:Button ID="BtnLoadPage" runat="server" Text="Load page" OnClick="BtnLoadPage_OnClick" />--%>
     <div class="content-box">
         <br />
         <div class="titlebox">

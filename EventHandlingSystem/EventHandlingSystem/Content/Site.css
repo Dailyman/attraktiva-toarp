@@ -10,8 +10,8 @@ body
     background-color: #fff;
     /*border-top: solid 10px #000;*/
     color: #222; /*Old - #333*/
-    font-size: .85em;
-    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif;
+    font-size: 1em; /*old - .85em*/
+    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif; /*old - "Segoe UI", Verdana, Helvetica, Sans-Serif*/
     margin: 0;
     padding: 0;
 }
@@ -20,9 +20,9 @@ a
 {
     color: #333;
     outline: none;
-    /*padding left make problem with treeview line alignment*/
+    /*padding left makes problem with treeview line alignment*/
     /*padding-left: 3px;*/
-    padding-right: 3px;
+    /*padding-right: 3px;*/
     text-decoration: underline;
 }
 
@@ -31,11 +31,7 @@ a
     {
         color: #333;
     }
-
-    a:hover
-    {
-        background-color: #ffffff; /*Old - #c7d1d6*/
-    }
+    
 
 header, footer, hgroup,
 nav, section
@@ -118,7 +114,7 @@ h5, h6
 
 #body
 {
-    background-color: #5faee3;
+    background-color: #2c3e50; /*old - #5faee3*/
     /*background: url("../Images/img-noise-361x370.png");*/ /*<- new*/
     clear: both;
     padding-bottom: 35px;
@@ -138,14 +134,14 @@ h5, h6
 
 header .content-wrapper
 {
-    padding-top: 20px;
+    padding-top: 10px; /*old - 20px*/
 }
 
 footer
 {
     clear: both;
-    background-color: #272727; /*Old - #e2e2e2*/
-    color: #9B9B9B;
+    background-color: #272727; /*old - #e2e2e2*/
+    color: #ffffff; /*old - #9B9B9B*/
     font-size: .8em;
     height: 100px;
 }

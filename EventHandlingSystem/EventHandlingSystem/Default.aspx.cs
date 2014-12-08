@@ -12,10 +12,10 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            foreach (var @event in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
-            {
-                TestLable.Text += @event.Title + "<br />";
-            }
+            //foreach (var @event in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
+            //{
+            //    TestLable.Text += @event.Title + "<br />";
+            //}
             
         }
     }
