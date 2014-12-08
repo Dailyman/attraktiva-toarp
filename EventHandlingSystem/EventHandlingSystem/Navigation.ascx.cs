@@ -55,7 +55,7 @@ namespace EventHandlingSystem
             {
                 TreeNode startNode = new TreeNode
                 {
-                    Text = "Communities",
+                    Text = "Communities/Associations",
                     Value = tax.Id.ToString(),
                     Expanded = true,
                     NavigateUrl = "/SitePage.aspx",

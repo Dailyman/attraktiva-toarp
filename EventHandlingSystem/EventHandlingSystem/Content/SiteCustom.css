@@ -11,10 +11,10 @@ a
 {
     position: absolute;
     margin-top: 10px;
-    padding-left: 10px;
+    padding-left: 5px;
+    padding-right: 10px;
     left: 0;
     margin-bottom: 50px;
-    padding-right: 30px;
     background-color: white;
     text-align: center;
     box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
@@ -60,6 +60,7 @@ a
     #Site-navigation ul
     {
         padding-left: 5px;
+        display: inline-block;
     }
 
     #Site-navigation li
@@ -89,10 +90,22 @@ a
 
 #toggle-btn
 {
-    position: absolute;
-    margin-top: 10px;
-    right: 0;
+    display: inline-block;
+    /*position: absolute;*/
+    /*margin-top: 10px;*/
+    /*right: -5px;
+    bottom: -5px;*/
     z-index: 9999;
+    margin-top: -5px;
+margin-right: -5px;
+    float: right;
+}
+
+.collapsed
+{
+    visibility: collapse;
+    width: 0px;
+    height: 30px;
 }
 
 .arrow-up
@@ -104,6 +117,15 @@ a
     border-color: transparent transparent #007bff transparent;
 }
 
+.arrow-up-left
+{
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 20px 20px 0 0;
+    border-color: #007bff transparent transparent transparent;
+}
+
 .arrow-down
 {
     width: 0;
@@ -111,6 +133,15 @@ a
     border-style: solid;
     border-width: 15px 12.5px 0 12.5px;
     border-color: #007bff transparent transparent transparent;
+}
+
+.arrow-down-right
+{
+    width: 0;
+    height: 0;
+    border-style: solid;
+    border-width: 0 0 20px 20px;
+    border-color: transparent transparent #007bff transparent;
 }
 
 .arrow-left
@@ -212,12 +243,13 @@ a
         vertical-align: middle;
     }
 
-    .warning-pattern {
-        background-image: url("../Images/warning-pattern-30x30.png");
-        background-repeat: repeat-x;
-        text-align: center;
-        min-height: 30px;
-    }
+.warning-pattern
+{
+    background-image: url("../Images/warning-pattern-30x30.png");
+    background-repeat: repeat-x;
+    text-align: center;
+    min-height: 30px;
+}
 
 .btn-align-right
 {
@@ -239,5 +271,12 @@ a
         width: auto !important;
         min-width: 200px;
     }
+
+    #Site-navigation
+    {
+        visibility: collapse;
+    }
+
+
 }
 /* END: Mobile Styles */
