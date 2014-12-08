@@ -131,7 +131,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CommunityAssociationControl.ascx" />
     <Content Include="Content\SiteCustom.css" />
+    <Content Include="Images\cog-16x16.png" />
     <Content Include="Images\AT-logga.png" />
     <Content Include="Images\Aux_folder_16x16.gif" />
     <Content Include="favicon.ico" />
@@ -146,6 +148,7 @@
     <Content Include="Images\tag_25x25.png" />
     <Content Include="Images\tag_16x16.png" />
     <Content Include="Images\Tag_30x30.png" />
+    <Content Include="Images\warning-pattern-30x30.png" />
     <Content Include="Navigation.ascx" />
     <Content Include="OldPages\About.aspx" />
     <Content Include="Account\Login.aspx" />
@@ -308,6 +311,13 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="CommunityAssociationControl.ascx.cs">
+      <DependentUpon>CommunityAssociationControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CommunityAssociationControl.ascx.designer.cs">
+      <DependentUpon>CommunityAssociationControl.ascx</DependentUpon>
+    </Compile>
     <Compile Include="Database\AssociationDB.cs" />
     <Compile Include="Database\CommunityDB.cs" />
     <Compile Include="Database\WebPageDB.cs" />

@@ -12,13 +12,34 @@
     });
     
 </script>
-<div id="toggle-btn" class="arrow-left"></div>
-<asp:TreeView ID="TreeViewNavigation" runat="server" OnSelectedNodeChanged="TreeViewNavigation_OnSelectedNodeChanged"
+<script type="text/javascript" charset="utf-8">
+    //<![CDATA[
+    jQuery(function () {
+        jQuery('#Site-navigation a').each(function () {
+            if (jQuery(this).attr('href') === window.location.pathname + window.location.search) {
+                jQuery(this).addClass('current-link');
+            }
+        });
+    });
+    //]]>
+</script>
+<%--<div id="toggle-btn" class="arrow-left"></div>--%>
+<nav>
+    <ul>
+        <li><a href="/">Home</a></li>
+        <li><asp:TreeView ID="TreeViewNavigation" runat="server" OnSelectedNodeChanged="TreeViewNavigation_OnSelectedNodeChanged"
             ExpandImageUrl="~/Images/icon-arrow-right-b-16.png"
             CollapseImageUrl="~/Images/icon-arrow-down-b-16.png"
+            SkipLinkText=""
     
-            SelectedNodeStyle-BackColor="Cyan"
+            SelectedNodeStyle-BackColor="#95a5a6"
             SelectedNodeStyle-CssClass="selectedNodesNav">
-</asp:TreeView>
+</asp:TreeView></li>
+        <li><br/></li>
+        <li><a href="/SiteSettings.aspx"><img src="Images/cog-16x16.png" /> Site settings</a></li>
+    </ul>
+    
+</nav>
+
 <br/>
-<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>
+<%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>

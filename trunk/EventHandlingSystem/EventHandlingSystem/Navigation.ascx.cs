@@ -37,7 +37,7 @@ namespace EventHandlingSystem
                 if (n.NavigateUrl == Request.Url.PathAndQuery)
                 {
                     TreeViewNavigation.FindNode(n.ValuePath).Select(); 
-                    LabelDisplay.Text += "<br>" + n.ValuePath + ","; // <- Remove
+                    //LabelDisplay.Text += "<br>" + n.ValuePath + ","; // <- Remove
                 }
                 SelectTreeNodeByNavUrl(n);
             }
@@ -55,10 +55,10 @@ namespace EventHandlingSystem
             {
                 TreeNode startNode = new TreeNode
                 {
-                    Text = "Start",
+                    Text = "Communities",
                     Value = tax.Id.ToString(),
                     Expanded = true,
-                    NavigateUrl = "/",
+                    NavigateUrl = "/SitePage.aspx",
                     SelectAction = TreeNodeSelectAction.Select
                 };
                 //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
@@ -75,7 +75,7 @@ namespace EventHandlingSystem
                         Text = parentTermSet.Name,
                         Value = parentTermSet.Id.ToString(),
                         Expanded = false,
-                        NavigateUrl = "/SitePage.aspx?id="+ CommunityDB.GetCommunityByPublishingTermSetId(parentTermSet.Id).WebPage.Id,
+                        NavigateUrl = "/SitePage.aspx?id="+ CommunityDB.GetCommunityByPublishingTermSetId(parentTermSet.Id).WebPage.Id+"&type=C",
                         SelectAction = TreeNodeSelectAction.Select
                     };
                     startNode.ChildNodes.Add(node);
@@ -107,7 +107,7 @@ namespace EventHandlingSystem
                     Text = ts.Name,
                     Value = ts.Id.ToString(),
                     Expanded = false,
-                    NavigateUrl = "/SitePage.aspx?id=" + a.WebPage.Id,
+                    NavigateUrl = "/SitePage.aspx?id=" + a.WebPage.Id + "&type=A",
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
