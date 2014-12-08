@@ -3,11 +3,13 @@
     $(document).ready(function() {
         $("#toggle-btn").toggle(
         function () {
-            $(this).addClass("arrow-right");
-            $(this).removeClass("arrow-left");
+            $("#Site-navigation nav").addClass("collapsed", 500, "easeOutExpo");
+            $(this).addClass("arrow-down-right");
+            $(this).removeClass("arrow-up-left");
         }, function () {
-            $(this).addClass("arrow-left");
-            $(this).removeClass("arrow-right");
+            $("#Site-navigation nav").removeClass("collapsed", 500, "easeOutExpo");
+            $(this).addClass("arrow-up-left");
+            $(this).removeClass("arrow-down-right");
         });
     });
     
@@ -23,7 +25,6 @@
     });
     //]]>
 </script>
-<%--<div id="toggle-btn" class="arrow-left"></div>--%>
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
@@ -40,6 +41,7 @@
     </ul>
     
 </nav>
+<div id="toggle-btn" class="arrow-up-left"></div>
 
 <br/>
 <%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>
