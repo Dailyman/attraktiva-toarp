@@ -83,7 +83,7 @@
             <aspNavigation:SiteNavigation runat="server" />
         </section>
         <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
-        <section class="content-wrapper main-content clear-fix">
+        <section class="content-wrapper main-content clear-fix content-box">
             <asp:ContentPlaceHolder runat="server" ID="MainContent" />
         </section>
     </div>

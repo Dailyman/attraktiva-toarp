@@ -6,7 +6,6 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <br />
-    <div class="content-box">
         <div class="titlebox">
             <h1>Update event</h1>
         </div>
@@ -39,7 +38,7 @@
         <br />
         <h6>Start date*</h6>
         <asp:TextBox ID="TxtBoxStartDate" runat="server" OnTextChanged="TxtBoxStartDate_OnTextChanged" Width="205px" AutoPostBack="True"></asp:TextBox>
-        <asp:TextBox ID="TxtBoxStartTime" runat="server" Width="45px"></asp:TextBox>
+        <asp:TextBox ID="TxtBoxStartTime" runat="server" Width="50px"></asp:TextBox>
         <asp:ImageButton ID="ImageButtonStartDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonStartDate_OnClick" />
         <asp:RequiredFieldValidator ID="ReqFieldValiStartDate" runat="server" ControlToValidate="TxtBoxStartDate" ErrorMessage="* Required Field" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
         <asp:RequiredFieldValidator ID="ReqFieldValiStartTime" runat="server" ControlToValidate="TxtBoxStartTime" ErrorMessage="* Required Field" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
@@ -50,7 +49,7 @@
         <br />
         <h6>End date*</h6>
         <asp:TextBox ID="TxtBoxEndDate" runat="server" OnTextChanged="TxtBoxEndDate_OnTextChanged" Width="205px" AutoPostBack="True"></asp:TextBox>
-        <asp:TextBox ID="TxtBoxEndTime" runat="server" Width="45px"></asp:TextBox>
+        <asp:TextBox ID="TxtBoxEndTime" runat="server" Width="50px"></asp:TextBox>
         <asp:ImageButton ID="ImageButtonEndDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonEndDate_OnClick" />
         <asp:RequiredFieldValidator ID="ReqFieldValiEndDate" runat="server" ControlToValidate="TxtBoxEndDate" ErrorMessage="* Required Field" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
         <asp:RequiredFieldValidator ID="ReqFieldValiEndTime" runat="server" ControlToValidate="TxtBoxEndTime" ErrorMessage="* Required Field" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
@@ -78,7 +77,7 @@
             <asp:Button ID="BtnUpdateEvent" CssClass="btn-align-right" runat="server" Text="Update event" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
         </div>
 
-    </div>
+   
 
 
 

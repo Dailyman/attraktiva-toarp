@@ -1,5 +1,6 @@
-﻿body
+﻿#body
 {
+    display: flex;
 }
 
 a
@@ -9,12 +10,9 @@ a
 
 #Site-navigation
 {
-    position: absolute;
     margin-top: 10px;
-    padding-left: 5px;
-    padding-right: 10px;
-    left: 0;
-    margin-bottom: 50px;
+    padding: 0px 10px 0px 5px;
+    display: table;
     background-color: white;
     text-align: center;
     box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
@@ -27,6 +25,7 @@ a
     border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
     z-index: 9999;
+    float: left;
 }
 
     #Site-navigation td
@@ -91,18 +90,15 @@ a
 #toggle-btn
 {
     display: inline-block;
-    /*position: absolute;*/
-    /*margin-top: 10px;*/
-    /*right: -5px;
-    bottom: -5px;*/
-    z-index: 9999;
     margin-top: -5px;
-margin-right: -5px;
+    margin-right: -5px;
     float: right;
     cursor: pointer;
+    z-index: 9999;
 }
 
-.nav-title {
+.nav-title
+{
     display: block;
     margin: 10px;
     font-size: 20px;
@@ -207,7 +203,7 @@ margin-right: -5px;
 
 .content-box
 {
-    margin: 10px 0 10px 0;
+    margin-top: 10px;
     padding: 20px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -218,6 +214,7 @@ margin-right: -5px;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#E0E0E0), to(#cecece));
     background-image: -moz-linear-gradient(top,#E0E0E0,#cecece);
     background-color: #E0E0E0;
+    float: right;
 }
 
 .inner-content-box
@@ -284,8 +281,7 @@ margin-right: -5px;
     #Site-navigation
     {
         visibility: collapse;
+        display: none;
     }
-
-
 }
 /* END: Mobile Styles */
