@@ -7,18 +7,17 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    <br />
-    <div class="content-box">
+   
         <div class="titlebox">
         <h1>Taxonomy Manager</h1>
     </div>
         <aspTaxonomy:TaxonomyHandler runat="server" />
-    </div>
+    
     <br /><br />
-    <div class="content-box">
+    
         <div class="titlebox">
         <h1>Community/Association Manager</h1>
     </div>
         <aspCommAsso:CommAssoHandler runat="server" />
-    </div>
+    
 </asp:Content>

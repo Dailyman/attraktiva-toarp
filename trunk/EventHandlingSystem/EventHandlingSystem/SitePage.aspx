@@ -8,12 +8,10 @@
     <br />
     <%--<asp:DropDownList ID="DropDownListWebPages" runat="server"></asp:DropDownList>
     <asp:Button ID="BtnLoadPage" runat="server" Text="Load page" OnClick="BtnLoadPage_OnClick" />--%>
-    <div class="content-box">
-        <br />
-        <div class="titlebox">
-        <h1><asp:Label ID="LabelTitle" runat="server" Text="Unknown community or association"></asp:Label></h1>
-            </div>
-        <br/>
-        <asp:Label ID="LabelWelcome" runat="server" Text=""></asp:Label>
+    <div class="titlebox">
+        <h1>
+            <asp:Label ID="LabelTitle" runat="server" Text="Unknown community or association"></asp:Label></h1>
     </div>
+    <br />
+    <asp:Label ID="LabelWelcome" runat="server" Text=""></asp:Label>
 </asp:Content>

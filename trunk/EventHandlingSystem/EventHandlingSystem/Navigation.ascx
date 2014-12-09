@@ -42,7 +42,7 @@
             <br />
         </li>
         <li><a href="/SiteSettings.aspx">
-            <img src="Images/cog-16x16.png" />
+            <img src="../Images/cog-16x16.png" />
             Site settings</a></li>
     </ul>
 

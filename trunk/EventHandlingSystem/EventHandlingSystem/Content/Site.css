@@ -123,7 +123,7 @@ h5, h6
 .main-content
 {
     /*background: url("../Images/accent.png") no-repeat;*/ /*<- old*/
-    padding-left: 100px;    /*old - 10px*/
+    padding-left: 10px;    /*old - 10px*/
     padding-top: 0;         /*old - 30px*/
 }
 

@@ -5,8 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    <br />
-    <div class="content-box">
+    
         <div class="titlebox">
             <h1>Home</h1>
         </div>
@@ -22,5 +21,5 @@
         <br />
         <asp:Menu ID="MenuHome" runat="server"></asp:Menu>
         <asp:Label ID="TestLable" runat="server" Text=""></asp:Label>
-    </div>
+    
 </asp:Content>
