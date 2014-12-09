@@ -15,6 +15,8 @@ namespace EventHandlingSystem
             //Hämtar EventId från URL.
             var stId = Request.QueryString["Id"];
 
+            var stType = Request.QueryString["Type"];
+
             ////Lägger till alla evenemang Titel och Id i DropDownListan.
             //foreach (var wP in WebPageDB.GetAllWebPages())
             //{
@@ -23,7 +25,7 @@ namespace EventHandlingSystem
 
             //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
             int id;
-            if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id))
+            if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id) && !string.IsNullOrWhiteSpace(stType))
             {
                 WebPage webPage = WebPageDB.GetWebPageById(id);
                 if (webPage != null)
