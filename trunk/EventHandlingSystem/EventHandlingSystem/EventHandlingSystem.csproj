@@ -143,6 +143,7 @@
     <Content Include="Images\icon-arrow-down-b-16.png" />
     <Content Include="Images\icon-arrow-right-b-16.png" />
     <Content Include="Images\img-noise-361x370.png" />
+    <Content Include="Images\list-32x32.png" />
     <Content Include="Images\primitive-dot-16.png" />
     <Content Include="Images\Tag-16_cyan.png" />
     <Content Include="Images\tag_25x25.png" />

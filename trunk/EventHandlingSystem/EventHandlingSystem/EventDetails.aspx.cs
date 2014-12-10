@@ -38,6 +38,7 @@ namespace EventHandlingSystem
                     var title = new HtmlGenericControl("h2") {InnerHtml = @event.Title};
                     var imageUrl = new HtmlImage() {Src = @event.ImageUrl};
                     imageUrl.Style.Add(HtmlTextWriterStyle.MarginTop, "25px");
+                    imageUrl.Style.Add("max-width", "100%");
                     var description = new HtmlGenericControl("p") {InnerHtml = @event.Description};
                     var summary = new HtmlGenericControl("p") {InnerHtml = "<b>Summary:</b> " + @event.Summary};
                     var other = new HtmlGenericControl("p") {InnerHtml = "<b>Other:</b> " + @event.Other};

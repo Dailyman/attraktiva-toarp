@@ -11,6 +11,7 @@ a
 #Site-navigation
 {
     margin-top: 10px;
+    margin-right: 20px;
     padding: 0px 10px 0px 5px;
     display: table;
     background-color: white;
@@ -27,6 +28,11 @@ a
     z-index: 9999;
     float: left;
 }
+
+    #Site-navigation hr
+    {
+        margin: 2px;
+    }
 
     #Site-navigation td
     {
@@ -87,6 +93,12 @@ a
     padding: 0px;
 }
 
+#toggle-nav-btn
+{
+    cursor: pointer;
+    z-index: 9999;
+}
+
 #toggle-btn
 {
     display: inline-block;
@@ -103,6 +115,12 @@ a
     margin: 10px;
     font-size: 20px;
     text-shadow: 1px 1px lightgrey;
+}
+
+.rotate-90 {
+    -ms-transform: rotate(90deg); /* IE 9 */
+    -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+    transform: rotate(90deg); /* Standard syntax */
 }
 
 .collapsed
@@ -204,6 +222,7 @@ a
 .content-box
 {
     margin-top: 10px;
+    width: 100%;
     padding: 20px;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
@@ -270,17 +289,16 @@ a
 /********************
 *   Mobile Styles   *
 ********************/
-@media only screen and (max-width: 850px)
+@media only screen and (max-width: 950px)
 {
     input, textarea
     {
         width: auto !important;
-        min-width: 200px;
+        /*min-width: 200px;*/
     }
 
     #Site-navigation
     {
-        visibility: collapse;
         display: none;
     }
 }
