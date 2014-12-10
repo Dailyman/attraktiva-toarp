@@ -3,13 +3,13 @@
     $(document).ready(function () {
         $("#toggle-nav-btn").toggle(
         function () {
-            $("#Site-navigation nav").addClass("collapsed", 500, "easeOutExpo");
-            $(this).addClass("rotate-90", 100, "easeOutExpo");
+            $("#Site-navigation nav").addClass("collapsed", 400, "easeOutExpo");
+            $(this).addClass("rotate-90", 100, "easeOutQuart");
             //$(this).addClass("arrow-down-right");
             //$(this).removeClass("arrow-up-left");
         }, function () {
-            $("#Site-navigation nav").removeClass("collapsed", 500, "easeOutExpo");
-            $(this).removeClass("rotate-90", 100, "easeOutExpo");
+            $("#Site-navigation nav").removeClass("collapsed", 400, "easeOutExpo");
+            $(this).removeClass("rotate-90", 100, "easeOutQuart");
             //$(this).addClass("arrow-up-left");
             //$(this).removeClass("arrow-down-right");
         });
