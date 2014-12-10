@@ -32,8 +32,11 @@ namespace EventHandlingSystem.Database
         public static List<Association> GetAllAssociationsInCommunity(Community com)
         {
             return GetAllAssociations().Where(a => a.Community.Equals(com)).ToList();
-        } 
+        }
 
-
+        public static string GetAssocationNameByPublishingTermSetId(int id)
+        {
+            return TermSetDB.GetTermSetNameByTermSetId(id);
+        }
     }
 }
