@@ -136,5 +136,6 @@ namespace EventHandlingSystem
             Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListEvents.SelectedValue, true);
         }
         #endregion
-    }
+
+       }
 }

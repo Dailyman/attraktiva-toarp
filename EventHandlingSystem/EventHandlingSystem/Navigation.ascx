@@ -1,21 +1,27 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Navigation.ascx.cs" Inherits="EventHandlingSystem.Navigation1" %>
-<script type="text/javascript">
+
+<%--<script type="text/javascript">
     $(document).ready(function () {
         $("#toggle-nav-btn").toggle(
         function () {
             $("#Site-navigation nav").addClass("collapsed", 400, "easeOutExpo");
             $(this).addClass("rotate-90", 100, "easeOutQuart");
-            //$(this).addClass("arrow-down-right");
-            //$(this).removeClass("arrow-up-left");
         }, function () {
             $("#Site-navigation nav").removeClass("collapsed", 400, "easeOutExpo");
             $(this).removeClass("rotate-90", 100, "easeOutQuart");
-            //$(this).addClass("arrow-up-left");
-            //$(this).removeClass("arrow-down-right");
         });
     });
+</script>--%>
 
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#toggle-nav-btn").click(function () {
+            $("#Site-navigation nav").slideToggle(500, "swing", $(this).toggleClass("rotate-90 rotate-m90"));
+        });
+
+    });
 </script>
+
 <script type="text/javascript" charset="utf-8">
     //<![CDATA[
     jQuery(function () {
@@ -27,8 +33,10 @@
     });
     //]]>
 </script>
-<div class="nav-title"><img id="toggle-nav-btn" src="../Images/list-32x32.png" /></div>
-<hr/>
+
+<div class="nav-title">
+    <img id="toggle-nav-btn" class="rotate-m90" src="../Images/list-32x32.png" /></div>
+<hr />
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
@@ -43,14 +51,14 @@
         </li>
         <li>
             <br />
+            <hr />
+            <br />
         </li>
-        <li><a href="/SiteSettings.aspx">
+        <li><a href="/SiteSettings.aspx" class="text-align-left">
             <img src="../Images/cog-16x16.png" />
             Site settings</a></li>
     </ul>
 
 </nav>
-<%--<div id="toggle-btn" class="arrow-up-left"></div>--%>
 
-<br />
 <%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>
