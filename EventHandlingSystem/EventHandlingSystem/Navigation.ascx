@@ -1,15 +1,17 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Navigation.ascx.cs" Inherits="EventHandlingSystem.Navigation1" %>
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#toggle-btn").toggle(
+        $("#toggle-nav-btn").toggle(
         function () {
             $("#Site-navigation nav").addClass("collapsed", 500, "easeOutExpo");
-            $(this).addClass("arrow-down-right");
-            $(this).removeClass("arrow-up-left");
+            $(this).addClass("rotate-90", 100, "easeOutExpo");
+            //$(this).addClass("arrow-down-right");
+            //$(this).removeClass("arrow-up-left");
         }, function () {
             $("#Site-navigation nav").removeClass("collapsed", 500, "easeOutExpo");
-            $(this).addClass("arrow-up-left");
-            $(this).removeClass("arrow-down-right");
+            $(this).removeClass("rotate-90", 100, "easeOutExpo");
+            //$(this).addClass("arrow-up-left");
+            //$(this).removeClass("arrow-down-right");
         });
     });
 
@@ -25,7 +27,8 @@
     });
     //]]>
 </script>
-<div class="nav-title">Navigation</div>
+<div class="nav-title"><img id="toggle-nav-btn" src="../Images/list-32x32.png" /></div>
+<hr/>
 <nav>
     <ul>
         <li><a href="/">Home</a></li>
@@ -47,7 +50,7 @@
     </ul>
 
 </nav>
-<div id="toggle-btn" class="arrow-up-left"></div>
+<%--<div id="toggle-btn" class="arrow-up-left"></div>--%>
 
 <br />
 <%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>
