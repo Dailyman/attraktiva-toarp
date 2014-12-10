@@ -72,5 +72,11 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
+
+        public static string GetTermSetNameByTermSetId(int id)
+        {
+            TermSet ts = GetTermSetById(id);
+            return ts.Name;
+        }
     }
 }

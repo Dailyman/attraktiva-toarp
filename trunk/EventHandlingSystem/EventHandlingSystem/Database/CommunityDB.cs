@@ -28,5 +28,10 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedCommunities().SingleOrDefault(c => c.PublishingTermSetId.Equals(id));
         }
+
+        public static string GetCommunityNameByPublishingTermSetId(int id)
+        {
+            return TermSetDB.GetTermSetNameByTermSetId(id);
+        }
     }
 }
