@@ -23,12 +23,20 @@ namespace EventHandlingSystem
             //Återställer Displaytexten.
             LabelDisplay.Text = "";
 
+            //LabelTabContentDisplay.Visible = TreeViewTaxonomy.Nodes.Count == 0;
+
             if (!IsPostBack)
             {
+
             }
         }
 
         #endregion
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            LabelTabContentDisplay.Visible = TreeViewTaxonomy.Nodes.Count == 0;
+        }
 
 
         #region AddNodesToTreeView
@@ -204,14 +212,14 @@ namespace EventHandlingSystem
             //Lägger till alla CheckedTreeNodes i listan.
             foreach (TreeNode node in TreeViewTaxonomy.CheckedNodes)
             {
-                if (node.Checked) 
+                if (node.Checked)
                     CheckedTreeNodes.Add(node);
             }
 
             //Ger Displaytexten en röd färg (Displaytexten inneåller endast varningar i denna metoden).
             LabelDisplay.Style.Add(HtmlTextWriterStyle.Color, "red");
 
-            
+
 
 
             if (TreeViewTaxonomy.Nodes.Count != 0)
@@ -272,7 +280,8 @@ namespace EventHandlingSystem
                                     Value = termSet.Id.ToString()
                                 });
                             }
-                            DropDownListEditParentTS.Items.Remove(DropDownListEditParentTS.Items.FindByValue(tS.Id.ToString()));
+                            DropDownListEditParentTS.Items.Remove(
+                                DropDownListEditParentTS.Items.FindByValue(tS.Id.ToString()));
 
                             DropDownListEditParentTS.SelectedIndex =
                                 DropDownListEditParentTS.Items.IndexOf(
@@ -290,11 +299,13 @@ namespace EventHandlingSystem
                             LabelCreatedT.Text = "<b>Created:</b> " + t.Created.ToString("yyyy-MM-dd HH:mm");
 
                             string taxId =
-                                TreeViewTaxonomy.Nodes[0].Value.Substring(TreeViewTaxonomy.Nodes[0].Value.IndexOf('_') + 1);
+                                TreeViewTaxonomy.Nodes[0].Value.Substring(TreeViewTaxonomy.Nodes[0].Value.IndexOf('_') +
+                                                                          1);
 
                             DropDownListTermSetForTerm.Items.Clear();
                             foreach (
-                                var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(taxId))))
+                                var termSet in
+                                    TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(taxId))))
                             {
                                 DropDownListTermSetForTerm.Items.Add(new ListItem
                                 {
@@ -345,7 +356,7 @@ namespace EventHandlingSystem
                 LabelDisplay.Text = "Select a taxonomy to edit in!";
             }
 
-            
+
             //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
             CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
             EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
@@ -694,6 +705,10 @@ namespace EventHandlingSystem
             //Rensar den nuvarande TreeViewn och bygger upp PubliceringsTaxonomin.
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 1);
+            BtnPublishTax.CssClass = "tab-btn";
+            BtnCategoryTax.CssClass = "tab-btn";
+            BtnCustomCategoryTax.CssClass = "tab-btn";
+            BtnPublishTax.CssClass += " active";
         }
 
         protected void BtnCategoryTax_OnClick(object sender, EventArgs e)
@@ -701,6 +716,10 @@ namespace EventHandlingSystem
             //Rensar den nuvarande TreeViewn och bygger upp KategoriseringsTaxonomin.
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 2);
+            BtnPublishTax.CssClass = "tab-btn";
+            BtnCategoryTax.CssClass = "tab-btn";
+            BtnCustomCategoryTax.CssClass = "tab-btn";
+            BtnCategoryTax.CssClass += " active";
         }
 
         protected void BtnCustomCategoryTax_OnClick(object sender, EventArgs e)
@@ -708,6 +727,10 @@ namespace EventHandlingSystem
             //Rensar den nuvarande TreeViewn och bygger upp den AnpassadeKategoriserngsTaxonomin.
             TreeViewTaxonomy.Nodes.Clear();
             AddNodesToTreeView(TreeViewTaxonomy, 3);
+            BtnPublishTax.CssClass = "tab-btn";
+            BtnCategoryTax.CssClass = "tab-btn";
+            BtnCustomCategoryTax.CssClass = "tab-btn";
+            BtnCustomCategoryTax.CssClass += " active";
         }
 
         #endregion
@@ -868,6 +891,9 @@ namespace EventHandlingSystem
 
         protected void BtnCreateTerm_OnClick(object sender, EventArgs e)
         {
+            LabelMessageCreateT.Text = "";
+            TxtBoxNameCreateT.Text = "";
+
             //Ändra till TaxonomyView med alla dess Controls.
             MultiViewCreate.ActiveViewIndex = 1;
 
@@ -898,6 +924,9 @@ namespace EventHandlingSystem
 
         protected void BtnCreateTermSet_OnClick(object sender, EventArgs e)
         {
+            LabelMessageCreateTS.Text = "";
+            TxtBoxNameCreateTS.Text = "";
+
             //Ändra till TermSetView med alla dess Controls.
             MultiViewCreate.ActiveViewIndex = 2;
 
@@ -912,7 +941,7 @@ namespace EventHandlingSystem
             DropDownListCreateParentTS.Items.Clear();
 
             //Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
-            DropDownListCreateParentTS.Items.Add(new ListItem());
+            DropDownListCreateParentTS.Items.Add(new ListItem("", "tax_" + strId));
             foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
             {
                 DropDownListCreateParentTS.Items.Add(new ListItem
@@ -933,43 +962,51 @@ namespace EventHandlingSystem
 
         protected void BtnCreateT_OnClick(object sender, EventArgs e)
         {
-
             //Framtidskod (ಠ ‿  ಠ)!!!
             //ICollection<TermSet> iSets = new Collection<TermSet>() { TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue)) };
 
             //iSets.Add(TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue)));
+            if (!string.IsNullOrWhiteSpace(DropDownListTInTS.SelectedValue))
+            {
 
-            Term term = new Term
-            {
-                Name = TxtBoxNameCreateT.Text,
-                TermSet =
-                    new Collection<TermSet>() {TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue))}
-            };
-
-            if (TermDB.CreateTerm(term) != 0)
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
-                LabelMessageCreateT.Text = term.Name + " was created in " + term.TermSet.FirstOrDefault().Name + "!";
-            }
-            else
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
-                MultiViewCreate.ActiveViewIndex = -1;
-                LabelMessageCreateT.Text = "Term was not created!";
-            }
-
-            //Refresh taxonomytreeview.
-            if (term.TermSet.FirstOrDefault() != null)
-            {
-                if (term.TermSet.FirstOrDefault().TaxonomyId == 2)
+                Term term = new Term
                 {
-                    BtnCategoryTax_OnClick(null, EventArgs.Empty);
+                    Name = TxtBoxNameCreateT.Text,
+                    TermSet =
+                        new Collection<TermSet>() {TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue))}
+                };
+
+                if (TermDB.CreateTerm(term) != 0)
+                {
+                    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+                    LabelMessageCreateT.Text = term.Name + " was created in " + term.TermSet.FirstOrDefault().Name + "!";
                 }
                 else
                 {
-                    BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+                    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    LabelMessageCreateT.Text = "Term was not created!";
                 }
+
+                //Refresh taxonomytreeview.
+                if (term.TermSet.FirstOrDefault() != null)
+                {
+                    if (term.TermSet.FirstOrDefault().TaxonomyId == 2)
+                    {
+                        BtnCategoryTax_OnClick(null, EventArgs.Empty);
+                    }
+                    else
+                    {
+                        BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+                    }
+                }
+
             }
+            else
+            {
+                LabelMessageCreateT.Text = "Term was not created! Terms must be placed in a termset.";
+            }
+
+
         }
 
         protected void BtnCreateTS_OnClick(object sender, EventArgs e)
@@ -978,11 +1015,14 @@ namespace EventHandlingSystem
             {
                 Name = TxtBoxNameCreateTS.Text,
                 ParentTermSetId =
-                    DropDownListCreateParentTS.SelectedValue == ""
+                    DropDownListCreateParentTS.SelectedValue.Contains("tax")
                         ? new int?[1] {null}[0]
                         : int.Parse(DropDownListCreateParentTS.SelectedValue),
-                TaxonomyId =
-                    TermSetDB.GetTermSetById(
+                TaxonomyId = DropDownListCreateParentTS.SelectedValue.Contains("tax")
+                    ? int.Parse(
+                        DropDownListCreateParentTS.SelectedValue.Substring(
+                            DropDownListCreateParentTS.SelectedValue.IndexOf('_') + 1))
+                    : TermSetDB.GetTermSetById(
                         int.Parse(DropDownListCreateParentTS.Items[DropDownListCreateParentTS.Items.Count - 1].Value))
                         .TaxonomyId
             };

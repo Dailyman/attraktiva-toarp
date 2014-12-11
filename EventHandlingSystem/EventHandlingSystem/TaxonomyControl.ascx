@@ -1,13 +1,50 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="TaxonomyControl.ascx.cs" Inherits="EventHandlingSystem.TaxonomyControl" %>
+
+<script type="text/javascript">
+    //$(document).ready(function () {
+
+        
+    //    $("form").submit(function() {
+
+    //        var val = $("input[type=submit][clicked=true]").val();
+
+    //        alert(val);
+
+    //        var act = $("form").attr('action');
+
+    //        alert(act);
+    //        // DO WORK
+
+    //        $("input[type=submit][clicked=true]").addClass('.active');
+
+    //    });
+
+    //    $("form input[type=submit]").click(function() {
+    //        $("input[type=submit]", $(this).parents("form")).removeAttr("clicked");
+    //        $(this).attr("clicked", "true");
+    //    });
+    //});
+    //jQuery(function () {
+    //    jQuery('.tab-btn').click(function () {
+    //        jQuery('.tab-btn').each(function () {
+    //            if(!jQuery(this).hasClass('.active')) jQuery(this).addClass('.active');
+    //        });
+    //    });        
+    //});
+</script>
+
 <div class="inner-content-box">
-    <h3>Choose a taxonomy</h3>
-    <br />
-    <asp:Button ID="BtnPublishTax" runat="server" Text="Publishing taxonomy" OnClick="BtnPublishTax_OnClick" />
-    <asp:Button ID="BtnCategoryTax" runat="server" Text="Category taxonomy" OnClick="BtnCategoryTax_OnClick" />
-    <asp:Button ID="BtnCustomCategoryTax" runat="server" Text="Custom category taxonomy" OnClick="BtnCustomCategoryTax_OnClick" />
-    <asp:TreeView ID="TreeViewTaxonomy" runat="server" OnTreeNodeCheckChanged="TreeViewTaxonomy_OnTreeNodeCheckChanged" ShowLines="True"></asp:TreeView>
-    <br />
-    <br />
+    <%--<h3>Choose a taxonomy</h3>
+    <br />--%>
+    <div class="tab-btn-holder">
+        <asp:Button ID="BtnPublishTax" CssClass="tab-btn" runat="server" Text="Publishing taxonomy" OnClick="BtnPublishTax_OnClick" />
+        <asp:Button ID="BtnCategoryTax" CssClass="tab-btn" runat="server" Text="Category taxonomy" OnClick="BtnCategoryTax_OnClick" />
+        <asp:Button ID="BtnCustomCategoryTax" CssClass="tab-btn" runat="server" Text="Custom category taxonomy" OnClick="BtnCustomCategoryTax_OnClick" />
+    </div>
+    <div class="tab-content">
+        <asp:Label ID="LabelTabContentDisplay" runat="server" Text="Choose a taxonomy"></asp:Label>
+        <asp:TreeView ID="TreeViewTaxonomy" runat="server" OnTreeNodeCheckChanged="TreeViewTaxonomy_OnTreeNodeCheckChanged" ShowLines="True" SkipLinkText=""></asp:TreeView>
+    </div>
     <div class="btn-align-right">
         <asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
         <br />
