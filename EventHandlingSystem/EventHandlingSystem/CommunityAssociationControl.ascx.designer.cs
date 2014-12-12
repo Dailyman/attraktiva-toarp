@@ -22,6 +22,69 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListCommunity;
         
         /// <summary>
+        /// MultiViewCommunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiViewCommunity;
+        
+        /// <summary>
+        /// ViewCommInfo control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View ViewCommInfo;
+        
+        /// <summary>
+        /// TextBoxCommName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxCommName;
+        
+        /// <summary>
+        /// HyperLinkCommLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkCommLink;
+        
+        /// <summary>
+        /// LabelCommLink control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelCommLink;
+        
+        /// <summary>
+        /// LabelCreated control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelCreated;
+        
+        /// <summary>
+        /// LabelCreatedBy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelCreatedBy;
+        
+        /// <summary>
         /// DropDownListAssociation control.
         /// </summary>
         /// <remarks>
