@@ -80,7 +80,7 @@
     </header>
         
     <div id="body">
-        <section id="Site-navigation">
+        <section id="Site-navigation-container">
             <aspNavigation:SiteNavigation runat="server" />
         </section>
         <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />

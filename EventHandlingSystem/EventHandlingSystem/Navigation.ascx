@@ -1,24 +1,12 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Navigation.ascx.cs" Inherits="EventHandlingSystem.Navigation1" %>
 
-<%--<script type="text/javascript">
-    $(document).ready(function () {
-        $("#toggle-nav-btn").toggle(
-        function () {
-            $("#Site-navigation nav").addClass("collapsed", 400, "easeOutExpo");
-            $(this).addClass("rotate-90", 100, "easeOutQuart");
-        }, function () {
-            $("#Site-navigation nav").removeClass("collapsed", 400, "easeOutExpo");
-            $(this).removeClass("rotate-90", 100, "easeOutQuart");
-        });
-    });
-</script>--%>
-
 <script type="text/javascript">
     $(document).ready(function () {
-        $("#toggle-nav-btn").click(function () {
-            $("#Site-navigation nav").slideToggle(500, "swing", $(this).toggleClass("rotate-90 rotate-m90"));
+        $("#toggle-nav-btn").click(function() {
+            //$("#Site-navigation nav").slideToggle(500, "swing", $(this).toggleClass("rotate-180 rotate-m180"));
+            $("#Site-navigation nav").toggle( "slide" );
+            $(this).toggleClass("rotate-180 rotate-m180");
         });
-
     });
 </script>
 
@@ -34,10 +22,8 @@
     //]]>
 </script>
 
-<div class="nav-title">
-    <img id="toggle-nav-btn" class="rotate-m90" src="../Images/list-32x32.png" /></div>
-<hr />
-<nav>
+<div id="Site-navigation">
+    <nav>
     <ul>
         <li><a href="/">Home</a></li>
         <li>
@@ -58,7 +44,11 @@
             <img src="../Images/cog-16x16.png" />
             Site settings</a></li>
     </ul>
-
 </nav>
+</div>
+
+<div class="nav-title">
+    <img id="toggle-nav-btn" class="rotate-m180" src="../Images/list-32x32.png" />
+</div>
 
 <%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>
