@@ -9,6 +9,7 @@ namespace EventHandlingSystem.Database
     {
         private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
+        // GET
         private static IEnumerable<Community> GetAllNotDeletedCommunities()
         {
             return Context.Communities.Where(c => !c.IsDeleted);
@@ -32,6 +33,12 @@ namespace EventHandlingSystem.Database
         public static string GetCommunityNameByPublishingTermSetId(int id)
         {
             return TermSetDB.GetTermSetNameByTermSetId(id);
+        }
+
+        public static int GetPublishingTermSetIdByCommunityId(int id)
+        {
+            Community com = GetCommunityById(id);
+            return com.PublishingTermSetId;
         }
     }
 }

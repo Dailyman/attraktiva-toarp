@@ -112,6 +112,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Button ButtonCommSave;
         
         /// <summary>
+        /// LabelCommSave control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelCommSave;
+        
+        /// <summary>
         /// LabelAssoInComm control.
         /// </summary>
         /// <remarks>
@@ -137,6 +146,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonEditAsso;
+        
+        /// <summary>
+        /// ButtonCreateNewAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCreateNewAsso;
         
         /// <summary>
         /// LabelErrorMessage control.
@@ -175,13 +193,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TextBoxAssoName;
         
         /// <summary>
-        /// DropDownListCommListInAsso control.
+        /// DropDownListCommunityInAsso control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListCommListInAsso;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCommunityInAsso;
         
         /// <summary>
         /// DropDownListParentAsso control.
@@ -247,15 +265,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Label LabelPTSAsso;
         
         /// <summary>
-        /// LogoUrl control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox LogoUrl;
-        
-        /// <summary>
         /// BulletedListSubAssociations control.
         /// </summary>
         /// <remarks>
@@ -281,5 +290,77 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonDeleteAsso;
+        
+        /// <summary>
+        /// MultiViewAssoCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiViewAssoCreate;
+        
+        /// <summary>
+        /// ViewAssoCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View ViewAssoCreate;
+        
+        /// <summary>
+        /// TextBoxCreateAssoName control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxCreateAssoName;
+        
+        /// <summary>
+        /// DropDownListCommunityCreateAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCommunityCreateAsso;
+        
+        /// <summary>
+        /// DropDownListCreateParAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateParAsso;
+        
+        /// <summary>
+        /// DropDownListCreateAssoType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateAssoType;
+        
+        /// <summary>
+        /// ButtonCreateAssoCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCreateAssoCancel;
+        
+        /// <summary>
+        /// ButtonCreateAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCreateAsso;
     }
 }
