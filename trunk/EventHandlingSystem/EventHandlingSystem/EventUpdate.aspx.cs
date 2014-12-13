@@ -24,7 +24,7 @@ namespace EventHandlingSystem
             
             if (!IsPostBack)
             {
-                //Skapar och lägger till alla associations i dropdownboxen.
+                //Skapar och lägger till alla associations i dropdownlistan.
                 List<ListItem> listItems = new List<ListItem>();
                 foreach (var association in AssociationDB.GetAllAssociations())
                 {

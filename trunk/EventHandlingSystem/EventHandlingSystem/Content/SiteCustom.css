@@ -383,6 +383,15 @@ border-bottom-right-radius: 7px;
         vertical-align: middle;
     }
 
+    .view-community-details, 
+    .view-community-details-association,
+    .view-association-details,
+    .view-select-community 
+    {
+        border:#000000 solid 1px;
+        padding: 15px;  
+    }
+    
 .warning-pattern
 {
     background-image: url("../Images/warning-pattern-30x30.png");
