@@ -383,15 +383,23 @@ border-bottom-right-radius: 7px;
         vertical-align: middle;
     }
 
+    .view-select-community,
     .view-community-details, 
     .view-community-details-association,
     .view-association-details,
-    .view-select-community 
+    .view-association-create
     {
         border:#000000 solid 1px;
         padding: 15px;  
+        border-radius: 0px;
+        -webkit-border-bottom-left-radius: 5px;
+        -webkit-border-bottom-right-radius: 5px;
+        -moz-border-radius-bottomleft: 5px;
+        -moz-border-radius-bottomright: 5px;
+        border-bottom-left-radius: 5px;
+        border-bottom-right-radius: 5px;
     }
-    
+ 
 .warning-pattern
 {
     background-image: url("../Images/warning-pattern-30x30.png");

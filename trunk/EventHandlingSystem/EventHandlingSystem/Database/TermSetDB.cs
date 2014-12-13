@@ -9,6 +9,7 @@ namespace EventHandlingSystem.Database
     {
         private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
+        // GET
         private static IEnumerable<TermSet> GetAllNotDeletedTermSets()
         {
             return Context.TermSets.Where(ts => !ts.IsDeleted);
@@ -35,6 +36,16 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedTermSets().Where(ts => ts.ParentTermSetId.Equals(id)).ToList();
         }
 
+        public static string GetTermSetNameByTermSetId(int id)
+        {
+            TermSet ts = GetTermSetById(id);
+            return ts.Name;
+        }
+
+       
+
+
+        // CREATE (ADD)
         public static int CreateTermSet(TermSet termSet)
         {
             TermSet termSetToCreate = new TermSet
@@ -51,6 +62,8 @@ namespace EventHandlingSystem.Database
             return affectedRows;
         }
 
+
+        // UPDATE
         public static int UpdateTermSet(TermSet termSet)
         {
             TermSet termSetToUpdate = GetTermSetById(termSet.Id);
@@ -62,6 +75,17 @@ namespace EventHandlingSystem.Database
             return affectedRows;
         }
 
+        public static int UpdateTermSetName(TermSet termSet, string tsName)
+        {
+            TermSet termSetToUpdate = GetTermSetById(termSet.Id);
+            termSetToUpdate.Name = tsName;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
+
+
+        // DELETE
         public static int DeleteTermSetById(int id)
         {
             TermSet termSetToDelete = GetTermSetById(id);
@@ -71,12 +95,6 @@ namespace EventHandlingSystem.Database
 
             int affectedRows = Context.SaveChanges();
             return affectedRows;
-        }
-
-        public static string GetTermSetNameByTermSetId(int id)
-        {
-            TermSet ts = GetTermSetById(id);
-            return ts.Name;
         }
     }
 }

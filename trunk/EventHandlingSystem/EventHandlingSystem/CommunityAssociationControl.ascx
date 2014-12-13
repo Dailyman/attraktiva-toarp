@@ -4,8 +4,8 @@
     <asp:MultiView ID="MultiViewSelectComm" runat="server" ActiveViewIndex="0">
         <asp:View ID="ViewSelectComm" runat="server">
             <div class="view-select-community">
-                <h3>Select a community</h3>
-                <br />
+                <span>Select a community</span>
+                <br /><br />
                 <asp:DropDownList ID="DropDownListCommunity"
                     runat="server"
                     OnSelectedIndexChanged="DropDownListCommunity_OnSelectedIndexChanged"
@@ -20,6 +20,7 @@
     <asp:MultiView ID="MultiViewCommDetails" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewCommDetails" runat="server">
             <div class="view-community-details">
+                <h3>Community Details</h3><br />
                 <span><b>Name: </b>
                     <asp:TextBox ID="TextBoxCommName" Text="" runat="server"></asp:TextBox></span><br />
                 <span><b>Link: </b>
@@ -31,6 +32,7 @@
                 <asp:Label ID="LabelCreatedBy" runat="server" Text=""></asp:Label><br />
                 <br />
                 <asp:Button ID="ButtonCommSave" runat="server" Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
+                <asp:Label ID="LabelCommSave" runat="server" Text=""></asp:Label>
             </div><br />
 
             <div class="view-community-details-association">
@@ -40,6 +42,7 @@
                 <br />
                 <br />
                 <asp:Button ID="ButtonEditAsso" runat="server" Text="Show Association Details" OnClick="ButtonEditAsso_OnClick" />
+                <asp:Button ID="ButtonCreateNewAsso" runat="server" Text="Create New Association" OnClick="ButtonCreateNewAsso_OnClick" /><br />
                 <asp:Label ID="LabelErrorMessage" runat="server" Text=""></asp:Label><br />
             </div>
         </asp:View>
@@ -49,31 +52,64 @@
         <asp:View ID="ViewAssoDetails" runat="server">
             <br />
             <div class="view-association-details">
+                <h3>Association Details</h3><br />
                 <span><b>Name: </b>
                     <asp:TextBox ID="TextBoxAssoName" Text="" runat="server"></asp:TextBox></span><br />
                 <span><b>Community: </b>
-                    <asp:DropDownList ID="DropDownListCommListInAsso" runat="server"></asp:DropDownList></span><br />
+                    <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br />
                 <span><b>Parent Association: </b>
                     <asp:DropDownList ID="DropDownListParentAsso" runat="server"></asp:DropDownList></span><br />
                 <span><b>Association Type: </b>
                     <asp:DropDownList ID="DropDownListAssoType" runat="server"></asp:DropDownList></span><br />
                 <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
-                <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label><br />
+                <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label>
                 <span>Link:
                     <asp:HyperLink ID="HyperLinkAssoLink" runat="server">
                         <asp:Label ID="LabelAssoLink" runat="server"></asp:Label></asp:HyperLink></span><br />
                 <asp:Label ID="LabelPTSAsso" runat="server" Text=""></asp:Label><br />
-                <span><b>Logo Url: </b>
-                    <asp:TextBox ID="LogoUrl" Text="" runat="server"></asp:TextBox></span><br />
                 <br />
                 <h3>Sub Associations</h3>
                 <asp:BulletedList ID="BulletedListSubAssociations" runat="server"></asp:BulletedList>
                 <br />
                 <asp:Button ID="ButtonUpdateAsso" runat="server" Text="Update" />
-                <asp:Button ID="ButtonDeleteAsso" runat="server" Text="Delete this association" />
+                <asp:Button ID="ButtonDeleteAsso" runat="server" Text="Delete this Association" />
             </div>
         </asp:View>
     </asp:MultiView>
     <br />
+    
+    <asp:MultiView ID="MultiViewAssoCreate" runat="server" ActiveViewIndex="-1">
+        <asp:View ID="ViewAssoCreate" runat="server">
+            <div class="view-association-create">
+                <h3>Create a new Association</h3><br />
+                <span><b>Name: </b>
+                    <asp:TextBox ID="TextBoxCreateAssoName" runat="server"></asp:TextBox>
+                </span><br />
+                <span><b>Community: </b>
+                    <asp:DropDownList ID="DropDownListCommunityCreateAsso"
+                        runat="server"
+                        OnSelectedIndexChanged="DropDownListCommCreateAsso_OnSelectedIndexChanged"
+                        EnableViewState="True"
+                        AutoPostBack="True">
+                    </asp:DropDownList>
+                </span><br />
+                <span><b>Parent Association: </b>
+                    <asp:DropDownList ID="DropDownListCreateParAsso"
+                        runat="server"
+                        OnSelectedIndexChanged="DropDownListCreateParAsso_OnSelectedIndexChanged">
+                    </asp:DropDownList>
+                </span><br />
+                <span><b>Association Type: </b>
+                    <asp:DropDownList ID="DropDownListCreateAssoType"
+                        runat="server"
+                        OnSelectedIndexChanged="DropDownListCreateAssoType_OnSelectedIndexChanged">
+                    </asp:DropDownList>
+                </span><br />
+                <br />
+                <asp:Button ID="ButtonCreateAssoCancel" runat="server" Text="Cancel" OnClick="ButtonCreateAssoCancel_OnClick"/>
+                <asp:Button ID="ButtonCreateAsso" runat="server" Text="Create" OnClick="ButtonCreateAsso_OnClick"/>
+            </div>
+        </asp:View>
+    </asp:MultiView>
     
 </div>

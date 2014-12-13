@@ -12,7 +12,7 @@ namespace EventHandlingSystem.Database
     {
         private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
-        
+        // GET
         private static IEnumerable<Event> GetAllNotDeletedEvents()
         {
             return Context.Events.Where(e => !e.IsDeleted);
@@ -33,6 +33,8 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedEvents().SingleOrDefault(e => e.Id.Equals(id));
         }
 
+
+        // ADD
         public static bool AddEvent(Event @event)
         {
             Context.Events.Add(@event);
@@ -47,6 +49,8 @@ namespace EventHandlingSystem.Database
             return true;
         }
 
+
+        // UPDATE
         public static int UpdateEvent(Event @event)
         {
             Event eventToUpdate = GetEventById(@event.Id);
