@@ -1,17 +1,19 @@
 ﻿html
 {
     background-color: #e2e2e2;
+
     margin: 0;
     padding: 0;
 }
 
 body
 {
-    background-color: #fff;
+    background-color: #0099cc;
     /*border-top: solid 10px #000;*/
     color: #222; /*Old - #333*/
     font-size: 1em; /*old - .85em*/
-    font-family: 'Open Sans', 'Helvetica Neue', Helvetica, sans-serif; /*old - "Segoe UI", Verdana, Helvetica, Sans-Serif*/
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif; /*old - "Segoe UI", Verdana, Helvetica, Sans-Serif*/
+    -webkit-font-smoothing: antialiased;
     margin: 0;
     padding: 0;
 }
@@ -114,7 +116,7 @@ h5, h6
 
 #body
 {
-    background-color: #2c3e50; /*old - #5faee3*/
+    background-color: #ffffff ; /*old - #5faee3* or #2c3e50/
     /*background: url("../Images/img-noise-361x370.png");*/ /*<- new*/
     clear: both;
     padding-bottom: 35px;
@@ -155,6 +157,8 @@ footer
     font-family: Rockwell, Consolas, "Courier New", Courier, monospace;
     font-size: 2.3em;
     margin: 0;
+    border-right: 1px solid #fff;
+margin-bottom: 10px;
 }
 
     .site-title a, .site-title a:hover, .site-title a:active

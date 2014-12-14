@@ -626,7 +626,7 @@ namespace EventHandlingSystem
                     }
                     if (taxonomyToDelete != null)
                     {
-                        if (TaxonomyDB.DeleteTaxonomyById(id) != 0) LabelDisplay.Text += id + "<br>";
+                        if (TaxonomyDB.DeleteTaxonomyById(id) != 0) LabelDisplay.Text += "(Taxonomy) "+taxonomyToDelete.Name + ",<br>";
                         taxId = taxonomyToDelete.Id;
                     }
                 }
@@ -636,7 +636,7 @@ namespace EventHandlingSystem
                     if (termSetToDelete != null)
                     {
                         DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
-                        if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += termSetToDelete.Name + "<br>";
+                        if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += "(Termset) " + termSetToDelete.Name + ",<br>";
                         taxId = termSetToDelete.TaxonomyId;
                     }
                 }
@@ -645,7 +645,7 @@ namespace EventHandlingSystem
                     Term termToDelete = TermDB.GetTermById(id);
                     if (termToDelete != null)
                     {
-                        if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += termToDelete.Name + "<br>";
+                        if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += "(Term) " + termToDelete.Name + ",<br>";
                         taxId = termToDelete.TermSet.FirstOrDefault().TaxonomyId;
                     }
                 }
@@ -677,7 +677,7 @@ namespace EventHandlingSystem
                 if (term != null)
                 {
                     //Tar bort Terms och visar att de gick att ta bort.
-                    if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += term.Name + "<br>";
+                    if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += "(Term) " + term.Name + ",<br>";
                 }
             }
 
@@ -690,7 +690,7 @@ namespace EventHandlingSystem
                 {
                     //Tar bort TermSets och visar att de gick att ta bort.
                     if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
-                        LabelDisplay.Text += termS.Name + "<br>";
+                        LabelDisplay.Text += "(Term) "+ termS.Name + ",<br>";
                 }
             }
         }
@@ -1003,6 +1003,7 @@ namespace EventHandlingSystem
             }
             else
             {
+                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
                 LabelMessageCreateT.Text = "Term was not created! Terms must be placed in a termset.";
             }
 

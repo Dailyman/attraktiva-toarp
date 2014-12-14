@@ -5,21 +5,21 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    
-        <div class="titlebox">
-            <h1>Home</h1>
-        </div>
-        <br />
-        <br />
-        <div class="warning-pattern">
-            <br />
-            <h1>Site under construction</h1>
-            <br />
-        </div>
-        <div class="warning-pattern">
-        </div>
-        <br />
-        <asp:Menu ID="MenuHome" runat="server"></asp:Menu>
-        <asp:Label ID="TestLable" runat="server" Text=""></asp:Label>
-    
+
+    <div class="titlebox">
+        <h1>Home</h1>
+    </div>
+    <br />
+    <br />
+    <div class="warning-pattern">
+    </div>
+    <br />
+    <h1>Site under construction!</h1>
+    <br />
+    <div class="warning-pattern">
+    </div>
+    <br />
+    <asp:Menu ID="MenuHome" runat="server"></asp:Menu>
+    <asp:Label ID="TestLable" runat="server" Text=""></asp:Label>
+
 </asp:Content>
