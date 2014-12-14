@@ -58,6 +58,24 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewCommDetails;
         
         /// <summary>
+        /// HyperLinkLogoCommunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkLogoCommunity;
+        
+        /// <summary>
+        /// ImageLogoCommunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageLogoCommunity;
+        
+        /// <summary>
         /// TextBoxCommName control.
         /// </summary>
         /// <remarks>
@@ -67,22 +85,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TextBoxCommName;
         
         /// <summary>
-        /// HyperLinkCommLink control.
+        /// TextBoxCommDescript control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkCommLink;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxCommDescript;
         
         /// <summary>
-        /// LabelCommLink control.
+        /// TextBoxLogoImgUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelCommLink;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxLogoImgUrl;
         
         /// <summary>
         /// LabelCreated control.
@@ -184,6 +202,24 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewAssoDetails;
         
         /// <summary>
+        /// HyperLinkLogoAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink HyperLinkLogoAssociation;
+        
+        /// <summary>
+        /// ImageLogoAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Image ImageLogoAssociation;
+        
+        /// <summary>
         /// TextBoxAssoName control.
         /// </summary>
         /// <remarks>
@@ -220,6 +256,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListAssoType;
         
         /// <summary>
+        /// LabelPTSAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelPTSAsso;
+        
+        /// <summary>
         /// LabelCreatedAsso control.
         /// </summary>
         /// <remarks>
@@ -236,33 +281,6 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label LabelCreatedByAsso;
-        
-        /// <summary>
-        /// HyperLinkAssoLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink HyperLinkAssoLink;
-        
-        /// <summary>
-        /// LabelAssoLink control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAssoLink;
-        
-        /// <summary>
-        /// LabelPTSAsso control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelPTSAsso;
         
         /// <summary>
         /// BulletedListSubAssociations control.

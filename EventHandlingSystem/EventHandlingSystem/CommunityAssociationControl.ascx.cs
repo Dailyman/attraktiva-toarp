@@ -20,12 +20,6 @@ namespace EventHandlingSystem
             if (!IsPostBack)
             {
                 PopulateCommunityDropDownList(DropDownListCommunity);
-
-                //Visa Association Edit-knapp
-                if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
-                {
-                    ButtonEditAsso.Visible = true;
-                }
             }
         }
         
@@ -39,7 +33,7 @@ namespace EventHandlingSystem
 
             List<ListItem> commList = new List<ListItem>();
 
-            //Lägg in alla communities i dropdownlist
+            //Lägg in alla communities i dropdownlista
             foreach (var comm in CommunityDB.GetAllCommunities())
             {
                 commList.Add(new ListItem
@@ -59,7 +53,39 @@ namespace EventHandlingSystem
                 ddl.Items.Add(item);
             }
         }
-        
+
+
+        //Metoden ska kunna användas av olika dropdownlistor
+        public void PopulateAssocationDropDownList(DropDownList ddl)
+        {
+            ddl.Items.Clear();
+
+            //Lägg in alla föreningar i dropdownlista
+            List<ListItem> assoList = AssociationDB.GetAllAssociations().Select(asso => new ListItem
+            {
+                Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId), Value = asso.Id.ToString()
+            }).ToList();
+
+            // ALTERNATIV med foreach
+            //foreach (var asso in AssociationDB.GetAllAssociations())
+            //{
+            //    assoList.Add(new ListItem
+            //    {
+            //        Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
+            //        Value = asso.Id.ToString()
+            //    });
+            //}
+
+            ListItem emptyItem = new ListItem("", " ");
+            ddl.Items.Add(emptyItem); //index 0
+
+            //Sorterar assoList i alfabetisk ordning i dropdownlistan för Associations
+            foreach (var item in assoList.OrderBy(item => item.Text))
+            {
+                ddl.Items.Add(item);
+            }
+        }
+
 
 
         public void PopulateAssocationListBox()
@@ -84,55 +110,58 @@ namespace EventHandlingSystem
             }
         }
 
+        public void PopulateAssociationTypesDropDownList()
+        {
+            DropDownListAssoType.Items.Clear();
 
+            List<ListItem> atList = new List<ListItem>();
 
-        //Bortkommenterad kod
-        #region PopulateAssociationDropDownList
-        //public void PopulateAssocationDropDownList()
-        //{
-        //    List<ListItem> assoList = new List<ListItem>();
+            foreach (var a in AssociationDB.GetAllAssociationsWithAssociationType())
+            {
+                int? at = a.AssociationType;
+                int assoTypeId = (int)at;
 
-        //    //Lägg in alla föreningar i dropdownlista
-        //    if (!string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
-        //    {
-        //        assoList.AddRange(AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedItem.Value))).Select(asso => new ListItem
-        //        {
-        //            Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId), Value = asso.Id.ToString()
-        //        }));
+                atList.Add(new ListItem
+                {
+                    Text = TermDB.GetTermById(assoTypeId).Name,
+                    Value = assoTypeId.ToString()
+                });
+            }
 
-        //        //Sorterar assoList i alfabetisk ordning i dropdownlistan för Associations
-        //        foreach (var item in assoList.OrderBy(item => item.Text))
-        //        {
-        //           // DropDownListAssociation.Items.Add(item);
-        //        }
-        //    }
-        //}
-        #endregion
+            ListItem emptyItem = new ListItem("", " ");
+            DropDownListAssoType.Items.Add(emptyItem); //index 0
+
+            //Tar bort dubbletter och sorterar i bokstavsordning
+            foreach (var item in atList.Distinct().OrderBy(item => item.Text))
+            {
+                DropDownListAssoType.Items.Add(item);
+            }
+        }
         #endregion
 
         
+
         #region Show Methods
 
         public void ShowCommunityDetails()
         {
-            //Visa Community Name i textboxen och i rubrik över föreningslista
+            // Visa Community Name i textboxen och i rubrik över föreningslista
             TextBoxCommName.Text = DropDownListCommunity.SelectedItem.Text;
             LabelAssoInComm.Text = "Associations in " + DropDownListCommunity.SelectedItem.Text;
 
-            //Visa Community Link i textboxen
-            HyperLinkCommLink.NavigateUrl =
+            // Visa Community logga med länk innehållande tooltip
+            HyperLinkLogoCommunity.NavigateUrl =
                 "/SitePage.aspx?id=" +
                 CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedValue)).WebPage.Id + "&type=C";
-            HyperLinkCommLink.Target = "_blank";
-            HyperLinkCommLink.ToolTip = "This link goes to the web page of the community! (^-^)v";
-            LabelCommLink.Text = DropDownListCommunity.SelectedItem.Text + "'s web page";
-
+            HyperLinkLogoCommunity.Target = "_blank";
+            HyperLinkLogoCommunity.ToolTip = "This link goes to the web page of " + DropDownListCommunity.SelectedItem.Text + ". (^-^)v";
+            
             // Visa Created och Created By
-            LabelCreated.Text = "Created: " +
+            LabelCreated.Text = "<b>Created: </b>" +
                                 CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedValue))
                                     .Created.ToShortDateString();
 
-            LabelCreatedBy.Text = "Created by: " +
+            LabelCreatedBy.Text = "<b>Created by: </b>" +
                                   CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedValue))
                                       .CreatedBy;
         }
@@ -141,23 +170,64 @@ namespace EventHandlingSystem
 
         public void ShowAssociationDetails()
         {
+            Association asso = AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value));
+
             //Visa Association Name i textboxen
             TextBoxAssoName.Text = ListBoxAsso.SelectedItem.Text;
 
-            //Visa Community Link i textboxen
-            HyperLinkAssoLink.NavigateUrl =
+            //Visa Association logga plus web page link
+            HyperLinkLogoAssociation.NavigateUrl =
                 "/SitePage.aspx?id=" +
                 AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedValue)).WebPage.Id + "&type=C";
-            HyperLinkAssoLink.Target = "_blank";
-            HyperLinkAssoLink.ToolTip = "This link goes to the web page of the association! o(^O^)o ";
-            LabelAssoLink.Text = ListBoxAsso.SelectedItem.Text + "'s web page";
+            HyperLinkLogoAssociation.Target = "_blank";
+            HyperLinkLogoAssociation.ToolTip = "This link goes to the web page of " + ListBoxAsso.SelectedItem.Text + "! o(^O^)o ";
 
-            // Visa Created och Created By
-            LabelCreated.Text = "Created: " +
+            // Visa Community-dropdownlista
+            PopulateCommunityDropDownList(DropDownListCommunityInAsso);
+            DropDownListCommunityInAsso.SelectedIndex =
+                        DropDownListCommunityInAsso.Items.IndexOf(
+                            DropDownListCommunityInAsso.Items.FindByValue(asso.CommunityId.ToString()));
+
+            // Visa ParentAssociation-dropdownlista
+            PopulateAssocationDropDownList(DropDownListParentAsso);
+
+            if (asso.ParentAssociationId == null)
+            {
+                //Om föreningen inte har en förälder ska dropdownlistan visa blankt
+                DropDownListParentAsso.SelectedIndex = 0;
+            }
+            else
+            {
+                DropDownListParentAsso.SelectedIndex =
+                DropDownListParentAsso.Items.IndexOf(
+                    DropDownListParentAsso.Items.FindByValue(asso.ParentAssociationId.ToString()));
+            }
+            
+            // Visa alla föreningstyper i dropdownlista
+            PopulateAssociationTypesDropDownList();
+
+            if (asso.AssociationType == null)
+            {
+                //Om föreningen inte har en föreningstyp ska dropdownlistan visa blankt
+                DropDownListAssoType.SelectedIndex = 0;
+            }
+            else
+            {
+                DropDownListAssoType.SelectedIndex =
+                DropDownListAssoType.Items.IndexOf(
+                    DropDownListAssoType.Items.FindByValue(asso.AssociationType.ToString()));
+            }
+
+            // Visa Created, Created By och Publishing TermSet
+            LabelCreatedAsso.Text = "<b>Created: </b>" +
                                 AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedValue))
                                     .Created.ToShortDateString();
-            LabelCreatedBy.Text = "Created by: " +
+            LabelCreatedByAsso.Text = "<b>Created by: </b>" +
                                   AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedValue)).CreatedBy;
+
+            LabelPTSAsso.Text = "<b>Publishing TermSet: </b>" +
+                                TermSetDB.GetTermSetNameByTermSetId(
+                                    TermSetDB.GetTermSetById(asso.PublishingTermSetId).Id);
         }
 
         #endregion
@@ -282,10 +352,12 @@ namespace EventHandlingSystem
         }
 
 
+
         protected void ButtonCreateAssoCancel_OnClick(object sender, EventArgs e)
         {
             
         }
+
 
 
         protected void ButtonCreateAsso_OnClick(object sender, EventArgs e)
