@@ -74,7 +74,7 @@
         <br />
         <br />
         <div class="btn-align-right">
-            <asp:Button ID="BtnUpdateEvent" CssClass="btn-align-right" runat="server" Text="Update event" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
+            <asp:Button ID="BtnUpdateEvent" CssClass="btn-blue" runat="server" Text="Update event" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
         </div>
 
    

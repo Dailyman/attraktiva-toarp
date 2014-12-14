@@ -46,12 +46,13 @@
         <asp:TreeView ID="TreeViewTaxonomy" runat="server" OnTreeNodeCheckChanged="TreeViewTaxonomy_OnTreeNodeCheckChanged" ShowLines="True" SkipLinkText=""></asp:TreeView>
     </div>
     <div class="btn-align-right">
-        <asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
         <br />
-        <asp:Button ID="BtnClearSelected" runat="server" Text="Uncheck all" OnClick="BtnClearSelected_OnClick" />
-        <asp:Button ID="BtnEdit" runat="server" Text="Edit" OnClick="BtnEdit_OnClick" />
-        <asp:Button ID="BtnCreate" runat="server" Text="Create" OnClick="BtnCreate_OnClick" />
-        <asp:Button ID="BtnDelete" runat="server" Text="Delete" OnClick="BtnDelete_OnClick" />
+        <asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
+        <br /><br />
+        <asp:Button ID="BtnClearSelected" CssClass="btn-blue" runat="server" Text="Uncheck all" OnClick="BtnClearSelected_OnClick" />
+        <asp:Button ID="BtnEdit" CssClass="btn-blue" runat="server" Text="Edit" OnClick="BtnEdit_OnClick" />
+        <asp:Button ID="BtnCreate" CssClass="btn-blue" runat="server" Text="Create" OnClick="BtnCreate_OnClick" />
+        <asp:Button ID="BtnDelete" CssClass="btn-blue" runat="server" Text="Delete" OnClick="BtnDelete_OnClick" />
     </div>
 </div>
 <br />

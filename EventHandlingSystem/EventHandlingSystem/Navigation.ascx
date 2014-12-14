@@ -1,20 +1,23 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Navigation.ascx.cs" Inherits="EventHandlingSystem.Navigation1" %>
 
 <script type="text/javascript">
-    $(document).ready(function () {
-        $("#toggle-nav-btn").click(function() {
+    //<![CDATA[
+    jQuery(function () {
+        jQuery('#Site-navigation nav').hide();
+        jQuery('#toggle-nav-btn').click(function () {
             //$("#Site-navigation nav").slideToggle(500, "swing", $(this).toggleClass("rotate-180 rotate-m180"));
-            $("#Site-navigation nav").toggle( "slide" );
-            $(this).toggleClass("rotate-180 rotate-m180");
+            jQuery('#Site-navigation nav').toggle('slide', 200);
+            jQuery(this).toggleClass('rotate-180 rotate-m180');
         });
     });
+    //]]>
 </script>
 
 <script type="text/javascript" charset="utf-8">
     //<![CDATA[
     jQuery(function () {
         jQuery('#Site-navigation a').each(function () {
-            if (jQuery(this).attr('href') === window.location.pathname + window.location.search) {
+            if (jQuery(this).attr('href') === window.location.pathname + window.location.search ) {
                 jQuery(this).addClass('current-link');
             }
         });
