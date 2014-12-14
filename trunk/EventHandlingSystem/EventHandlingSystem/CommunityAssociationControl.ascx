@@ -21,11 +21,25 @@
         <asp:View ID="ViewCommDetails" runat="server">
             <div class="view-community-details">
                 <h3>Community Details</h3><br />
+                    <asp:HyperLink ID="HyperLinkLogoCommunity" runat="server">
+                        <%--Just nu har alla communities samma bild--%>
+                        <asp:Image ID="ImageLogoCommunity" 
+                            ImageUrl="~/Images/Community.jpg" 
+                            ImageAlign="Right"
+                            runat="server" />
+                    </asp:HyperLink>
                 <span><b>Name: </b>
                     <asp:TextBox ID="TextBoxCommName" Text="" runat="server"></asp:TextBox></span><br />
-                <span><b>Link: </b>
-                    <asp:HyperLink ID="HyperLinkCommLink" runat="server">
-                        <asp:Label ID="LabelCommLink" runat="server"></asp:Label></asp:HyperLink></span>
+                <span><b>Description: </b><br />
+                    <asp:TextBox ID="TextBoxCommDescript" 
+                        TextMode="MultiLine" 
+                        Text="This is a very friendly community..." 
+                        ForeColor="gray"
+                        runat="server"></asp:TextBox>
+                </span><br />
+                <span><b>Logo URL: </b>
+                    <asp:TextBox ID="TextBoxLogoImgUrl" Text="~/Images/Community.jpg" ForeColor="gray" runat="server"></asp:TextBox>
+                </span>
                 <br />
                 <br />
                 <asp:Label ID="LabelCreated" runat="server" Text=""></asp:Label><br />
@@ -53,20 +67,25 @@
             <br />
             <div class="view-association-details">
                 <h3>Association Details</h3><br />
+                <asp:HyperLink ID="HyperLinkLogoAssociation" runat="server">
+                        <%--Just nu har alla associations samma bild--%>
+                        <asp:Image ID="ImageLogoAssociation" 
+                            ImageUrl="~/Images/Association.jpg"
+                            ImageAlign="Right"
+                            runat="server" />
+                    </asp:HyperLink>
                 <span><b>Name: </b>
-                    <asp:TextBox ID="TextBoxAssoName" Text="" runat="server"></asp:TextBox></span><br />
+                    <asp:TextBox ID="TextBoxAssoName" Text="" runat="server"></asp:TextBox></span><br /><br />
                 <span><b>Community: </b>
-                    <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br />
+                    <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br /><br />
                 <span><b>Parent Association: </b>
-                    <asp:DropDownList ID="DropDownListParentAsso" runat="server"></asp:DropDownList></span><br />
+                    <asp:DropDownList ID="DropDownListParentAsso" runat="server"></asp:DropDownList></span><br /><br />
                 <span><b>Association Type: </b>
-                    <asp:DropDownList ID="DropDownListAssoType" runat="server"></asp:DropDownList></span><br />
-                <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
-                <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label>
-                <span>Link:
-                    <asp:HyperLink ID="HyperLinkAssoLink" runat="server">
-                        <asp:Label ID="LabelAssoLink" runat="server"></asp:Label></asp:HyperLink></span><br />
-                <asp:Label ID="LabelPTSAsso" runat="server" Text=""></asp:Label><br />
+                    <asp:DropDownList ID="DropDownListAssoType" runat="server"></asp:DropDownList></span><br /><br />
+                    <asp:Label ID="LabelPTSAsso" runat="server" Text=""></asp:Label><br /><br />
+                    <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
+                    <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label><br />
+                    
                 <br />
                 <h3>Sub Associations</h3>
                 <asp:BulletedList ID="BulletedListSubAssociations" runat="server"></asp:BulletedList>

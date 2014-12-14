@@ -9,6 +9,8 @@ namespace EventHandlingSystem.Database
     {
         private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
+
+        // GET
         private static IEnumerable<Association> GetAllNotDeletedAssociations()
         {
             return Context.Associations.Where(a => !a.IsDeleted);
@@ -31,12 +33,22 @@ namespace EventHandlingSystem.Database
 
         public static List<Association> GetAllAssociationsInCommunity(Community com)
         {
-            return GetAllAssociations().Where(a => a.Community.Equals(com)).ToList();
+            return GetAllNotDeletedAssociations().Where(a => a.Community.Equals(com)).ToList();
         }
 
         public static string GetAssocationNameByPublishingTermSetId(int id)
         {
             return TermSetDB.GetTermSetNameByTermSetId(id);
+        }
+
+        public static List<Association> GetAllParentAssociations()
+        {
+            return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null)).ToList();
+        }
+
+        public static List<Association> GetAllAssociationsWithAssociationType()
+        {
+           return GetAllNotDeletedAssociations().Where(a => !a.AssociationType.Equals(null)).ToList();
         }
     }
 }

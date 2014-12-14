@@ -10,6 +10,7 @@ namespace EventHandlingSystem.Database
     {
         private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
+        // GET
         private static IEnumerable<Term> GetAllNotDeletedTerms()
         {
             return Context.Terms.Where(term => !term.IsDeleted);
@@ -25,6 +26,8 @@ namespace EventHandlingSystem.Database
             return TermSetDB.GetTermSetById(termSet.Id).Term.Where(t => !t.IsDeleted).ToList();
         }
 
+        
+        // CREATE
         public static int CreateTerm(Term term)
         {
             Term termToCreate = new Term
@@ -40,6 +43,8 @@ namespace EventHandlingSystem.Database
             return affectedRows;
         }
 
+
+        // UPDATE
         public static int UpdateTerm(Term term)
         {
             Term termToUpdate = GetTermById(term.Id);
@@ -50,6 +55,8 @@ namespace EventHandlingSystem.Database
             return affectedRows;
         }
 
+
+        // DELETE
         public static int DeleteTermById(int id)
         {
             Term termToDelete = GetTermById(id);
