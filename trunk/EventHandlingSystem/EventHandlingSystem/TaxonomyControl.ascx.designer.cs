@@ -130,6 +130,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewSelectCreate;
         
         /// <summary>
+        /// ImageButtonClose1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose1;
+        
+        /// <summary>
         /// BtnCreateTerm control.
         /// </summary>
         /// <remarks>
@@ -155,6 +164,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View ViewTermCreate;
+        
+        /// <summary>
+        /// ImageButtonClose2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose2;
         
         /// <summary>
         /// LabelCreateTerm control.
@@ -227,6 +245,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View ViewTermSetCreate;
+        
+        /// <summary>
+        /// ImageButtonClose3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose3;
         
         /// <summary>
         /// LabelCreateTermSet control.
@@ -319,6 +346,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewTaxonomyEdit;
         
         /// <summary>
+        /// ImageButton1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButton1;
+        
+        /// <summary>
         /// LabelIdTax control.
         /// </summary>
         /// <remarks>
@@ -380,6 +416,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View ViewTermSetEdit;
+        
+        /// <summary>
+        /// ImageButtonClose5 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose5;
         
         /// <summary>
         /// LabelTaxNameTSView control.
@@ -463,6 +508,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.View ViewTermEdit;
         
         /// <summary>
+        /// ImageButtonClose6 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose6;
+        
+        /// <summary>
         /// LabelTaxNameTView control.
         /// </summary>
         /// <remarks>
@@ -542,6 +596,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.View ViewDelete;
+        
+        /// <summary>
+        /// ImageButtonClose7 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose7;
         
         /// <summary>
         /// CheckBoxListItemsToDelete control.

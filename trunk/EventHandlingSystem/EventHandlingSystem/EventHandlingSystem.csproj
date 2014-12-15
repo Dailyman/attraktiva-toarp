@@ -134,6 +134,7 @@
     <Content Include="CommunityAssociationControl.ascx" />
     <Content Include="Content\SiteCustom.css" />
     <Content Include="Images\Association.jpg" />
+    <Content Include="Images\close-round-32x32.png" />
     <Content Include="Images\cog-16x16.png" />
     <Content Include="Images\AT-logga.png" />
     <Content Include="Images\Aux_folder_16x16.gif" />

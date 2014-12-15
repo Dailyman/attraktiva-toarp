@@ -31,8 +31,8 @@
         <li><a href="/">Home</a></li>
         <li>
             <asp:TreeView ID="TreeViewNavigation" runat="server" OnSelectedNodeChanged="TreeViewNavigation_OnSelectedNodeChanged"
-                ExpandImageUrl="~/Images/icon-arrow-right-b-16.png"
-                CollapseImageUrl="~/Images/icon-arrow-down-b-16.png"
+                ExpandImageUrl="/Images/icon-arrow-right-b-16.png"
+                CollapseImageUrl="/Images/icon-arrow-down-b-16.png"
                 SkipLinkText=""
                 SelectedNodeStyle-BackColor="#95a5a6"
                 SelectedNodeStyle-CssClass="selectedNodesNav">
@@ -44,7 +44,7 @@
             <br />
         </li>
         <li><a href="/SiteSettings.aspx" class="text-align-left">
-            <img src="../Images/cog-16x16.png" />
+            <img src="/Images/cog-16x16.png" />
             Site settings</a></li>
     </ul>
 </nav>
