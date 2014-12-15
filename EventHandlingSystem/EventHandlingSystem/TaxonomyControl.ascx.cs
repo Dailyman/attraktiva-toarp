@@ -23,8 +23,6 @@ namespace EventHandlingSystem
             //Återställer Displaytexten.
             LabelDisplay.Text = "";
 
-            //LabelTabContentDisplay.Visible = TreeViewTaxonomy.Nodes.Count == 0;
-
             if (!IsPostBack)
             {
 
@@ -36,6 +34,10 @@ namespace EventHandlingSystem
         protected void Page_PreRender(object sender, EventArgs e)
         {
             LabelTabContentDisplay.Visible = TreeViewTaxonomy.Nodes.Count == 0;
+
+            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
+            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
+            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
 
@@ -189,9 +191,7 @@ namespace EventHandlingSystem
                 node.Checked = false;
             }
 
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
+            
         }
 
         #endregion
@@ -355,11 +355,6 @@ namespace EventHandlingSystem
                 //Användare måste ha laddat in en taxonomi i TreeViewn.
                 LabelDisplay.Text = "Select a taxonomy to edit in!";
             }
-
-
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         #endregion
@@ -405,10 +400,6 @@ namespace EventHandlingSystem
                 //Användare måste ha laddat in en taxonomi i TreeViewn.
                 LabelDisplay.Text = "Select a taxonomy to create in!";
             }
-
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         #endregion
@@ -423,10 +414,6 @@ namespace EventHandlingSystem
 
             //Gömmer "Edit view".
             MultiViewEdit.ActiveViewIndex = -1;
-
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
 
             //Skapas en ny instans av den globala listvariabeln.
             CheckedTreeNodes = new List<TreeNode>();
@@ -521,10 +508,6 @@ namespace EventHandlingSystem
             //Visar Delete(Edit)View
             MultiViewEdit.ActiveViewIndex = 3;
 
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
-
             //Kommer innehålla nodvärde.
             string nodeValue;
 
@@ -589,10 +572,6 @@ namespace EventHandlingSystem
 
             //Gömmer Delete(Create)View
             MultiViewEdit.ActiveViewIndex = -1;
-
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         private void DeleteAllItemsInList(List<ListItem> itemsToDelete)
@@ -916,10 +895,6 @@ namespace EventHandlingSystem
                     Value = termSet.Id.ToString()
                 });
             }
-
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         protected void BtnCreateTermSet_OnClick(object sender, EventArgs e)
@@ -950,10 +925,6 @@ namespace EventHandlingSystem
                     Value = termSet.Id.ToString()
                 });
             }
-
-            //Visar CreateBox/EditBox(Div-taggar) på sidan om en View är aktiv i respektive MultiViewControl.
-            CreateBox.Visible = MultiViewCreate.ActiveViewIndex != -1;
-            EditBox.Visible = MultiViewEdit.ActiveViewIndex != -1;
         }
 
         #endregion
@@ -1060,6 +1031,15 @@ namespace EventHandlingSystem
         protected void ImageButtonBack_OnClick(object sender, ImageClickEventArgs e)
         {
             MultiViewCreate.ActiveViewIndex = 0;
+        }
+
+        protected void ImageButtonCloseMultiViewCreate_OnClick(object sender, ImageClickEventArgs e)
+        {
+            MultiViewCreate.ActiveViewIndex = -1;
+        }
+        protected void ImageButtonCloseMultiViewEdit_OnClick(object sender, ImageClickEventArgs e)
+        {
+            MultiViewEdit.ActiveViewIndex = -1;
         }
     }
 }

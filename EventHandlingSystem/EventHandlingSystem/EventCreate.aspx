@@ -32,8 +32,7 @@
     <h6>Image(Url)</h6>
     <asp:TextBox ID="TxtBoxImageUrl" runat="server"></asp:TextBox>
     <br />
-    <h6>A whole day event?</h6>
-    <asp:CheckBox ID="ChkBoxDayEvent" runat="server" OnCheckedChanged="ChkBoxDayEvent_OnCheckedChanged" AutoPostBack="True" />
+    <h6>Whole day event</h6><asp:CheckBox ID="ChkBoxDayEvent" runat="server" OnCheckedChanged="ChkBoxDayEvent_OnCheckedChanged" AutoPostBack="True" />
     <br />
     <h6>Start date*</h6>
     <asp:TextBox ID="TxtBoxStartDate" runat="server" OnTextChanged="TxtBoxStartDate_OnTextChanged" Width="205px" AutoPostBack="True"></asp:TextBox>

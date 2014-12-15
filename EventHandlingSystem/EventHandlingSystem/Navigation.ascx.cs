@@ -18,30 +18,32 @@ namespace EventHandlingSystem
                AddNodesToTreeView(TreeViewNavigation, 1); 
             }
 
-            //Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
-            foreach (TreeNode node in TreeViewNavigation.Nodes)
-            {
-                if(node.NavigateUrl == Request.Url.PathAndQuery)
-                {
-                    TreeViewNavigation.FindNode(node.ValuePath).Select();
-                }
-                SelectTreeNodeByNavUrl(node);
-            }
+            ////Ersatt av Javascript
+            ////Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
+            //foreach (TreeNode node in TreeViewNavigation.Nodes)
+            //{
+            //    if(node.NavigateUrl == Request.Url.PathAndQuery)
+            //    {
+            //        TreeViewNavigation.FindNode(node.ValuePath).Select();
+            //    }
+            //    SelectTreeNodeByNavUrl(node);
+            //}
         }
 
-        //Går igenom childnodes för att hitta och markera den aktiva sidan/länken/noden i navigeringen.
-        private void SelectTreeNodeByNavUrl(TreeNode node)
-        {
-            foreach (TreeNode n in node.ChildNodes)
-            {
-                if (n.NavigateUrl == Request.Url.PathAndQuery)
-                {
-                    TreeViewNavigation.FindNode(n.ValuePath).Select(); 
-                    //LabelDisplay.Text += "<br>" + n.ValuePath + ","; // <- Remove
-                }
-                SelectTreeNodeByNavUrl(n);
-            }
-        }
+        ////Ersatt av Javascript
+        ////Går igenom childnodes för att hitta och markera den aktiva sidan/länken/noden i navigeringen.
+        //private void SelectTreeNodeByNavUrl(TreeNode node)
+        //{
+        //    foreach (TreeNode n in node.ChildNodes)
+        //    {
+        //        if (n.NavigateUrl == Request.Url.PathAndQuery)
+        //        {
+        //            TreeViewNavigation.FindNode(n.ValuePath).Select(); 
+        //            //LabelDisplay.Text += "<br>" + n.ValuePath + ","; // <- Remove
+        //        }
+        //        SelectTreeNodeByNavUrl(n);
+        //    }
+        //}
 
        
 
@@ -118,19 +120,19 @@ namespace EventHandlingSystem
                         TreeNode uncategorized = new TreeNode()
                         {
                             Text = "Övrigt",
-                            Value = "Övrigt-" + parentNode.Value,
+                            Value = "ovrigt-" + parentNode.Value,
                             Expanded = false,
                             SelectAction = TreeNodeSelectAction.Expand
                         };
                         if (!associationTypesNodes.Exists(
-                                categoryNode => categoryNode.Value.Equals("Övrigt-" + parentNode.Value)))
+                                categoryNode => categoryNode.Value.Equals("ovrigt-" + parentNode.Value)))
                         {
                             //parentNode.ChildNodes.Add(uncategorized);
                             categoryNodesToAdd.Add(uncategorized, parentNode);
                             associationTypesNodes.Add(uncategorized);
                         }
 
-                        associationTypesNodes.Find(t => t.Value.Equals("Övrigt-" + parentNode.Value))
+                        associationTypesNodes.Find(t => t.Value.Equals("ovrigt-" + parentNode.Value))
                             .ChildNodes.Add(childNode);
                     }
                     else
