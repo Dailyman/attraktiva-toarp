@@ -76,6 +76,5 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
-        
     }
 }

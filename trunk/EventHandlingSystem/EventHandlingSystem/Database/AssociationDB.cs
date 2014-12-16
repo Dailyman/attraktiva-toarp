@@ -50,5 +50,31 @@ namespace EventHandlingSystem.Database
         {
            return GetAllNotDeletedAssociations().Where(a => !a.AssociationType.Equals(null)).ToList();
         }
+
+        public static List<Association> GetAllSubAssociationsByParentAssociationId(int id)
+        {
+            return GetAllNotDeletedAssociations().Where(ts => ts.ParentAssociationId.Equals(id)).ToList();
+        }
+
+        public static int GetPublishingTermSetIdByAssociationId(int id)
+        {
+            Association asso = GetAssociationById(id);
+            return asso.PublishingTermSetId;
+        }
+
+
+        // UPDATE
+        public static int UpdateAssociation(Association assoc)
+        {
+            Association assoToUpdate = GetAssociationById(assoc.Id);
+
+            assoToUpdate.CommunityId = assoc.CommunityId;
+            assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
+            assoToUpdate.PublishingTermSetId = assoc.PublishingTermSetId;
+            assoToUpdate.AssociationType = assoc.AssociationType;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }
