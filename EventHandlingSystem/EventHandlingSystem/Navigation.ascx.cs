@@ -18,6 +18,13 @@ namespace EventHandlingSystem
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (TreeViewNavigation.Nodes.Count != 0)
+            {
+                List<string> list = new List<string>();
+                SaveTreeViewState(TreeViewNavigation.Nodes, list);
+                Session["TreeViewState"] = list;
+            }
+            
             // Disable ExpandDepth if the TreeView’s expanded/collapsed 
             // state is stored in session. 
             if (Session["TreeViewState"] != null) TreeViewNavigation.ExpandDepth = -1;
@@ -40,8 +47,7 @@ namespace EventHandlingSystem
 
                 AddNodesToTreeView(TreeViewNavigation, 1);
 
-                // Apply the recorded expanded/collapsed state to 
-                // the TreeView. 
+                // Apply the recorded expanded/collapsed state to the TreeView. 
                 List<string> list = (List<string>)Session["TreeViewState"];
                 if (list != null)
                 {
@@ -159,13 +165,13 @@ namespace EventHandlingSystem
             {
                 if (node.ChildNodes != null && node.ChildNodes.Count != 0)
                 {
-                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Text))
+                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Value))
                         list.Add(node.Value);
                     SaveTreeViewState(node.ChildNodes, list);
                 }
                 else
                 {
-                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Text))
+                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Value))
                         list.Add(node.Value);
                 }
             }
@@ -213,7 +219,7 @@ namespace EventHandlingSystem
                 {
                     Text = "Communities/Associations",
                     Value = tax.Id.ToString(),
-                    Expanded = false,
+                    Expanded = true,
                     NavigateUrl = "/SitePage.aspx",
                     SelectAction = TreeNodeSelectAction.Select
                 };
@@ -230,7 +236,7 @@ namespace EventHandlingSystem
                     TreeNode node = new TreeNode
                     {
                         Text = parentTermSet.Name,
-                        Value = parentTermSet.Id.ToString(),
+                        Value = "C-"+parentTermSet.Id.ToString(),
                         Expanded = false,
                         NavigateUrl =
                             "/SitePage.aspx?id=" +
@@ -264,7 +270,7 @@ namespace EventHandlingSystem
                 TreeNode childNode = new TreeNode
                 {
                     Text = ts.Name,
-                    Value = ts.Id.ToString(),
+                    Value = "A-" + ts.Id.ToString(),
                     Expanded = false,
                     NavigateUrl = "/SitePage.aspx?id=" + a.WebPage.Id + "&type=A",
                     SelectAction = TreeNodeSelectAction.Select
