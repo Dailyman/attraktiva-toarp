@@ -3,10 +3,12 @@
 <script type="text/javascript">
     //<![CDATA[
     jQuery(function () {
-        jQuery('#Site-navigation nav').hide();
+        //jQuery('#Site-navigation nav').hide();
         jQuery('#toggle-nav-btn').click(function () {
             //$("#Site-navigation nav").slideToggle(500, "swing", $(this).toggleClass("rotate-180 rotate-m180"));
-            jQuery('#Site-navigation nav').toggle('slide', 200);
+            jQuery('#Site-navigation nav').toggle('slide', 200).promise().done(function () {
+                __doPostBack('SiteNavMenuList', $('#Site-navigation nav').css('display'));
+            });
             jQuery(this).toggleClass('rotate-180 rotate-m180');
         });
     });
@@ -26,17 +28,24 @@
 </script>
 
 <div id="Site-navigation">
-    <nav>
+    <nav id="SiteNavMenuList" runat="server">
     <ul>
         <li><a href="/">Home</a></li>
         <li>
-            <asp:TreeView ID="TreeViewNavigation" runat="server" OnSelectedNodeChanged="TreeViewNavigation_OnSelectedNodeChanged"
+            <%--<asp:UpdatePanel runat="server" id="UpdatePanelTreeNav" updatemode="Conditional">
+                <ContentTemplate>--%>
+            <asp:TreeView ID="TreeViewNavigation" runat="server" 
+                OnTreeNodeCollapsed="TreeViewNavigation_TreeNodeCollapsed"
+                OnTreeNodeExpanded="TreeViewNavigation_TreeNodeExpanded"
                 ExpandImageUrl="/Images/icon-arrow-right-b-16.png"
                 CollapseImageUrl="/Images/icon-arrow-down-b-16.png"
                 SkipLinkText=""
                 SelectedNodeStyle-BackColor="#95a5a6"
                 SelectedNodeStyle-CssClass="selectedNodesNav">
             </asp:TreeView>
+                    <%--</ContentTemplate>
+                <Triggers><asp:AsyncPostBackTrigger ControlID="TreeViewNavigation"/></Triggers>
+                </asp:UpdatePanel>--%>
         </li>
         <li>
             <br />
@@ -51,7 +60,7 @@
 </div>
 
 <div class="nav-title">
-    <img id="toggle-nav-btn" class="rotate-m180" src="../Images/list-32x32.png" />
+    <img id="toggle-nav-btn" class="rotate-m180" src="../Images/list-32x32.png"/>
 </div>
 
 <%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>
