@@ -11,6 +11,14 @@
             });
             jQuery(this).toggleClass('rotate-180 rotate-m180');
         });
+
+        jQuery(function selectNode() {
+            jQuery('#Site-navigation a').each(function () {
+                if (jQuery(this).attr('href') === window.location.pathname + window.location.search) {
+                    jQuery(this).addClass('current-link');
+                }
+            });
+        });
     });
     //]]>
 </script>
@@ -32,7 +40,7 @@
     <ul>
         <li><a href="/">Home</a></li>
         <li>
-            <%--<asp:UpdatePanel runat="server" id="UpdatePanelTreeNav" updatemode="Conditional">
+            <%--<asp:UpdatePanel runat="server" id="UpdatePanelTreeNav" updatemode="Always">
                 <ContentTemplate>--%>
             <asp:TreeView ID="TreeViewNavigation" runat="server" 
                 OnTreeNodeCollapsed="TreeViewNavigation_TreeNodeCollapsed"
