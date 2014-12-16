@@ -5,6 +5,7 @@ using System.Drawing;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Web;
+using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
@@ -110,6 +111,32 @@ namespace EventHandlingSystem
             }
         }
 
+        public void PopulateAssocationListBox(int aid)
+        {
+            ListBoxAsso.Items.Clear();
+
+            List<ListItem> assoList = new List<ListItem>();
+
+            // Lägg in alla föreningar i listboxen
+            foreach (var asso in AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedItem.Value))))
+            {
+                assoList.Add(new ListItem
+                {
+                    Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
+                    Value = asso.Id.ToString()
+                });
+            }
+
+            foreach (var item in assoList.OrderBy(item => item.Text))
+            {
+                ListBoxAsso.Items.Add(item);
+            }
+
+            //Markera vilket item som ska vara vald när listan renderas
+            ListBoxAsso.SelectedValue = aid.ToString();
+        }
+        
+
         public void PopulateAssociationTypesDropDownList()
         {
             DropDownListAssoType.Items.Clear();
@@ -119,7 +146,8 @@ namespace EventHandlingSystem
             foreach (var a in AssociationDB.GetAllAssociationsWithAssociationType())
             {
                 int? at = a.AssociationType;
-                int assoTypeId = (int)at;
+                //omvandla nullable int till int
+                int assoTypeId = at.GetValueOrDefault(); //at ?? default(int); 
 
                 atList.Add(new ListItem
                 {
@@ -137,6 +165,30 @@ namespace EventHandlingSystem
                 DropDownListAssoType.Items.Add(item);
             }
         }
+
+        public void PopulateSubAssociationsBulletedList()
+        {
+            BulletedListSubAssociations.Items.Clear();
+
+            List<ListItem> subAssoList = new List<ListItem>();
+
+            // Lägg in alla underföreningar i punktlistan
+            foreach (var asso in
+                    AssociationDB.GetAllSubAssociationsByParentAssociationId(int.Parse(ListBoxAsso.SelectedItem.Value)))
+            {
+                subAssoList.Add(new ListItem
+                {
+                    Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
+                    //Value = asso.Id.ToString()
+                });
+            }
+
+            foreach (var item in subAssoList.OrderBy(item => item.Text))
+            {
+                BulletedListSubAssociations.Items.Add(item);
+            }
+        }
+        
         #endregion
 
         
@@ -228,10 +280,23 @@ namespace EventHandlingSystem
             LabelPTSAsso.Text = "<b>Publishing TermSet: </b>" +
                                 TermSetDB.GetTermSetNameByTermSetId(
                                     TermSetDB.GetTermSetById(asso.PublishingTermSetId).Id);
+
+            // Visa underföreningar för en förening i en lista
+            if (AssociationDB.GetAllSubAssociationsByParentAssociationId(asso.Id).Count != 0)
+            {
+                PopulateSubAssociationsBulletedList();
+            }
+            else
+            {
+                BulletedListSubAssociations.Items.Clear();
+                ListItem emptyItem = new ListItem(" ... ", " ");
+                BulletedListSubAssociations.Items.Add(emptyItem); //index 0
+            }            
         }
 
         #endregion
         
+
 
         #region DropDownLists OnSelectedIndexChanged
 
@@ -265,10 +330,13 @@ namespace EventHandlingSystem
         }
 
 
-        //Dropdownlista för Associationslistboxen för en viss Community
+        //Associationslistbox för en viss Community - när ett item klickas visas föreningsdetaljerna
         protected void ListBoxAsso_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            MultiViewSelectComm.ActiveViewIndex = 0;
+            MultiViewAssoDetails.ActiveViewIndex = 0;
+            MultiViewAssoCreate.ActiveViewIndex = -1;
+            ShowAssociationDetails();
+            LabelUpdateAsso.Text = "";
         }
 
 
@@ -298,23 +366,24 @@ namespace EventHandlingSystem
         #endregion
 
 
+
         #region Button Click
 
-        protected void ButtonEditAsso_OnClick(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
-            {
-                MultiViewAssoCreate.ActiveViewIndex = -1;
-                MultiViewAssoDetails.ActiveViewIndex = 0;
-                ShowAssociationDetails();
-                LabelErrorMessage.Text = "";
-            }
-            else
-            {
-                LabelErrorMessage.Text = "You have to select an association!";
-                LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
-            }
-        }
+        //protected void ButtonEditAsso_OnClick(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
+        //    {
+        //        MultiViewAssoCreate.ActiveViewIndex = -1;
+        //        MultiViewAssoDetails.ActiveViewIndex = 0;
+        //        ShowAssociationDetails();
+        //        LabelErrorMessage.Text = "";
+        //    }
+        //    else
+        //    {
+        //        LabelErrorMessage.Text = "You have to select an association!";
+        //        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
+        //    }
+        //}
 
         
 
@@ -332,7 +401,7 @@ namespace EventHandlingSystem
                 TermSetDB.UpdateTermSetName(TermSetDB.GetTermSetById(pubId), TextBoxCommName.Text);
 
                 LabelCommSave.Text = TextBoxCommName.Text + " has been updated.";
-                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "black");
+                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
                 PopulateCommunityDropDownList(DropDownListCommunity);
             }
             else
@@ -343,15 +412,21 @@ namespace EventHandlingSystem
         }
 
 
+        // För att komma till "Create New Community" vy
+        protected void ButtonCreateNewComm_OnClick(object sender, EventArgs e)
+        {
+            
+        }
 
+
+        // För att komma till "Create New Association" vy
         protected void ButtonCreateNewAsso_OnClick(object sender, EventArgs e)
         {
             MultiViewAssoDetails.ActiveViewIndex = -1;
             MultiViewAssoCreate.ActiveViewIndex = 0;
             PopulateCommunityDropDownList(DropDownListCommunityCreateAsso);
         }
-
-
+        
 
         protected void ButtonCreateAssoCancel_OnClick(object sender, EventArgs e)
         {
@@ -359,12 +434,41 @@ namespace EventHandlingSystem
         }
 
 
-
+        // För att SKAPA en ny förening
         protected void ButtonCreateAsso_OnClick(object sender, EventArgs e)
         {
             
         }
 
+
+
+        // Spara ändringar i Association details
+        protected void ButtonUpdateAsso_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
+            {
+                //Hitta Association-Id i listboxen - value
+                int assoId = int.Parse(ListBoxAsso.SelectedItem.Value);
+
+                //Hitta publiseringsTS-id via community
+                int pubId = AssociationDB.GetPublishingTermSetIdByAssociationId(assoId);
+
+                //Uppdatera det nya namnet från textboxen
+                TermSetDB.UpdateTermSetName(TermSetDB.GetTermSetById(pubId), TextBoxAssoName.Text);
+
+                LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated.";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                PopulateAssocationListBox(assoId);
+            }
+            else
+            {
+                LabelUpdateAsso.Text = "Select an association in the listbox before trying to save changes again.";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+        }
+
         #endregion
+
+        
     }
 }

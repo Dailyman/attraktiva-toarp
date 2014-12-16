@@ -40,6 +40,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListCommunity;
         
         /// <summary>
+        /// ButtonCreateNewComm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCreateNewComm;
+        
+        /// <summary>
         /// MultiViewCommDetails control.
         /// </summary>
         /// <remarks>
@@ -155,15 +164,6 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox ListBoxAsso;
-        
-        /// <summary>
-        /// ButtonEditAsso control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonEditAsso;
         
         /// <summary>
         /// ButtonCreateNewAsso control.
@@ -308,6 +308,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonDeleteAsso;
+        
+        /// <summary>
+        /// LabelUpdateAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelUpdateAsso;
         
         /// <summary>
         /// MultiViewAssoCreate control.

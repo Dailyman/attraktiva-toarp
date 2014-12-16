@@ -13,6 +13,9 @@
                     AutoPostBack="True">
                 </asp:DropDownList><br />
             </div>
+            <div class="btn-align-right">
+                    <asp:Button ID="ButtonCreateNewComm" CssClass="btn-blue" runat="server" Text="Create New Community" OnClick="ButtonCreateNewComm_OnClick"/>
+            </div>
         </asp:View>
     </asp:MultiView>
    <br />
@@ -45,18 +48,22 @@
                 <asp:Label ID="LabelCreated" runat="server" Text=""></asp:Label><br />
                 <asp:Label ID="LabelCreatedBy" runat="server" Text=""></asp:Label><br />
                 <br />
-                <asp:Button ID="ButtonCommSave" runat="server" Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
+                <div class="btn-align-right">
+                    <asp:Button ID="ButtonCommSave" CssClass="btn-blue" runat="server" Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
+                </div>
                 <asp:Label ID="LabelCommSave" runat="server" Text=""></asp:Label>
             </div><br />
 
             <div class="view-community-details-association">
                 <b><asp:Label ID="LabelAssoInComm" runat="server" Text="Label"></asp:Label></b>
                 <br /><br />
-                <asp:ListBox ID="ListBoxAsso" OnSelectedIndexChanged="ListBoxAsso_OnSelectedIndexChanged" Width="200px" runat="server"></asp:ListBox>
+                <asp:ListBox ID="ListBoxAsso" OnSelectedIndexChanged="ListBoxAsso_OnSelectedIndexChanged" Width="200px" runat="server" AutoPostBack="True"></asp:ListBox>
                 <br />
                 <br />
-                <asp:Button ID="ButtonEditAsso" runat="server" Text="Show Association Details" OnClick="ButtonEditAsso_OnClick" />
-                <asp:Button ID="ButtonCreateNewAsso" runat="server" Text="Create New Association" OnClick="ButtonCreateNewAsso_OnClick" /><br />
+                <div class="btn-align-right">
+<%--                    <asp:Button ID="ButtonEditAsso" CssClass="btn-blue" runat="server" Text="Show Association Details" OnClick="ButtonEditAsso_OnClick" />--%>
+                    <asp:Button ID="ButtonCreateNewAsso" CssClass="btn-blue" runat="server" Text="Create New Association" OnClick="ButtonCreateNewAsso_OnClick" /><br />
+                </div>
                 <asp:Label ID="LabelErrorMessage" runat="server" Text=""></asp:Label><br />
             </div>
         </asp:View>
@@ -86,12 +93,15 @@
                     <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
                     <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label><br />
                     
-                <br />
-                <h3>Sub Associations</h3>
+                <br /><br />
+                <h5>Sub Associations</h5>
                 <asp:BulletedList ID="BulletedListSubAssociations" runat="server"></asp:BulletedList>
                 <br />
-                <asp:Button ID="ButtonUpdateAsso" runat="server" Text="Update" />
-                <asp:Button ID="ButtonDeleteAsso" runat="server" Text="Delete this Association" />
+                <div class="btn-align-right">
+                    <asp:Button ID="ButtonUpdateAsso" CssClass="btn-blue" runat="server" Text="Update" OnClick="ButtonUpdateAsso_OnClick"/>
+                    <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" Text="Delete this Association" />
+                </div>
+                <asp:Label ID="LabelUpdateAsso" runat="server" Text=""></asp:Label>
             </div>
         </asp:View>
     </asp:MultiView>
@@ -125,8 +135,10 @@
                     </asp:DropDownList>
                 </span><br />
                 <br />
-                <asp:Button ID="ButtonCreateAssoCancel" runat="server" Text="Cancel" OnClick="ButtonCreateAssoCancel_OnClick"/>
-                <asp:Button ID="ButtonCreateAsso" runat="server" Text="Create" OnClick="ButtonCreateAsso_OnClick"/>
+                <div class="btn-align-right">
+                    <asp:Button ID="ButtonCreateAssoCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonCreateAssoCancel_OnClick" />
+                    <asp:Button ID="ButtonCreateAsso" CssClass="btn-blue" runat="server" Text="Create" OnClick="ButtonCreateAsso_OnClick" />
+                </div>
             </div>
         </asp:View>
     </asp:MultiView>
