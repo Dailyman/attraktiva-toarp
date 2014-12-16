@@ -17,12 +17,6 @@ namespace EventHandlingSystem
 
             var stType = Request.QueryString["Type"];
 
-            ////Lägger till alla evenemang Titel och Id i DropDownListan.
-            //foreach (var wP in WebPageDB.GetAllWebPages())
-            //{
-            //    DropDownListWebPages.Items.Add(new ListItem(wP.Id.ToString(), wP.Id.ToString()));
-            //}
-
             //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
             int id;
             if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id) && !string.IsNullOrWhiteSpace(stType))
@@ -30,7 +24,6 @@ namespace EventHandlingSystem
                 WebPage webPage = WebPageDB.GetWebPageById(id);
                 if (webPage != null)
                 {
-                    LabelTitle.Style.Add(HtmlTextWriterStyle.FontSize, "35px");
                     if (webPage.Community != null)
                     {
                         LabelTitle.Text =
@@ -50,12 +43,46 @@ namespace EventHandlingSystem
                     }
                 }
             }
+            else
+            {
+                LabelTitle.CssClass = "ribbon-title-small";
+            }
+
         }
 
-        //protected void BtnLoadPage_OnClick(object sender, EventArgs e)
-        //{
-        //    //Skickar användaren till SitePage.aspx med det WebPageId som man valt i DropDownListan.
-        //    Response.Redirect(Request.Url.AbsolutePath + "?id=" + DropDownListWebPages.SelectedValue, true);
-        //}
+        protected void Page_PreInit(object sender, EventArgs e)
+        {
+            //Hämtar EventId från URL.
+            var stId = Request.QueryString["Id"];
+
+            var stType = Request.QueryString["Type"];
+
+            //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
+            int id;
+            if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id) && !string.IsNullOrWhiteSpace(stType))
+            {
+                WebPage webPage = WebPageDB.GetWebPageById(id);
+                if (webPage != null)
+                {
+                    if (webPage.Community != null)
+                    {
+                        //Sätter rätt titel på sidan
+                        Page.Title =
+                            TermSetDB.GetTermSetById(webPage.Community.PublishingTermSetId).Name;
+                    }
+                    else if (webPage.Association != null)
+                    {
+                        //Sätter rätt titel på sidan
+                        Page.Title =
+                            TermSetDB.GetTermSetById(webPage.Association.PublishingTermSetId).Name;
+                    }
+                    else
+                    {
+                        //Sätter rätt titel på sidan
+                        Page.Title = "Unknown";
+                    }
+                }
+            }
+        }
     }
 }

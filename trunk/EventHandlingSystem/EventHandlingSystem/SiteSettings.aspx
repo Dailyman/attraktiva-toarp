@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SiteSettings.aspx.cs" Inherits="EventHandlingSystem.SiteSettings" %>
+﻿<%@ Page Title="Site settings" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SiteSettings.aspx.cs" Inherits="EventHandlingSystem.SiteSettings" %>
 
 <%@ Register TagPrefix="aspTaxonomy" TagName="TaxonomyHandler" Src="TaxonomyControl.ascx" %>
 <%@ Register tagPrefix="aspCommAsso" tagName="CommAssoHandler" src="CommunityAssociationControl.ascx"%>
