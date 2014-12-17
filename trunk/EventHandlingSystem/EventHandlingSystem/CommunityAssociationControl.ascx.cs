@@ -166,6 +166,35 @@ namespace EventHandlingSystem
             }
         }
 
+
+        // Visa ALLA föreningstyper i ddl
+        public void PopulateAllAssociationTypesDropDownList()
+        {
+            DropDownListAssoType.Items.Clear();
+
+            //Hämta alla föreningstyperna och lägg i dropdownlistan (föreningstyp Id = 2)
+            List<ListItem> atList = new List<ListItem>();
+
+            foreach (var at in TermDB.GetAllTermsByTermSetId(2))
+            {
+                atList.Add(new ListItem
+                {
+                    Text = at.Name,
+                    Value = at.Id.ToString()
+                });
+            }
+
+            ListItem emptyItem = new ListItem("", " ");
+            DropDownListAssoType.Items.Add(emptyItem); //index 0
+
+            //Tar bort dubbletter och sorterar i bokstavsordning
+            foreach (var item in atList.OrderBy(item => item.Text))
+            {
+                DropDownListAssoType.Items.Add(item);
+            }
+        }
+
+
         public void PopulateSubAssociationsBulletedList()
         {
             BulletedListSubAssociations.Items.Clear();
@@ -256,7 +285,7 @@ namespace EventHandlingSystem
             }
             
             // Visa alla föreningstyper i dropdownlista
-            PopulateAssociationTypesDropDownList();
+            PopulateAllAssociationTypesDropDownList();
 
             if (asso.AssociationType == null)
             {
@@ -289,7 +318,7 @@ namespace EventHandlingSystem
             else
             {
                 BulletedListSubAssociations.Items.Clear();
-                ListItem emptyItem = new ListItem(" ... ", " ");
+                ListItem emptyItem = new ListItem(" --- ", " ");
                 BulletedListSubAssociations.Items.Add(emptyItem); //index 0
             }            
         }
@@ -442,7 +471,7 @@ namespace EventHandlingSystem
 
 
 
-        // Spara ändringar i Association details
+        // Spara ändringar i Association details - UPDATE-knappen
         protected void ButtonUpdateAsso_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
@@ -455,10 +484,30 @@ namespace EventHandlingSystem
 
                 //Uppdatera det nya namnet från textboxen
                 TermSetDB.UpdateTermSetName(TermSetDB.GetTermSetById(pubId), TextBoxAssoName.Text);
-
-                LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated.";
-                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
                 PopulateAssocationListBox(assoId);
+                
+                //Uppdatera community i vilken föreningen finns
+                Association assoToUpdate = new Association();
+                assoToUpdate.Id = assoId;
+                assoToUpdate.CommunityId = int.Parse(DropDownListCommunityInAsso.SelectedItem.Value);
+
+                //Uppdatera föreningstyp
+                if (!string.IsNullOrWhiteSpace(DropDownListAssoType.SelectedValue))
+                {
+                    assoToUpdate.AssociationType = int.Parse(DropDownListAssoType.SelectedItem.Value);
+                }
+                else
+                {
+                    //Om man väljer blankt i ddl blir föreningstypen null
+                    assoToUpdate.AssociationType = null;
+                }
+
+                //Anropa Update-metoden
+                AssociationDB.UpdateAssociation(assoToUpdate);
+                PopulateAssocationListBox();
+
+                LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated! ";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
             }
             else
             {

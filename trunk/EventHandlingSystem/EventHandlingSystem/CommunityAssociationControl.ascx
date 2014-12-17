@@ -5,16 +5,17 @@
         <asp:View ID="ViewSelectComm" runat="server">
             <div class="view-select-community">
                 <span>Select a community</span>
-                <br /><br />
+                <br />
+                <br />
                 <asp:DropDownList ID="DropDownListCommunity"
                     runat="server"
                     OnSelectedIndexChanged="DropDownListCommunity_OnSelectedIndexChanged"
                     EnableViewState="True"
                     AutoPostBack="True">
                 </asp:DropDownList><br />
-            </div>
-            <div class="btn-align-right">
-                    <asp:Button ID="ButtonCreateNewComm" CssClass="btn-blue" runat="server" Text="Create New Community" OnClick="ButtonCreateNewComm_OnClick"/>
+                <div class="btn-align-right">
+                    <asp:Button ID="ButtonCreateNewComm" CssClass="btn-blue" runat="server" Text="Create New Community" OnClick="ButtonCreateNewComm_OnClick" />
+                </div>
             </div>
         </asp:View>
     </asp:MultiView>
