@@ -69,8 +69,7 @@ namespace EventHandlingSystem.Database
             Association assoToUpdate = GetAssociationById(assoc.Id);
 
             assoToUpdate.CommunityId = assoc.CommunityId;
-            assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
-            assoToUpdate.PublishingTermSetId = assoc.PublishingTermSetId;
+            //assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
             assoToUpdate.AssociationType = assoc.AssociationType;
 
             int affectedRows = Context.SaveChanges();

@@ -26,6 +26,11 @@ namespace EventHandlingSystem.Database
             return TermSetDB.GetTermSetById(termSet.Id).Term.Where(t => !t.IsDeleted).ToList();
         }
 
+        public static List<Term> GetAllTermsByTermSetId(int tsId)
+        {
+            return TermSetDB.GetTermSetById(tsId).Term.Where(t => !t.IsDeleted).ToList();
+        }
+
         
         // CREATE
         public static int CreateTerm(Term term)
