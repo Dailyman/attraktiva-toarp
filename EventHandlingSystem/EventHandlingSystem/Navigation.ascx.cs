@@ -11,132 +11,166 @@ namespace EventHandlingSystem
 {
     public partial class Navigation1 : System.Web.UI.UserControl
     {
-        protected void Page_PreInit(object sender, EventArgs e)
-        {
-            
-        }
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            //Om Treeview har noder = Spara TreeViewState till Session.
             if (TreeViewNavigation.Nodes.Count != 0)
             {
                 List<string> list = new List<string>();
                 SaveTreeViewState(TreeViewNavigation.Nodes, list);
                 Session["TreeViewState"] = list;
             }
-            
+
             // Disable ExpandDepth if the TreeView’s expanded/collapsed 
             // state is stored in session. 
             if (Session["TreeViewState"] != null) TreeViewNavigation.ExpandDepth = -1;
 
+           
+
+            if (!IsPostBack)
+            {
+                TreeNode selectedNode = null;
+
+                //Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none";
+
+                AddAllNodesToTreeView(TreeViewNavigation, 1);
+                //AddSpecificNodesToTreeView(TreeViewNavigation, 8);
+
+                // Apply the recorded expanded/collapsed state to the TreeView. 
+                List<string> list = (List<string>) Session["TreeViewState"];
+                if (list != null)
+                {
+                    RestoreTreeViewState(TreeViewNavigation.Nodes, list);
+                }
+                
+                //Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
+                foreach (TreeNode node in TreeViewNavigation.Nodes)
+                {
+                    selectedNode = (node.NavigateUrl == Request.Url.PathAndQuery) ? node : GetSelectedTreeNodeFromChildNodes(node);
+                }
+
+                if (selectedNode != null)
+                {
+                    ExpandParentNodesForTreeNode(selectedNode);
+                }
+            }
+
             if (IsPostBack)
             {
+                //Hämtar Display värdet för navigeringen.
                 string passedArgument = Request.Params.Get("__EVENTARGUMENT");
+                
                 if (passedArgument != null)
                 {
+                    //Kontrollerar att passedArguments värde är relevant.
                     if (passedArgument == "block" || passedArgument == "none")
                     {
+                        //Gömmer/visar navigeringen
                         Session["NavVisible"] = passedArgument == "block" ? "true" : "false";
                     }
                 }
             }
 
-            if (!IsPostBack)
-            {
-                //Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none";
-
-                AddNodesToTreeView(TreeViewNavigation, 1);
-
-                // Apply the recorded expanded/collapsed state to the TreeView. 
-                List<string> list = (List<string>)Session["TreeViewState"];
-                if (list != null)
-                {
-                    RestoreTreeViewState(TreeViewNavigation.Nodes, list);
-                }
-            }
-            
-
+            //vvv Denna koden måste köras sist i Page_Load()
+            //Hämtar navigationens synlighetsstatus från Session.
             bool visible;
             if (Session["NavVisible"] != null && bool.TryParse(Session["NavVisible"].ToString(), out visible))
             {
+                //Visar/gömmer navigationen
                 SiteNavMenuList.Style["display"] = visible ? "block" : "none";
             }
             else
             {
+                //Sparar navigationens synlighetsstatus i Session.
                 Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none" ? "true" : "false";
             }
-
-            
-            
-            
-
-            ////Ersatt av Javascript
-            ////Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
-            //foreach (TreeNode node in TreeViewNavigation.Nodes)
-            //{
-            //    if(node.NavigateUrl == Request.Url.PathAndQuery)
-            //    {
-            //        TreeViewNavigation.FindNode(node.ValuePath).Select();
-            //    }
-            //    SelectTreeNodeByNavUrl(node);
-            //}
         }
+        //End Page_Load
+
+
+
+        #region Testing code (Remove)
+
+        //protected void Page_PreInit(object sender, EventArgs e)
+        //{
+        //    LabelDisplay.Text += "<br>" + "PreInit"; // <- Remove
+        //}
 
         //protected void Page_PreRender(object sender, EventArgs e)
         //{
-        //    Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none";
+        //    LabelDisplay.Text += "<br>" + "PreRender"; // <- Remove
         //}
 
-        //protected void Page_PreRenderComplete(object sender, EventArgs e)
+        //protected virtual void Page_PreRenderComplete(object sender, EventArgs e)
         //{
-        //    Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none";
+        //    LabelDisplay.Text += "<br>" + "PreRenderComplete"; // <- Remove
         //}
 
-        protected void Page_Unload(object sender, EventArgs e)
+        //protected void Page_Unload(object sender, EventArgs e)
+        //{
+        //    LabelDisplay.Text += "<br>" + "Unload"; // <- Remove
+        //}
+
+        #endregion
+
+
+        #region Selecting and Expanding ParentNodes
+
+        //Node som används och skickas tillbaka i GetSelectedTreeNodeFromChildNodes() för att bli startpunkt för expandering av dess ParentNodes.
+        private TreeNode sNode = null;
+
+        //Går igenom childnodes för att hitta den aktiva sidan/länken/noden i navigeringen.
+        private TreeNode GetSelectedTreeNodeFromChildNodes(TreeNode node)
         {
-            
+            if (sNode == null)
+            {
+                foreach (TreeNode n in node.ChildNodes)
+                {
+                    if (n.NavigateUrl == Request.Url.PathAndQuery)
+                    {
+                        sNode = n;
+                        break;
+                    }
+                    GetSelectedTreeNodeFromChildNodes(n);
+                }
+                return sNode;
+            }
+            return sNode;
         }
 
-        
+        //Expanerar alla parentnodes i navigeringen för vald node.
+        private void ExpandParentNodesForTreeNode(TreeNode node)
+        {
+            if (node.Parent != null)
+            {
+                node.Parent.Expand();
+                ExpandParentNodesForTreeNode(node.Parent);
+            }
+        }
 
-       
-
-        ////Ersatt av Javascript
-        ////Går igenom childnodes för att hitta och markera den aktiva sidan/länken/noden i navigeringen.
-        //private void SelectTreeNodeByNavUrl(TreeNode node)
-        //{
-        //    foreach (TreeNode n in node.ChildNodes)
-        //    {
-        //        if (n.NavigateUrl == Request.Url.PathAndQuery)
-        //        {
-        //            TreeViewNavigation.FindNode(n.ValuePath).Select(); 
-        //            //LabelDisplay.Text += "<br>" + n.ValuePath + ","; // <- Remove
-        //        }
-        //        SelectTreeNodeByNavUrl(n);
-        //    }
-        //}
+        #endregion
 
 
-        
+        #region TreeViewNavigation_
 
-
-        //protected void TreeViewNavigation_DataBound(object sender, EventArgs e)
-        //{
-        //    if (Session["TreeViewState"] == null)
-        //    {
-        //        // Record the TreeView’s current expanded/collapsed state. 
-        //        List<string> list = new List<string>();
-        //        SaveTreeViewState(TreeViewNavigation.Nodes, list);
-        //        Session["TreeViewState"] = list;
-        //    }
-        //    else
-        //    {
-        //        // Apply the recorded expanded/collapsed state to 
-        //        // the TreeView. 
-        //        List<string> list = (List<string>) Session["TreeViewState"];
-        //        RestoreTreeViewState(TreeViewNavigation.Nodes, list);
-        //    }
-        //}
+        //Denna metod används inte.
+        protected void TreeViewNavigation_DataBound(object sender, EventArgs e)
+        {
+            if (Session["TreeViewState"] == null)
+            {
+                // Record the TreeView’s current expanded/collapsed state. 
+                List<string> list = new List<string>();
+                SaveTreeViewState(TreeViewNavigation.Nodes, list);
+                Session["TreeViewState"] = list;
+            }
+            else
+            {
+                // Apply the recorded expanded/collapsed state to 
+                // the TreeView. 
+                List<string> list = (List<string>) Session["TreeViewState"];
+                RestoreTreeViewState(TreeViewNavigation.Nodes, list);
+            }
+        }
 
         protected void TreeViewNavigation_TreeNodeCollapsed(object sender, TreeNodeEventArgs e)
         {
@@ -157,6 +191,16 @@ namespace EventHandlingSystem
                 Session["TreeViewState"] = list;
             }
         }
+
+        protected void TreeViewNavigation_OnSelectedNodeChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        #endregion
+        
+
+        #region Save/restoreTreeViewState
 
         private void SaveTreeViewState(TreeNodeCollection nodes, List<string> list)
         {
@@ -201,13 +245,12 @@ namespace EventHandlingSystem
             }
         }
 
+        #endregion
 
+        
+        #region Create&AddNodesToTreeView
 
-
-
-       
-
-        private void AddNodesToTreeView(TreeView treeView, int taxId)
+        private void AddAllNodesToTreeView(TreeView treeView, int taxId)
         {
             TreeViewNavigation.Nodes.Clear();
             //Hämtar taxonomin
@@ -236,7 +279,7 @@ namespace EventHandlingSystem
                     TreeNode node = new TreeNode
                     {
                         Text = parentTermSet.Name,
-                        Value = "C-"+parentTermSet.Id.ToString(),
+                        Value = "C-" + parentTermSet.Id.ToString(),
                         Expanded = false,
                         NavigateUrl =
                             "/SitePage.aspx?id=" +
@@ -249,6 +292,41 @@ namespace EventHandlingSystem
                     FindChildNodesAndAddToParentNode(parentTermSet, node);
 
                 }
+
+                foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
+                {
+                    item.Value.ChildNodes.Add(item.Key);
+                }
+            }
+        }
+        private void AddSpecificNodesToTreeView(TreeView treeView, int comTermSetId)
+        {
+            TreeViewNavigation.Nodes.Clear();
+            //Hämtar TermSet
+            TermSet tS = TermSetDB.GetTermSetById(comTermSetId);
+
+            if (tS != null)
+            {
+                TreeNode startNode = new TreeNode
+                {
+                    Text = tS.Name,
+                    Value = tS.Id.ToString(),
+                    Expanded = true,
+                    NavigateUrl = "/SitePage.aspx?id=" +
+                            CommunityDB.GetCommunityByPublishingTermSetId(tS.Id).WebPage.Id + "&type=C",
+                    SelectAction = TreeNodeSelectAction.Select
+                };
+
+                //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
+                treeView.Nodes.Add(startNode);
+
+                //Hämtar all TermSets som ligger på den översta nivån i taxonomin
+                List<TermSet> parentTermSets =
+                    TermSetDB.GetChildTermSetsByParentTermSetId(tS.Id).OrderBy(ts => ts.Name).ToList();
+
+                //Lägger till alla HuvudFöreningar (ex. Rödhaken IF).
+
+                FindChildNodesAndAddToParentNode(tS, startNode);
 
                 foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
                 {
@@ -333,13 +411,7 @@ namespace EventHandlingSystem
             }
         }
 
-
-
-
-        protected void TreeViewNavigation_OnSelectedNodeChanged(object sender, EventArgs e)
-        {
-
-        }
+        #endregion
 
 
     }
