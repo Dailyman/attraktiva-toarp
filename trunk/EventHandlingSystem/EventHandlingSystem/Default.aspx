@@ -9,6 +9,9 @@
     <div class="titlebox">
         <h1>Home</h1>
     </div>
+    <%--<br/>
+    <asp:TextBox ID="TxtBox" runat="server" type="datetime-local"></asp:TextBox>
+    <br/>--%>
     <div class="warning-pattern">
     </div>
     <div class="temp-background">

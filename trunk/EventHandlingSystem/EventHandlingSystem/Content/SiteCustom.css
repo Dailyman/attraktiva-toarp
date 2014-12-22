@@ -5,18 +5,22 @@
     background-color: #f1f4f9;
 }
 
+
+/*------------Start Temp Styles--------------*/
 .warning-pattern
 {
     background-image: url("../Images/warning-pattern-30x30.png");
     /*background-repeat: repeat-x;*/
     min-height: 45px;
 }
+
 .temp-background
 {
     background-image: url(http://fc07.deviantart.net/fs70/f/2013/245/8/6/despicable_me_gif___minion_faceslam_by_c0l0ss4l_st1nk3r-d6km3k9.gif);
     height: 625px;
     text-align: center;
 }
+
     .temp-background h1
     {
         color: #ffffff;
@@ -26,11 +30,9 @@
         text-shadow: 2px 2px 4px #000000;
         z-index: 999;
     }
+/*------------End Temp Styles--------------*/
 
-a:hover
-{
-    color: #007399;
-}
+
 
 
 h1, h2, h3, h4, h5, h6
@@ -38,17 +40,19 @@ h1, h2, h3, h4, h5, h6
     margin: 7px 0 5px 0;
 }
 
+a
+{
+}
+
+    a:hover
+    {
+        color: #007399;
+    }
+
 table
 {
     margin-top: 0;
 }
-
-.tab-btn-holder
-{
-    /*border: 1px #000000 solid;*/
-}
-
-
 
 input[type="checkbox"]
 {
@@ -69,7 +73,7 @@ select
 }
 
 
-
+/*-------Start Header Styles-------*/
 #login a
 {
     color: #ffffff;
@@ -95,32 +99,40 @@ ul#menu li a
 {
     color: #ffffff;
 }
+/*-------End Header Styles-------*/
 
 
 
-.tab-btn-holder .tab-btn
+/*-------Start TaxonomyHandler Styles-------*/
+
+.tab-btn-holder
 {
-    margin: 0 auto;
-    padding: 5px;
-    display: inline-block;
-    vertical-align: bottom;
-    border: 1px solid #787878;
-    border-radius: 0px;
-    -webkit-border-top-left-radius: 7px;
-    -webkit-border-top-right-radius: 7px;
-    -moz-border-radius-topleft: 7px;
-    -moz-border-radius-topright: 7px;
-    border-top-left-radius: 7px;
-    border-top-right-radius: 7px;
-    background-color: #d3dce0;
-    font-weight: normal;
+    /*border: 1px #000000 solid;*/
 }
 
-.tab-btn-holder .active
-{
-    color: #000000;
-    background-color: #3498db;
-}
+    .tab-btn-holder .tab-btn
+    {
+        margin: 0 auto;
+        padding: 5px;
+        display: inline-block;
+        vertical-align: bottom;
+        border: 1px solid #787878;
+        border-radius: 0px;
+        -webkit-border-top-left-radius: 7px;
+        -webkit-border-top-right-radius: 7px;
+        -moz-border-radius-topleft: 7px;
+        -moz-border-radius-topright: 7px;
+        border-top-left-radius: 7px;
+        border-top-right-radius: 7px;
+        background-color: #d3dce0;
+        font-weight: normal;
+    }
+
+    .tab-btn-holder .active
+    {
+        color: #000000;
+        background-color: #3498db;
+    }
 
 .tab-content
 {
@@ -135,14 +147,18 @@ ul#menu li a
     border-bottom-left-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+/*-------End TaxonomyHandler Styles-------*/
 
+
+
+/*-------Start LeftSideNavigation Styles-------*/
 #Site-navigation-container
 {
     position: absolute;
     /* display: inline-block; */
     /* vertical-align: top; */
-    margin-right: 20px;
-    z-index: 999;
+    /*margin-right: 20px;*/
+    z-index: 9999;
 }
 
 #Site-navigation
@@ -153,11 +169,14 @@ ul#menu li a
     display: inline-block;
     background-color: white;
     text-align: center;
-    box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
-    -moz-box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
-    -webkit-box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
+    box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+    -moz-box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+    -webkit-box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+    -webkit-border-top-right-radius: 7px;
     -webkit-border-bottom-right-radius: 7px;
+    -moz-border-radius-topright: 7px;
     -moz-border-radius-bottomright: 7px;
+    border-top-right-radius: 7px;
     border-bottom-right-radius: 7px;
     z-index: 9999;
 }
@@ -215,12 +234,9 @@ ul#menu li a
 
     #Site-navigation nav
     {
-        
         margin: 5px;
     }
-
-
-
+    
 .current-link
 {
     background-color: #95A5A6;
@@ -230,15 +246,18 @@ ul#menu li a
     padding: 0px;
 }
 
-
-
-.selectedNodesNav
+/*.selectedNodesNav
 {
-    /*border: 1px cyan solid;*/
+    border: 1px cyan solid;
     -webkit-border-radius: 2px;
     -moz-border-radius: 2px;
     border-radius: 2px;
     padding: 0px;
+}*/
+
+#toggle-nav-icon
+{
+    margin: 5px;
 }
 
 #toggle-nav-btn
@@ -251,52 +270,43 @@ ul#menu li a
 {
     display: inline-block;
     vertical-align: top;
-    padding: 5px;
+    /*padding: 5px;*/
     background-color: #fff;
-    margin-top: 10px;
-    /*font-size: 20px;*/
-    text-shadow: 1px 1px lightgrey;
-    box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
-    -moz-box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
-    -webkit-box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
-    -webkit-border-top-right-radius: 7px;
-    -webkit-border-bottom-right-radius: 7px;
-    -moz-border-radius-topright: 7px;
-    -moz-border-radius-bottomright: 7px;
-    border-top-right-radius: 7px;
-    border-bottom-right-radius: 7px;
+    margin: 5px 0 5px 0;
+    width: 42px;
+    height: 42px;
 }
 
-.rotate-180
+.rotate
 {
     /* Safari 3.1 to 6.0 */
     -webkit-transition-property: -webkit-transform;
     -webkit-transition-duration: 0.3s;
     -webkit-transition-timing-function: linear;
-    -webkit-transform: rotate(180deg); /* Chrome, Safari, Opera */
+    -webkit-transform: rotate(-180deg); /* Chrome, Safari, Opera */
     /* Firefox */
     -moz-transition-property: -moz-transform;
     -moz-duration: 0.3s;
     -moz-timing-funtion: linear;
-    -moz-transform: rotate(180deg);
+    -moz-transform: rotate(-180deg);
     /* IE */
     -ms-transition-property: -ms-transform;
     -ms-transition-duration: 0.3s;
     -ms-transition-timing-function: linear;
-    -ms-transform: rotate(180deg); /* IE 9 */
+    -ms-transform: rotate(-180deg); /* IE 9 */
     /* Opera */
     -o-transition-property: -o-transform;
     -o-transition-duration: 0.3s;
     -o-transition-timing-function: linear;
-    -o-transform: rotate(180deg);
+    -o-transform: rotate(-180deg);
     /* Standard syntax */
     transition-property: transform;
     transition-duration: 0.3s;
     transition-timing-function: linear;
-    transform: rotate(180deg);
+    transform: rotate(-180deg);
 }
 
-.rotate-m180
+.rotate-reset
 {
     /* Safari 3.1 to 6.0 */
     -webkit-transition-property: -webkit-transform;
@@ -333,61 +343,10 @@ ul#menu li a
 }
 
 
-.arrow-up
-{
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 12.5px 15px 12.5px;
-    border-color: transparent transparent #007bff transparent;
-}
-
-.arrow-up-left
-{
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 20px 20px 0 0;
-    border-color: #007bff transparent transparent transparent;
-}
-
-.arrow-down
-{
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 15px 12.5px 0 12.5px;
-    border-color: #007bff transparent transparent transparent;
-}
-
-.arrow-down-right
-{
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 0 0 20px 20px;
-    border-color: transparent transparent #007bff transparent;
-}
-
-.arrow-left
-{
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 12.5px 15px 12.5px 0;
-    border-color: transparent #007bff transparent transparent;
-}
-
-.arrow-right
-{
-    width: 0;
-    height: 0;
-    border-style: solid;
-    border-width: 12.5px 0 12.5px 15px;
-    border-color: transparent transparent transparent #007bff;
-}
+/*-------End LeftSideNavigation Styles-------*/
 
 
+/*-------Start MainContent Styles-------*/
 .titlebox
 {
     /*width: 250px;
@@ -536,6 +495,20 @@ border-bottom-left-radius: 6px;*/
         vertical-align: middle;
     }
 
+.btn-align-right
+{
+    text-align: right;
+}
+
+.bold-txt
+{
+    font-weight: bold;
+}
+
+/*-------End MainContent Styles-------*/
+
+
+/*-------Start Community/AssociationHandeler Styles-------*/
 .view-select-community,
 .view-community-details,
 .view-community-details-association,
@@ -554,15 +527,7 @@ border-bottom-left-radius: 6px;*/
 }
 
 
-.btn-align-right
-{
-    text-align: right;
-}
 
-.bold-txt
-{
-    font-weight: bold;
-}
 
 
 .transform-all-05s

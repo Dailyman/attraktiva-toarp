@@ -59,7 +59,7 @@
 <div id="CreateBox" class="inner-content-box" runat="server" visible="False">
     <asp:MultiView ID="MultiViewCreate" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewSelectCreate" runat="server">
-            <asp:ImageButton ID="ImageButtonClose1" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewCreate_OnClick" />
+            <asp:ImageButton ID="ImageButtonClose1" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewCreate_OnClick" />
             <h2>Choose what to create</h2>
             <br />
             <asp:Button ID="BtnCreateTerm" runat="server" Text="Term" OnClick="BtnCreateTerm_OnClick" /><span style="width: 20px; height: 20px; display: inline-block;"></span><asp:Button ID="BtnCreateTermSet" runat="server" Text="TermSet" OnClick="BtnCreateTermSet_OnClick" />
@@ -67,7 +67,7 @@
             <br />
         </asp:View>
         <asp:View ID="ViewTermCreate" runat="server">
-            <asp:ImageButton ID="ImageButtonClose2" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewCreate_OnClick" />
+            <asp:ImageButton ID="ImageButtonClose2" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewCreate_OnClick" />
             <h2>
                 <asp:Label ID="LabelCreateTerm" runat="server" Text="Label"></asp:Label></h2>
             <br />
@@ -89,7 +89,7 @@
             <br />
         </asp:View>
         <asp:View ID="ViewTermSetCreate" runat="server">
-            <asp:ImageButton ID="ImageButtonClose3" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewCreate_OnClick" />
+            <asp:ImageButton ID="ImageButtonClose3" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewCreate_OnClick" />
             <h2>
                 <asp:Label ID="LabelCreateTermSet" runat="server" Text="Label"></asp:Label></h2>
             <br />
@@ -116,7 +116,7 @@
 <div id="EditBox" class="inner-content-box" runat="server" visible="False">
     <asp:MultiView ID="MultiViewEdit" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewTaxonomyEdit" runat="server">
-            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
+            <asp:ImageButton ID="ImageButton1" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
             <h2>Edit taxonomy item</h2>
             <br />
             <br />
@@ -139,7 +139,7 @@
             <br />
         </asp:View>
         <asp:View ID="ViewTermSetEdit" runat="server">
-                        <asp:ImageButton ID="ImageButtonClose5" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
+                        <asp:ImageButton ID="ImageButtonClose5" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
 
             <h2>Edit Termset item</h2>
             <br />
@@ -171,7 +171,7 @@
             <br />
         </asp:View>
         <asp:View ID="ViewTermEdit" runat="server">
-                        <asp:ImageButton ID="ImageButtonClose6" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
+                        <asp:ImageButton ID="ImageButtonClose6" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
 
             <h2>Edit Term item</h2>
             <br />
@@ -203,7 +203,7 @@
             <br />
         </asp:View>
         <asp:View ID="ViewDelete" runat="server">
-                        <asp:ImageButton ID="ImageButtonClose7" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="32px" Width="32px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
+                        <asp:ImageButton ID="ImageButtonClose7" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
 
             <h2>Do you want to delete these?</h2>
             <br />
