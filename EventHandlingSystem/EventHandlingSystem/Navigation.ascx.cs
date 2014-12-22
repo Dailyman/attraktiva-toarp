@@ -11,6 +11,8 @@ namespace EventHandlingSystem
 {
     public partial class Navigation1 : System.Web.UI.UserControl
     {
+
+        #region Page_Load()
         protected void Page_Load(object sender, EventArgs e)
         {
             //Om Treeview har noder = Spara TreeViewState till Session.
@@ -33,8 +35,41 @@ namespace EventHandlingSystem
 
                 //Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none";
 
-                AddAllNodesToTreeView(TreeViewNavigation, 1);
-                //AddSpecificNodesToTreeView(TreeViewNavigation, 8);
+                //LabelDisplay.Text += Request.Path;
+                
+                    if (Request.QueryString["Type"] == "C")
+                    {
+                        if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+                        {
+                            Session["NavCommunityPubId"] =
+                                WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"]))
+                                    .Community.PublishingTermSetId;
+                        }
+                    }
+                    else if (Request.QueryString["Type"] == "A")
+                    {
+                        if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+                        {
+                            Session["NavCommunityPubId"] =
+                                WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"]))
+                                    .Association.Community.PublishingTermSetId;
+                        }
+                    }
+                    else if(Request.Path == "/default.aspx" )
+                    {
+                        Session["NavCommunityPubId"] = null;
+                    }
+                
+
+                //Bygger LeftSideNavigation
+                if (Session["NavCommunityPubId"] != null)
+                {
+                    AddSpecificNodesToTreeView(TreeViewNavigation, int.Parse(Session["NavCommunityPubId"].ToString()));
+                }
+                else
+                {
+                    AddAllNodesToTreeView(TreeViewNavigation, 1);
+                }
 
                 // Apply the recorded expanded/collapsed state to the TreeView. 
                 List<string> list = (List<string>) Session["TreeViewState"];
@@ -85,9 +120,8 @@ namespace EventHandlingSystem
                 Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none" ? "true" : "false";
             }
         }
-        //End Page_Load
-
-
+#endregion
+        
 
         #region Testing code (Remove)
 
