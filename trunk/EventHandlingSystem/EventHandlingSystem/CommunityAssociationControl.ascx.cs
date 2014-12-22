@@ -229,6 +229,7 @@ namespace EventHandlingSystem
             // Visa Community Name i textboxen och i rubrik över föreningslista
             TextBoxCommName.Text = DropDownListCommunity.SelectedItem.Text;
             LabelAssoInComm.Text = "Associations in " + DropDownListCommunity.SelectedItem.Text;
+            LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "black");
 
             // Visa Community logga med länk innehållande tooltip
             HyperLinkLogoCommunity.NavigateUrl =
@@ -483,13 +484,38 @@ namespace EventHandlingSystem
                 int pubId = AssociationDB.GetPublishingTermSetIdByAssociationId(assoId);
 
                 //Uppdatera det nya namnet från textboxen
-                TermSetDB.UpdateTermSetName(TermSetDB.GetTermSetById(pubId), TextBoxAssoName.Text);
+                TermSet tsToUpdate = new TermSet
+                {
+                    Id = pubId,
+                    Name = TextBoxAssoName.Text,
+                    ParentTermSetId = CommunityDB.GetPublishingTermSetIdByCommunityId(
+                        int.Parse(DropDownListCommunityInAsso.SelectedItem.Value))
+                };
+
+                Term termToUpdate = TermDB.GetAllTermsByTermSetId(pubId).FirstOrDefault();
+                termToUpdate.Name = TextBoxAssoName.Text;
+            
+                int affectedRows = TermSetDB.UpdateTermSet(tsToUpdate);
+                affectedRows += TermDB.UpdateTerm(termToUpdate);
+
                 PopulateAssocationListBox(assoId);
+               
                 
                 //Uppdatera community i vilken föreningen finns
                 Association assoToUpdate = new Association();
                 assoToUpdate.Id = assoId;
                 assoToUpdate.CommunityId = int.Parse(DropDownListCommunityInAsso.SelectedItem.Value);
+                //Hitta alla barnen
+                
+                foreach (var termSet in TermSetDB.GetChildTermSetsByParentTermSetId(
+                    AssociationDB.GetAssociationById(assoToUpdate.Id).PublishingTermSetId))
+                {
+                    Association asso = AssociationDB.GetAssociationByPublishingTermSetId(termSet.Id);
+                    asso.CommunityId = assoToUpdate.CommunityId;
+                    affectedRows += AssociationDB.UpdateAssociation(asso);
+
+                   affectedRows += ChangeCommunityIdForChildAssocations(termSet, asso);
+                }
 
                 //Uppdatera föreningstyp
                 if (!string.IsNullOrWhiteSpace(DropDownListAssoType.SelectedValue))
@@ -502,22 +528,50 @@ namespace EventHandlingSystem
                     assoToUpdate.AssociationType = null;
                 }
 
-                //Anropa Update-metoden
-                AssociationDB.UpdateAssociation(assoToUpdate);
-                PopulateAssocationListBox();
+                //ShowAssociationDetails();
 
-                LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated! ";
-                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                //Anropa Update-metoden
+                affectedRows += AssociationDB.UpdateAssociation(assoToUpdate);
+                PopulateAssocationListBox();
+                
+
+                if (affectedRows != 0)
+                {
+                    LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated!";
+                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                }
+                else
+                {
+                    LabelUpdateAsso.Text = "Error: Changes might not have been made in " + TextBoxAssoName.Text + 
+                        "... Make sure to set the update information.";
+                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
             }
             else
             {
                 LabelUpdateAsso.Text = "Select an association in the listbox before trying to save changes again.";
                 LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                LabelAssoInComm.Text = "Select An Association in this Listbox";
+                LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
 
-        #endregion
+        private int affectedRows;
 
-        
+        //Rekursiv metod för att hitta alla led nedåt i publishing termset för associations.
+        private int ChangeCommunityIdForChildAssocations(TermSet termSet, Association assoToUpdate)
+        {
+            foreach (var tSet in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
+            {
+                Association asso = AssociationDB.GetAssociationByPublishingTermSetId(tSet.Id);
+                asso.CommunityId = assoToUpdate.CommunityId;
+                affectedRows += AssociationDB.UpdateAssociation(asso);
+
+                ChangeCommunityIdForChildAssocations(tSet, assoToUpdate);
+            }
+            return affectedRows;
+        }
+
+        #endregion
     }
 }

@@ -56,7 +56,7 @@
             </div><br />
 
             <div class="view-community-details-association">
-                <b><asp:Label ID="LabelAssoInComm" runat="server" Text="Label"></asp:Label></b>
+                <b><asp:Label ID="LabelAssoInComm" runat="server" Text=""></asp:Label></b>
                 <br /><br />
                 <asp:ListBox ID="ListBoxAsso" OnSelectedIndexChanged="ListBoxAsso_OnSelectedIndexChanged" Width="200px" runat="server" AutoPostBack="True"></asp:ListBox>
                 <br />
