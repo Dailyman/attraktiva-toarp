@@ -42,6 +42,11 @@ namespace EventHandlingSystem.Database
             return ts.Name;
         }
 
+        public static int ? GetParentTermSetByTermSetId(int tsId)
+        {
+            return GetTermSetById(tsId).ParentTermSetId;
+        }
+
        
 
 
@@ -69,7 +74,6 @@ namespace EventHandlingSystem.Database
             TermSet termSetToUpdate = GetTermSetById(termSet.Id);
             termSetToUpdate.Name = termSet.Name;
             termSetToUpdate.ParentTermSetId = termSet.ParentTermSetId;
-            termSetToUpdate.TaxonomyId = termSet.TaxonomyId;
             
             int affectedRows = Context.SaveChanges();
             return affectedRows;
@@ -84,7 +88,7 @@ namespace EventHandlingSystem.Database
             return affectedRows;
         }
 
-
+       
         // DELETE
         public static int DeleteTermSetById(int id)
         {
