@@ -64,7 +64,8 @@ namespace EventHandlingSystem
             //Lägg in alla föreningar i dropdownlista
             List<ListItem> assoList = AssociationDB.GetAllAssociations().Select(asso => new ListItem
             {
-                Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId), Value = asso.Id.ToString()
+                Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId), 
+                Value = asso.Id.ToString()
             }).ToList();
 
             // ALTERNATIV med foreach
@@ -430,9 +431,25 @@ namespace EventHandlingSystem
                 //Uppdatera det nya namnet från textboxen
                 TermSetDB.UpdateTermSetName(TermSetDB.GetTermSetById(pubId), TextBoxCommName.Text);
 
-                LabelCommSave.Text = TextBoxCommName.Text + " has been updated.";
-                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-                PopulateCommunityDropDownList(DropDownListCommunity);
+                //När TermSet ändras måste relaterat term också uppdateras
+                Term termToUpdate = TermDB.GetAllTermsByTermSetId(pubId).FirstOrDefault();
+                termToUpdate.Name = TextBoxCommName.Text;
+
+                int affectedRows = TermSetDB.UpdateTermSet(TermSetDB.GetTermSetById(pubId));
+                affectedRows += TermDB.UpdateTerm(termToUpdate);
+
+                if (affectedRows != 0)
+                {
+                    LabelCommSave.Text = TextBoxCommName.Text + " has been updated.";
+                    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    PopulateCommunityDropDownList(DropDownListCommunity);
+                }
+                else
+                {
+                    LabelUpdateAsso.Text = "Error: "+ TextBoxAssoName.Text +
+                        " could not be updated!";
+                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
             }
             else
             {
@@ -472,7 +489,7 @@ namespace EventHandlingSystem
 
 
 
-        // Spara ändringar i Association details - UPDATE-knappen
+        // För att spara ändringar i Association details - UPDATE-knappen
         protected void ButtonUpdateAsso_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
@@ -483,7 +500,7 @@ namespace EventHandlingSystem
                 //Hitta publiseringsTS-id via community
                 int pubId = AssociationDB.GetPublishingTermSetIdByAssociationId(assoId);
 
-                //Uppdatera det nya namnet från textboxen
+                // UPPDATERA det nya namnet från textboxen och ändra ParentTermSetId i publiseringstermset
                 TermSet tsToUpdate = new TermSet
                 {
                     Id = pubId,
@@ -492,6 +509,7 @@ namespace EventHandlingSystem
                         int.Parse(DropDownListCommunityInAsso.SelectedItem.Value))
                 };
 
+                //När TermSet ändras måste relaterat term också uppdateras
                 Term termToUpdate = TermDB.GetAllTermsByTermSetId(pubId).FirstOrDefault();
                 termToUpdate.Name = TextBoxAssoName.Text;
             
@@ -499,14 +517,14 @@ namespace EventHandlingSystem
                 affectedRows += TermDB.UpdateTerm(termToUpdate);
 
                 PopulateAssocationListBox(assoId);
-               
-                
-                //Uppdatera community i vilken föreningen finns
+
+
+                // UPPDATERA community i vilken föreningen finns
                 Association assoToUpdate = new Association();
                 assoToUpdate.Id = assoId;
                 assoToUpdate.CommunityId = int.Parse(DropDownListCommunityInAsso.SelectedItem.Value);
-                //Hitta alla barnen
                 
+                //Hitta alla barnen i associationen (ovan) som byter community
                 foreach (var termSet in TermSetDB.GetChildTermSetsByParentTermSetId(
                     AssociationDB.GetAssociationById(assoToUpdate.Id).PublishingTermSetId))
                 {
@@ -517,7 +535,76 @@ namespace EventHandlingSystem
                    affectedRows += ChangeCommunityIdForChildAssocations(termSet, asso);
                 }
 
-                //Uppdatera föreningstyp
+
+                // UPPDATERA ParentAssociation - omflyttningar i strukturen
+                Association newParentAsso = new Association();
+                
+
+                if (assoToUpdate.ParentAssociationId == null) //assoToUpdate är en parentAsso, flyttar neråt eller under en annan asso
+                {
+                    if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
+                    {
+                        newParentAsso.Id = int.Parse(DropDownListParentAsso.SelectedItem.Value);
+
+                        if (assoToUpdate.Id != newParentAsso.Id) //Får inte välja sig själv
+                        {
+                            //Om assoToUpdate flyttar till en annan ParentAsso behåller den sina barn
+                            if (newParentAsso.ParentAssociationId == null)
+                            {
+                                //Får ny PAId                                
+                                assoToUpdate.ParentAssociationId = newParentAsso.Id;
+                            }
+                            else //om den flyttar under sig själv eller till en childAsso
+                            {
+                                //Hitta alla barnen för att släppa dem. De blir alla parentAssos och får PA = null
+                                foreach (var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
+                                {
+                                    subAsso.ParentAssociationId = null;
+                                    affectedRows += AssociationDB.UpdateAssociation(subAsso);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            LabelUpdateAsso.Text = TextBoxAssoName.Text + 
+                                " cannot be Parent Association to itself. Please try again. \n";
+                            LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                        }
+                    }
+                    else
+                    {
+                        //Om man väljer blankt i ddl blir ParentAssociation null
+                        assoToUpdate.ParentAssociationId = null;
+                    }
+                }
+                else //assoToUpdate är en childAsso
+                {
+                    int? oldPAId = assoToUpdate.ParentAssociationId;
+
+                    //assoToUpdate får ny PAId, får inte välja sig själv
+                    if (assoToUpdate.Id != int.Parse(DropDownListParentAsso.SelectedItem.Value))
+                    {
+                        assoToUpdate.ParentAssociationId = newParentAsso.Id;
+                    }
+                    else
+                    {
+                        LabelUpdateAsso.Text = TextBoxAssoName.Text + " cannot be Parent Association to itself. Please try again. \r\n";
+                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    }
+
+                    if (assoToUpdate.ParentAssociationId > oldPAId) //assoToUpdate flyttar neråt
+                    {
+                        //Hitta barnen och ge dem assoToUpdates gamla PAId
+                        foreach (var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
+                        {
+                            subAsso.ParentAssociationId = oldPAId;
+                            affectedRows += AssociationDB.UpdateAssociation(subAsso);
+                        }
+                    }
+                }
+
+
+                // UPPDATERA föreningstyp
                 if (!string.IsNullOrWhiteSpace(DropDownListAssoType.SelectedValue))
                 {
                     assoToUpdate.AssociationType = int.Parse(DropDownListAssoType.SelectedItem.Value);
@@ -528,7 +615,6 @@ namespace EventHandlingSystem
                     assoToUpdate.AssociationType = null;
                 }
 
-                //ShowAssociationDetails();
 
                 //Anropa Update-metoden
                 affectedRows += AssociationDB.UpdateAssociation(assoToUpdate);
@@ -542,7 +628,7 @@ namespace EventHandlingSystem
                 }
                 else
                 {
-                    LabelUpdateAsso.Text = "Error: Changes might not have been made in " + TextBoxAssoName.Text + 
+                    LabelUpdateAsso.Text += "Error: Changes might not have been made in " + TextBoxAssoName.Text + 
                         "... Make sure to set the update information.";
                     LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
