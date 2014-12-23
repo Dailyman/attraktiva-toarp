@@ -53,7 +53,7 @@ namespace EventHandlingSystem.Database
 
         public static List<Association> GetAllSubAssociationsByParentAssociationId(int id)
         {
-            return GetAllNotDeletedAssociations().Where(ts => ts.ParentAssociationId.Equals(id)).ToList();
+            return GetAllNotDeletedAssociations().Where(sa => sa.ParentAssociationId.Equals(id)).ToList();
         }
 
         public static int GetPublishingTermSetIdByAssociationId(int id)
@@ -69,7 +69,7 @@ namespace EventHandlingSystem.Database
             Association assoToUpdate = GetAssociationById(assoc.Id);
 
             assoToUpdate.CommunityId = assoc.CommunityId;
-            //assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
+            assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
             assoToUpdate.AssociationType = assoc.AssociationType;
 
             int affectedRows = Context.SaveChanges();
