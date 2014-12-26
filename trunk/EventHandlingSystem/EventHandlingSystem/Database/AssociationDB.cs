@@ -75,5 +75,18 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
+
+
+        // DELETE
+        public static int DeleteAssociationById(int id)
+        {
+            Association assoToDelete = GetAssociationById(id);
+
+            if (assoToDelete != null)
+                assoToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }

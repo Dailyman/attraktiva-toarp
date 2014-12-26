@@ -100,7 +100,7 @@
                 <br />
                 <div class="btn-align-right">
                     <asp:Button ID="ButtonUpdateAsso" CssClass="btn-blue" runat="server" Text="Update" OnClick="ButtonUpdateAsso_OnClick"/>
-                    <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" Text="Delete this Association" />
+                    <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" Text="Delete this Association" OnClick="ButtonDeleteAsso_OnClick"/>
                 </div>
                 <asp:Label ID="LabelUpdateAsso" runat="server" Text=""></asp:Label>
             </div>

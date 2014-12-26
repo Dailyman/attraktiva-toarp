@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Antlr.Runtime;
 using EventHandlingSystem.Database;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.FriendlyUrls;
@@ -136,7 +137,64 @@ namespace EventHandlingSystem
             //Markera vilket item som ska vara vald när listan renderas
             ListBoxAsso.SelectedValue = aid.ToString();
         }
+
+        //Visa associations i en community
+        public void PopulateAssocationInCommunityDropDownList(DropDownList ddlPa, DropDownList ddlComm)
+        {
+            ddlPa.Items.Clear();
+
+            List<ListItem> assoList = new List<ListItem>();
+
+            // Lägg in alla föreningar i ddl
+            foreach (var asso in AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(int.Parse(ddlComm.SelectedItem.Value))))
+            {
+                assoList.Add(new ListItem
+                {
+                    Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
+                    Value = asso.Id.ToString()
+                });
+            }
+
+            ListItem emptyItem = new ListItem("", " ");
+            ddlPa.Items.Add(emptyItem); //index 0
+
+            foreach (var item in assoList.OrderBy(item => item.Text))
+            {
+                ddlPa.Items.Add(item);
+            }
+        }
+
+        //Visa associations i en community, förvald/markerad association
+        public void PopulateAssocationInCommunityDropDownList(int aid, DropDownList ddl)
+        {
+            ddl.Items.Clear();
+
+            List<ListItem> assoList = new List<ListItem>();
+
+            // Lägg in alla föreningar i listboxen
+            foreach (var asso in AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedItem.Value))))
+            {
+                assoList.Add(new ListItem
+                {
+                    Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
+                    Value = asso.Id.ToString()
+                });
+            }
+
+            ListItem emptyItem = new ListItem("", " ");
+            ddl.Items.Add(emptyItem); //index 0
+
+            foreach (var item in assoList.OrderBy(item => item.Text))
+            {
+                ddl.Items.Add(item);
+            }
+
+            //Markera vilket item som ska vara vald när listan renderas
+            ddl.SelectedValue = aid.ToString();
+        }
+
         
+
 
         public void PopulateAssociationTypesDropDownList()
         {
@@ -272,7 +330,7 @@ namespace EventHandlingSystem
                             DropDownListCommunityInAsso.Items.FindByValue(asso.CommunityId.ToString()));
 
             // Visa ParentAssociation-dropdownlista
-            PopulateAssocationDropDownList(DropDownListParentAsso);
+            PopulateAssocationInCommunityDropDownList(asso.Id, DropDownListParentAsso);
 
             if (asso.ParentAssociationId == null)
             {
@@ -472,15 +530,48 @@ namespace EventHandlingSystem
             MultiViewAssoDetails.ActiveViewIndex = -1;
             MultiViewAssoCreate.ActiveViewIndex = 0;
             PopulateCommunityDropDownList(DropDownListCommunityCreateAsso);
+
+            //Populera ParentAssociation dropdownlist
+            DropDownListCreateParAsso.Items.Clear();
+
+            List<ListItem> assoList = new List<ListItem>();
+
+            int commId;
+            if (!string.IsNullOrWhiteSpace(DropDownListCommunityCreateAsso.SelectedItem.Value))
+            {
+                commId = int.Parse(DropDownListCommunityCreateAsso.SelectedItem.Value);
+            }
+            else
+            {
+                commId = DropDownListCommunityCreateAsso.SelectedIndex = 1;
+            }
+
+            // Lägg in alla föreningar i ddl
+            foreach (var asso in AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(commId)))
+            {
+                assoList.Add(new ListItem
+                {
+                    Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
+                    Value = asso.Id.ToString()
+                });
+            }
+            ListItem emptyItem = new ListItem("", " ");
+            DropDownListCreateParAsso.Items.Add(emptyItem); //index 0
+
+            foreach (var item in assoList.OrderBy(item => item.Text))
+            {
+                DropDownListCreateParAsso.Items.Add(item);
+            }
+            
+            //PopulateAssociationTypesDropDownList();
         }
         
-
+        //Cancel Create Association View
         protected void ButtonCreateAssoCancel_OnClick(object sender, EventArgs e)
         {
-            
+            MultiViewAssoCreate.ActiveViewIndex = -1;
         }
-
-
+        
         // För att SKAPA en ny förening
         protected void ButtonCreateAsso_OnClick(object sender, EventArgs e)
         {
@@ -657,7 +748,33 @@ namespace EventHandlingSystem
             }
             return affectedRows;
         }
+        
+        //För att ta bort en association
+        protected void ButtonDeleteAsso_OnClick(object sender, EventArgs e)
+        {
+            //Association assoToDelete = new Association
+            //{
+            //    Id = int.Parse(ListBoxAsso.SelectedItem.Value)
+            //};
+
+            ////Anropa Delete-metoden
+            //int affectedRows = AssociationDB.DeleteAssociationById(assoToDelete.Id);
+            //PopulateAssocationListBox();
+
+            //if (affectedRows != 0)
+            //{
+            //    LabelUpdateAsso.Text = TextBoxAssoName.Text + " was successfully deleted.";
+            //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+            //}
+            //else
+            //{
+            //    LabelUpdateAsso.Text = TextBoxAssoName.Text + "could not be deleted. Please try again.";
+            //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+            //}
+        }
 
         #endregion
+
+        
     }
 }
