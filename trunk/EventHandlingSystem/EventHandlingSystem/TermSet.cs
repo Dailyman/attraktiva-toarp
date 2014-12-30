@@ -12,18 +12,21 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class Association
+    public partial class TermSet
     {
+        public TermSet()
+        {
+            this.Term = new HashSet<Term>();
+        }
+    
         public int Id { get; set; }
-        public int CommunityId { get; set; }
-        public Nullable<int> ParentAssociationId { get; set; }
-        public int PublishingTermSetId { get; set; }
-        public Nullable<int> AssociationType { get; set; }
+        public string Name { get; set; }
+        public int TaxonomyId { get; set; }
+        public Nullable<int> ParentTermSetId { get; set; }
         public System.DateTime Created { get; set; }
-        public string CreatedBy { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual WebPage WebPage { get; set; }
-        public virtual Community Community { get; set; }
+        public virtual Taxonomy Taxonomy { get; set; }
+        public virtual ICollection<Term> Term { get; set; }
     }
 }
