@@ -16,7 +16,6 @@ namespace EventHandlingSystem
     {
         public Feed()
         {
-            this.Event = new HashSet<Event>();
             this.Term = new HashSet<Term>();
         }
     
@@ -25,8 +24,7 @@ namespace EventHandlingSystem
         public System.DateTime Created { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual Component Component { get; set; }
-        public virtual ICollection<Event> Event { get; set; }
         public virtual ICollection<Term> Term { get; set; }
+        public virtual Component Component { get; set; }
     }
 }

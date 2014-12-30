@@ -12,18 +12,16 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class Association
+    public partial class WebPage
     {
         public int Id { get; set; }
-        public int CommunityId { get; set; }
-        public Nullable<int> ParentAssociationId { get; set; }
-        public int PublishingTermSetId { get; set; }
-        public Nullable<int> AssociationType { get; set; }
+        public string LogoUrl { get; set; }
+        public string NavigationComponentId { get; set; }
         public System.DateTime Created { get; set; }
-        public string CreatedBy { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual WebPage WebPage { get; set; }
+        public virtual Content Content { get; set; }
         public virtual Community Community { get; set; }
+        public virtual Association Association { get; set; }
     }
 }

@@ -25,7 +25,7 @@ namespace EventHandlingSystem
         public string CreatedBy { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual ICollection<Association> Association { get; set; }
         public virtual WebPage WebPage { get; set; }
+        public virtual ICollection<Association> Association { get; set; }
     }
 }
