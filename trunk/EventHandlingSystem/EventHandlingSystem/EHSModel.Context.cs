@@ -27,18 +27,16 @@ namespace EventHandlingSystem
     
         public DbSet<associations> associations { get; set; }
         public DbSet<associationsinevents> associationsinevents { get; set; }
-        public DbSet<associationtypes> associationtypes { get; set; }
-        public DbSet<associationtypesinassociation> associationtypesinassociation { get; set; }
-        public DbSet<associationtypesinevents> associationtypesinevents { get; set; }
+        public DbSet<categories> categories { get; set; }
+        public DbSet<categoriesinassociations> categoriesinassociations { get; set; }
         public DbSet<communities> communities { get; set; }
         public DbSet<communitiesinevents> communitiesinevents { get; set; }
         public DbSet<components> components { get; set; }
         public DbSet<events> events { get; set; }
-        public DbSet<eventtypes> eventtypes { get; set; }
         public DbSet<filterdata> filterdata { get; set; }
         public DbSet<members> members { get; set; }
-        public DbSet<subeventtypes> subeventtypes { get; set; }
-        public DbSet<subeventtypesinevents> subeventtypesinevents { get; set; }
+        public DbSet<subcategories> subcategories { get; set; }
+        public DbSet<subcategoriesinevents> subcategoriesinevents { get; set; }
         public DbSet<webpages> webpages { get; set; }
     }
 }

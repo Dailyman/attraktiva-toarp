@@ -12,19 +12,19 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class associationtypes
+    public partial class categories
     {
-        public associationtypes()
+        public categories()
         {
-            this.associationtypesinassociation = new HashSet<associationtypesinassociation>();
-            this.associationtypesinevents = new HashSet<associationtypesinevents>();
+            this.categoriesinassociations = new HashSet<categoriesinassociations>();
+            this.subcategories = new HashSet<subcategories>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual ICollection<associationtypesinassociation> associationtypesinassociation { get; set; }
-        public virtual ICollection<associationtypesinevents> associationtypesinevents { get; set; }
+        public virtual ICollection<categoriesinassociations> categoriesinassociations { get; set; }
+        public virtual ICollection<subcategories> subcategories { get; set; }
     }
 }

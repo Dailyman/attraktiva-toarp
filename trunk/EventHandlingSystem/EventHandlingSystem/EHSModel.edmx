@@ -4,22 +4,20 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="ATModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="ATModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="ATModelStoreContainer">
           <EntitySet Name="associations" EntityType="ATModel.Store.associations" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="associationsinevents" EntityType="ATModel.Store.associationsinevents" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="associationtypes" EntityType="ATModel.Store.associationtypes" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="associationtypesinassociation" EntityType="ATModel.Store.associationtypesinassociation" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="associationtypesinevents" EntityType="ATModel.Store.associationtypesinevents" store:Type="Tables" Schema="attraktiva_toarp" />
+          <EntitySet Name="categories" EntityType="ATModel.Store.categories" store:Type="Tables" Schema="attraktiva_toarp" />
+          <EntitySet Name="categoriesinassociations" EntityType="ATModel.Store.categoriesinassociations" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="communities" EntityType="ATModel.Store.communities" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="communitiesinevents" EntityType="ATModel.Store.communitiesinevents" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="components" EntityType="ATModel.Store.components" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="events" EntityType="ATModel.Store.events" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="eventtypes" EntityType="ATModel.Store.eventtypes" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="filterdata" EntityType="ATModel.Store.filterdata" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="members" EntityType="ATModel.Store.members" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="subeventtypes" EntityType="ATModel.Store.subeventtypes" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="subeventtypesinevents" EntityType="ATModel.Store.subeventtypesinevents" store:Type="Tables" Schema="attraktiva_toarp" />
+          <EntitySet Name="subcategories" EntityType="ATModel.Store.subcategories" store:Type="Tables" Schema="attraktiva_toarp" />
+          <EntitySet Name="subcategoriesinevents" EntityType="ATModel.Store.subcategoriesinevents" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="webpages" EntityType="ATModel.Store.webpages" store:Type="Tables" Schema="attraktiva_toarp" />
           <AssociationSet Name="fk_Associations_Communities" Association="ATModel.Store.fk_Associations_Communities">
             <End Role="communities" EntitySet="communities" />
@@ -33,21 +31,13 @@
             <End Role="events" EntitySet="events" />
             <End Role="associationsinevents" EntitySet="associationsinevents" />
           </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInAssociation_Associations1" Association="ATModel.Store.fk_AssociationTypesInAssociation_Associations1">
+          <AssociationSet Name="fk_CategoriesInAssociations_Associations1" Association="ATModel.Store.fk_CategoriesInAssociations_Associations1">
             <End Role="associations" EntitySet="associations" />
-            <End Role="associationtypesinassociation" EntitySet="associationtypesinassociation" />
+            <End Role="categoriesinassociations" EntitySet="categoriesinassociations" />
           </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInAssociation_AssociationTypes1" Association="ATModel.Store.fk_AssociationTypesInAssociation_AssociationTypes1">
-            <End Role="associationtypes" EntitySet="associationtypes" />
-            <End Role="associationtypesinassociation" EntitySet="associationtypesinassociation" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInEvents_AssociationTypes1" Association="ATModel.Store.fk_AssociationTypesInEvents_AssociationTypes1">
-            <End Role="associationtypes" EntitySet="associationtypes" />
-            <End Role="associationtypesinevents" EntitySet="associationtypesinevents" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInEvents_Events1" Association="ATModel.Store.fk_AssociationTypesInEvents_Events1">
-            <End Role="events" EntitySet="events" />
-            <End Role="associationtypesinevents" EntitySet="associationtypesinevents" />
+          <AssociationSet Name="fk_CategoriesInAssociations_Categories1" Association="ATModel.Store.fk_CategoriesInAssociations_Categories1">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="categoriesinassociations" EntitySet="categoriesinassociations" />
           </AssociationSet>
           <AssociationSet Name="fk_CommunitiesInEvents_Communities1" Association="ATModel.Store.fk_CommunitiesInEvents_Communities1">
             <End Role="communities" EntitySet="communities" />
@@ -61,18 +51,6 @@
             <End Role="webpages" EntitySet="webpages" />
             <End Role="components" EntitySet="components" />
           </AssociationSet>
-          <AssociationSet Name="fk_EventTypesSub_EventTypes1" Association="ATModel.Store.fk_EventTypesSub_EventTypes1">
-            <End Role="eventtypes" EntitySet="eventtypes" />
-            <End Role="subeventtypes" EntitySet="subeventtypes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_EventTypesSubInEvents_Events1" Association="ATModel.Store.fk_EventTypesSubInEvents_Events1">
-            <End Role="events" EntitySet="events" />
-            <End Role="subeventtypesinevents" EntitySet="subeventtypesinevents" />
-          </AssociationSet>
-          <AssociationSet Name="fk_EventTypesSubInEvents_EventTypesSub1" Association="ATModel.Store.fk_EventTypesSubInEvents_EventTypesSub1">
-            <End Role="subeventtypes" EntitySet="subeventtypes" />
-            <End Role="subeventtypesinevents" EntitySet="subeventtypesinevents" />
-          </AssociationSet>
           <AssociationSet Name="fk_FilterData_Components1" Association="ATModel.Store.fk_FilterData_Components1">
             <End Role="components" EntitySet="components" />
             <End Role="filterdata" EntitySet="filterdata" />
@@ -80,6 +58,18 @@
           <AssociationSet Name="fk_Members_Associations1" Association="ATModel.Store.fk_Members_Associations1">
             <End Role="associations" EntitySet="associations" />
             <End Role="members" EntitySet="members" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SubCategories_Categories1" Association="ATModel.Store.fk_SubCategories_Categories1">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="subcategories" EntitySet="subcategories" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SubCategoriesInEvents_Events1" Association="ATModel.Store.fk_SubCategoriesInEvents_Events1">
+            <End Role="events" EntitySet="events" />
+            <End Role="subcategoriesinevents" EntitySet="subcategoriesinevents" />
+          </AssociationSet>
+          <AssociationSet Name="fk_SubCategoriesInEvents_SubCategories1" Association="ATModel.Store.fk_SubCategoriesInEvents_SubCategories1">
+            <End Role="subcategories" EntitySet="subcategories" />
+            <End Role="subcategoriesinevents" EntitySet="subcategoriesinevents" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="associations">
@@ -104,29 +94,21 @@
           <Property Name="Events_Id" Type="int" Nullable="false" />
           <Property Name="Associations_Id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="associationtypes">
+        <EntityType Name="categories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="varchar" MaxLength="45" />
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
-        <EntityType Name="associationtypesinassociation">
+        <EntityType Name="categoriesinassociations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Associations_Id" Type="int" Nullable="false" />
-          <Property Name="AssociationTypes_Id" Type="int" Nullable="false" />
-        </EntityType>
-        <EntityType Name="associationtypesinevents">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Events_Id" Type="int" Nullable="false" />
-          <Property Name="AssociationTypes_Id" Type="int" Nullable="false" />
+          <Property Name="Categories_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="communities">
           <Key>
@@ -182,14 +164,6 @@
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
-        <EntityType Name="eventtypes">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="255" />
-          <Property Name="IsDeleted" Type="bool" Nullable="false" />
-        </EntityType>
         <EntityType Name="filterdata">
           <Key>
             <PropertyRef Name="Id" />
@@ -210,21 +184,21 @@
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Associations_Id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="subeventtypes">
+        <EntityType Name="subcategories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
-          <Property Name="EventTypes_Id" Type="int" Nullable="false" />
+          <Property Name="Categories_Id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="subeventtypesinevents">
+        <EntityType Name="subcategoriesinevents">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" />
-          <Property Name="SubEventType_Id" Type="int" Nullable="false" />
+          <Property Name="SubCategories_Id" Type="int" Nullable="false" />
           <Property Name="Events_Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="webpages">
@@ -279,51 +253,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_AssociationTypesInAssociation_Associations1">
+        <Association Name="fk_CategoriesInAssociations_Associations1">
           <End Role="associations" Type="ATModel.Store.associations" Multiplicity="1" />
-          <End Role="associationtypesinassociation" Type="ATModel.Store.associationtypesinassociation" Multiplicity="*" />
+          <End Role="categoriesinassociations" Type="ATModel.Store.categoriesinassociations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="associations">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="associationtypesinassociation">
+            <Dependent Role="categoriesinassociations">
               <PropertyRef Name="Associations_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_AssociationTypesInAssociation_AssociationTypes1">
-          <End Role="associationtypes" Type="ATModel.Store.associationtypes" Multiplicity="1" />
-          <End Role="associationtypesinassociation" Type="ATModel.Store.associationtypesinassociation" Multiplicity="*" />
+        <Association Name="fk_CategoriesInAssociations_Categories1">
+          <End Role="categories" Type="ATModel.Store.categories" Multiplicity="1" />
+          <End Role="categoriesinassociations" Type="ATModel.Store.categoriesinassociations" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="associationtypes">
+            <Principal Role="categories">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="associationtypesinassociation">
-              <PropertyRef Name="AssociationTypes_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AssociationTypesInEvents_AssociationTypes1">
-          <End Role="associationtypes" Type="ATModel.Store.associationtypes" Multiplicity="1" />
-          <End Role="associationtypesinevents" Type="ATModel.Store.associationtypesinevents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="associationtypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="associationtypesinevents">
-              <PropertyRef Name="AssociationTypes_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AssociationTypesInEvents_Events1">
-          <End Role="events" Type="ATModel.Store.events" Multiplicity="1" />
-          <End Role="associationtypesinevents" Type="ATModel.Store.associationtypesinevents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="events">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="associationtypesinevents">
-              <PropertyRef Name="Events_Id" />
+            <Dependent Role="categoriesinassociations">
+              <PropertyRef Name="Categories_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -363,42 +313,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_EventTypesSub_EventTypes1">
-          <End Role="eventtypes" Type="ATModel.Store.eventtypes" Multiplicity="1" />
-          <End Role="subeventtypes" Type="ATModel.Store.subeventtypes" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="eventtypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="subeventtypes">
-              <PropertyRef Name="EventTypes_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_EventTypesSubInEvents_Events1">
-          <End Role="events" Type="ATModel.Store.events" Multiplicity="1" />
-          <End Role="subeventtypesinevents" Type="ATModel.Store.subeventtypesinevents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="events">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="subeventtypesinevents">
-              <PropertyRef Name="Events_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_EventTypesSubInEvents_EventTypesSub1">
-          <End Role="subeventtypes" Type="ATModel.Store.subeventtypes" Multiplicity="1" />
-          <End Role="subeventtypesinevents" Type="ATModel.Store.subeventtypesinevents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="subeventtypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="subeventtypesinevents">
-              <PropertyRef Name="SubEventType_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="fk_FilterData_Components1">
           <End Role="components" Type="ATModel.Store.components" Multiplicity="1" />
           <End Role="filterdata" Type="ATModel.Store.filterdata" Multiplicity="*" />
@@ -423,26 +337,59 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-      </Schema>
-    </edmx:StorageModels>
+        <Association Name="fk_SubCategories_Categories1">
+          <End Role="categories" Type="ATModel.Store.categories" Multiplicity="1" />
+          <End Role="subcategories" Type="ATModel.Store.subcategories" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="categories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="subcategories">
+              <PropertyRef Name="Categories_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SubCategoriesInEvents_Events1">
+          <End Role="events" Type="ATModel.Store.events" Multiplicity="1" />
+          <End Role="subcategoriesinevents" Type="ATModel.Store.subcategoriesinevents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="events">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="subcategoriesinevents">
+              <PropertyRef Name="Events_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_SubCategoriesInEvents_SubCategories1">
+          <End Role="subcategories" Type="ATModel.Store.subcategories" Multiplicity="1" />
+          <End Role="subcategoriesinevents" Type="ATModel.Store.subcategoriesinevents" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="subcategories">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="subcategoriesinevents">
+              <PropertyRef Name="SubCategories_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="ATModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ATEntities" p1:LazyLoadingEnabled="true">
           <EntitySet Name="associations" EntityType="ATModel.associations" />
           <EntitySet Name="associationsinevents" EntityType="ATModel.associationsinevents" />
-          <EntitySet Name="associationtypes" EntityType="ATModel.associationtypes" />
-          <EntitySet Name="associationtypesinassociation" EntityType="ATModel.associationtypesinassociation" />
-          <EntitySet Name="associationtypesinevents" EntityType="ATModel.associationtypesinevents" />
+          <EntitySet Name="categories" EntityType="ATModel.categories" />
+          <EntitySet Name="categoriesinassociations" EntityType="ATModel.categoriesinassociations" />
           <EntitySet Name="communities" EntityType="ATModel.communities" />
           <EntitySet Name="communitiesinevents" EntityType="ATModel.communitiesinevents" />
           <EntitySet Name="components" EntityType="ATModel.components" />
           <EntitySet Name="events" EntityType="ATModel.events" />
-          <EntitySet Name="eventtypes" EntityType="ATModel.eventtypes" />
           <EntitySet Name="filterdata" EntityType="ATModel.filterdata" />
           <EntitySet Name="members" EntityType="ATModel.members" />
-          <EntitySet Name="subeventtypes" EntityType="ATModel.subeventtypes" />
-          <EntitySet Name="subeventtypesinevents" EntityType="ATModel.subeventtypesinevents" />
+          <EntitySet Name="subcategories" EntityType="ATModel.subcategories" />
+          <EntitySet Name="subcategoriesinevents" EntityType="ATModel.subcategoriesinevents" />
           <EntitySet Name="webpages" EntityType="ATModel.webpages" />
           <AssociationSet Name="fk_Associations_Communities" Association="ATModel.fk_Associations_Communities">
             <End Role="communities" EntitySet="communities" />
@@ -452,9 +399,9 @@
             <End Role="associations" EntitySet="associations" />
             <End Role="associationsinevents" EntitySet="associationsinevents" />
           </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInAssociation_Associations1" Association="ATModel.fk_AssociationTypesInAssociation_Associations1">
+          <AssociationSet Name="fk_CategoriesInAssociations_Associations1" Association="ATModel.fk_CategoriesInAssociations_Associations1">
             <End Role="associations" EntitySet="associations" />
-            <End Role="associationtypesinassociation" EntitySet="associationtypesinassociation" />
+            <End Role="categoriesinassociations" EntitySet="categoriesinassociations" />
           </AssociationSet>
           <AssociationSet Name="fk_Members_Associations1" Association="ATModel.fk_Members_Associations1">
             <End Role="associations" EntitySet="associations" />
@@ -464,17 +411,13 @@
             <End Role="events" EntitySet="events" />
             <End Role="associationsinevents" EntitySet="associationsinevents" />
           </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInAssociation_AssociationTypes1" Association="ATModel.fk_AssociationTypesInAssociation_AssociationTypes1">
-            <End Role="associationtypes" EntitySet="associationtypes" />
-            <End Role="associationtypesinassociation" EntitySet="associationtypesinassociation" />
+          <AssociationSet Name="fk_CategoriesInAssociations_Categories1" Association="ATModel.fk_CategoriesInAssociations_Categories1">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="categoriesinassociations" EntitySet="categoriesinassociations" />
           </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInEvents_AssociationTypes1" Association="ATModel.fk_AssociationTypesInEvents_AssociationTypes1">
-            <End Role="associationtypes" EntitySet="associationtypes" />
-            <End Role="associationtypesinevents" EntitySet="associationtypesinevents" />
-          </AssociationSet>
-          <AssociationSet Name="fk_AssociationTypesInEvents_Events1" Association="ATModel.fk_AssociationTypesInEvents_Events1">
-            <End Role="events" EntitySet="events" />
-            <End Role="associationtypesinevents" EntitySet="associationtypesinevents" />
+          <AssociationSet Name="fk_SubCategories_Categories1" Association="ATModel.fk_SubCategories_Categories1">
+            <End Role="categories" EntitySet="categories" />
+            <End Role="subcategories" EntitySet="subcategories" />
           </AssociationSet>
           <AssociationSet Name="fk_CommunitiesInEvents_Communities1" Association="ATModel.fk_CommunitiesInEvents_Communities1">
             <End Role="communities" EntitySet="communities" />
@@ -492,89 +435,75 @@
             <End Role="components" EntitySet="components" />
             <End Role="filterdata" EntitySet="filterdata" />
           </AssociationSet>
-          <AssociationSet Name="fk_EventTypesSubInEvents_Events1" Association="ATModel.fk_EventTypesSubInEvents_Events1">
+          <AssociationSet Name="fk_SubCategoriesInEvents_Events1" Association="ATModel.fk_SubCategoriesInEvents_Events1">
             <End Role="events" EntitySet="events" />
-            <End Role="subeventtypesinevents" EntitySet="subeventtypesinevents" />
+            <End Role="subcategoriesinevents" EntitySet="subcategoriesinevents" />
           </AssociationSet>
-          <AssociationSet Name="fk_EventTypesSub_EventTypes1" Association="ATModel.fk_EventTypesSub_EventTypes1">
-            <End Role="eventtypes" EntitySet="eventtypes" />
-            <End Role="subeventtypes" EntitySet="subeventtypes" />
-          </AssociationSet>
-          <AssociationSet Name="fk_EventTypesSubInEvents_EventTypesSub1" Association="ATModel.fk_EventTypesSubInEvents_EventTypesSub1">
-            <End Role="subeventtypes" EntitySet="subeventtypes" />
-            <End Role="subeventtypesinevents" EntitySet="subeventtypesinevents" />
+          <AssociationSet Name="fk_SubCategoriesInEvents_SubCategories1" Association="ATModel.fk_SubCategoriesInEvents_SubCategories1">
+            <End Role="subcategories" EntitySet="subcategories" />
+            <End Role="subcategoriesinevents" EntitySet="subcategoriesinevents" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="associations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="ParentAssociationId" Type="Int32" />
-          <Property Name="Created" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="LatestUpdate" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Communities_Id" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ParentAssociationId" />
+          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="Communities_Id" Nullable="false" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_Associations_Communities" FromRole="associations" ToRole="communities" />
           <NavigationProperty Name="associationsinevents" Relationship="ATModel.fk_AssociationsInEvents_Associations1" FromRole="associations" ToRole="associationsinevents" />
-          <NavigationProperty Name="associationtypesinassociation" Relationship="ATModel.fk_AssociationTypesInAssociation_Associations1" FromRole="associations" ToRole="associationtypesinassociation" />
+          <NavigationProperty Name="categoriesinassociations" Relationship="ATModel.fk_CategoriesInAssociations_Associations1" FromRole="associations" ToRole="categoriesinassociations" />
           <NavigationProperty Name="members" Relationship="ATModel.fk_Members_Associations1" FromRole="associations" ToRole="members" />
         </EntityType>
         <EntityType Name="associationsinevents">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Events_Id" Type="Int32" Nullable="false" />
-          <Property Name="Associations_Id" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Events_Id" Nullable="false" />
+          <Property Type="Int32" Name="Associations_Id" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_AssociationsInEvents_Associations1" FromRole="associationsinevents" ToRole="associations" />
           <NavigationProperty Name="events" Relationship="ATModel.fk_AssociationsInEvents_Events1" FromRole="associationsinevents" ToRole="events" />
         </EntityType>
-        <EntityType Name="associationtypes">
+        <EntityType Name="categories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" MaxLength="45" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="associationtypesinassociation" Relationship="ATModel.fk_AssociationTypesInAssociation_AssociationTypes1" FromRole="associationtypes" ToRole="associationtypesinassociation" />
-          <NavigationProperty Name="associationtypesinevents" Relationship="ATModel.fk_AssociationTypesInEvents_AssociationTypes1" FromRole="associationtypes" ToRole="associationtypesinevents" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="categoriesinassociations" Relationship="ATModel.fk_CategoriesInAssociations_Categories1" FromRole="categories" ToRole="categoriesinassociations" />
+          <NavigationProperty Name="subcategories" Relationship="ATModel.fk_SubCategories_Categories1" FromRole="categories" ToRole="subcategories" />
         </EntityType>
-        <EntityType Name="associationtypesinassociation">
+        <EntityType Name="categoriesinassociations">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Associations_Id" Type="Int32" Nullable="false" />
-          <Property Name="AssociationTypes_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="associations" Relationship="ATModel.fk_AssociationTypesInAssociation_Associations1" FromRole="associationtypesinassociation" ToRole="associations" />
-          <NavigationProperty Name="associationtypes" Relationship="ATModel.fk_AssociationTypesInAssociation_AssociationTypes1" FromRole="associationtypesinassociation" ToRole="associationtypes" />
-        </EntityType>
-        <EntityType Name="associationtypesinevents">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Events_Id" Type="Int32" Nullable="false" />
-          <Property Name="AssociationTypes_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="associationtypes" Relationship="ATModel.fk_AssociationTypesInEvents_AssociationTypes1" FromRole="associationtypesinevents" ToRole="associationtypes" />
-          <NavigationProperty Name="events" Relationship="ATModel.fk_AssociationTypesInEvents_Events1" FromRole="associationtypesinevents" ToRole="events" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Associations_Id" Nullable="false" />
+          <Property Type="Int32" Name="Categories_Id" Nullable="false" />
+          <NavigationProperty Name="associations" Relationship="ATModel.fk_CategoriesInAssociations_Associations1" FromRole="categoriesinassociations" ToRole="associations" />
+          <NavigationProperty Name="categories" Relationship="ATModel.fk_CategoriesInAssociations_Categories1" FromRole="categoriesinassociations" ToRole="categories" />
         </EntityType>
         <EntityType Name="communities">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Created" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="LatestUpdate" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="WebpageId" Type="Int32" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="WebpageId" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_Associations_Communities" FromRole="communities" ToRole="associations" />
           <NavigationProperty Name="communitiesinevents" Relationship="ATModel.fk_CommunitiesInEvents_Communities1" FromRole="communities" ToRole="communitiesinevents" />
         </EntityType>
@@ -582,9 +511,9 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Events_Id" Type="Int32" Nullable="false" />
-          <Property Name="Communities_Id" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Events_Id" Nullable="false" />
+          <Property Type="Int32" Name="Communities_Id" Nullable="false" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_CommunitiesInEvents_Communities1" FromRole="communitiesinevents" ToRole="communities" />
           <NavigationProperty Name="events" Relationship="ATModel.fk_CommunitiesInEvents_Events1" FromRole="communitiesinevents" ToRole="events" />
         </EntityType>
@@ -592,12 +521,12 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="FileName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Row" Type="Int32" />
-          <Property Name="Column" Type="Int32" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Webpages_Id" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FileName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="Row" />
+          <Property Type="Int32" Name="Column" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="Webpages_Id" Nullable="false" />
           <NavigationProperty Name="webpages" Relationship="ATModel.fk_Components_Webpages1" FromRole="components" ToRole="webpages" />
           <NavigationProperty Name="filterdata" Relationship="ATModel.fk_FilterData_Components1" FromRole="components" ToRole="filterdata" />
         </EntityType>
@@ -605,100 +534,90 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Description" Type="String" MaxLength="1073741823" Unicode="false" FixedLength="false" />
-          <Property Name="Summary" Type="String" MaxLength="1073741823" Unicode="false" FixedLength="false" />
-          <Property Name="Other" Type="String" MaxLength="1073741823" Unicode="false" FixedLength="false" />
-          <Property Name="Location" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="ImageUrl" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="DayEvent" Type="Boolean" Nullable="false" />
-          <Property Name="StartDate" Type="DateTime" Nullable="false" />
-          <Property Name="EndDate" Type="DateTime" Nullable="false" />
-          <Property Name="TargetGroup" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="ApproximateAttendees" Type="Int32" />
-          <Property Name="Created" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="LatestUpdate" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Summary" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Other" MaxLength="1073741823" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Location" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="ImageUrl" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="DayEvent" Nullable="false" />
+          <Property Type="DateTime" Name="StartDate" Nullable="false" />
+          <Property Type="DateTime" Name="EndDate" Nullable="false" />
+          <Property Type="String" Name="TargetGroup" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ApproximateAttendees" />
+          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="associationsinevents" Relationship="ATModel.fk_AssociationsInEvents_Events1" FromRole="events" ToRole="associationsinevents" />
-          <NavigationProperty Name="associationtypesinevents" Relationship="ATModel.fk_AssociationTypesInEvents_Events1" FromRole="events" ToRole="associationtypesinevents" />
           <NavigationProperty Name="communitiesinevents" Relationship="ATModel.fk_CommunitiesInEvents_Events1" FromRole="events" ToRole="communitiesinevents" />
-          <NavigationProperty Name="subeventtypesinevents" Relationship="ATModel.fk_EventTypesSubInEvents_Events1" FromRole="events" ToRole="subeventtypesinevents" />
-        </EntityType>
-        <EntityType Name="eventtypes">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="subeventtypes" Relationship="ATModel.fk_EventTypesSub_EventTypes1" FromRole="eventtypes" ToRole="subeventtypes" />
+          <NavigationProperty Name="subcategoriesinevents" Relationship="ATModel.fk_SubCategoriesInEvents_Events1" FromRole="events" ToRole="subcategoriesinevents" />
         </EntityType>
         <EntityType Name="filterdata">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="Type" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Data" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Components_Id" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="Type" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Data" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="Components_Id" Nullable="false" />
           <NavigationProperty Name="components" Relationship="ATModel.fk_FilterData_Components1" FromRole="filterdata" ToRole="components" />
         </EntityType>
         <EntityType Name="members">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="FirstName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="SurName" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="Associations_Id" Type="Int32" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="FirstName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="SurName" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="Associations_Id" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_Members_Associations1" FromRole="members" ToRole="associations" />
         </EntityType>
-        <EntityType Name="subeventtypes">
+        <EntityType Name="subcategories">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
-          <Property Name="EventTypes_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="eventtypes" Relationship="ATModel.fk_EventTypesSub_EventTypes1" FromRole="subeventtypes" ToRole="eventtypes" />
-          <NavigationProperty Name="subeventtypesinevents" Relationship="ATModel.fk_EventTypesSubInEvents_EventTypesSub1" FromRole="subeventtypes" ToRole="subeventtypesinevents" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <Property Type="Int32" Name="Categories_Id" Nullable="false" />
+          <NavigationProperty Name="categories" Relationship="ATModel.fk_SubCategories_Categories1" FromRole="subcategories" ToRole="categories" />
+          <NavigationProperty Name="subcategoriesinevents" Relationship="ATModel.fk_SubCategoriesInEvents_SubCategories1" FromRole="subcategories" ToRole="subcategoriesinevents" />
         </EntityType>
-        <EntityType Name="subeventtypesinevents">
+        <EntityType Name="subcategoriesinevents">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="SubEventType_Id" Type="Int32" Nullable="false" />
-          <Property Name="Events_Id" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="events" Relationship="ATModel.fk_EventTypesSubInEvents_Events1" FromRole="subeventtypesinevents" ToRole="events" />
-          <NavigationProperty Name="subeventtypes" Relationship="ATModel.fk_EventTypesSubInEvents_EventTypesSub1" FromRole="subeventtypesinevents" ToRole="subeventtypes" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="SubCategories_Id" Nullable="false" />
+          <Property Type="Int32" Name="Events_Id" Nullable="false" />
+          <NavigationProperty Name="events" Relationship="ATModel.fk_SubCategoriesInEvents_Events1" FromRole="subcategoriesinevents" ToRole="events" />
+          <NavigationProperty Name="subcategories" Relationship="ATModel.fk_SubCategoriesInEvents_SubCategories1" FromRole="subcategoriesinevents" ToRole="subcategories" />
         </EntityType>
         <EntityType Name="webpages">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="Title" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="CommunityId" Type="Int32" />
-          <Property Name="AssociationId" Type="Int32" />
-          <Property Name="Layout" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Style" Type="String" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="Created" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="CreatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="LatestUpdate" Type="DateTime" p1:StoreGeneratedPattern="Identity" />
-          <Property Name="UpdatedBy" Type="String" Nullable="false" MaxLength="255" Unicode="false" FixedLength="false" />
-          <Property Name="IsDeleted" Type="Boolean" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="CommunityId" />
+          <Property Type="Int32" Name="AssociationId" />
+          <Property Type="String" Name="Layout" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Style" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="components" Relationship="ATModel.fk_Components_Webpages1" FromRole="webpages" ToRole="components" />
         </EntityType>
         <Association Name="fk_Associations_Communities">
-          <End Role="communities" Type="ATModel.communities" Multiplicity="1" />
-          <End Role="associations" Type="ATModel.associations" Multiplicity="*" />
+          <End Type="ATModel.communities" Role="communities" Multiplicity="1" />
+          <End Type="ATModel.associations" Role="associations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="communities">
               <PropertyRef Name="Id" />
@@ -709,8 +628,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_AssociationsInEvents_Associations1">
-          <End Role="associations" Type="ATModel.associations" Multiplicity="1" />
-          <End Role="associationsinevents" Type="ATModel.associationsinevents" Multiplicity="*" />
+          <End Type="ATModel.associations" Role="associations" Multiplicity="1" />
+          <End Type="ATModel.associationsinevents" Role="associationsinevents" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="associations">
               <PropertyRef Name="Id" />
@@ -720,21 +639,21 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_AssociationTypesInAssociation_Associations1">
-          <End Role="associations" Type="ATModel.associations" Multiplicity="1" />
-          <End Role="associationtypesinassociation" Type="ATModel.associationtypesinassociation" Multiplicity="*" />
+        <Association Name="fk_CategoriesInAssociations_Associations1">
+          <End Type="ATModel.associations" Role="associations" Multiplicity="1" />
+          <End Type="ATModel.categoriesinassociations" Role="categoriesinassociations" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="associations">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="associationtypesinassociation">
+            <Dependent Role="categoriesinassociations">
               <PropertyRef Name="Associations_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Members_Associations1">
-          <End Role="associations" Type="ATModel.associations" Multiplicity="1" />
-          <End Role="members" Type="ATModel.members" Multiplicity="*" />
+          <End Type="ATModel.associations" Role="associations" Multiplicity="1" />
+          <End Type="ATModel.members" Role="members" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="associations">
               <PropertyRef Name="Id" />
@@ -745,8 +664,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_AssociationsInEvents_Events1">
-          <End Role="events" Type="ATModel.events" Multiplicity="1" />
-          <End Role="associationsinevents" Type="ATModel.associationsinevents" Multiplicity="*" />
+          <End Type="ATModel.events" Role="events" Multiplicity="1" />
+          <End Type="ATModel.associationsinevents" Role="associationsinevents" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="events">
               <PropertyRef Name="Id" />
@@ -756,45 +675,33 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_AssociationTypesInAssociation_AssociationTypes1">
-          <End Role="associationtypes" Type="ATModel.associationtypes" Multiplicity="1" />
-          <End Role="associationtypesinassociation" Type="ATModel.associationtypesinassociation" Multiplicity="*" />
+        <Association Name="fk_CategoriesInAssociations_Categories1">
+          <End Type="ATModel.categories" Role="categories" Multiplicity="1" />
+          <End Type="ATModel.categoriesinassociations" Role="categoriesinassociations" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="associationtypes">
+            <Principal Role="categories">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="associationtypesinassociation">
-              <PropertyRef Name="AssociationTypes_Id" />
+            <Dependent Role="categoriesinassociations">
+              <PropertyRef Name="Categories_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_AssociationTypesInEvents_AssociationTypes1">
-          <End Role="associationtypes" Type="ATModel.associationtypes" Multiplicity="1" />
-          <End Role="associationtypesinevents" Type="ATModel.associationtypesinevents" Multiplicity="*" />
+        <Association Name="fk_SubCategories_Categories1">
+          <End Type="ATModel.categories" Role="categories" Multiplicity="1" />
+          <End Type="ATModel.subcategories" Role="subcategories" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="associationtypes">
+            <Principal Role="categories">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="associationtypesinevents">
-              <PropertyRef Name="AssociationTypes_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_AssociationTypesInEvents_Events1">
-          <End Role="events" Type="ATModel.events" Multiplicity="1" />
-          <End Role="associationtypesinevents" Type="ATModel.associationtypesinevents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="events">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="associationtypesinevents">
-              <PropertyRef Name="Events_Id" />
+            <Dependent Role="subcategories">
+              <PropertyRef Name="Categories_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_CommunitiesInEvents_Communities1">
-          <End Role="communities" Type="ATModel.communities" Multiplicity="1" />
-          <End Role="communitiesinevents" Type="ATModel.communitiesinevents" Multiplicity="*" />
+          <End Type="ATModel.communities" Role="communities" Multiplicity="1" />
+          <End Type="ATModel.communitiesinevents" Role="communitiesinevents" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="communities">
               <PropertyRef Name="Id" />
@@ -805,8 +712,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_CommunitiesInEvents_Events1">
-          <End Role="events" Type="ATModel.events" Multiplicity="1" />
-          <End Role="communitiesinevents" Type="ATModel.communitiesinevents" Multiplicity="*" />
+          <End Type="ATModel.events" Role="events" Multiplicity="1" />
+          <End Type="ATModel.communitiesinevents" Role="communitiesinevents" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="events">
               <PropertyRef Name="Id" />
@@ -817,8 +724,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_Components_Webpages1">
-          <End Role="webpages" Type="ATModel.webpages" Multiplicity="1" />
-          <End Role="components" Type="ATModel.components" Multiplicity="*" />
+          <End Type="ATModel.webpages" Role="webpages" Multiplicity="1" />
+          <End Type="ATModel.components" Role="components" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="webpages">
               <PropertyRef Name="Id" />
@@ -829,8 +736,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="fk_FilterData_Components1">
-          <End Role="components" Type="ATModel.components" Multiplicity="1" />
-          <End Role="filterdata" Type="ATModel.filterdata" Multiplicity="*" />
+          <End Type="ATModel.components" Role="components" Multiplicity="1" />
+          <End Type="ATModel.filterdata" Role="filterdata" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="components">
               <PropertyRef Name="Id" />
@@ -840,43 +747,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_EventTypesSubInEvents_Events1">
-          <End Role="events" Type="ATModel.events" Multiplicity="1" />
-          <End Role="subeventtypesinevents" Type="ATModel.subeventtypesinevents" Multiplicity="*" />
+        <Association Name="fk_SubCategoriesInEvents_Events1">
+          <End Type="ATModel.events" Role="events" Multiplicity="1" />
+          <End Type="ATModel.subcategoriesinevents" Role="subcategoriesinevents" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="events">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="subeventtypesinevents">
+            <Dependent Role="subcategoriesinevents">
               <PropertyRef Name="Events_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_EventTypesSub_EventTypes1">
-          <End Role="eventtypes" Type="ATModel.eventtypes" Multiplicity="1" />
-          <End Role="subeventtypes" Type="ATModel.subeventtypes" Multiplicity="*" />
+        <Association Name="fk_SubCategoriesInEvents_SubCategories1">
+          <End Type="ATModel.subcategories" Role="subcategories" Multiplicity="1" />
+          <End Type="ATModel.subcategoriesinevents" Role="subcategoriesinevents" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="eventtypes">
+            <Principal Role="subcategories">
               <PropertyRef Name="Id" />
             </Principal>
-            <Dependent Role="subeventtypes">
-              <PropertyRef Name="EventTypes_Id" />
+            <Dependent Role="subcategoriesinevents">
+              <PropertyRef Name="SubCategories_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_EventTypesSubInEvents_EventTypesSub1">
-          <End Role="subeventtypes" Type="ATModel.subeventtypes" Multiplicity="1" />
-          <End Role="subeventtypesinevents" Type="ATModel.subeventtypesinevents" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="subeventtypes">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="subeventtypesinevents">
-              <PropertyRef Name="SubEventType_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-      </Schema>
+        </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
@@ -885,176 +780,158 @@
           <EntitySetMapping Name="associations">
             <EntityTypeMapping TypeName="ATModel.associations">
               <MappingFragment StoreEntitySet="associations">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Communities_Id" ColumnName="Communities_Id" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="associationsinevents">
             <EntityTypeMapping TypeName="ATModel.associationsinevents">
               <MappingFragment StoreEntitySet="associationsinevents">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Events_Id" ColumnName="Events_Id" />
                 <ScalarProperty Name="Associations_Id" ColumnName="Associations_Id" />
+                <ScalarProperty Name="Events_Id" ColumnName="Events_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="associationtypes">
-            <EntityTypeMapping TypeName="ATModel.associationtypes">
-              <MappingFragment StoreEntitySet="associationtypes">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
+          <EntitySetMapping Name="categories">
+            <EntityTypeMapping TypeName="ATModel.categories">
+              <MappingFragment StoreEntitySet="categories">
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="associationtypesinassociation">
-            <EntityTypeMapping TypeName="ATModel.associationtypesinassociation">
-              <MappingFragment StoreEntitySet="associationtypesinassociation">
-                <ScalarProperty Name="Id" ColumnName="Id" />
+          <EntitySetMapping Name="categoriesinassociations">
+            <EntityTypeMapping TypeName="ATModel.categoriesinassociations">
+              <MappingFragment StoreEntitySet="categoriesinassociations">
+                <ScalarProperty Name="Categories_Id" ColumnName="Categories_Id" />
                 <ScalarProperty Name="Associations_Id" ColumnName="Associations_Id" />
-                <ScalarProperty Name="AssociationTypes_Id" ColumnName="AssociationTypes_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="associationtypesinevents">
-            <EntityTypeMapping TypeName="ATModel.associationtypesinevents">
-              <MappingFragment StoreEntitySet="associationtypesinevents">
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Events_Id" ColumnName="Events_Id" />
-                <ScalarProperty Name="AssociationTypes_Id" ColumnName="AssociationTypes_Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="communities">
             <EntityTypeMapping TypeName="ATModel.communities">
               <MappingFragment StoreEntitySet="communities">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="WebpageId" ColumnName="WebpageId" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="WebpageId" ColumnName="WebpageId" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="communitiesinevents">
             <EntityTypeMapping TypeName="ATModel.communitiesinevents">
               <MappingFragment StoreEntitySet="communitiesinevents">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Events_Id" ColumnName="Events_Id" />
                 <ScalarProperty Name="Communities_Id" ColumnName="Communities_Id" />
+                <ScalarProperty Name="Events_Id" ColumnName="Events_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="components">
             <EntityTypeMapping TypeName="ATModel.components">
               <MappingFragment StoreEntitySet="components">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
-                <ScalarProperty Name="Row" ColumnName="Row" />
-                <ScalarProperty Name="Column" ColumnName="Column" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Webpages_Id" ColumnName="Webpages_Id" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Column" ColumnName="Column" />
+                <ScalarProperty Name="Row" ColumnName="Row" />
+                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="events">
             <EntityTypeMapping TypeName="ATModel.events">
               <MappingFragment StoreEntitySet="events">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Summary" ColumnName="Summary" />
-                <ScalarProperty Name="Other" ColumnName="Other" />
-                <ScalarProperty Name="Location" ColumnName="Location" />
-                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
-                <ScalarProperty Name="DayEvent" ColumnName="DayEvent" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="TargetGroup" ColumnName="TargetGroup" />
-                <ScalarProperty Name="ApproximateAttendees" ColumnName="ApproximateAttendees" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="eventtypes">
-            <EntityTypeMapping TypeName="ATModel.eventtypes">
-              <MappingFragment StoreEntitySet="eventtypes">
+                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="ApproximateAttendees" ColumnName="ApproximateAttendees" />
+                <ScalarProperty Name="TargetGroup" ColumnName="TargetGroup" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="DayEvent" ColumnName="DayEvent" />
+                <ScalarProperty Name="ImageUrl" ColumnName="ImageUrl" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Other" ColumnName="Other" />
+                <ScalarProperty Name="Summary" ColumnName="Summary" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="filterdata">
             <EntityTypeMapping TypeName="ATModel.filterdata">
               <MappingFragment StoreEntitySet="filterdata">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Type" ColumnName="Type" />
-                <ScalarProperty Name="Data" ColumnName="Data" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Components_Id" ColumnName="Components_Id" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Data" ColumnName="Data" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="members">
             <EntityTypeMapping TypeName="ATModel.members">
               <MappingFragment StoreEntitySet="members">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
-                <ScalarProperty Name="SurName" ColumnName="SurName" />
-                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="Associations_Id" ColumnName="Associations_Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="subeventtypes">
-            <EntityTypeMapping TypeName="ATModel.subeventtypes">
-              <MappingFragment StoreEntitySet="subeventtypes">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="EventTypes_Id" ColumnName="EventTypes_Id" />
+                <ScalarProperty Name="SurName" ColumnName="SurName" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="subeventtypesinevents">
-            <EntityTypeMapping TypeName="ATModel.subeventtypesinevents">
-              <MappingFragment StoreEntitySet="subeventtypesinevents">
+          <EntitySetMapping Name="subcategories">
+            <EntityTypeMapping TypeName="ATModel.subcategories">
+              <MappingFragment StoreEntitySet="subcategories">
+                <ScalarProperty Name="Categories_Id" ColumnName="Categories_Id" />
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="SubEventType_Id" ColumnName="SubEventType_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="subcategoriesinevents">
+            <EntityTypeMapping TypeName="ATModel.subcategoriesinevents">
+              <MappingFragment StoreEntitySet="subcategoriesinevents">
                 <ScalarProperty Name="Events_Id" ColumnName="Events_Id" />
+                <ScalarProperty Name="SubCategories_Id" ColumnName="SubCategories_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="webpages">
             <EntityTypeMapping TypeName="ATModel.webpages">
               <MappingFragment StoreEntitySet="webpages">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="CommunityId" ColumnName="CommunityId" />
-                <ScalarProperty Name="AssociationId" ColumnName="AssociationId" />
-                <ScalarProperty Name="Layout" ColumnName="Layout" />
-                <ScalarProperty Name="Style" ColumnName="Style" />
-                <ScalarProperty Name="Created" ColumnName="Created" />
-                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
-                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
-                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
+                <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
+                <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Style" ColumnName="Style" />
+                <ScalarProperty Name="Layout" ColumnName="Layout" />
+                <ScalarProperty Name="AssociationId" ColumnName="AssociationId" />
+                <ScalarProperty Name="CommunityId" ColumnName="CommunityId" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

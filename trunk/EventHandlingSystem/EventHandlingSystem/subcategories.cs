@@ -12,19 +12,19 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class subeventtypes
+    public partial class subcategories
     {
-        public subeventtypes()
+        public subcategories()
         {
-            this.subeventtypesinevents = new HashSet<subeventtypesinevents>();
+            this.subcategoriesinevents = new HashSet<subcategoriesinevents>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
-        public int EventTypes_Id { get; set; }
+        public int Categories_Id { get; set; }
     
-        public virtual eventtypes eventtypes { get; set; }
-        public virtual ICollection<subeventtypesinevents> subeventtypesinevents { get; set; }
+        public virtual categories categories { get; set; }
+        public virtual ICollection<subcategoriesinevents> subcategoriesinevents { get; set; }
     }
 }

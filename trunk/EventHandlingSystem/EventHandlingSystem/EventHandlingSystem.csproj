@@ -323,13 +323,10 @@
     <Compile Include="associationsinevents.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="associationtypes.cs">
+    <Compile Include="categories.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="associationtypesinassociation.cs">
-      <DependentUpon>EHSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="associationtypesinevents.cs">
+    <Compile Include="categoriesinassociations.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="communities.cs">
@@ -349,7 +346,9 @@
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\AssociationDB.cs" />
+    <Compile Include="Database\CategoryDB.cs" />
     <Compile Include="Database\CommunityDB.cs" />
+    <Compile Include="Database\SubCategoryDB.cs" />
     <Compile Include="Database\WebPageDB.cs" />
     <Compile Include="EHSModel.Context.cs">
       <AutoGen>True</AutoGen>
@@ -367,9 +366,6 @@
       <DependentUpon>EHSModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="events.cs">
-      <DependentUpon>EHSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="eventtypes.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="filterdata.cs">
@@ -435,12 +431,8 @@
     <Compile Include="OldPages\Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Database\CalendarDB.cs" />
     <Compile Include="Database\Database.cs" />
     <Compile Include="Database\EventDB.cs" />
-    <Compile Include="Database\TaxonomyDB.cs" />
-    <Compile Include="Database\TermDB.cs" />
-    <Compile Include="Database\TermSetDB.cs" />
     <Compile Include="Default.aspx.cs">
       <DependentUpon>Default.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -515,10 +507,10 @@
     <Compile Include="SiteSettings.aspx.designer.cs">
       <DependentUpon>SiteSettings.aspx</DependentUpon>
     </Compile>
-    <Compile Include="subeventtypes.cs">
+    <Compile Include="subcategories.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="subeventtypesinevents.cs">
+    <Compile Include="subcategoriesinevents.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TaxonomyControl.ascx.cs">

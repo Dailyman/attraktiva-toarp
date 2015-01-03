@@ -17,7 +17,7 @@ namespace EventHandlingSystem
         public associations()
         {
             this.associationsinevents = new HashSet<associationsinevents>();
-            this.associationtypesinassociation = new HashSet<associationtypesinassociation>();
+            this.categoriesinassociations = new HashSet<categoriesinassociations>();
             this.members = new HashSet<members>();
         }
     
@@ -33,7 +33,7 @@ namespace EventHandlingSystem
     
         public virtual communities communities { get; set; }
         public virtual ICollection<associationsinevents> associationsinevents { get; set; }
-        public virtual ICollection<associationtypesinassociation> associationtypesinassociation { get; set; }
+        public virtual ICollection<categoriesinassociations> categoriesinassociations { get; set; }
         public virtual ICollection<members> members { get; set; }
     }
 }
