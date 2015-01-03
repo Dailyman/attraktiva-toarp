@@ -12,13 +12,13 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class subeventtypesinevents
+    public partial class subcategoriesinevents
     {
         public int Id { get; set; }
-        public int SubEventType_Id { get; set; }
+        public int SubCategories_Id { get; set; }
         public int Events_Id { get; set; }
     
         public virtual events events { get; set; }
-        public virtual subeventtypes subeventtypes { get; set; }
+        public virtual subcategories subcategories { get; set; }
     }
 }

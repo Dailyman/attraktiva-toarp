@@ -8,73 +8,83 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    //public class EventDB
-    //{
-    //    private static readonly EventHandlingDataModelContainer Context = Database.Context;
+    public class EventDB
+    {
+        private static readonly ATEntities Context = Database.Context;
 
-    //    // GET
-    //    private static IEnumerable<Event> GetAllNotDeletedEvents()
-    //    {
-    //        return Context.Events.Where(e => !e.IsDeleted);
-    //    }
+        // GET
+        private static IEnumerable<events> GetAllNotDeletedEvents()
+        {
+            return Context.events.Where(e => !e.IsDeleted);
+        }
 
-    //    public static List<Event> GetEventsBySpecifiedNumberOfPreviousMonthsFromToday(int nrOfMonths = 3)
-    //    {
-    //        return GetAllNotDeletedEvents().Where(e => e.StartDate > (DateTime.Now.AddMonths(-(nrOfMonths)))).ToList();
-    //    }
+        public static List<events> GetEventsBySpecifiedNumberOfPreviousMonthsFromToday(int nrOfMonths = 3)
+        {
+            return GetAllNotDeletedEvents().Where(e => e.StartDate > (DateTime.Now.AddMonths(-(nrOfMonths)))).ToList();
+        }
 
-    //    public static List<Event> GetEventsFromSpecifiedStartDate(DateTime startDate)
-    //    {
-    //        return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate).ToList();
-    //    } 
+        public static List<events> GetEventsFromSpecifiedStartDate(DateTime startDate)
+        {
+            return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate).ToList();
+        }
 
-    //    public static Event GetEventById(int id)
-    //    {
-    //        return GetAllNotDeletedEvents().SingleOrDefault(e => e.Id.Equals(id));
-    //    }
-
-
-    //    // ADD
-    //    public static bool AddEvent(Event @event)
-    //    {
-    //        Context.Events.Add(@event);
-    //        try
-    //        {
-    //            Context.SaveChanges();
-    //        }
-    //        catch (DbUpdateException dbEx)
-    //        {
-    //            return false;
-    //        }
-    //        return true;
-    //    }
+        public static events GetEventById(int id)
+        {
+            return GetAllNotDeletedEvents().SingleOrDefault(e => e.Id.Equals(id));
+        }
 
 
-    //    // UPDATE
-    //    public static int UpdateEvent(Event @event)
-    //    {
-    //        Event eventToUpdate = GetEventById(@event.Id);
+        // ADD
+        public static bool AddEvent(events @event)
+        {
+            Context.events.Add(@event);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            return true;
+        }
 
-    //        eventToUpdate.Title = @event.Title;
-    //        eventToUpdate.Description = @event.Description;
-    //        eventToUpdate.Summary = @event.Summary;
-    //        eventToUpdate.Other = @event.Other;
-    //        eventToUpdate.Location = @event.Location;
-    //        eventToUpdate.ImageUrl = @event.ImageUrl;
-    //        eventToUpdate.DayEvent = @event.DayEvent;
-    //        eventToUpdate.StartDate = @event.StartDate;
-    //        eventToUpdate.EndDate = @event.EndDate;
-    //        eventToUpdate.TargetGroup = @event.TargetGroup;
-    //        eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
-    //        eventToUpdate.AssociationId = @event.AssociationId;
-    //        eventToUpdate.LinkUrl = @event.LinkUrl;
-    //        eventToUpdate.Created = @event.Created;
-    //        eventToUpdate.CreatedBy = @event.CreatedBy;
-    //        eventToUpdate.LatestUpdate = @event.LatestUpdate;
-    //        eventToUpdate.UpdatedBy = @event.UpdatedBy;
+        // CREATE
+        //    public static int CreateTerm(Term term)
+        //    {
+        //        Term termToCreate = new Term
+        //        {
+        //            Name = !string.IsNullOrWhiteSpace(term.Name) ? term.Name : "Untitled",
+        //            TermSet = term.TermSet,
+        //            Created = DateTime.Now
+        //        };
 
-    //        int affectedRows = Context.SaveChanges();
-    //        return affectedRows;
-    //    }
-    //}
+        //        Context.Terms.Add(termToCreate);
+
+        //        int affectedRows = Context.SaveChanges();
+        //        return affectedRows;
+        //    }
+
+
+        // UPDATE
+        public static int UpdateEvent(events @event)
+        {
+            events eventToUpdate = GetEventById(@event.Id);
+
+            eventToUpdate.Title = @event.Title;
+            eventToUpdate.Description = @event.Description;
+            eventToUpdate.Summary = @event.Summary;
+            eventToUpdate.Other = @event.Other;
+            eventToUpdate.Location = @event.Location;
+            eventToUpdate.ImageUrl = @event.ImageUrl;
+            eventToUpdate.DayEvent = @event.DayEvent;
+            eventToUpdate.StartDate = @event.StartDate;
+            eventToUpdate.EndDate = @event.EndDate;
+            eventToUpdate.TargetGroup = @event.TargetGroup;
+            eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
+            
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
+    }
 }

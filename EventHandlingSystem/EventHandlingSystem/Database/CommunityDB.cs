@@ -5,40 +5,24 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    //public class CommunityDB
-    //{
-    //    private static readonly EventHandlingDataModelContainer Context = Database.Context;
+    public class CommunityDB
+    {
+        private static readonly ATEntities Context = Database.Context;
 
     //    // GET
-    //    private static IEnumerable<Community> GetAllNotDeletedCommunities()
-    //    {
-    //        return Context.Communities.Where(c => !c.IsDeleted);
-    //    }
+        private static IEnumerable<communities> GetAllNotDeletedCommunities()
+        {
+            return Context.communities.Where(c => !c.IsDeleted);
+        }
 
-    //    public static Community GetCommunityById(int id)
-    //    {
-    //        return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Id.Equals(id));
-    //    }
+        public static communities GetCommunityById(int id)
+        {
+            return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Id.Equals(id));
+        }
 
-    //    public static List<Community> GetAllCommunities()
-    //    {
-    //        return GetAllNotDeletedCommunities().ToList();
-    //    }
-
-    //    public static Community GetCommunityByPublishingTermSetId(int id)
-    //    {
-    //        return GetAllNotDeletedCommunities().SingleOrDefault(c => c.PublishingTermSetId.Equals(id));
-    //    }
-
-    //    public static string GetCommunityNameByPublishingTermSetId(int id)
-    //    {
-    //        return TermSetDB.GetTermSetNameByTermSetId(id);
-    //    }
-
-    //    public static int GetPublishingTermSetIdByCommunityId(int id)
-    //    {
-    //        Community com = GetCommunityById(id);
-    //        return com.PublishingTermSetId;
-    //    }
-    //}
+        public static List<communities> GetAllCommunities()
+        {
+            return GetAllNotDeletedCommunities().ToList();
+        }
+    }
 }

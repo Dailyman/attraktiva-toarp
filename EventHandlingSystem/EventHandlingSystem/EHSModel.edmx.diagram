@@ -4,37 +4,33 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0cb4e480261e4d0c878f9c8f5f7763f5" Name="Diagram1">
-        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="0.75" PointY="11" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.associationsinevents" Width="1.5" PointX="3" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.associationtypes" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.associationtypesinassociation" Width="1.5" PointX="6" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.associationtypesinevents" Width="1.5" PointX="3" PointY="2.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.communities" Width="1.5" PointX="1.5" PointY="15.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.communitiesinevents" Width="1.5" PointX="3" PointY="8.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.components" Width="1.5" PointX="8" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.events" Width="1.5" PointX="0.75" PointY="4.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.eventtypes" Width="1.5" PointX="1.5" PointY="19.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.filterdata" Width="1.5" PointX="10.25" PointY="1.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.members" Width="1.5" PointX="3" PointY="23.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.subeventtypes" Width="1.5" PointX="3.75" PointY="19.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.subeventtypesinevents" Width="1.5" PointX="6" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="ATModel.webpages" Width="1.5" PointX="5.75" PointY="1.25" IsExpanded="true" />
-        <AssociationConnector Association="ATModel.fk_Associations_Communities" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_AssociationsInEvents_Associations1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_AssociationTypesInAssociation_Associations1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_Members_Associations1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_AssociationsInEvents_Events1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_AssociationTypesInAssociation_AssociationTypes1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_AssociationTypesInEvents_AssociationTypes1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_AssociationTypesInEvents_Events1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_CommunitiesInEvents_Communities1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_CommunitiesInEvents_Events1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_Components_Webpages1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_FilterData_Components1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_EventTypesSubInEvents_Events1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_EventTypesSub_EventTypes1" ManuallyRouted="false" />
-        <AssociationConnector Association="ATModel.fk_EventTypesSubInEvents_EventTypesSub1" ManuallyRouted="false" />
+      <Diagram DiagramId="0cb4e480261e4d0c878f9c8f5f7763f5" Name="Diagram1" ZoomLevel="18">
+        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="6.3059070251443918" PointY="1.6300582446297902" />
+        <EntityTypeShape EntityType="ATModel.associationsinevents" Width="1.5" PointX="11.670281516234521" PointY="16.245546482617755" />
+        <EntityTypeShape EntityType="ATModel.categories" Width="1.5" PointX="11.499956119572723" PointY="28.441263376009307" />
+        <EntityTypeShape EntityType="ATModel.categoriesinassociations" Width="1.5" PointX="9.3059423702331" PointY="12.028242668150107" />
+        <EntityTypeShape EntityType="ATModel.communities" Width="1.5" PointX="7.9268518704580391" PointY="23.671148311193637" />
+        <EntityTypeShape EntityType="ATModel.communitiesinevents" Width="1.5" PointX="10.657640626028943" PointY="27.264258978545787" />
+        <EntityTypeShape EntityType="ATModel.components" Width="1.5" PointX="10.779888711301558" PointY="5.11158839106168" />
+        <EntityTypeShape EntityType="ATModel.events" Width="1.5" PointX="1.593917309117465" PointY="11.156696339676481" />
+        <EntityTypeShape EntityType="ATModel.filterdata" Width="1.5" PointX="6.7674865921807879" PointY="26.833842602946721" />
+        <EntityTypeShape EntityType="ATModel.members" Width="1.5" PointX="4.5007538984067521" PointY="11.990571698169489" />
+        <EntityTypeShape EntityType="ATModel.subcategories" Width="1.5" PointX="3.4855514930028244" PointY="31.776136770740216" />
+        <EntityTypeShape EntityType="ATModel.subcategoriesinevents" Width="1.5" PointX="6.9531559454990344" PointY="15.790587268672226" />
+        <EntityTypeShape EntityType="ATModel.webpages" Width="1.5" PointX="11.565591484105955" PointY="13.205665415714339" />
+        <AssociationConnector Association="ATModel.fk_Associations_Communities" />
+        <AssociationConnector Association="ATModel.fk_AssociationsInEvents_Associations1" />
+        <AssociationConnector Association="ATModel.fk_CategoriesInAssociations_Associations1" />
+        <AssociationConnector Association="ATModel.fk_Members_Associations1" />
+        <AssociationConnector Association="ATModel.fk_AssociationsInEvents_Events1" />
+        <AssociationConnector Association="ATModel.fk_CategoriesInAssociations_Categories1" />
+        <AssociationConnector Association="ATModel.fk_SubCategories_Categories1" />
+        <AssociationConnector Association="ATModel.fk_CommunitiesInEvents_Communities1" />
+        <AssociationConnector Association="ATModel.fk_CommunitiesInEvents_Events1" />
+        <AssociationConnector Association="ATModel.fk_Components_Webpages1" />
+        <AssociationConnector Association="ATModel.fk_FilterData_Components1" />
+        <AssociationConnector Association="ATModel.fk_SubCategoriesInEvents_Events1" />
+        <AssociationConnector Association="ATModel.fk_SubCategoriesInEvents_SubCategories1" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -5,88 +5,72 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    //public class AssociationDB
-    //{
-    //    private static readonly EventHandlingDataModelContainer Context = Database.Context;
+    public class AssociationDB
+    {
+        private static readonly ATEntities Context = Database.Context;
 
 
-    //    // GET
-    //    private static IEnumerable<Association> GetAllNotDeletedAssociations()
-    //    {
-    //        return Context.Associations.Where(a => !a.IsDeleted);
-    //    }
+        // GET
+        private static IEnumerable<associations> GetAllNotDeletedAssociations()
+        {
+            return Context.associations.Where(a => !a.IsDeleted);
+        }
 
-    //    public static List<Association> GetAllAssociations()
-    //    {
-    //        return GetAllNotDeletedAssociations().ToList();
-    //    } 
+        public static List<associations> GetAllAssociations()
+        {
+            return GetAllNotDeletedAssociations().ToList();
+        }
 
-    //    public static Association GetAssociationById(int id)
-    //    {
-    //        return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Id.Equals(id));
-    //    }
+        public static associations GetAssociationById(int id)
+        {
+            return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Id.Equals(id));
+        }
 
-    //    public static Association GetAssociationByPublishingTermSetId(int id)
-    //    {
-    //        return GetAllNotDeletedAssociations().SingleOrDefault(a => a.PublishingTermSetId.Equals(id));
-    //    }
+        public static List<associations> GetAllAssociationsInCommunity(communities com)
+        {
+            return GetAllNotDeletedAssociations().Where(a => a.communities.Equals(com)).ToList();
+        }
 
-    //    public static List<Association> GetAllAssociationsInCommunity(Community com)
-    //    {
-    //        return GetAllNotDeletedAssociations().Where(a => a.Community.Equals(com)).ToList();
-    //    }
+        public static List<associations> GetAllParentAssociations()
+        {
+            return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null)).ToList();
+        }
 
-    //    public static string GetAssocationNameByPublishingTermSetId(int id)
-    //    {
-    //        return TermSetDB.GetTermSetNameByTermSetId(id);
-    //    }
+        //public static List<associations> GetAllAssociationsWithAssociationType()
+        //{
+        //    return GetAllNotDeletedAssociations().Where(a => !a.AssociationType.Equals(null)).ToList();
+        //}
 
-    //    public static List<Association> GetAllParentAssociations()
-    //    {
-    //        return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null)).ToList();
-    //    }
+        public static List<associations> GetAllSubAssociationsByParentAssociationId(int id)
+        {
+            return GetAllNotDeletedAssociations().Where(sa => sa.ParentAssociationId.Equals(id)).ToList();
+        }
 
-    //    public static List<Association> GetAllAssociationsWithAssociationType()
-    //    {
-    //       return GetAllNotDeletedAssociations().Where(a => !a.AssociationType.Equals(null)).ToList();
-    //    }
+        // UPDATE
+        public static int UpdateAssociation(associations assoc)
+        {
+            associations assoToUpdate = GetAssociationById(assoc.Id);
 
-    //    public static List<Association> GetAllSubAssociationsByParentAssociationId(int id)
-    //    {
-    //        return GetAllNotDeletedAssociations().Where(sa => sa.ParentAssociationId.Equals(id)).ToList();
-    //    }
+            assoToUpdate.Name = assoc.Name; 
+            assoToUpdate.Communities_Id = assoc.Communities_Id;
+            assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
+            assoToUpdate.categoriesinassociations = assoc.categoriesinassociations;
 
-    //    public static int GetPublishingTermSetIdByAssociationId(int id)
-    //    {
-    //        Association asso = GetAssociationById(id);
-    //        return asso.PublishingTermSetId;
-    //    }
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
 
 
-    //    // UPDATE
-    //    public static int UpdateAssociation(Association assoc)
-    //    {
-    //        Association assoToUpdate = GetAssociationById(assoc.Id);
+        // DELETE
+        public static int DeleteAssociationById(int id)
+        {
+            associations assoToDelete = GetAssociationById(id);
 
-    //        assoToUpdate.CommunityId = assoc.CommunityId;
-    //        assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
-    //        assoToUpdate.AssociationType = assoc.AssociationType;
+            if (assoToDelete != null)
+                assoToDelete.IsDeleted = true;
 
-    //        int affectedRows = Context.SaveChanges();
-    //        return affectedRows;
-    //    }
-
-
-    //    // DELETE
-    //    public static int DeleteAssociationById(int id)
-    //    {
-    //        Association assoToDelete = GetAssociationById(id);
-
-    //        if (assoToDelete != null)
-    //            assoToDelete.IsDeleted = true;
-
-    //        int affectedRows = Context.SaveChanges();
-    //        return affectedRows;
-    //    }
-    //}
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
+    }
 }

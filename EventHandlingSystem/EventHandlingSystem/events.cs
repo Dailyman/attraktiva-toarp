@@ -17,9 +17,8 @@ namespace EventHandlingSystem
         public events()
         {
             this.associationsinevents = new HashSet<associationsinevents>();
-            this.associationtypesinevents = new HashSet<associationtypesinevents>();
             this.communitiesinevents = new HashSet<communitiesinevents>();
-            this.subeventtypesinevents = new HashSet<subeventtypesinevents>();
+            this.subcategoriesinevents = new HashSet<subcategoriesinevents>();
         }
     
         public int Id { get; set; }
@@ -41,8 +40,7 @@ namespace EventHandlingSystem
         public bool IsDeleted { get; set; }
     
         public virtual ICollection<associationsinevents> associationsinevents { get; set; }
-        public virtual ICollection<associationtypesinevents> associationtypesinevents { get; set; }
         public virtual ICollection<communitiesinevents> communitiesinevents { get; set; }
-        public virtual ICollection<subeventtypesinevents> subeventtypesinevents { get; set; }
+        public virtual ICollection<subcategoriesinevents> subcategoriesinevents { get; set; }
     }
 }
