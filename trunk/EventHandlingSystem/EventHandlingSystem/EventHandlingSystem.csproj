@@ -248,6 +248,23 @@
     <Content Include="Images\top_back_1.jpg" />
     <Content Include="packages.config" />
     <Content Include="Admin\Web.config" />
+    <EntityDeploy Include="EHSModel.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>EHSModel.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="EHSModel.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EHSModel.edmx</DependentUpon>
+      <LastGenOutput>EHSModel.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="EHSModel.edmx.diagram">
+      <DependentUpon>EHSModel.edmx</DependentUpon>
+    </Content>
+    <Content Include="EHSModel.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>EHSModel.edmx</DependentUpon>
+      <LastGenOutput>EHSModel.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Admin\PageSettings.aspx" />
     <Content Include="Scripts\jquery-1.8.2.js" />
@@ -300,6 +317,27 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
+    <Compile Include="associations.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="associationsinevents.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="associationtypes.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="associationtypesinassociation.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="associationtypesinevents.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="communities.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="communitiesinevents.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="CommunityAssociationControl.ascx.cs">
       <DependentUpon>CommunityAssociationControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -307,9 +345,39 @@
     <Compile Include="CommunityAssociationControl.ascx.designer.cs">
       <DependentUpon>CommunityAssociationControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="components.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Database\AssociationDB.cs" />
     <Compile Include="Database\CommunityDB.cs" />
     <Compile Include="Database\WebPageDB.cs" />
+    <Compile Include="EHSModel.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EHSModel.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EHSModel.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="EHSModel.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>EHSModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="events.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="eventtypes.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="filterdata.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="members.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Navigation.ascx.cs">
       <DependentUpon>Navigation.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -447,6 +515,12 @@
     <Compile Include="SiteSettings.aspx.designer.cs">
       <DependentUpon>SiteSettings.aspx</DependentUpon>
     </Compile>
+    <Compile Include="subeventtypes.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="subeventtypesinevents.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="TaxonomyControl.ascx.cs">
       <DependentUpon>TaxonomyControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -460,6 +534,9 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="webpages.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
