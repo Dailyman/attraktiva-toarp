@@ -13,10 +13,10 @@ namespace EventHandlingSystem
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class attraktiva_toarpEntities : DbContext
+    public partial class ATEntities : DbContext
     {
-        public attraktiva_toarpEntities()
-            : base("name=attraktiva_toarpEntities")
+        public ATEntities()
+            : base("name=ATEntities")
         {
         }
     
