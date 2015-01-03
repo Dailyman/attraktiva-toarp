@@ -45,50 +45,50 @@ namespace EventHandlingSystem
 
         private void AddNodesToTreeView(TreeView treeView, int taxId)
         {
-            //Hämtar taxonomin.
-            Taxonomy tax = TaxonomyDB.GetTaxonomyById(taxId);
+            //////Hämtar taxonomin.
+            ////Taxonomy tax = TaxonomyDB.GetTaxonomyById(taxId);
 
-            //Om Taxonomin hittas i DBn skapas en HuvudNode med taxonomins namn.
-            if (tax != null)
-            {
-                //Här skapas HuvudNoden till TreeViewn.
-                TreeNode taxNode = new TreeNode
-                {
-                    Text = tax.Name,
-                    Value = "taxonomy_" + tax.Id,
-                    ShowCheckBox = true,
-                    Expanded = true,
-                    SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/folder_25x25.png"
-                };
+            //////Om Taxonomin hittas i DBn skapas en HuvudNode med taxonomins namn.
+            ////if (tax != null)
+            ////{
+            ////    //Här skapas HuvudNoden till TreeViewn.
+            ////    TreeNode taxNode = new TreeNode
+            ////    {
+            ////        Text = tax.Name,
+            ////        Value = "taxonomy_" + tax.Id,
+            ////        ShowCheckBox = true,
+            ////        Expanded = true,
+            ////        SelectAction = TreeNodeSelectAction.Expand,
+            ////        ImageUrl = "~/Images/folder_25x25.png"
+            ////    };
 
-                //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
-                treeView.Nodes.Add(taxNode);
+            ////    //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
+            ////    treeView.Nodes.Add(taxNode);
 
-                //Hämtar alla TermSets som ligger på den översta nivån i taxonomin och sorterar dem efter namn.
-                List<TermSet> parentTermSets =
-                    TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
+            ////    //Hämtar alla TermSets som ligger på den översta nivån i taxonomin och sorterar dem efter namn.
+            ////    List<TermSet> parentTermSets =
+            ////        TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
 
-                //Lägger till alla ParentNodes (ex. Äspered).
-                foreach (var parentTermSet in parentTermSets)
-                {
-                    TreeNode node = new TreeNode
-                    {
-                        Text = parentTermSet.Name,
-                        Value = "termset_" + parentTermSet.Id,
-                        ShowCheckBox = true,
-                        SelectAction = TreeNodeSelectAction.Expand,
-                        ImageUrl = "~/Images/folder_25x25.png"
-                    };
+            ////    //Lägger till alla ParentNodes (ex. Äspered).
+            ////    foreach (var parentTermSet in parentTermSets)
+            ////    {
+            ////        TreeNode node = new TreeNode
+            ////        {
+            ////            Text = parentTermSet.Name,
+            ////            Value = "termset_" + parentTermSet.Id,
+            ////            ShowCheckBox = true,
+            ////            SelectAction = TreeNodeSelectAction.Expand,
+            ////            ImageUrl = "~/Images/folder_25x25.png"
+            ////        };
 
-                    //Kallar på en redundant metod för att hitta alla undernoder(Terms & TermSets) till det aktuella TermSet'et.
-                    FindTermNodesAndAddToTermSetNode(parentTermSet, node);
-                    taxNode.ChildNodes.Add(node);
+            ////        //Kallar på en redundant metod för att hitta alla undernoder(Terms & TermSets) till det aktuella TermSet'et.
+            ////        FindTermNodesAndAddToTermSetNode(parentTermSet, node);
+            ////        taxNode.ChildNodes.Add(node);
 
-                    //För att hitta alla ChildNodes till den aktuella ParentNoden.
-                    FindChildNodesAndAddToParentNode(parentTermSet, node);
-                }
-            }
+            ////        //För att hitta alla ChildNodes till den aktuella ParentNoden.
+            ////        FindChildNodesAndAddToParentNode(parentTermSet, node);
+            ////    }
+            ////}
         }
 
         #endregion
@@ -96,55 +96,55 @@ namespace EventHandlingSystem
 
         #region FindChildNodesAndAddToParentNode
 
-        private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
-        {
-            //Lägger till alla ChildrenNodes (ex. Vikingen IF(TermSet)).
-            foreach (var ts in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id).OrderBy(ts => ts.Name).ToList())
-            {
-                TreeNode childNode = new TreeNode
-                {
-                    Text = ts.Name,
-                    Value = "termset_" + ts.Id,
-                    ShowCheckBox = true,
-                    SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/folder_25x25.png"
-                };
+        ////private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
+        ////{
+        ////    //Lägger till alla ChildrenNodes (ex. Vikingen IF(TermSet)).
+        ////    foreach (var ts in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id).OrderBy(ts => ts.Name).ToList())
+        ////    {
+        ////        TreeNode childNode = new TreeNode
+        ////        {
+        ////            Text = ts.Name,
+        ////            Value = "termset_" + ts.Id,
+        ////            ShowCheckBox = true,
+        ////            SelectAction = TreeNodeSelectAction.Expand,
+        ////            ImageUrl = "~/Images/folder_25x25.png"
+        ////        };
 
-                //Hittar alla terms i ett termset och lägger till dem i TreeView.
-                FindTermNodesAndAddToTermSetNode(ts, childNode);
+        ////        //Hittar alla terms i ett termset och lägger till dem i TreeView.
+        ////        FindTermNodesAndAddToTermSetNode(ts, childNode);
 
-                //Lägger det aktuella TermSet'et.
-                parentNode.ChildNodes.Add(childNode);
+        ////        //Lägger det aktuella TermSet'et.
+        ////        parentNode.ChildNodes.Add(childNode);
 
-                //För att hitta alla ChildNodes till den aktuella ParentNoden. 
-                //Redundant anropning av metoden görs för att bygga upp hela "grenen".
-                FindChildNodesAndAddToParentNode(ts, childNode);
-            }
-        }
+        ////        //För att hitta alla ChildNodes till den aktuella ParentNoden. 
+        ////        //Redundant anropning av metoden görs för att bygga upp hela "grenen".
+        ////        FindChildNodesAndAddToParentNode(ts, childNode);
+        ////    }
+        ////}
 
         #endregion
 
 
         #region FindTermNodesAndAddToTermSetNode
 
-        public void FindTermNodesAndAddToTermSetNode(TermSet tSet, TreeNode tNode)
-        {
-            //Hittar alla terms i ett termset och lägger till dem i TreeView.
-            foreach (var term in TermDB.GetAllTermsByTermSet(tSet).OrderBy(t => t.Name).ToList())
-            {
-                TreeNode termNode = new TreeNode
-                {
-                    Text = term.Name,
-                    Value = "term_" + term.Id,
-                    ShowCheckBox = true,
-                    SelectAction = TreeNodeSelectAction.Expand,
-                    ImageUrl = "~/Images/tag_25x25.png"
+        ////public void FindTermNodesAndAddToTermSetNode(TermSet tSet, TreeNode tNode)
+        ////{
+        ////    //Hittar alla terms i ett termset och lägger till dem i TreeView.
+        ////    foreach (var term in TermDB.GetAllTermsByTermSet(tSet).OrderBy(t => t.Name).ToList())
+        ////    {
+        ////        TreeNode termNode = new TreeNode
+        ////        {
+        ////            Text = term.Name,
+        ////            Value = "term_" + term.Id,
+        ////            ShowCheckBox = true,
+        ////            SelectAction = TreeNodeSelectAction.Expand,
+        ////            ImageUrl = "~/Images/tag_25x25.png"
 
-                };
+        ////        };
 
-                tNode.ChildNodes.Add(termNode);
-            }
-        }
+        ////        tNode.ChildNodes.Add(termNode);
+        ////    }
+        ////}
 
         #endregion
 
@@ -254,70 +254,70 @@ namespace EventHandlingSystem
                             //Ändra till Taxonomy View med alla dess Controls.
                             MultiViewEdit.ActiveViewIndex = 0;
 
-                            Taxonomy tax = TaxonomyDB.GetTaxonomyById(id);
-                            LabelIdTax.Text = tax.Id.ToString();
-                            TxtBoxNameTax.Text = tax.Name;
-                            LabelCreatedTax.Text = "<b>Created:</b> " + tax.Created.ToString("yyyy-MM-dd HH:mm");
+                        ////    Taxonomy tax = TaxonomyDB.GetTaxonomyById(id);
+                        ////    LabelIdTax.Text = tax.Id.ToString();
+                        ////    TxtBoxNameTax.Text = tax.Name;
+                        ////    LabelCreatedTax.Text = "<b>Created:</b> " + tax.Created.ToString("yyyy-MM-dd HH:mm");
                         }
                         else if (type == "termset" && int.TryParse(strId, out id))
                         {
                             //Ändra till TermSet View med alla dess Controls.
                             MultiViewEdit.ActiveViewIndex = 1;
 
-                            TermSet tS = TermSetDB.GetTermSetById(id);
-                            LabelTaxNameTSView.Text = tS.Taxonomy.Name;
-                            LabelIdTS.Text = tS.Id.ToString();
-                            TxtBoxNameTS.Text = tS.Name;
-                            LabelCreatedTS.Text = "<b>Created:</b> " + tS.Created.ToString("yyyy-MM-dd HH:mm");
+                            ////TermSet tS = TermSetDB.GetTermSetById(id);
+                            ////LabelTaxNameTSView.Text = tS.Taxonomy.Name;
+                            ////LabelIdTS.Text = tS.Id.ToString();
+                            ////TxtBoxNameTS.Text = tS.Name;
+                            ////LabelCreatedTS.Text = "<b>Created:</b> " + tS.Created.ToString("yyyy-MM-dd HH:mm");
 
-                            DropDownListEditParentTS.Items.Clear();
-                            DropDownListEditParentTS.Items.Add(new ListItem());
-                            foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(tS.Taxonomy))
-                            {
-                                DropDownListEditParentTS.Items.Add(new ListItem
-                                {
-                                    Text = termSet.Name,
-                                    Value = termSet.Id.ToString()
-                                });
-                            }
-                            DropDownListEditParentTS.Items.Remove(
-                                DropDownListEditParentTS.Items.FindByValue(tS.Id.ToString()));
+                            ////DropDownListEditParentTS.Items.Clear();
+                            ////DropDownListEditParentTS.Items.Add(new ListItem());
+                            ////foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(tS.Taxonomy))
+                            ////{
+                            ////    DropDownListEditParentTS.Items.Add(new ListItem
+                            ////    {
+                            ////        Text = termSet.Name,
+                            ////        Value = termSet.Id.ToString()
+                            ////    });
+                            ////}
+                            ////DropDownListEditParentTS.Items.Remove(
+                            ////    DropDownListEditParentTS.Items.FindByValue(tS.Id.ToString()));
 
-                            DropDownListEditParentTS.SelectedIndex =
-                                DropDownListEditParentTS.Items.IndexOf(
-                                    DropDownListEditParentTS.Items.FindByValue(tS.ParentTermSetId.ToString()));
+                            ////DropDownListEditParentTS.SelectedIndex =
+                            ////    DropDownListEditParentTS.Items.IndexOf(
+                            ////        DropDownListEditParentTS.Items.FindByValue(tS.ParentTermSetId.ToString()));
                         }
                         else if (type == "term" && int.TryParse(strId, out id))
                         {
                             //Ändra till Term View med alla dess Controls.
                             MultiViewEdit.ActiveViewIndex = 2;
 
-                            Term t = TermDB.GetTermById(id);
-                            LabelTaxNameTView.Text = t.TermSet.FirstOrDefault().Taxonomy.Name;
-                            LabelIdT.Text = t.Id.ToString();
-                            TxtBoxNameT.Text = t.Name;
-                            LabelCreatedT.Text = "<b>Created:</b> " + t.Created.ToString("yyyy-MM-dd HH:mm");
+                            ////Term t = TermDB.GetTermById(id);
+                            ////LabelTaxNameTView.Text = t.TermSet.FirstOrDefault().Taxonomy.Name;
+                            ////LabelIdT.Text = t.Id.ToString();
+                            ////TxtBoxNameT.Text = t.Name;
+                            ////LabelCreatedT.Text = "<b>Created:</b> " + t.Created.ToString("yyyy-MM-dd HH:mm");
 
-                            string taxId =
-                                TreeViewTaxonomy.Nodes[0].Value.Substring(TreeViewTaxonomy.Nodes[0].Value.IndexOf('_') +
-                                                                          1);
+                            ////string taxId =
+                            ////    TreeViewTaxonomy.Nodes[0].Value.Substring(TreeViewTaxonomy.Nodes[0].Value.IndexOf('_') +
+                            ////                                              1);
 
-                            DropDownListTermSetForTerm.Items.Clear();
-                            foreach (
-                                var termSet in
-                                    TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(taxId))))
-                            {
-                                DropDownListTermSetForTerm.Items.Add(new ListItem
-                                {
-                                    Text = termSet.Name,
-                                    Value = termSet.Id.ToString()
-                                });
-                            }
+                            ////DropDownListTermSetForTerm.Items.Clear();
+                            ////foreach (
+                            ////    var termSet in
+                            ////        TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(taxId))))
+                            ////{
+                            ////    DropDownListTermSetForTerm.Items.Add(new ListItem
+                            ////    {
+                            ////        Text = termSet.Name,
+                            ////        Value = termSet.Id.ToString()
+                            ////    });
+                            ////}
 
-                            var firstOrDefault = t.TermSet.FirstOrDefault();
-                            if (firstOrDefault != null)
-                                DropDownListTermSetForTerm.SelectedIndex = DropDownListTermSetForTerm.Items.IndexOf(
-                                    DropDownListTermSetForTerm.Items.FindByValue(firstOrDefault.Id.ToString()));
+                            ////var firstOrDefault = t.TermSet.FirstOrDefault();
+                            ////if (firstOrDefault != null)
+                            ////    DropDownListTermSetForTerm.SelectedIndex = DropDownListTermSetForTerm.Items.IndexOf(
+                            ////        DropDownListTermSetForTerm.Items.FindByValue(firstOrDefault.Id.ToString()));
                         }
                         else
                         {
@@ -459,27 +459,27 @@ namespace EventHandlingSystem
                     }
                     else if (type == "termset" && int.TryParse(strId, out id))
                     {
-                        if (TermSetDB.GetTermSetById(id).TaxonomyId == 1)
-                        {
-                            LabelDisplay.Text =
-                                "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
-                        }
-                        else
-                        {
-                            ConfirmDeletion(CheckedTreeNodes);
-                        }
+                        ////if (TermSetDB.GetTermSetById(id).TaxonomyId == 1)
+                        ////{
+                        ////    LabelDisplay.Text =
+                        ////        "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                        ////}
+                        ////else
+                        ////{
+                        ////    ConfirmDeletion(CheckedTreeNodes);
+                        ////}
                     }
                     else if (type == "term" && int.TryParse(strId, out id))
                     {
-                        if (TermDB.GetTermById(id).TermSet.ToList()[0].TaxonomyId == 1)
-                        {
-                            LabelDisplay.Text =
-                                "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
-                        }
-                        else
-                        {
-                            ConfirmDeletion(CheckedTreeNodes);
-                        }
+                        ////if (TermDB.GetTermById(id).TermSet.ToList()[0].TaxonomyId == 1)
+                        ////{
+                        ////    LabelDisplay.Text =
+                        ////        "You can't delete items from the \"PublishingTaxonomy\".<br /> Deleting communities/associations will remove its publishingTerm/TermSet from the taxonomy.";
+                        ////}
+                        ////else
+                        ////{
+                        ////    ////ConfirmDeletion(CheckedTreeNodes);
+                        ////}
                     }
                     else
                     {
@@ -503,58 +503,57 @@ namespace EventHandlingSystem
 
         #region BtnConfirmDeletion_OnClick mm.
 
-        private void ConfirmDeletion(List<TreeNode> nodes)
-        {
-            //Visar Delete(Edit)View
-            MultiViewEdit.ActiveViewIndex = 3;
+        ////private void ConfirmDeletion(List<TreeNode> nodes)
+        ////{
+        ////    //Visar Delete(Edit)View
+        ////    MultiViewEdit.ActiveViewIndex = 3;
 
-            //Kommer innehålla nodvärde.
-            string nodeValue;
+        ////    //Kommer innehålla nodvärde.
+        ////    string nodeValue;
 
-            //Kommer innehålla Id för objekt från taxonomin.
-            string strId;
+        ////    //Kommer innehålla Id för objekt från taxonomin.
+        ////    string strId;
 
-            //Kommer innehålla Type(ex. term, termset eller taxonomi) för objekt från taxonomin.
-            string type;
+        ////    //Kommer innehålla Type(ex. term, termset eller taxonomi) för objekt från taxonomin.
+        ////    string type;
 
-            CheckBoxListItemsToDelete.Items.Clear();
-            foreach (var treeNode in nodes)
-            {
-                //Lägger in nodens värde.
-                nodeValue = treeNode.Value;
+        ////    CheckBoxListItemsToDelete.Items.Clear();
+        ////    foreach (var treeNode in nodes)
+        ////    {
+        ////        //Lägger in nodens värde.
+        ////        nodeValue = treeNode.Value;
 
-                //Delar upp nodens värde till Id delen.
-                strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
+        ////        //Delar upp nodens värde till Id delen.
+        ////        strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
-                //Delar upp nodens värde till type delen.
-                type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
+        ////        //Delar upp nodens värde till type delen.
+        ////        type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
 
-                //Ger texten en röd färg (LabelWarning inneåller endast varningar i denna metoden).
-                LabelWarning.Style.Add(HtmlTextWriterStyle.Color, "red");
+        ////        //Ger texten en röd färg (LabelWarning inneåller endast varningar i denna metoden).
+        ////        LabelWarning.Style.Add(HtmlTextWriterStyle.Color, "red");
 
-                //Här tas olika typer av objekt bort på olika sätt.
-                int id;
-                if (type == "taxonomy" && int.TryParse(strId, out id))
-                {
-                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Taxonomi*) " + treeNode.Text, treeNode.Value));
-                    LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
-                }
-                else if (type == "termset" && int.TryParse(strId, out id))
-                {
-                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Termset*) " + treeNode.Text, treeNode.Value));
-                    LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
-                }
-                else if (type == "term" && int.TryParse(strId, out id))
-                {
-                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Term) " + treeNode.Text, treeNode.Value));
-                }
-                else
-                {
-                    LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
-                }
-
-            }
-        }
+        ////        //Här tas olika typer av objekt bort på olika sätt.
+        ////        int id;
+        ////        if (type == "taxonomy" && int.TryParse(strId, out id))
+        ////        {
+        ////            CheckBoxListItemsToDelete.Items.Add(new ListItem("(Taxonomi*) " + treeNode.Text, treeNode.Value));
+        ////            LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
+        ////        }
+        ////        else if (type == "termset" && int.TryParse(strId, out id))
+        ////        {
+        ////            CheckBoxListItemsToDelete.Items.Add(new ListItem("(Termset*) " + treeNode.Text, treeNode.Value));
+        ////            LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
+        ////        }
+        ////        else if (type == "term" && int.TryParse(strId, out id))
+        ////        {
+        ////            CheckBoxListItemsToDelete.Items.Add(new ListItem("(Term) " + treeNode.Text, treeNode.Value));
+        ////        }
+        ////        else
+        ////        {
+        ////            LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
+        ////        }
+        ////    }
+        ////}
 
         protected void BtnConfirmDeletion_OnClick(object sender, EventArgs e)
         {
@@ -598,35 +597,35 @@ namespace EventHandlingSystem
                 int id;
                 if (type == "taxonomy" && int.TryParse(strId, out id))
                 {
-                    Taxonomy taxonomyToDelete = TaxonomyDB.GetTaxonomyById(id);
-                    foreach (TermSet termSet in TermSetDB.GetTermSetsByTaxonomy(taxonomyToDelete))
-                    {
-                        DeleteAllChildTermsAndTermSetsForTermSet(termSet);
-                    }
-                    if (taxonomyToDelete != null)
-                    {
-                        if (TaxonomyDB.DeleteTaxonomyById(id) != 0) LabelDisplay.Text += "(Taxonomy) "+taxonomyToDelete.Name + ",<br>";
-                        taxId = taxonomyToDelete.Id;
-                    }
+                    ////Taxonomy taxonomyToDelete = TaxonomyDB.GetTaxonomyById(id);
+                    ////foreach (TermSet termSet in TermSetDB.GetTermSetsByTaxonomy(taxonomyToDelete))
+                    ////{
+                    ////    DeleteAllChildTermsAndTermSetsForTermSet(termSet);
+                    ////}
+                    ////if (taxonomyToDelete != null)
+                    ////{
+                    ////    if (TaxonomyDB.DeleteTaxonomyById(id) != 0) LabelDisplay.Text += "(Taxonomy) "+taxonomyToDelete.Name + ",<br>";
+                    ////    taxId = taxonomyToDelete.Id;
+                    ////}
                 }
                 else if (type == "termset" && int.TryParse(strId, out id))
                 {
-                    TermSet termSetToDelete = TermSetDB.GetTermSetById(id);
-                    if (termSetToDelete != null)
-                    {
-                        DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
-                        if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += "(Termset) " + termSetToDelete.Name + ",<br>";
-                        taxId = termSetToDelete.TaxonomyId;
-                    }
+                    ////TermSet termSetToDelete = TermSetDB.GetTermSetById(id);
+                    ////if (termSetToDelete != null)
+                    ////{
+                    ////    DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
+                    ////    if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += "(Termset) " + termSetToDelete.Name + ",<br>";
+                    ////    taxId = termSetToDelete.TaxonomyId;
+                    ////}
                 }
                 else if (type == "term" && int.TryParse(strId, out id))
                 {
-                    Term termToDelete = TermDB.GetTermById(id);
-                    if (termToDelete != null)
-                    {
-                        if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += "(Term) " + termToDelete.Name + ",<br>";
-                        taxId = termToDelete.TermSet.FirstOrDefault().TaxonomyId;
-                    }
+                    ////Term termToDelete = TermDB.GetTermById(id);
+                    ////if (termToDelete != null)
+                    ////{
+                    ////    if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += "(Term) " + termToDelete.Name + ",<br>";
+                    ////    taxId = termToDelete.TermSet.FirstOrDefault().TaxonomyId;
+                    ////}
                 }
                 else
                 {
@@ -648,31 +647,31 @@ namespace EventHandlingSystem
         }
 
         //Redundant metod för att hitta alla ChildTerm och TermSets för att sedan ta bort dem.
-        private void DeleteAllChildTermsAndTermSetsForTermSet(TermSet termSet)
-        {
-            foreach (var t in termSet.Term)
-            {
-                Term term = TermDB.GetTermById(t.Id);
-                if (term != null)
-                {
-                    //Tar bort Terms och visar att de gick att ta bort.
-                    if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += "(Term) " + term.Name + ",<br>";
-                }
-            }
+        ////private void DeleteAllChildTermsAndTermSetsForTermSet(TermSet termSet)
+        ////{
+        ////    foreach (var t in termSet.Term)
+        ////    {
+        ////        Term term = TermDB.GetTermById(t.Id);
+        ////        if (term != null)
+        ////        {
+        ////            //Tar bort Terms och visar att de gick att ta bort.
+        ////            if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += "(Term) " + term.Name + ",<br>";
+        ////        }
+        ////    }
 
-            foreach (var tS in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
-            {
-                DeleteAllChildTermsAndTermSetsForTermSet(tS);
+        ////    foreach (var tS in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
+        ////    {
+        ////        DeleteAllChildTermsAndTermSetsForTermSet(tS);
 
-                TermSet termS = TermSetDB.GetTermSetById(tS.Id);
-                if (termS != null)
-                {
-                    //Tar bort TermSets och visar att de gick att ta bort.
-                    if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
-                        LabelDisplay.Text += "(Term) "+ termS.Name + ",<br>";
-                }
-            }
-        }
+        ////        TermSet termS = TermSetDB.GetTermSetById(tS.Id);
+        ////        if (termS != null)
+        ////        {
+        ////            //Tar bort TermSets och visar att de gick att ta bort.
+        ////            if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
+        ////                LabelDisplay.Text += "(Term) "+ termS.Name + ",<br>";
+        ////        }
+        ////    }
+        ////}
 
         #endregion
 
@@ -725,38 +724,38 @@ namespace EventHandlingSystem
 
         protected void BtnUpdateTax_OnClick(object sender, EventArgs e)
         {
-            Taxonomy originalTax = TaxonomyDB.GetTaxonomyById(int.Parse(LabelIdTax.Text));
-            Taxonomy tax = new Taxonomy
-            {
-                Id = originalTax.Id,
-                Name = TxtBoxNameTax.Text,
-                Created = originalTax.Created
-            };
+            ////Taxonomy originalTax = TaxonomyDB.GetTaxonomyById(int.Parse(LabelIdTax.Text));
+            ////Taxonomy tax = new Taxonomy
+            ////{
+            ////    Id = originalTax.Id,
+            ////    Name = TxtBoxNameTax.Text,
+            ////    Created = originalTax.Created
+            ////};
 
-            if (TaxonomyDB.UpdateTaxonomy(tax) != 0)
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
-                LabelMessageTax.Text = "Taxonomy was updated";
-            }
-            else
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
-                LabelMessageTax.Text = "Taxonomy couldn't be updated";
-            }
+            ////if (TaxonomyDB.UpdateTaxonomy(tax) != 0)
+            ////{
+            ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+            ////    LabelMessageTax.Text = "Taxonomy was updated";
+            ////}
+            ////else
+            ////{
+            ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+            ////    LabelMessageTax.Text = "Taxonomy couldn't be updated";
+            ////}
 
-            //Refresh taxonomytreeview.
-            if (tax.Id == 1)
-            {
-                BtnPublishTax_OnClick(null, EventArgs.Empty);
-            }
-            else if (tax.Id == 2)
-            {
-                BtnCategoryTax_OnClick(null, EventArgs.Empty);
-            }
-            else
-            {
-                BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
-            }
+            //////Refresh taxonomytreeview.
+            ////if (tax.Id == 1)
+            ////{
+            ////    BtnPublishTax_OnClick(null, EventArgs.Empty);
+            ////}
+            ////else if (tax.Id == 2)
+            ////{
+            ////    BtnCategoryTax_OnClick(null, EventArgs.Empty);
+            ////}
+            ////else
+            ////{
+            ////    BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+            ////}
         }
 
         #endregion
@@ -768,43 +767,43 @@ namespace EventHandlingSystem
 
         protected void BtnUpdateTS_OnClick(object sender, EventArgs e)
         {
-            TermSet originalTermSet = TermSetDB.GetTermSetById(int.Parse(LabelIdTS.Text));
-            TermSet tS = new TermSet
-            {
-                Id = originalTermSet.Id,
-                Name = TxtBoxNameTS.Text,
-                Created = originalTermSet.Created,
-                ParentTermSetId =
-                    DropDownListEditParentTS.SelectedValue == ""
-                        ? new int?[1] {null}[0]
-                        : int.Parse(DropDownListEditParentTS.SelectedValue),
-                TaxonomyId = originalTermSet.TaxonomyId
-            };
+            ////TermSet originalTermSet = TermSetDB.GetTermSetById(int.Parse(LabelIdTS.Text));
+            ////TermSet tS = new TermSet
+            ////{
+            ////    Id = originalTermSet.Id,
+            ////    Name = TxtBoxNameTS.Text,
+            ////    Created = originalTermSet.Created,
+            ////    ParentTermSetId =
+            ////        DropDownListEditParentTS.SelectedValue == ""
+            ////            ? new int?[1] {null}[0]
+            ////            : int.Parse(DropDownListEditParentTS.SelectedValue),
+            ////    TaxonomyId = originalTermSet.TaxonomyId
+            ////};
 
-            if (TermSetDB.UpdateTermSet(tS) != 0)
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
-                LabelMessageTS.Text = "Termset was updated";
-            }
-            else
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
-                LabelMessageTS.Text = "Termset couldn't be updated";
-            }
+            ////if (TermSetDB.UpdateTermSet(tS) != 0)
+            ////{
+            ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+            ////    LabelMessageTS.Text = "Termset was updated";
+            ////}
+            ////else
+            ////{
+            ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+            ////    LabelMessageTS.Text = "Termset couldn't be updated";
+            ////}
 
-            //Refresh taxonomytreeview.
-            if (tS.TaxonomyId == 1)
-            {
-                BtnPublishTax_OnClick(null, EventArgs.Empty);
-            }
-            else if (tS.TaxonomyId == 2)
-            {
-                BtnCategoryTax_OnClick(null, EventArgs.Empty);
-            }
-            else
-            {
-                BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
-            }
+            //////Refresh taxonomytreeview.
+            ////if (tS.TaxonomyId == 1)
+            ////{
+            ////    BtnPublishTax_OnClick(null, EventArgs.Empty);
+            ////}
+            ////else if (tS.TaxonomyId == 2)
+            ////{
+            ////    BtnCategoryTax_OnClick(null, EventArgs.Empty);
+            ////}
+            ////else
+            ////{
+            ////    BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+            ////}
         }
 
         #endregion
@@ -816,47 +815,47 @@ namespace EventHandlingSystem
 
         protected void BtnUpdateT_OnClick(object sender, EventArgs e)
         {
-            Term originalTerm = TermDB.GetTermById(int.Parse(LabelIdT.Text));
-            Term term = new Term
-            {
-                Id = originalTerm.Id,
-                Name = TxtBoxNameT.Text,
-                Created = originalTerm.Created,
-                TermSet =
-                    new Collection<TermSet>
-                    {
-                        TermSetDB.GetTermSetById(int.Parse(DropDownListTermSetForTerm.SelectedValue))
-                    }
+            ////Term originalTerm = TermDB.GetTermById(int.Parse(LabelIdT.Text));
+            ////Term term = new Term
+            ////{
+            ////    Id = originalTerm.Id,
+            ////    Name = TxtBoxNameT.Text,
+            ////    Created = originalTerm.Created,
+            ////    TermSet =
+            ////        new Collection<TermSet>
+            ////        {
+            ////            TermSetDB.GetTermSetById(int.Parse(DropDownListTermSetForTerm.SelectedValue))
+            ////        }
 
-            };
+            ////};
 
-            if (TermDB.UpdateTerm(term) != 0)
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
-                LabelMessageT.Text = "Term was updated";
-            }
-            else
-            {
-                LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
-                LabelMessageT.Text = "Term couldn't be updated";
-            }
+            ////if (TermDB.UpdateTerm(term) != 0)
+            ////{
+            ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+            ////    LabelMessageT.Text = "Term was updated";
+            ////}
+            ////else
+            ////{
+            ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+            ////    LabelMessageT.Text = "Term couldn't be updated";
+            ////}
 
-            //Refresh taxonomytreeview.
-            if (term.TermSet.FirstOrDefault() != null)
-            {
-                if (term.TermSet.FirstOrDefault().TaxonomyId == 1)
-                {
-                    BtnPublishTax_OnClick(null, EventArgs.Empty);
-                }
-                else if (term.TermSet.FirstOrDefault().TaxonomyId == 2)
-                {
-                    BtnCategoryTax_OnClick(null, EventArgs.Empty);
-                }
-                else
-                {
-                    BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
-                }
-            }
+            //////Refresh taxonomytreeview.
+            ////if (term.TermSet.FirstOrDefault() != null)
+            ////{
+            ////    if (term.TermSet.FirstOrDefault().TaxonomyId == 1)
+            ////    {
+            ////        BtnPublishTax_OnClick(null, EventArgs.Empty);
+            ////    }
+            ////    else if (term.TermSet.FirstOrDefault().TaxonomyId == 2)
+            ////    {
+            ////        BtnCategoryTax_OnClick(null, EventArgs.Empty);
+            ////    }
+            ////    else
+            ////    {
+            ////        BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+            ////    }
+            ////}
         }
 
         #endregion
@@ -879,22 +878,22 @@ namespace EventHandlingSystem
             string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
-            //h1-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
-            LabelCreateTerm.Text = "";
-            LabelCreateTerm.Text = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
+            //////h1-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
+            ////LabelCreateTerm.Text = "";
+            ////LabelCreateTerm.Text = "Create new term in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
-            //Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
-            DropDownListTInTS.Items.Clear();
+            //////Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
+            ////DropDownListTInTS.Items.Clear();
 
-            //Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
-            foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
-            {
-                DropDownListTInTS.Items.Add(new ListItem
-                {
-                    Text = termSet.Name,
-                    Value = termSet.Id.ToString()
-                });
-            }
+            //////Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
+            ////foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
+            ////{
+            ////    DropDownListTInTS.Items.Add(new ListItem
+            ////    {
+            ////        Text = termSet.Name,
+            ////        Value = termSet.Id.ToString()
+            ////    });
+            ////}
         }
 
         protected void BtnCreateTermSet_OnClick(object sender, EventArgs e)
@@ -908,23 +907,23 @@ namespace EventHandlingSystem
             string nodeValue = TreeViewTaxonomy.Nodes[0].Value;
             string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
-            //h1-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
-            LabelCreateTermSet.Text = "";
-            LabelCreateTermSet.Text = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
+            //////h1-tag som får anpassad text beroende på vilken taxonomi man valt att skapa objekt i.
+            ////LabelCreateTermSet.Text = "";
+            ////LabelCreateTermSet.Text = "Create new termset in " + TaxonomyDB.GetTaxonomyById(int.Parse(strId)).Name;
 
-            //Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
-            DropDownListCreateParentTS.Items.Clear();
+            //////Tar bort alla ListItems som kanske redan finns i DropDownListan (Annars kan den dubbel populeras).
+            ////DropDownListCreateParentTS.Items.Clear();
 
-            //Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
-            DropDownListCreateParentTS.Items.Add(new ListItem("", "tax_" + strId));
-            foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
-            {
-                DropDownListCreateParentTS.Items.Add(new ListItem
-                {
-                    Text = termSet.Name,
-                    Value = termSet.Id.ToString()
-                });
-            }
+            //////Lägger till alla TermSet som finns i taxonomin, som ListItem i DropDownListan.
+            ////DropDownListCreateParentTS.Items.Add(new ListItem("", "tax_" + strId));
+            ////foreach (var termSet in TermSetDB.GetTermSetsByTaxonomy(TaxonomyDB.GetTaxonomyById(int.Parse(strId))))
+            ////{
+            ////    DropDownListCreateParentTS.Items.Add(new ListItem
+            ////    {
+            ////        Text = termSet.Name,
+            ////        Value = termSet.Id.ToString()
+            ////    });
+            ////}
         }
 
         #endregion
@@ -940,36 +939,36 @@ namespace EventHandlingSystem
             if (!string.IsNullOrWhiteSpace(DropDownListTInTS.SelectedValue))
             {
 
-                Term term = new Term
-                {
-                    Name = TxtBoxNameCreateT.Text,
-                    TermSet =
-                        new Collection<TermSet>() {TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue))}
-                };
+                ////Term term = new Term
+                ////{
+                ////    Name = TxtBoxNameCreateT.Text,
+                ////    TermSet =
+                ////        new Collection<TermSet>() {TermSetDB.GetTermSetById(int.Parse(DropDownListTInTS.SelectedValue))}
+                ////};
 
-                if (TermDB.CreateTerm(term) != 0)
-                {
-                    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
-                    LabelMessageCreateT.Text = term.Name + " was created in " + term.TermSet.FirstOrDefault().Name + "!";
-                }
-                else
-                {
-                    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
-                    LabelMessageCreateT.Text = "Term was not created!";
-                }
+                ////if (TermDB.CreateTerm(term) != 0)
+                ////{
+                ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "green");
+                ////    LabelMessageCreateT.Text = term.Name + " was created in " + term.TermSet.FirstOrDefault().Name + "!";
+                ////}
+                ////else
+                ////{
+                ////    LabelMessageCreateT.Style.Add(HtmlTextWriterStyle.Color, "red");
+                ////    LabelMessageCreateT.Text = "Term was not created!";
+                ////}
 
-                //Refresh taxonomytreeview.
-                if (term.TermSet.FirstOrDefault() != null)
-                {
-                    if (term.TermSet.FirstOrDefault().TaxonomyId == 2)
-                    {
-                        BtnCategoryTax_OnClick(null, EventArgs.Empty);
-                    }
-                    else
-                    {
-                        BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
-                    }
-                }
+                //////Refresh taxonomytreeview.
+                ////if (term.TermSet.FirstOrDefault() != null)
+                ////{
+                ////    if (term.TermSet.FirstOrDefault().TaxonomyId == 2)
+                ////    {
+                ////        BtnCategoryTax_OnClick(null, EventArgs.Empty);
+                ////    }
+                ////    else
+                ////    {
+                ////        BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+                ////    }
+                ////}
 
             }
             else
@@ -983,45 +982,45 @@ namespace EventHandlingSystem
 
         protected void BtnCreateTS_OnClick(object sender, EventArgs e)
         {
-            TermSet termSet = new TermSet
-            {
-                Name = TxtBoxNameCreateTS.Text,
-                ParentTermSetId =
-                    DropDownListCreateParentTS.SelectedValue.Contains("tax")
-                        ? new int?[1] {null}[0]
-                        : int.Parse(DropDownListCreateParentTS.SelectedValue),
-                TaxonomyId = DropDownListCreateParentTS.SelectedValue.Contains("tax")
-                    ? int.Parse(
-                        DropDownListCreateParentTS.SelectedValue.Substring(
-                            DropDownListCreateParentTS.SelectedValue.IndexOf('_') + 1))
-                    : TermSetDB.GetTermSetById(
-                        int.Parse(DropDownListCreateParentTS.Items[DropDownListCreateParentTS.Items.Count - 1].Value))
-                        .TaxonomyId
-            };
+            ////TermSet termSet = new TermSet
+            ////{
+            ////    Name = TxtBoxNameCreateTS.Text,
+            ////    ParentTermSetId =
+            ////        DropDownListCreateParentTS.SelectedValue.Contains("tax")
+            ////            ? new int?[1] {null}[0]
+            ////            : int.Parse(DropDownListCreateParentTS.SelectedValue),
+            ////    TaxonomyId = DropDownListCreateParentTS.SelectedValue.Contains("tax")
+            ////        ? int.Parse(
+            ////            DropDownListCreateParentTS.SelectedValue.Substring(
+            ////                DropDownListCreateParentTS.SelectedValue.IndexOf('_') + 1))
+            ////        : TermSetDB.GetTermSetById(
+            ////            int.Parse(DropDownListCreateParentTS.Items[DropDownListCreateParentTS.Items.Count - 1].Value))
+            ////            .TaxonomyId
+            ////};
 
-            if (TermSetDB.CreateTermSet(termSet) != 0)
-            {
-                string parentItem = termSet.ParentTermSetId == null
-                    ? TaxonomyDB.GetTaxonomyById(termSet.TaxonomyId).Name
-                    : TermSetDB.GetTermSetById((int) termSet.ParentTermSetId).Name;
-                LabelMessageCreateTS.Style.Add(HtmlTextWriterStyle.Color, "green");
-                LabelMessageCreateTS.Text = termSet.Name + " was created in " + parentItem + "!";
-            }
-            else
-            {
-                LabelMessageCreateTS.Style.Add(HtmlTextWriterStyle.Color, "red");
-                LabelMessageCreateTS.Text = "Termset was not created!";
-            }
+            ////if (TermSetDB.CreateTermSet(termSet) != 0)
+            ////{
+            ////    string parentItem = termSet.ParentTermSetId == null
+            ////        ? TaxonomyDB.GetTaxonomyById(termSet.TaxonomyId).Name
+            ////        : TermSetDB.GetTermSetById((int) termSet.ParentTermSetId).Name;
+            ////    LabelMessageCreateTS.Style.Add(HtmlTextWriterStyle.Color, "green");
+            ////    LabelMessageCreateTS.Text = termSet.Name + " was created in " + parentItem + "!";
+            ////}
+            ////else
+            ////{
+            ////    LabelMessageCreateTS.Style.Add(HtmlTextWriterStyle.Color, "red");
+            ////    LabelMessageCreateTS.Text = "Termset was not created!";
+            ////}
 
-            //Refresh taxonomytreeview.
-            if (termSet.TaxonomyId == 2)
-            {
-                BtnCategoryTax_OnClick(null, EventArgs.Empty);
-            }
-            else
-            {
-                BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
-            }
+            //////Refresh taxonomytreeview.
+            ////if (termSet.TaxonomyId == 2)
+            ////{
+            ////    BtnCategoryTax_OnClick(null, EventArgs.Empty);
+            ////}
+            ////else
+            ////{
+            ////    BtnCustomCategoryTax_OnClick(null, EventArgs.Empty);
+            ////}
         }
 
         #endregion
@@ -1037,6 +1036,7 @@ namespace EventHandlingSystem
         {
             MultiViewCreate.ActiveViewIndex = -1;
         }
+
         protected void ImageButtonCloseMultiViewEdit_OnClick(object sender, ImageClickEventArgs e)
         {
             MultiViewEdit.ActiveViewIndex = -1;

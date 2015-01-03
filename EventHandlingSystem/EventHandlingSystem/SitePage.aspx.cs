@@ -21,27 +21,27 @@ namespace EventHandlingSystem
             int id;
             if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id) && !string.IsNullOrWhiteSpace(stType))
             {
-                WebPage webPage = WebPageDB.GetWebPageById(id);
-                if (webPage != null)
-                {
-                    if (webPage.Community != null)
-                    {
-                        LabelTitle.Text =
-                            TermSetDB.GetTermSetById(webPage.Community.PublishingTermSetId).Name;
-                        LabelWelcome.Text = "Welcome to this community!";
-                    }
-                    else if (webPage.Association != null)
-                    {
-                        LabelTitle.Text =
-                            TermSetDB.GetTermSetById(webPage.Association.PublishingTermSetId).Name;
-                        LabelWelcome.Text = "Welcome to this association!";
-                    }
-                    else
-                    {
-                        LabelTitle.Text = "Unknown";
-                        LabelWelcome.Text = "Empty page?";
-                    }
-                }
+                ////WebPage webPage = WebPageDB.GetWebPageById(id);
+                ////if (webPage != null)
+                ////{
+                ////    if (webPage.Community != null)
+                ////    {
+                ////        LabelTitle.Text =
+                ////            TermSetDB.GetTermSetById(webPage.Community.PublishingTermSetId).Name;
+                ////        LabelWelcome.Text = "Welcome to this community!";
+                ////    }
+                ////    else if (webPage.Association != null)
+                ////    {
+                ////        LabelTitle.Text =
+                ////            TermSetDB.GetTermSetById(webPage.Association.PublishingTermSetId).Name;
+                ////        LabelWelcome.Text = "Welcome to this association!";
+                ////    }
+                ////    else
+                ////    {
+                ////        LabelTitle.Text = "Unknown";
+                ////        LabelWelcome.Text = "Empty page?";
+                ////    }
+                ////}
             }
             else
             {
@@ -61,27 +61,27 @@ namespace EventHandlingSystem
             int id;
             if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id) && !string.IsNullOrWhiteSpace(stType))
             {
-                WebPage webPage = WebPageDB.GetWebPageById(id);
-                if (webPage != null)
-                {
-                    if (webPage.Community != null)
-                    {
-                        //Sätter rätt titel på sidan
-                        Page.Title =
-                            TermSetDB.GetTermSetById(webPage.Community.PublishingTermSetId).Name;
-                    }
-                    else if (webPage.Association != null)
-                    {
-                        //Sätter rätt titel på sidan
-                        Page.Title =
-                            TermSetDB.GetTermSetById(webPage.Association.PublishingTermSetId).Name;
-                    }
-                    else
-                    {
-                        //Sätter rätt titel på sidan
-                        Page.Title = "Unknown";
-                    }
-                }
+                ////WebPage webPage = WebPageDB.GetWebPageById(id);
+                ////if (webPage != null)
+                ////{
+                ////    if (webPage.Community != null)
+                ////    {
+                ////        //Sätter rätt titel på sidan
+                ////        Page.Title =
+                ////            TermSetDB.GetTermSetById(webPage.Community.PublishingTermSetId).Name;
+                ////    }
+                ////    else if (webPage.Association != null)
+                ////    {
+                ////        //Sätter rätt titel på sidan
+                ////        Page.Title =
+                ////            TermSetDB.GetTermSetById(webPage.Association.PublishingTermSetId).Name;
+                ////    }
+                ////    else
+                ////    {
+                ////        //Sätter rätt titel på sidan
+                ////        Page.Title = "Unknown";
+                ////    }
+                ////}
             }
         }
     }

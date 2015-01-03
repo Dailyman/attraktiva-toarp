@@ -46,6 +46,9 @@
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="MySql.Data, Version=6.9.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Data.Entity.EF6, Version=6.9.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
+    <Reference Include="MySql.Web, Version=6.9.5.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Core" />
@@ -223,7 +226,6 @@
     <Content Include="Default.aspx" />
     <Content Include="EventCreate.aspx" />
     <Content Include="EventDetails.aspx" />
-    <Content Include="EventHandlingDataModel.edmx.sql" />
     <Content Include="EventUpdate.aspx" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
@@ -245,23 +247,6 @@
     <Content Include="Images\top_back.jpg" />
     <Content Include="Images\top_back_1.jpg" />
     <Content Include="packages.config" />
-    <EntityDeploy Include="EventHandlingDataModel.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>EventHandlingDataModel.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="EventHandlingDataModel.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EventHandlingDataModel.edmx</DependentUpon>
-      <LastGenOutput>EventHandlingDataModel.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="EventHandlingDataModel.edmx.diagram">
-      <DependentUpon>EventHandlingDataModel.edmx</DependentUpon>
-    </Content>
-    <Content Include="EventHandlingDataModel.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>EventHandlingDataModel.edmx</DependentUpon>
-      <LastGenOutput>EventHandlingDataModel.cs</LastGenOutput>
-    </Content>
     <Content Include="Admin\Web.config" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Admin\PageSettings.aspx" />
@@ -375,30 +360,12 @@
       <DependentUpon>RegisterExternalLogin.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Association.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Calendar.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Community.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Component.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="OldPages\Contact.aspx.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="OldPages\Contact.aspx.designer.cs">
       <DependentUpon>Contact.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Content.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="ContentLayout.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Database\CalendarDB.cs" />
     <Compile Include="Database\Database.cs" />
@@ -427,9 +394,6 @@
     <Compile Include="EventCreate.aspx.designer.cs">
       <DependentUpon>EventCreate.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Event.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="EventDetails.aspx.cs">
       <DependentUpon>EventDetails.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -437,30 +401,12 @@
     <Compile Include="EventDetails.aspx.designer.cs">
       <DependentUpon>EventDetails.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EventHandlingDataModel.Context.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EventHandlingDataModel.Context.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EventHandlingDataModel.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="EventHandlingDataModel.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>EventHandlingDataModel.edmx</DependentUpon>
-    </Compile>
     <Compile Include="EventUpdate.aspx.cs">
       <DependentUpon>EventUpdate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="EventUpdate.aspx.designer.cs">
       <DependentUpon>EventUpdate.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Feed.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -471,12 +417,6 @@
     </Compile>
     <Compile Include="Admin\PageSettings.aspx.designer.cs">
       <DependentUpon>PageSettings.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="Link.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Navigation.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Site.Master.cs">
@@ -507,21 +447,12 @@
     <Compile Include="SiteSettings.aspx.designer.cs">
       <DependentUpon>SiteSettings.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Taxonomy.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="TaxonomyControl.ascx.cs">
       <DependentUpon>TaxonomyControl.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="TaxonomyControl.ascx.designer.cs">
       <DependentUpon>TaxonomyControl.ascx</DependentUpon>
-    </Compile>
-    <Compile Include="Term.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="TermSet.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
@@ -530,11 +461,10 @@
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
     </Compile>
-    <Compile Include="WebPage.cs">
-      <DependentUpon>EventHandlingDataModel.tt</DependentUpon>
-    </Compile>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="DatabaseMySQL\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Account\Web.config" />
     <Content Include="Site.Master" />

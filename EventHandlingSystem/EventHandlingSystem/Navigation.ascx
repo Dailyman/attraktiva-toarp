@@ -37,7 +37,7 @@
         <ul>
             <li><a href="/">Home</a></li>
             <li>
-                <asp:UpdatePanel runat="server" ID="UpdatePanelTreeNav" UpdateMode="Always">
+                <%--<asp:UpdatePanel runat="server" ID="UpdatePanelTreeNav" UpdateMode="Always">
                     <ContentTemplate>
                         <asp:TreeView ID="TreeViewNavigation" runat="server"
                             OnTreeNodeCollapsed="TreeViewNavigation_TreeNodeCollapsed"
@@ -52,7 +52,7 @@
                     <Triggers>
                         <asp:AsyncPostBackTrigger ControlID="TreeViewNavigation" />
                     </Triggers>
-                </asp:UpdatePanel>
+                </asp:UpdatePanel>--%>
             </li>
             <li>
                 <br />
