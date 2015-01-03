@@ -5,20 +5,20 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    public class CalendarDB
-    {
-        private static readonly EventHandlingDataModelContainer Context = Database.Context;
+    //public class CalendarDB
+    //{
+    //    private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
-        private static IEnumerable<Calendar> GetAllNotDeletedCalendars()
-        {
-            return Context.Calendars.Where(c => !c.IsDeleted);
-        }
+    //    private static IEnumerable<Calendar> GetAllNotDeletedCalendars()
+    //    {
+    //        return Context.Calendars.Where(c => !c.IsDeleted);
+    //    }
 
-        public static Calendar GetCalendarById(int id)
-        {
-            return GetAllNotDeletedCalendars().SingleOrDefault(c => c.Id.Equals(id));
-        }
+    //    public static Calendar GetCalendarById(int id)
+    //    {
+    //        return GetAllNotDeletedCalendars().SingleOrDefault(c => c.Id.Equals(id));
+    //    }
             
 
-    }
+    //}
 }

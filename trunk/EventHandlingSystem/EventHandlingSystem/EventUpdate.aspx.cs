@@ -26,21 +26,22 @@ namespace EventHandlingSystem
             {
                 //Skapar och lägger till alla associations i dropdownlistan.
                 List<ListItem> listItems = new List<ListItem>();
-                foreach (var association in AssociationDB.GetAllAssociations())
-                {
-                    //Hämta Term för Association genom PublishingTermSet
-                    Term associationTerm =
-                        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
-                            .SingleOrDefault();
-                    if (associationTerm != null)
-                    {
-                        listItems.Add(new ListItem
-                        {
-                            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
-                            Value = associationTerm.Id.ToString()
-                        });
-                    }
-                }
+                ////foreach (var association in AssociationDB.GetAllAssociations())
+                ////{
+                ////    //Hämta Term för Association genom PublishingTermSet
+                ////    Term associationTerm =
+                ////        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
+                ////            .SingleOrDefault();
+                ////    if (associationTerm != null)
+                ////    {
+                ////        listItems.Add(new ListItem
+                ////        {
+                ////            Text = TermSetDB.GetTermSetById(association.PublishingTermSetId).Name,
+                ////            Value = associationTerm.Id.ToString()
+                ////        });
+                ////    }
+                ////}
+
                 //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
                 foreach (var item in listItems.OrderBy(item => item.Text))
                 {
@@ -55,27 +56,27 @@ namespace EventHandlingSystem
                 //Fyller formuläret med evenemangets nuvarande information.
                 if (!String.IsNullOrWhiteSpace(Request.QueryString["Id"]))
                 {
-                    Event @event = GetEventToUpdate();
+                    ////Event @event = GetEventToUpdate();
 
-                    TxtBoxTitle.Text = @event.Title;
-                    TxtBoxDescription.Text = @event.Description;
-                    TxtBoxSummary.Text = @event.Summary;
-                    TxtBoxOther.Text = @event.Other;
-                    TxtBoxLocation.Text = @event.Location;
-                    TxtBoxImageUrl.Text = @event.ImageUrl;
-                    ChkBoxDayEvent.Checked = @event.DayEvent;
-                    TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
-                    TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
-                    TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
-                    TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
-                    TxtBoxTargetGroup.Text = @event.TargetGroup;
-                    CalendarStartDate.SelectedDate = @event.StartDate;
-                    CalendarEndDate.SelectedDate = @event.EndDate;
-                    TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
-                    DropDownAssociation.SelectedIndex =
-                        DropDownAssociation.Items.IndexOf(
-                            DropDownAssociation.Items.FindByValue(@event.AssociationId.ToString()));
-                    TxtBoxLink.Text = @event.LinkUrl;
+                    ////TxtBoxTitle.Text = @event.Title;
+                    ////TxtBoxDescription.Text = @event.Description;
+                    ////TxtBoxSummary.Text = @event.Summary;
+                    ////TxtBoxOther.Text = @event.Other;
+                    ////TxtBoxLocation.Text = @event.Location;
+                    ////TxtBoxImageUrl.Text = @event.ImageUrl;
+                    ////ChkBoxDayEvent.Checked = @event.DayEvent;
+                    ////TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
+                    ////TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
+                    ////TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
+                    ////TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
+                    ////TxtBoxTargetGroup.Text = @event.TargetGroup;
+                    ////CalendarStartDate.SelectedDate = @event.StartDate;
+                    ////CalendarEndDate.SelectedDate = @event.EndDate;
+                    ////TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
+                    ////DropDownAssociation.SelectedIndex =
+                    ////    DropDownAssociation.Items.IndexOf(
+                    ////        DropDownAssociation.Items.FindByValue(@event.AssociationId.ToString()));
+                    ////TxtBoxLink.Text = @event.LinkUrl;
                 }
                 else
                 {
@@ -90,18 +91,18 @@ namespace EventHandlingSystem
 
         #region GetEventToUpdate
         //Hämtar värdet från Id i URL och hämtar sedan evenemanget med samma Id.
-        public Event GetEventToUpdate()
-        {
-            int id;
-            if (!string.IsNullOrWhiteSpace(Request.QueryString["Id"]) && int.TryParse(Request.QueryString["Id"], out id))
-            {
-                //Om denna returneras...
-                return EventDB.GetEventById(id);
-            }
+        ////public Event GetEventToUpdate()
+        ////{
+        ////    int id;
+        ////    if (!string.IsNullOrWhiteSpace(Request.QueryString["Id"]) && int.TryParse(Request.QueryString["Id"], out id))
+        ////    {
+        ////        //Om denna returneras...
+        ////        return EventDB.GetEventById(id);
+        ////    }
             
-            //...kommer denna ej returneras
-            return null;
-        }
+        ////    //...kommer denna ej returneras
+        ////    return null;
+        ////}
         #endregion
 
 
@@ -205,48 +206,48 @@ namespace EventHandlingSystem
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
             
             //Hämtar evenemanget som ska uppdateras.
-            Event @event = GetEventToUpdate();
+            //Event @event = GetEventToUpdate();
 
-            if (@event != null)
-            {
-                //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet.
-                Event updatedEvent = new Event
-                {
-                    Id = @event.Id,
-                    Title = TxtBoxTitle.Text,
-                    Description = TxtBoxDescription.Text,
-                    Summary = TxtBoxSummary.Text,
-                    Other = TxtBoxOther.Text,
-                    Location = TxtBoxLocation.Text,
-                    ImageUrl = TxtBoxImageUrl.Text,
-                    DayEvent = ChkBoxDayEvent.Checked,
-                    StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
-                    EndDate =
-                        (ChkBoxDayEvent.Checked)
-                            ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0))
-                            : end,
-                    TargetGroup = TxtBoxTargetGroup.Text,
-                    ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
-                    AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
-                    LinkUrl = TxtBoxLink.Text,
-                    Created = @event.Created,
-                    CreatedBy = @event.CreatedBy,
-                    LatestUpdate = DateTime.Now,
-                    UpdatedBy = HttpContext.Current.User.Identity.Name
-                };
+            //if (@event != null)
+            //{
+            //    //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet.
+            //    Event updatedEvent = new Event
+            //    {
+            //        Id = @event.Id,
+            //        Title = TxtBoxTitle.Text,
+            //        Description = TxtBoxDescription.Text,
+            //        Summary = TxtBoxSummary.Text,
+            //        Other = TxtBoxOther.Text,
+            //        Location = TxtBoxLocation.Text,
+            //        ImageUrl = TxtBoxImageUrl.Text,
+            //        DayEvent = ChkBoxDayEvent.Checked,
+            //        StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
+            //        EndDate =
+            //            (ChkBoxDayEvent.Checked)
+            //                ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0))
+            //                : end,
+            //        TargetGroup = TxtBoxTargetGroup.Text,
+            //        ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
+            //        AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
+            //        LinkUrl = TxtBoxLink.Text,
+            //        Created = @event.Created,
+            //        CreatedBy = @event.CreatedBy,
+            //        LatestUpdate = DateTime.Now,
+            //        UpdatedBy = HttpContext.Current.User.Identity.Name
+            //    };
 
-                //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
-                LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-                if (EventDB.UpdateEvent(updatedEvent) != 0)
-                {
-                    //Server.Transfer(Request.Url.AbsolutePath);
-                    LabelMessage.Text = "Event was updated";
-                }
-                else
-                {
-                    LabelMessage.Text = "Event couldn't be updated";
-                }
-            }
+            //    //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
+            //    LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+            //    if (EventDB.UpdateEvent(updatedEvent) != 0)
+            //    {
+            //        //Server.Transfer(Request.Url.AbsolutePath);
+            //        LabelMessage.Text = "Event was updated";
+            //    }
+            //    else
+            //    {
+            //        LabelMessage.Text = "Event couldn't be updated";
+            //    }
+            //}
         }
         #endregion
     }

@@ -5,100 +5,100 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    public class TermSetDB
-    {
-        private static readonly EventHandlingDataModelContainer Context = Database.Context;
+    //public class TermSetDB
+    //{
+    //    private static readonly EventHandlingDataModelContainer Context = Database.Context;
 
-        // GET
-        private static IEnumerable<TermSet> GetAllNotDeletedTermSets()
-        {
-            return Context.TermSets.Where(ts => !ts.IsDeleted);
-        }
+    //    // GET
+    //    private static IEnumerable<TermSet> GetAllNotDeletedTermSets()
+    //    {
+    //        return Context.TermSets.Where(ts => !ts.IsDeleted);
+    //    }
 
-        public static TermSet GetTermSetById(int id)
-        {
-            return GetAllNotDeletedTermSets().SingleOrDefault(ts => ts.Id.Equals(id));
-        }
+    //    public static TermSet GetTermSetById(int id)
+    //    {
+    //        return GetAllNotDeletedTermSets().SingleOrDefault(ts => ts.Id.Equals(id));
+    //    }
 
-        public static List<TermSet> GetTermSetsByTaxonomy(Taxonomy tax)
-        {
-            return GetAllNotDeletedTermSets().Where(ts => ts.TaxonomyId.Equals(tax.Id)).ToList();
-        }
+    //    public static List<TermSet> GetTermSetsByTaxonomy(Taxonomy tax)
+    //    {
+    //        return GetAllNotDeletedTermSets().Where(ts => ts.TaxonomyId.Equals(tax.Id)).ToList();
+    //    }
 
-        public static List<TermSet> GetAllParentTermSetsByTaxonomy(Taxonomy tax)
-        {
-            //Om en termset inte har ett ParentTermSetId är det själv en parent
-            return GetTermSetsByTaxonomy(tax).Where(ts => ts.ParentTermSetId.Equals(null)).ToList();
-        }
+    //    public static List<TermSet> GetAllParentTermSetsByTaxonomy(Taxonomy tax)
+    //    {
+    //        //Om en termset inte har ett ParentTermSetId är det själv en parent
+    //        return GetTermSetsByTaxonomy(tax).Where(ts => ts.ParentTermSetId.Equals(null)).ToList();
+    //    }
 
-        public static List<TermSet> GetChildTermSetsByParentTermSetId(int id)
-        {
-            return GetAllNotDeletedTermSets().Where(ts => ts.ParentTermSetId.Equals(id)).ToList();
-        }
+    //    public static List<TermSet> GetChildTermSetsByParentTermSetId(int id)
+    //    {
+    //        return GetAllNotDeletedTermSets().Where(ts => ts.ParentTermSetId.Equals(id)).ToList();
+    //    }
 
-        public static string GetTermSetNameByTermSetId(int id)
-        {
-            TermSet ts = GetTermSetById(id);
-            return ts.Name;
-        }
+    //    public static string GetTermSetNameByTermSetId(int id)
+    //    {
+    //        TermSet ts = GetTermSetById(id);
+    //        return ts.Name;
+    //    }
 
-        public static int ? GetParentTermSetByTermSetId(int tsId)
-        {
-            return GetTermSetById(tsId).ParentTermSetId;
-        }
+    //    public static int ? GetParentTermSetByTermSetId(int tsId)
+    //    {
+    //        return GetTermSetById(tsId).ParentTermSetId;
+    //    }
 
        
 
 
-        // CREATE (ADD)
-        public static int CreateTermSet(TermSet termSet)
-        {
-            TermSet termSetToCreate = new TermSet
-            {
-                Name = !string.IsNullOrWhiteSpace(termSet.Name) ? termSet.Name : "Untitled",
-                ParentTermSetId = termSet.ParentTermSetId,
-                TaxonomyId = termSet.TaxonomyId,
-                Created = DateTime.Now
-            };
+    //    // CREATE (ADD)
+    //    public static int CreateTermSet(TermSet termSet)
+    //    {
+    //        TermSet termSetToCreate = new TermSet
+    //        {
+    //            Name = !string.IsNullOrWhiteSpace(termSet.Name) ? termSet.Name : "Untitled",
+    //            ParentTermSetId = termSet.ParentTermSetId,
+    //            TaxonomyId = termSet.TaxonomyId,
+    //            Created = DateTime.Now
+    //        };
 
-            Context.TermSets.Add(termSetToCreate);
+    //        Context.TermSets.Add(termSetToCreate);
 
-            int affectedRows = Context.SaveChanges();
-            return affectedRows;
-        }
+    //        int affectedRows = Context.SaveChanges();
+    //        return affectedRows;
+    //    }
 
 
-        // UPDATE
-        public static int UpdateTermSet(TermSet termSet)
-        {
-            TermSet termSetToUpdate = GetTermSetById(termSet.Id);
-            termSetToUpdate.Name = termSet.Name;
-            termSetToUpdate.ParentTermSetId = termSet.ParentTermSetId;
+    //    // UPDATE
+    //    public static int UpdateTermSet(TermSet termSet)
+    //    {
+    //        TermSet termSetToUpdate = GetTermSetById(termSet.Id);
+    //        termSetToUpdate.Name = termSet.Name;
+    //        termSetToUpdate.ParentTermSetId = termSet.ParentTermSetId;
             
-            int affectedRows = Context.SaveChanges();
-            return affectedRows;
-        }
+    //        int affectedRows = Context.SaveChanges();
+    //        return affectedRows;
+    //    }
 
-        public static int UpdateTermSetName(TermSet termSet, string tsName)
-        {
-            TermSet termSetToUpdate = GetTermSetById(termSet.Id);
-            termSetToUpdate.Name = tsName;
+    //    public static int UpdateTermSetName(TermSet termSet, string tsName)
+    //    {
+    //        TermSet termSetToUpdate = GetTermSetById(termSet.Id);
+    //        termSetToUpdate.Name = tsName;
 
-            int affectedRows = Context.SaveChanges();
-            return affectedRows;
-        }
+    //        int affectedRows = Context.SaveChanges();
+    //        return affectedRows;
+    //    }
 
        
-        // DELETE
-        public static int DeleteTermSetById(int id)
-        {
-            TermSet termSetToDelete = GetTermSetById(id);
+    //    // DELETE
+    //    public static int DeleteTermSetById(int id)
+    //    {
+    //        TermSet termSetToDelete = GetTermSetById(id);
 
-            if (termSetToDelete != null)
-                termSetToDelete.IsDeleted = true;
+    //        if (termSetToDelete != null)
+    //            termSetToDelete.IsDeleted = true;
 
-            int affectedRows = Context.SaveChanges();
-            return affectedRows;
-        }
-    }
+    //        int affectedRows = Context.SaveChanges();
+    //        return affectedRows;
+    //    }
+    //}
 }

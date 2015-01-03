@@ -26,22 +26,23 @@ namespace EventHandlingSystem
             {
                 //Skapar och lägger till alla associations i dropdownboxen.
                 List<ListItem> listItems = new List<ListItem>();
-                foreach (var association in AssociationDB.GetAllAssociations())
-                {
-                    //Hämta Term för Association genom PublishingTermSet
-                    Term associationTerm =
-                        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
-                            .SingleOrDefault();
-                    if (associationTerm != null)
-                    {
-                        listItems.Add(new ListItem
-                        {
-                            Text = associationTerm.Name,
-                            //Text = associationTerm.Name, //Denna verkar också funka, men de är inte samma ju...?
-                            Value = associationTerm.Id.ToString()
-                        });
-                    }
-                }
+                ////foreach (var association in AssociationDB.GetAllAssociations())
+                ////{
+                ////    //Hämta Term för Association genom PublishingTermSet
+                ////    Term associationTerm =
+                ////        TermDB.GetAllTermsByTermSet(TermSetDB.GetTermSetById(association.PublishingTermSetId))
+                ////            .SingleOrDefault();
+                ////    if (associationTerm != null)
+                ////    {
+                ////        listItems.Add(new ListItem
+                ////        {
+                ////            Text = associationTerm.Name,
+                ////            //Text = associationTerm.Name, //Denna verkar också funka, men de är inte samma ju...?
+                ////            Value = associationTerm.Id.ToString()
+                ////        });
+                ////    }
+                ////}
+
                 //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
                 foreach (var item in listItems.OrderBy(item => item.Text))
                 {
@@ -169,39 +170,39 @@ namespace EventHandlingSystem
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
 
             //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet
-            var @event = new Event
-            {
-                Title = TxtBoxTitle.Text,
-                Description = TxtBoxDescription.Text,
-                Summary = TxtBoxSummary.Text,
-                Other = TxtBoxOther.Text,
-                Location = TxtBoxLocation.Text,
-                ImageUrl = TxtBoxImageUrl.Text,
-                DayEvent = ChkBoxDayEvent.Checked,
-                StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
-                EndDate =
-                    (ChkBoxDayEvent.Checked)
-                        ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0))
-                        : end,
-                TargetGroup = TxtBoxTargetGroup.Text,
-                ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
-                AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
-                LinkUrl = TxtBoxLink.Text,
-                Created = DateTime.Now,
-                CreatedBy = HttpContext.Current.User.Identity.Name
-            };
+            ////var @event = new Event
+            ////{
+            ////    Title = TxtBoxTitle.Text,
+            ////    Description = TxtBoxDescription.Text,
+            ////    Summary = TxtBoxSummary.Text,
+            ////    Other = TxtBoxOther.Text,
+            ////    Location = TxtBoxLocation.Text,
+            ////    ImageUrl = TxtBoxImageUrl.Text,
+            ////    DayEvent = ChkBoxDayEvent.Checked,
+            ////    StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
+            ////    EndDate =
+            ////        (ChkBoxDayEvent.Checked)
+            ////            ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0))
+            ////            : end,
+            ////    TargetGroup = TxtBoxTargetGroup.Text,
+            ////    ApproximateAttendees = long.Parse(TxtBoxApproximateAttendees.Text),
+            ////    AssociationId = int.Parse(DropDownAssociation.SelectedItem.Value),
+            ////    LinkUrl = TxtBoxLink.Text,
+            ////    Created = DateTime.Now,
+            ////    CreatedBy = HttpContext.Current.User.Identity.Name
+            ////};
             
             //Ger LabelMessage en större font-storlek som visar om eventet kunde skapas eller ej (!!om evenemanget kunde skapas skickas användaren just nu till denna visningssida!!). 
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-            if (EventDB.AddEvent(@event))
-            {
-                Response.Redirect(HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + @event.Id, false);
-                //LabelMessage.Text = "Event was created";
-            }
-            else
-            {
-                LabelMessage.Text = "Event couldn't be created";
-            }
+            ////if (EventDB.AddEvent(@event))
+            ////{
+            ////    Response.Redirect(HttpContext.Current.Request.Url.AbsoluteUri.Replace(HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + @event.Id, false);
+            ////    //LabelMessage.Text = "Event was created";
+            ////}
+            ////else
+            ////{
+            ////    LabelMessage.Text = "Event couldn't be created";
+            ////}
         }
         #endregion
     }
