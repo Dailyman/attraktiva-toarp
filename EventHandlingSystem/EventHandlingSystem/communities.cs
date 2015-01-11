@@ -22,11 +22,10 @@ namespace EventHandlingSystem
     
         public int Id { get; set; }
         public string Name { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
+        public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> LatestUpdate { get; set; }
+        public System.DateTime LatestUpdate { get; set; }
         public string UpdatedBy { get; set; }
-        public Nullable<int> WebpageId { get; set; }
         public bool IsDeleted { get; set; }
     
         public virtual ICollection<associations> associations { get; set; }

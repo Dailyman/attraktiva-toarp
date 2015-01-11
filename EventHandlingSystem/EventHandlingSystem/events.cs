@@ -33,9 +33,9 @@ namespace EventHandlingSystem
         public System.DateTime EndDate { get; set; }
         public string TargetGroup { get; set; }
         public Nullable<int> ApproximateAttendees { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
+        public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> LatestUpdate { get; set; }
+        public System.DateTime LatestUpdate { get; set; }
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
     

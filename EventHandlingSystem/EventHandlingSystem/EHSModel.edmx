@@ -79,9 +79,9 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="ParentAssociationId" Type="int" />
-          <Property Name="Created" Type="timestamp" StoreGeneratedPattern="Identity" />
+          <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="LatestUpdate" Type="timestamp" StoreGeneratedPattern="Identity" />
+          <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Communities_Id" Type="int" Nullable="false" />
@@ -116,11 +116,10 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="Created" Type="datetime" StoreGeneratedPattern="Identity" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="LatestUpdate" Type="timestamp" StoreGeneratedPattern="Identity" />
+          <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="WebpageId" Type="int" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="communitiesinevents">
@@ -158,9 +157,9 @@
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="TargetGroup" Type="varchar" MaxLength="255" />
           <Property Name="ApproximateAttendees" Type="int" />
-          <Property Name="Created" Type="datetime" StoreGeneratedPattern="Identity" />
+          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="LatestUpdate" Type="timestamp" StoreGeneratedPattern="Identity" />
+          <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
@@ -211,9 +210,9 @@
           <Property Name="AssociationId" Type="int" />
           <Property Name="Layout" Type="varchar" MaxLength="255" />
           <Property Name="Style" Type="varchar" MaxLength="255" />
-          <Property Name="Created" Type="timestamp" StoreGeneratedPattern="Identity" />
+          <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="LatestUpdate" Type="timestamp" StoreGeneratedPattern="Identity" />
+          <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
@@ -451,9 +450,9 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ParentAssociationId" />
-          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Communities_Id" Nullable="false" />
@@ -498,11 +497,10 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="WebpageId" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_Associations_Communities" FromRole="communities" ToRole="associations" />
           <NavigationProperty Name="communitiesinevents" Relationship="ATModel.fk_CommunitiesInEvents_Communities1" FromRole="communities" ToRole="communitiesinevents" />
@@ -546,9 +544,9 @@
           <Property Type="DateTime" Name="EndDate" Nullable="false" />
           <Property Type="String" Name="TargetGroup" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ApproximateAttendees" />
-          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="associationsinevents" Relationship="ATModel.fk_AssociationsInEvents_Events1" FromRole="events" ToRole="associationsinevents" />
@@ -608,9 +606,9 @@
           <Property Type="Int32" Name="AssociationId" />
           <Property Type="String" Name="Layout" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Style" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="Created" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="DateTime" Name="LatestUpdate" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="components" Relationship="ATModel.fk_Components_Webpages1" FromRole="webpages" ToRole="components" />
@@ -823,7 +821,6 @@
             <EntityTypeMapping TypeName="ATModel.communities">
               <MappingFragment StoreEntitySet="communities">
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="WebpageId" ColumnName="WebpageId" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
