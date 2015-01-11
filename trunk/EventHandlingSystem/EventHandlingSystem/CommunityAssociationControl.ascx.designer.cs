@@ -256,13 +256,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListAssoType;
         
         /// <summary>
-        /// LabelPTSAsso control.
+        /// CheckBoxListAssoType control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelPTSAsso;
+        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxListAssoType;
+        
+        /// <summary>
+        /// BulletedListAssoType control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList BulletedListAssoType;
         
         /// <summary>
         /// LabelCreatedAsso control.

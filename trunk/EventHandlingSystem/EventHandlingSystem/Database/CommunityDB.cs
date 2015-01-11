@@ -9,7 +9,7 @@ namespace EventHandlingSystem.Database
     {
         private static readonly ATEntities Context = Database.Context;
 
-    //    // GET
+        // GET
         private static IEnumerable<communities> GetAllNotDeletedCommunities()
         {
             return Context.communities.Where(c => !c.IsDeleted);
@@ -23,6 +23,16 @@ namespace EventHandlingSystem.Database
         public static List<communities> GetAllCommunities()
         {
             return GetAllNotDeletedCommunities().ToList();
+        }
+
+        // UPDATE
+        public static int UpdateCommunity(communities comm)
+        {
+            communities commToUpdate = GetCommunityById(comm.Id);
+
+            commToUpdate.Name = comm.Name;
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
         }
     }
 }

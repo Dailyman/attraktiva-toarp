@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -62,15 +63,31 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedAssociations().Where(sa => sa.ParentAssociationId.Equals(id)).ToList();
         }
 
+
+        // ADD
+        public static bool AddCategoriesToAssociation(categoriesinassociations cia)
+        {
+            Context.categoriesinassociations.Add(cia);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            return true;
+        }
+
         // UPDATE
         public static int UpdateAssociation(associations assoc)
         {
             associations assoToUpdate = GetAssociationById(assoc.Id);
 
             assoToUpdate.Name = assoc.Name; 
-            assoToUpdate.Communities_Id = assoc.Communities_Id;
+            //assoToUpdate.communities = assoc.communities;
             assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
-            assoToUpdate.categoriesinassociations = assoc.categoriesinassociations;
+            //assoToUpdate.categoriesinassociations = assoc.categoriesinassociations;
 
             int affectedRows = Context.SaveChanges();
             return affectedRows;
