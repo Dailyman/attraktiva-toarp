@@ -25,9 +25,9 @@ namespace EventHandlingSystem
         public Nullable<int> AssociationId { get; set; }
         public string Layout { get; set; }
         public string Style { get; set; }
-        public Nullable<System.DateTime> Created { get; set; }
+        public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
-        public Nullable<System.DateTime> LatestUpdate { get; set; }
+        public System.DateTime LatestUpdate { get; set; }
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
     

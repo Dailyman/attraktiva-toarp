@@ -18,5 +18,15 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.Id.Equals(id));
         }
+
+        public static webpages GetWebPageByCommunityId(int id)
+        {
+            return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.CommunityId.Equals(id));
+        }
+
+        public static webpages GetWebPageByAssociationId(int id)
+        {
+            return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.AssociationId.Equals(id));
+        }
     }
 }
