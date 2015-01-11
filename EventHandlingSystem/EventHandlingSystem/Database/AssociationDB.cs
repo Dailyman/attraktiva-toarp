@@ -36,6 +36,22 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null)).ToList();
         }
 
+        public static List<associations> GetAllParentAssociationsByCommunityId(int id)
+        {
+            return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null) && a.Communities_Id.Equals(id)).ToList();
+        }
+
+        public static List<categories> GetAllCategoriesForAssociationByAssociation(associations a)
+        {
+            List<categories> cat = new List<categories>();
+            foreach (var categoryInAssociation in a.categoriesinassociations)
+            {
+               cat.Add(CategoryDB.GetCategoryById(categoryInAssociation.Categories_Id));
+            }
+            
+            return cat;
+        }
+
         //public static List<associations> GetAllAssociationsWithAssociationType()
         //{
         //    return GetAllNotDeletedAssociations().Where(a => !a.AssociationType.Equals(null)).ToList();
