@@ -15,6 +15,11 @@ namespace EventHandlingSystem.Database
             return Context.categories.Where(c => !c.IsDeleted);
         }
 
+        public static List<categories> GetAllCategories()
+        {
+            return GetAllNotDeletedCategories().ToList();
+        }
+
         public static categories GetCategoryById(int id)
         {
             return GetAllNotDeletedCategories().SingleOrDefault(c => c.Id.Equals(id));

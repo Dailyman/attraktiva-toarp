@@ -88,9 +88,12 @@
                     <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br /><br />
                 <span><b>Parent Association: </b>
                     <asp:DropDownList ID="DropDownListParentAsso" runat="server"></asp:DropDownList></span><br /><br />
-                <span><b>Association Type: </b>
+                <span><b>Category: </b>
                     <asp:DropDownList ID="DropDownListAssoType" runat="server"></asp:DropDownList></span><br /><br />
-                    <asp:Label ID="LabelPTSAsso" runat="server" Text=""></asp:Label><br /><br />
+                <h5>Association Type(s)</h5>
+                <asp:CheckBoxList ID="CheckBoxListAssoType" runat="server"></asp:CheckBoxList>
+                <asp:BulletedList ID="BulletedListAssoType" runat="server"></asp:BulletedList><br /><br />
+
                     <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
                     <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label><br />
                     
