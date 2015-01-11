@@ -13,13 +13,14 @@ namespace EventHandlingSystem
     {
 
         #region Page_Load()
+
         protected void Page_Load(object sender, EventArgs e)
         {
             //Om Treeview har noder = Spara TreeViewState till Session.
             if (TreeViewNavigation.Nodes.Count != 0)
             {
                 List<string> list = new List<string>();
-                ////SaveTreeViewState(TreeViewNavigation.Nodes, list);
+                SaveTreeViewState(TreeViewNavigation.Nodes, list);
                 Session["TreeViewState"] = list;
             }
 
@@ -42,7 +43,7 @@ namespace EventHandlingSystem
                     if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
                     {
                         Session["NavCommunityId"] =
-                            WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"])).CommunityId;
+                            WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"])).CommunityId.ToString();
                     }
                 }
                 else if (Request.QueryString["Type"] == "A")
@@ -50,7 +51,7 @@ namespace EventHandlingSystem
                     if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
                     {
                         Session["NavCommunityId"] =
-                            WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"])).AssociationId;
+                            AssociationDB.GetAssociationById((int)WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"])).AssociationId).Communities_Id;
                     }
                 }
                 else if (Request.Path == "/default.aspx")
@@ -59,33 +60,33 @@ namespace EventHandlingSystem
                 }
 
 
-                //////Bygger LeftSideNavigation
-                ////if (Session["NavCommunityId"] != null)
-                ////{
-                ////    AddSpecificNodesToTreeView(TreeViewNavigation, int.Parse(Session["NavCommunityId"].ToString()));
-                ////}
-                ////else
-                ////{
-                ////    AddAllNodesToTreeView(TreeViewNavigation, 1);
-                ////}
+                //Bygger LeftSideNavigation
+                if (Session["NavCommunityId"] != null)
+                {
+                    AddSpecificNodesToTreeView(TreeViewNavigation, int.Parse(Session["NavCommunityId"].ToString()));
+                }
+                else
+                {
+                    AddAllNodesToTreeView(TreeViewNavigation);
+                }
 
-                ////// Apply the recorded expanded/collapsed state to the TreeView. 
-                ////List<string> list = (List<string>)Session["TreeViewState"];
-                ////if (list != null)
-                ////{
-                ////    RestoreTreeViewState(TreeViewNavigation.Nodes, list);
-                ////}
+                // Apply the recorded expanded/collapsed state to the TreeView. 
+                List<string> list = (List<string>)Session["TreeViewState"];
+                if (list != null)
+                {
+                    RestoreTreeViewState(TreeViewNavigation.Nodes, list);
+                }
 
-                //////Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
-                ////foreach (TreeNode node in TreeViewNavigation.Nodes)
-                ////{
-                ////    selectedNode = (node.NavigateUrl == Request.Url.PathAndQuery) ? node : GetSelectedTreeNodeFromChildNodes(node);
-                ////}
+                //Hittar och markerar den aktiva sidan/länken/noden i navigeringen.
+                foreach (TreeNode node in TreeViewNavigation.Nodes)
+                {
+                    selectedNode = (node.NavigateUrl == Request.Url.PathAndQuery) ? node : GetSelectedTreeNodeFromChildNodes(node);
+                }
 
-                ////if (selectedNode != null)
-                ////{
-                ////    ExpandParentNodesForTreeNode(selectedNode);
-                ////}
+                if (selectedNode != null)
+                {
+                    ExpandParentNodesForTreeNode(selectedNode);
+                }
             }
 
             if (IsPostBack)
@@ -118,91 +119,92 @@ namespace EventHandlingSystem
                 Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none" ? "true" : "false";
             }
         }
+
         #endregion
-        
-
-////        #region Testing code (Remove)
-
-////        //protected void Page_PreInit(object sender, EventArgs e)
-////        //{
-////        //    LabelDisplay.Text += "<br>" + "PreInit"; // <- Remove
-////        //}
-
-////        //protected void Page_PreRender(object sender, EventArgs e)
-////        //{
-////        //    LabelDisplay.Text += "<br>" + "PreRender"; // <- Remove
-////        //}
-
-////        //protected virtual void Page_PreRenderComplete(object sender, EventArgs e)
-////        //{
-////        //    LabelDisplay.Text += "<br>" + "PreRenderComplete"; // <- Remove
-////        //}
-
-////        //protected void Page_Unload(object sender, EventArgs e)
-////        //{
-////        //    LabelDisplay.Text += "<br>" + "Unload"; // <- Remove
-////        //}
-
-////        #endregion
 
 
-////        #region Selecting and Expanding ParentNodes
+        #region Testing code (Remove)
 
-////        //Node som används och skickas tillbaka i GetSelectedTreeNodeFromChildNodes() för att bli startpunkt för expandering av dess ParentNodes.
-////        private TreeNode sNode = null;
+        //protected void Page_PreInit(object sender, EventArgs e)
+        //{
+        //    LabelDisplay.Text += "<br>" + "PreInit"; // <- Remove
+        //}
 
-////        //Går igenom childnodes för att hitta den aktiva sidan/länken/noden i navigeringen.
-////        private TreeNode GetSelectedTreeNodeFromChildNodes(TreeNode node)
-////        {
-////            if (sNode == null)
-////            {
-////                foreach (TreeNode n in node.ChildNodes)
-////                {
-////                    if (n.NavigateUrl == Request.Url.PathAndQuery)
-////                    {
-////                        sNode = n;
-////                        break;
-////                    }
-////                    GetSelectedTreeNodeFromChildNodes(n);
-////                }
-////                return sNode;
-////            }
-////            return sNode;
-////        }
+        //protected void Page_PreRender(object sender, EventArgs e)
+        //{
+        //    LabelDisplay.Text += "<br>" + "PreRender"; // <- Remove
+        //}
 
-////        //Expanerar alla parentnodes i navigeringen för vald node.
-////        private void ExpandParentNodesForTreeNode(TreeNode node)
-////        {
-////            if (node.Parent != null)
-////            {
-////                node.Parent.Expand();
-////                ExpandParentNodesForTreeNode(node.Parent);
-////            }
-////        }
+        //protected virtual void Page_PreRenderComplete(object sender, EventArgs e)
+        //{
+        //    LabelDisplay.Text += "<br>" + "PreRenderComplete"; // <- Remove
+        //}
 
-////        #endregion
+        //protected void Page_Unload(object sender, EventArgs e)
+        //{
+        //    LabelDisplay.Text += "<br>" + "Unload"; // <- Remove
+        //}
+
+        #endregion
 
 
-////        #region TreeViewNavigation_
+        #region Selecting and Expanding ParentNodes
 
-////        //Denna metod används inte.
-////        protected void TreeViewNavigation_DataBound(object sender, EventArgs e)
-////        {
-////            if (Session["TreeViewState"] == null)
-////            {
-////                // Record the TreeView’s current expanded/collapsed state. 
-////                List<string> list = new List<string>();
-////                SaveTreeViewState(TreeViewNavigation.Nodes, list);
-////                Session["TreeViewState"] = list;
-////            }
-////            else
-////            {
-////                // Apply the recorded expanded/collapsed state to 
-////                // the TreeView. 
-////                List<string> list = (List<string>) Session["TreeViewState"];
-////                RestoreTreeViewState(TreeViewNavigation.Nodes, list);
-////            }
-////        }
+        //Node som används och skickas tillbaka i GetSelectedTreeNodeFromChildNodes() för att bli startpunkt för expandering av dess ParentNodes.
+        private TreeNode sNode = null;
+
+        //Går igenom childnodes för att hitta den aktiva sidan/länken/noden i navigeringen.
+        private TreeNode GetSelectedTreeNodeFromChildNodes(TreeNode node)
+        {
+            if (sNode == null)
+            {
+                foreach (TreeNode n in node.ChildNodes)
+                {
+                    if (n.NavigateUrl == Request.Url.PathAndQuery)
+                    {
+                        sNode = n;
+                        break;
+                    }
+                    GetSelectedTreeNodeFromChildNodes(n);
+                }
+                return sNode;
+            }
+            return sNode;
+        }
+
+        //Expanerar alla parentnodes i navigeringen för vald node.
+        private void ExpandParentNodesForTreeNode(TreeNode node)
+        {
+            if (node.Parent != null)
+            {
+                node.Parent.Expand();
+                ExpandParentNodesForTreeNode(node.Parent);
+            }
+        }
+
+        #endregion
+
+
+        #region TreeViewNavigation_
+
+        //Denna metod används inte.
+        protected void TreeViewNavigation_DataBound(object sender, EventArgs e)
+        {
+            if (Session["TreeViewState"] == null)
+            {
+                // Record the TreeView’s current expanded/collapsed state. 
+                List<string> list = new List<string>();
+                SaveTreeViewState(TreeViewNavigation.Nodes, list);
+                Session["TreeViewState"] = list;
+            }
+            else
+            {
+                // Apply the recorded expanded/collapsed state to 
+                // the TreeView. 
+                List<string> list = (List<string>)Session["TreeViewState"];
+                RestoreTreeViewState(TreeViewNavigation.Nodes, list);
+            }
+        }
 
         protected void TreeViewNavigation_TreeNodeCollapsed(object sender, TreeNodeEventArgs e)
         {
@@ -224,117 +226,123 @@ namespace EventHandlingSystem
             }
         }
 
-////        protected void TreeViewNavigation_OnSelectedNodeChanged(object sender, EventArgs e)
-////        {
+        protected void TreeViewNavigation_OnSelectedNodeChanged(object sender, EventArgs e)
+        {
 
-////        }
+        }
 
-////        #endregion
-        
+        #endregion
 
-////        #region Save/restoreTreeViewState
 
-////        private void SaveTreeViewState(TreeNodeCollection nodes, List<string> list)
-////        {
-////            // Recursively record all expanded nodes in the List. 
-////            foreach (TreeNode node in nodes)
-////            {
-////                if (node.ChildNodes != null && node.ChildNodes.Count != 0)
-////                {
-////                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Value))
-////                        list.Add(node.Value);
-////                    SaveTreeViewState(node.ChildNodes, list);
-////                }
-////                else
-////                {
-////                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Value))
-////                        list.Add(node.Value);
-////                }
-////            }
-////        }
+        #region Save/restoreTreeViewState
 
-////        private void RestoreTreeViewState(TreeNodeCollection nodes, List<string> list)
-////        {
-////            foreach (TreeNode node in nodes)
-////            {
-////                // Restore the state of one node. 
-////                if (list.Contains(node.Value))
-////                {
-////                    if (node.ChildNodes != null && node.ChildNodes.Count != 0 && node.Expanded.HasValue &&
-////                        node.Expanded == false) node.Expand();
-////                }
-////                else if (node.ChildNodes != null && node.ChildNodes.Count != 0 && node.Expanded.HasValue &&
-////                         node.Expanded == true)
-////                {
-////                    node.Collapse();
-////                }
+        private void SaveTreeViewState(TreeNodeCollection nodes, List<string> list)
+        {
+            // Recursively record all expanded nodes in the List. 
+            foreach (TreeNode node in nodes)
+            {
+                if (node.ChildNodes.Count != 0 && node.ChildNodes.Count != 0)
+                {
+                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Value))
+                        list.Add(node.Value);
+                    SaveTreeViewState(node.ChildNodes, list);
+                }
+                else
+                {
+                    if (node.Expanded.HasValue && node.Expanded == true && !String.IsNullOrEmpty(node.Value))
+                        list.Add(node.Value);
+                }
+            }
+        }
 
-////                // If the node has child nodes, restore their states, too. 
-////                if (node.ChildNodes != null && node.ChildNodes.Count != 0)
-////                {
-////                    RestoreTreeViewState(node.ChildNodes, list);
-////                }
-////            }
-////        }
+        private void RestoreTreeViewState(TreeNodeCollection nodes, List<string> list)
+        {
+            foreach (TreeNode node in nodes)
+            {
+                // Restore the state of one node. 
+                if (list.Contains(node.Value))
+                {
+                    if (node.ChildNodes.Count != 0 && node.ChildNodes.Count != 0 && node.Expanded.HasValue &&
+                        node.Expanded == false) node.Expand();
+                }
+                else if (node.ChildNodes.Count != 0 && node.ChildNodes.Count != 0 && node.Expanded.HasValue &&
+                         node.Expanded == true)
+                {
+                    node.Collapse();
+                }
 
-////        #endregion
+                // If the node has child nodes, restore their states, too. 
+                if (node.ChildNodes != null && node.ChildNodes.Count != 0)
+                {
+                    RestoreTreeViewState(node.ChildNodes, list);
+                }
+            }
+        }
 
-        
-////        #region Create&AddNodesToTreeView
+        #endregion
 
-////        private void AddAllNodesToTreeView(TreeView treeView, int taxId)
-////        {
-////            TreeViewNavigation.Nodes.Clear();
-////            //Hämtar taxonomin
-////            Taxonomy tax = TaxonomyDB.GetTaxonomyById(taxId);
 
-////            if (tax != null)
-////            {
-////                TreeNode startNode = new TreeNode
-////                {
-////                    Text = "Communities/Associations",
-////                    Value = tax.Id.ToString(),
-////                    Expanded = true,
-////                    NavigateUrl = "/SitePage.aspx",
-////                    SelectAction = TreeNodeSelectAction.Select
-////                };
-////                //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
-////                treeView.Nodes.Add(startNode);
+        #region Create&AddNodesToTreeView
 
-////                //Hämtar all TermSets som ligger på den översta nivån i taxonomin
-////                List<TermSet> parentTermSets =
-////                    TermSetDB.GetAllParentTermSetsByTaxonomy(tax).OrderBy(ts => ts.Name).ToList();
+        private void AddAllNodesToTreeView(TreeView treeView)
+        {
+            TreeViewNavigation.Nodes.Clear();
 
-////                //Lägger till alla ParentNodes (ex. Äspered/Orter).
-////                foreach (var parentTermSet in parentTermSets)
-////                {
-////                    TreeNode node = new TreeNode
-////                    {
-////                        Text = parentTermSet.Name,
-////                        Value = "C-" + parentTermSet.Id.ToString(),
-////                        Expanded = false,
-////                        NavigateUrl =
-////                            "/SitePage.aspx?id=" +
-////                            CommunityDB.GetCommunityByPublishingTermSetId(parentTermSet.Id).WebPage.Id + "&type=C",
-////                        SelectAction = TreeNodeSelectAction.Select
-////                    };
-////                    startNode.ChildNodes.Add(node);
+            TreeNode startNode = new TreeNode
+            {
+                Text = "Communities/Associations",
+                Value = "0",
+                Expanded = true,
+                NavigateUrl = "/SitePage.aspx",
+                SelectAction = TreeNodeSelectAction.Select
+            };
+            //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
+            treeView.Nodes.Add(startNode);
 
-////                    //För att hitta alla ChildNodes till den aktuella ParentNoden.
-////                    FindChildNodesAndAddToParentNode(parentTermSet, node);
+            //Hämtar all TermSets som ligger på den översta nivån i taxonomin
+            List<communities> communities =
+                CommunityDB.GetAllCommunities().OrderBy(com => com.Name).ToList();
 
-////                }
+            //Lägger till alla ParentNodes (ex. Äspered/Orter).
+            foreach (var com in communities)
+            {
+                TreeNode node = new TreeNode
+                {
+                    Text = com.Name,
+                    Value = "C-" + com.Id,
+                    Expanded = false,
+                    NavigateUrl =
+                        "/SitePage.aspx?id=" +
+                        WebPageDB.GetWebPageById(com.Id).CommunityId + "&type=C",
+                    SelectAction = TreeNodeSelectAction.Select
+                };
+                startNode.ChildNodes.Add(node);
 
-////                foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
-////                {
-////                    item.Value.ChildNodes.Add(item.Key);
-////                }
-////            }
-////        }
+                //Hämtar all huvudAssociations in en community.
+                List<associations> parentAssociations =
+                    AssociationDB.GetAllParentAssociationsByCommunityId(com.Id).OrderBy(asso => asso.Name).ToList();
+
+                //Lägger till alla HuvudFöreningar (ex. Rödhaken IF).
+                foreach (var parentAssociation in parentAssociations)
+                {
+                    //För att hitta alla ChildNodes till den aktuella ParentNoden.
+                    AddParentAssociationNodesToCommunityNode(parentAssociation, node);
+                }
+            }
+
+            foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
+            {
+                item.Value.ChildNodes.Add(item.Key);
+            }
+
+        }
+
+
+
         private void AddSpecificNodesToTreeView(TreeView treeView, int comId)
         {
             TreeViewNavigation.Nodes.Clear();
-            //Hämtar TermSet
+            //Hämtar Community
             communities com = CommunityDB.GetCommunityById(comId);
 
             if (com != null)
@@ -345,105 +353,172 @@ namespace EventHandlingSystem
                     Value = com.Id.ToString(),
                     Expanded = true,
                     NavigateUrl = "/SitePage.aspx?id=" +
-                            WebPageDB.GetWebPageByCommunityId(comId) + "&type=C",
+                                  WebPageDB.GetWebPageByCommunityId(comId).Id + "&type=C",
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
-                //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
+                //Lägger till HuvudNoden (ex. Dalsjöfors).
                 treeView.Nodes.Add(startNode);
 
-                //Hämtar all TermSets som ligger på den översta nivån i taxonomin
-                ////List<TermSet> parentTermSets =
-                ////    TermSetDB.GetChildTermSetsByParentTermSetId(tS.Id).OrderBy(ts => ts.Name).ToList();
+                //Hämtar all huvudAssociations in en community.
+                List<associations> parentAssociations =
+                    AssociationDB.GetAllParentAssociationsByCommunityId(comId).OrderBy(asso => asso.Name).ToList();
 
-                //////Lägger till alla HuvudFöreningar (ex. Rödhaken IF).
+                //Lägger till alla HuvudFöreningar (ex. Rödhaken IF).
+                foreach (var parentAssociation in parentAssociations)
+                {
+                    AddParentAssociationNodesToCommunityNode(parentAssociation, startNode);
+                }
 
-                ////FindChildNodesAndAddToParentNode(tS, startNode);
-
-                ////foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
-                ////{
-                ////    item.Value.ChildNodes.Add(item.Key);
-                ////}
+                foreach (KeyValuePair<TreeNode, TreeNode> item in categoryNodesToAdd.OrderBy(i => i.Key.Text))
+                {
+                    item.Value.ChildNodes.Add(item.Key);
+                }
             }
         }
 
-////        private Dictionary<TreeNode, TreeNode> categoryNodesToAdd = new Dictionary<TreeNode, TreeNode>();
-////        private List<TreeNode> associationTypesNodes = new List<TreeNode>();
 
-////        private void FindChildNodesAndAddToParentNode(TermSet termSet, TreeNode parentNode)
-////        {
-////            //Lägger till alla ChildrenNodes (ex. Vikingen IF/Föreningar).
-////            foreach (var ts in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id).OrderBy(ts => ts.Name).ToList())
-////            {
-////                Association a = AssociationDB.GetAssociationByPublishingTermSetId(ts.Id);
 
-////                TreeNode childNode = new TreeNode
-////                {
-////                    Text = ts.Name,
-////                    Value = "A-" + ts.Id.ToString(),
-////                    Expanded = false,
-////                    NavigateUrl = "/SitePage.aspx?id=" + a.WebPage.Id + "&type=A",
-////                    SelectAction = TreeNodeSelectAction.Select
-////                };
+        private Dictionary<TreeNode, TreeNode> categoryNodesToAdd = new Dictionary<TreeNode, TreeNode>();
+        private List<TreeNode> associationTypesNodes = new List<TreeNode>();
 
-////                if (a.ParentAssociationId == null)
-////                {
-////                    if (a.AssociationType == null)
-////                    {
-////                        TreeNode uncategorized = new TreeNode()
-////                        {
-////                            Text = "Övrigt",
-////                            Value = "Ovrigt-" + parentNode.Value,
-////                            Expanded = false,
-////                            SelectAction = TreeNodeSelectAction.Expand
-////                        };
-////                        if (!associationTypesNodes.Exists(
-////                            categoryNode => categoryNode.Value.Equals("Ovrigt-" + parentNode.Value)))
-////                        {
-////                            //parentNode.ChildNodes.Add(uncategorized);
-////                            categoryNodesToAdd.Add(uncategorized, parentNode);
-////                            associationTypesNodes.Add(uncategorized);
-////                        }
+        private void AddParentAssociationNodesToCommunityNode(associations parentAsso, TreeNode communityNode)
+        {
+            //Lägger till alla ParentAssociationNodes (ex. Vikingen IF/Föreningar).
 
-////                        associationTypesNodes.Find(t => t.Value.Equals("Ovrigt-" + parentNode.Value))
-////                            .ChildNodes.Add(childNode);
-////                    }
-////                    else
-////                    {
-////                        string typeName = TermDB.GetTermById((int) a.AssociationType).Name;
 
-////                        TreeNode category = new TreeNode()
-////                        {
-////                            Text = typeName,
-////                            Value = typeName + "-" + parentNode.Value,
-////                            Expanded = false,
-////                            SelectAction = TreeNodeSelectAction.Expand
-////                        };
+            TreeNode parentAssociationNode = new TreeNode
+            {
+                Text = parentAsso.Name,
+                Value = "A-" + parentAsso.Id,
+                Expanded = false,
+                NavigateUrl = "/SitePage.aspx?id=" + WebPageDB.GetWebPageByAssociationId(parentAsso.Id).Id + "&type=A",
+                SelectAction = TreeNodeSelectAction.Select
+            };
 
-////                        if (
-////                            !associationTypesNodes.Exists(
-////                                categoryNode => categoryNode.Value.Equals(typeName + "-" + parentNode.Value)))
-////                        {
-////                            //parentNode.ChildNodes.Add(category);
-////                            categoryNodesToAdd.Add(category, parentNode);
-////                            associationTypesNodes.Add(category);
-////                        }
-////                        associationTypesNodes.Find(t => t.Value.Equals(typeName + "-" + parentNode.Value))
-////                            .ChildNodes.Add(childNode);
-////                    }
-////                }
-////                else
-////                {
-////                    parentNode.ChildNodes.Add(childNode);
-////                }
+            if (AssociationDB.GetAllCategoriesForAssociationByAssociation(parentAsso).Count == 0)
+            {
+                TreeNode uncategorized = new TreeNode()
+                {
+                    Text = "Övrigt",
+                    Value = "Ovrigt-" + communityNode.Value,
+                    Expanded = false,
+                    SelectAction = TreeNodeSelectAction.Expand
+                };
 
-////                //För att hitta alla ChildNodes till den aktuella ParentNoden. 
-////                //Rekursiv anropning av metoden görs för att bygga upp hela "grenen".
-////                FindChildNodesAndAddToParentNode(ts, childNode);
-////            }
-////        }
+                if (!associationTypesNodes.Exists(
+                    categoryNode => categoryNode.Value.Equals("Ovrigt-" + communityNode.Value)))
+                {
+                    //parentNode.ChildNodes.Add(uncategorized);
+                    categoryNodesToAdd.Add(uncategorized, communityNode);
+                    associationTypesNodes.Add(uncategorized);
+                }
 
-////        #endregion
+                associationTypesNodes.Find(t => t.Value.Equals("Ovrigt-" + communityNode.Value))
+                    .ChildNodes.Add(parentAssociationNode);
+            }
+            else
+            {
+                string typeName = AssociationDB.GetAllCategoriesForAssociationByAssociation(parentAsso)[0].Name;
+
+                TreeNode category = new TreeNode()
+                {
+                    Text = typeName,
+                    Value = typeName + "-" + communityNode.Value,
+                    Expanded = false,
+                    SelectAction = TreeNodeSelectAction.Expand
+                };
+
+                if (
+                    !associationTypesNodes.Exists(
+                        categoryNode => categoryNode.Value.Equals(typeName + "-" + communityNode.Value)))
+                {
+                    //parentNode.ChildNodes.Add(category);
+                    categoryNodesToAdd.Add(category, communityNode);
+                    associationTypesNodes.Add(category);
+                }
+                associationTypesNodes.Find(t => t.Value.Equals(typeName + "-" + communityNode.Value))
+                    .ChildNodes.Add(parentAssociationNode);
+            }
+
+            FindSubAssociationsAndAddToParentNode(parentAsso, parentAssociationNode);
+        }
+
+        private void FindSubAssociationsAndAddToParentNode(associations asso, TreeNode parentNode)
+        {
+            foreach (
+                    var a in
+                        AssociationDB.GetAllSubAssociationsByParentAssociationId(asso.Id).OrderBy(a => a.Name).ToList()
+                    )
+            {
+                TreeNode childAssociationNode = new TreeNode
+                {
+                    Text = a.Name,
+                    Value = "A-" + a.Id,
+                    Expanded = false,
+                    NavigateUrl = "/SitePage.aspx?id=" + WebPageDB.GetWebPageByAssociationId(a.Id).Id + "&type=A",
+                    SelectAction = TreeNodeSelectAction.Select
+                };
+
+                if (a.ParentAssociationId == null)
+                {
+                    if (AssociationDB.GetAllCategoriesForAssociationByAssociation(a).Count == 0)
+                    {
+                        TreeNode uncategorized = new TreeNode()
+                        {
+                            Text = "Övrigt",
+                            Value = "Ovrigt-" + parentNode.Value,
+                            Expanded = false,
+                            SelectAction = TreeNodeSelectAction.Expand
+                        };
+
+                        if (!associationTypesNodes.Exists(
+                            categoryNode => categoryNode.Value.Equals("Ovrigt-" + parentNode.Value)))
+                        {
+                            //parentNode.ChildNodes.Add(uncategorized);
+                            categoryNodesToAdd.Add(uncategorized, parentNode);
+                            associationTypesNodes.Add(uncategorized);
+                        }
+
+                        associationTypesNodes.Find(t => t.Value.Equals("Ovrigt-" + parentNode.Value))
+                            .ChildNodes.Add(childAssociationNode);
+                    }
+                    else
+                    {
+                        string typeName = AssociationDB.GetAllCategoriesForAssociationByAssociation(a)[0].Name;
+
+                        TreeNode category = new TreeNode
+                        {
+                            Text = typeName,
+                            Value = typeName + "-" + parentNode.Value,
+                            Expanded = false,
+                            SelectAction = TreeNodeSelectAction.Expand
+                        };
+
+                        if (
+                            !associationTypesNodes.Exists(
+                                categoryNode => categoryNode.Value.Equals(typeName + "-" + parentNode.Value)))
+                        {
+                            //parentNode.ChildNodes.Add(category);
+                            categoryNodesToAdd.Add(category, parentNode);
+                            associationTypesNodes.Add(category);
+                        }
+                        associationTypesNodes.Find(t => t.Value.Equals(typeName + "-" + parentNode.Value))
+                            .ChildNodes.Add(childAssociationNode);
+                    }
+                }
+                else
+                {
+                    parentNode.ChildNodes.Add(childAssociationNode);
+                }
+
+                //För att hitta alla ChildAssociationNodes till den aktuella AssociationNoden. 
+                //Rekursiv anropning av metoden görs för att bygga upp hela "grenen".
+                FindSubAssociationsAndAddToParentNode(a, childAssociationNode);
+            }
+        }
+
+        #endregion
 
 
     }
