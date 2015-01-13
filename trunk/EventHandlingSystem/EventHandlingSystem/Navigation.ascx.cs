@@ -24,8 +24,8 @@ namespace EventHandlingSystem
                 Session["TreeViewState"] = list;
             }
 
-            // Disable ExpandDepth if the TreeView’s expanded/collapsed 
-            // state is stored in session. 
+            // Disable ExpandDepth if the TreeView’s expanded/collapsed
+            // state is stored in session.
             if (Session["TreeViewState"] != null) TreeViewNavigation.ExpandDepth = -1;
 
 
@@ -70,7 +70,7 @@ namespace EventHandlingSystem
                     AddAllNodesToTreeView(TreeViewNavigation);
                 }
 
-                // Apply the recorded expanded/collapsed state to the TreeView. 
+                // Apply the recorded expanded/collapsed state to the TreeView.
                 List<string> list = (List<string>)Session["TreeViewState"];
                 if (list != null)
                 {
@@ -199,8 +199,8 @@ namespace EventHandlingSystem
             }
             else
             {
-                // Apply the recorded expanded/collapsed state to 
-                // the TreeView. 
+                // Apply the recorded expanded/collapsed state to
+                // the TreeView.
                 List<string> list = (List<string>)Session["TreeViewState"];
                 RestoreTreeViewState(TreeViewNavigation.Nodes, list);
             }
@@ -238,7 +238,7 @@ namespace EventHandlingSystem
 
         private void SaveTreeViewState(TreeNodeCollection nodes, List<string> list)
         {
-            // Recursively record all expanded nodes in the List. 
+            // Recursively record all expanded nodes in the List.
             foreach (TreeNode node in nodes)
             {
                 if (node.ChildNodes.Count != 0 && node.ChildNodes.Count != 0)
@@ -259,7 +259,7 @@ namespace EventHandlingSystem
         {
             foreach (TreeNode node in nodes)
             {
-                // Restore the state of one node. 
+                // Restore the state of one node.
                 if (list.Contains(node.Value))
                 {
                     if (node.ChildNodes.Count != 0 && node.ChildNodes.Count != 0 && node.Expanded.HasValue &&
@@ -271,7 +271,7 @@ namespace EventHandlingSystem
                     node.Collapse();
                 }
 
-                // If the node has child nodes, restore their states, too. 
+                // If the node has child nodes, restore their states, too.
                 if (node.ChildNodes != null && node.ChildNodes.Count != 0)
                 {
                     RestoreTreeViewState(node.ChildNodes, list);
@@ -512,7 +512,7 @@ namespace EventHandlingSystem
                     parentNode.ChildNodes.Add(childAssociationNode);
                 }
 
-                //För att hitta alla ChildAssociationNodes till den aktuella AssociationNoden. 
+                //För att hitta alla ChildAssociationNodes till den aktuella AssociationNoden.
                 //Rekursiv anropning av metoden görs för att bygga upp hela "grenen".
                 FindSubAssociationsAndAddToParentNode(a, childAssociationNode);
             }
