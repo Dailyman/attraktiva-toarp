@@ -69,13 +69,13 @@ namespace EventHandlingSystem
                     TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
                     //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                    var firstOrDefault   = @event.associationsinevents.FirstOrDefault();
+                    var firstOrDefault   = @event.associations.FirstOrDefault();
                     if (firstOrDefault != null)
                     {
                         DropDownAssociation.SelectedIndex =
                             DropDownAssociation.Items.IndexOf(
                                 DropDownAssociation.Items.FindByValue(
-                                    firstOrDefault.associations.Id.ToString()));
+                                    firstOrDefault.Id.ToString()));
                     }
                 }
                 else
@@ -253,15 +253,9 @@ namespace EventHandlingSystem
                             : 0,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     UpdatedBy = HttpContext.Current.User.Identity.Name,
-                    associationsinevents = new associationsinevents[]
+                    associations = new List<associations>()
                     {
-                        //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                        new associationsinevents()
-                        {
-                            associations =
-                                AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)),
-                            events = ev
-                        }
+                        AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)),
                     }
 
                 };
