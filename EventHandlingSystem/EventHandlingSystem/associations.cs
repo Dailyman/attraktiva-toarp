@@ -16,9 +16,9 @@ namespace EventHandlingSystem
     {
         public associations()
         {
-            this.associationsinevents = new HashSet<associationsinevents>();
-            this.categoriesinassociations = new HashSet<categoriesinassociations>();
             this.members = new HashSet<members>();
+            this.events = new HashSet<events>();
+            this.categories = new HashSet<categories>();
         }
     
         public int Id { get; set; }
@@ -32,8 +32,8 @@ namespace EventHandlingSystem
         public int Communities_Id { get; set; }
     
         public virtual communities communities { get; set; }
-        public virtual ICollection<associationsinevents> associationsinevents { get; set; }
-        public virtual ICollection<categoriesinassociations> categoriesinassociations { get; set; }
         public virtual ICollection<members> members { get; set; }
+        public virtual ICollection<events> events { get; set; }
+        public virtual ICollection<categories> categories { get; set; }
     }
 }

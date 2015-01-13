@@ -16,15 +16,15 @@ namespace EventHandlingSystem
     {
         public categories()
         {
-            this.categoriesinassociations = new HashSet<categoriesinassociations>();
             this.subcategories = new HashSet<subcategories>();
+            this.associations = new HashSet<associations>();
         }
     
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual ICollection<categoriesinassociations> categoriesinassociations { get; set; }
         public virtual ICollection<subcategories> subcategories { get; set; }
+        public virtual ICollection<associations> associations { get; set; }
     }
 }

@@ -24,5 +24,10 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedCategories().SingleOrDefault(c => c.Id.Equals(id));
         }
+
+        public static categories GetCategoryByName(string name)
+        {
+            return GetAllNotDeletedCategories().SingleOrDefault(c => c.Name.Equals(name));
+        }
     }
 }

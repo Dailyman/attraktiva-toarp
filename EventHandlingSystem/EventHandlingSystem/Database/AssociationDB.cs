@@ -10,7 +10,6 @@ namespace EventHandlingSystem.Database
     {
         private static readonly ATEntities Context = Database.Context;
 
-
         // GET
         private static IEnumerable<associations> GetAllNotDeletedAssociations()
         {
@@ -44,14 +43,10 @@ namespace EventHandlingSystem.Database
 
         public static List<categories> GetAllCategoriesForAssociationByAssociation(associations a)
         {
-            List<categories> cat = new List<categories>();
-            foreach (var categoryInAssociation in a.categoriesinassociations)
-            {
-               cat.Add(CategoryDB.GetCategoryById(categoryInAssociation.Categories_Id));
-            }
-            
-            return cat;
+            List<categories> catList = a.categories.ToList(); 
+            return catList;
         }
+        
 
         //public static List<associations> GetAllAssociationsWithAssociationType()
         //{
@@ -64,21 +59,6 @@ namespace EventHandlingSystem.Database
         }
 
 
-        // ADD
-        public static bool AddCategoriesToAssociation(categoriesinassociations cia)
-        {
-            Context.categoriesinassociations.Add(cia);
-            try
-            {
-                Context.SaveChanges();
-            }
-            catch (DbUpdateException dbEx)
-            {
-                return false;
-            }
-            return true;
-        }
-
         // UPDATE
         public static int UpdateAssociation(associations assoc)
         {
@@ -87,7 +67,7 @@ namespace EventHandlingSystem.Database
             assoToUpdate.Name = assoc.Name; 
             //assoToUpdate.communities = assoc.communities;
             assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
-            //assoToUpdate.categoriesinassociations = assoc.categoriesinassociations;
+            assoToUpdate.categories = assoc.categories;
 
             int affectedRows = Context.SaveChanges();
             return affectedRows;
@@ -105,5 +85,59 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
+
+
+
+        //// Categories In Associations
+
+        //// GET
+        //public static IEnumerable<categoriesinassociations> GetAllCIA()
+        //{
+        //    return Context.categoriesinassociations;
+        //}
+
+        //public static List<categoriesinassociations> GetCIAbyAssociationId(int aid)
+        //{
+        //    return GetAllCIA().Where(cia => cia.Associations_Id.Equals(aid)).ToList();
+        //}
+
+        //// ADD
+        //public static bool AddCategoriesToAssociation(categoriesinassociations cia)
+        //{
+        //    Context.categoriesinassociations.Add(cia);
+        //    try
+        //    {
+        //        Context.SaveChanges();
+        //    }
+        //    catch (DbUpdateException dbEx)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
+
+        //// DELETE
+        //public static int RemoveCIAByAssoIdAndCatId(int aId, int cId)
+        //{
+        //    //Hitta CIA-objektet mha aId, cId
+        //    categoriesinassociations ciaToDelete = new categoriesinassociations();
+
+        //    GetCIAbyAssociationId(aId);
+
+        //}
+
+            
+        //{
+        //    Context.categoriesinassociations.Add(cia);
+        //    try
+        //    {
+        //        Context.SaveChanges();
+        //    }
+        //    catch (DbUpdateException dbEx)
+        //    {
+        //        return false;
+        //    }
+        //    return true;
+        //}
     }
 }

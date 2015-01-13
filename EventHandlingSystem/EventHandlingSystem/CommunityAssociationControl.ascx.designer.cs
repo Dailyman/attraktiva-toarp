@@ -247,31 +247,40 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListParentAsso;
         
         /// <summary>
-        /// DropDownListAssoType control.
+        /// DropDownListCategories control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListAssoType;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCategories;
         
         /// <summary>
-        /// CheckBoxListAssoType control.
+        /// ButtonCatAdd control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.CheckBoxList CheckBoxListAssoType;
+        protected global::System.Web.UI.WebControls.Button ButtonCatAdd;
         
         /// <summary>
-        /// BulletedListAssoType control.
+        /// ButtonCatRemove control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList BulletedListAssoType;
+        protected global::System.Web.UI.WebControls.Button ButtonCatRemove;
+        
+        /// <summary>
+        /// ListBoxCatInAsso control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox ListBoxCatInAsso;
         
         /// <summary>
         /// LabelCreatedAsso control.
