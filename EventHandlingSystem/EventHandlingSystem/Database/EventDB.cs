@@ -99,7 +99,7 @@ namespace EventHandlingSystem.Database
             eventToUpdate.EndDate = ev.EndDate;
             eventToUpdate.TargetGroup = ev.TargetGroup;
             eventToUpdate.ApproximateAttendees = ev.ApproximateAttendees;
-            eventToUpdate.subcategoriesinevents = ev.subcategoriesinevents;
+            eventToUpdate.subcategories = ev.subcategories;
             //if (eventToUpdate.associationsinevents.Count() != 0)
             //{
             //    for (int i = 0; i < eventToUpdate.associationsinevents.Count(); i++)
@@ -108,11 +108,12 @@ namespace EventHandlingSystem.Database
             //        Database.Context.associationsinevents.AddOrUpdate(eventToUpdate.associationsinevents.ElementAt(i));
             //    }
             //}
-            foreach (var associationsinevents in ev.associationsinevents)
-            {
-                eventToUpdate.associationsinevents.Add(associationsinevents);
-            }
-            eventToUpdate.communitiesinevents = ev.communitiesinevents;
+            //foreach (var associationsinevents in ev.associations)
+            //{
+            //    eventToUpdate.associations.Add(associationsinevents);
+            //}
+            eventToUpdate.associations = ev.associations;
+            eventToUpdate.communities = ev.communities;
             
             int affectedRows = Context.SaveChanges();
             return affectedRows;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Globalization;
 using System.Linq;
@@ -197,44 +198,21 @@ namespace EventHandlingSystem
                     !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
                         ? int.Parse(TxtBoxApproximateAttendees.Text)
                         : 0,
+                //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
+                associations = new List<associations>() { AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)) },
                 CreatedBy = HttpContext.Current.User.Identity.Name,
                 UpdatedBy = HttpContext.Current.User.Identity.Name
 
             };
 
-
-
             //Ger LabelMessage en större font-storlek som visar om eventet kunde skapas eller ej (!!om evenemanget kunde skapas skickas användaren just nu till denna visningssida!!). 
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(ev))
             {
-                //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                ev.associationsinevents.Add(new associationsinevents()
-                {
-                    associations =
-                        AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)),
-                    events = ev
-                });
-                //ev.associationsinevents = new associationsinevents[]
-                //{
-                //    new associationsinevents()
-                //    {
-                //        associations =
-                //            AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)),
-                //        events = ev
-                //    }
-                //};
-                
-                if (EventDB.UpdateEvent(ev) != 0)
-                {
                     Response.Redirect(
                         HttpContext.Current.Request.Url.AbsoluteUri.Replace(
                             HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id, false);
-                }
-                else
-                {
-                    LabelMessage.Text = "Event couldn't be created. Associaion";
-                }
+               
                 //LabelMessage.Text = "Event was created";
             }
             else

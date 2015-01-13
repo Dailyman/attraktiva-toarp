@@ -75,21 +75,15 @@ namespace EventHandlingSystem
                         InnerHtml = "<b>Association:</b> 'None'"
                     };
                     //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                    var firstOrDefault = @event.associationsinevents.FirstOrDefault();
+                    var firstOrDefault = @event.associations.FirstOrDefault();
                     if (firstOrDefault != null)
                     {
                         association = new HtmlGenericControl("p")
                         {
-                            InnerHtml = "<b>Association:</b> " + firstOrDefault.associations.Name
+                            InnerHtml = "<b>Association:</b> " + firstOrDefault.Name
                         };
                     }
-
-                    //var linkText = new HtmlGenericControl("span")
-                        //{
-                        //    InnerHtml = "<b>Link: </b> "
-                        //};
-                        //var link = new HtmlAnchor() { HRef = @event.LinkUrl, InnerText = @event.LinkUrl, Target = "_blank" };
-                        var created = new HtmlGenericControl("p")
+                    var created = new HtmlGenericControl("p")
                         {
                             InnerHtml = "<b>Created:</b> " + @event.Created.ToString("yyyy-MM-dd HH:mm")
                         };
