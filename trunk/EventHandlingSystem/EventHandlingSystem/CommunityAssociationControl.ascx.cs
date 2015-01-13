@@ -25,8 +25,7 @@ namespace EventHandlingSystem
                 PopulateCommunityDropDownList(DropDownListCommunity);
             }
         }
-
-
+        
         #region Populate Methods
 
         //Metoden ska kunna användas av olika dropdownlistor
@@ -205,7 +204,7 @@ namespace EventHandlingSystem
         // Visa ALLA föreningstyper i ddl
         public void PopulateAllAssociationCategoriesDropDownList()
         {
-            DropDownListAssoType.Items.Clear();
+            DropDownListCategories.Items.Clear();
 
             //Hämta alla kategorierna och lägg i dropdownlistan 
             List<ListItem> acList = new List<ListItem>();
@@ -220,11 +219,11 @@ namespace EventHandlingSystem
             }
 
             ListItem emptyItem = new ListItem("", " ");
-            DropDownListAssoType.Items.Add(emptyItem); //index 0
+            DropDownListCategories.Items.Add(emptyItem); //index 0
 
             foreach (var item in acList.OrderBy(item => item.Text))
             {
-                DropDownListAssoType.Items.Add(item);
+                DropDownListCategories.Items.Add(item);
             }
         }
 
@@ -249,6 +248,35 @@ namespace EventHandlingSystem
             foreach (var item in subAssoList.OrderBy(item => item.Text))
             {
                 BulletedListSubAssociations.Items.Add(item);
+            }
+        }
+
+
+        public void PopulateCategoriesInAssoListBox(ListBox lbCat)
+        {
+            lbCat.Items.Clear();
+
+            //Hämta alla kategorier för den aktuella föreningen 
+            List<ListItem> acList = new List<ListItem>();
+
+            foreach (var category in 
+                AssociationDB.GetAllCategoriesForAssociationByAssociation
+                (AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value))))
+            {
+                acList.Add(new ListItem
+                {
+                    Text = category.Name,
+                    Value = category.Id.ToString()
+                });
+            }
+
+            //ListItem emptyItem = new ListItem("", " ");
+            //lbCat.Items.Add(emptyItem); //index 0
+
+            foreach (var item in acList.Distinct()
+                                       .OrderBy(item => item.Text))
+            {
+                lbCat.Items.Add(item);
             }
         }
 
@@ -322,35 +350,44 @@ namespace EventHandlingSystem
                         DropDownListParentAsso.Items.FindByValue(asso.ParentAssociationId.ToString()));
             }
 
-            // Visa alla föreningstyper i dropdownlista
+            // Visa alla kategorier i dropdownlista
             PopulateAllAssociationCategoriesDropDownList();
+            PopulateCategoriesInAssoListBox(ListBoxCatInAsso);
+            DropDownListCategories.SelectedIndex = 0;
 
-            if (AssociationDB.GetAllCategoriesForAssociationByAssociation(asso).Count == 0)
-            {
-                //Om föreningen inte har en föreningstyp ska dropdownlistan visa blankt
-                DropDownListAssoType.SelectedIndex = 0;
-            }
-            else
-            {
-                DropDownListAssoType.SelectedIndex =
-                DropDownListAssoType.Items.IndexOf(
-                    DropDownListAssoType.Items.FindByValue(AssociationDB.GetAllCategoriesForAssociationByAssociation(asso)[0].Id.ToString()));
-            }
+            //if (AssociationDB.GetAllCategoriesForAssociationByAssociation(asso).Count == 0)
+            //{
+            //    //Om föreningen inte har en föreningstyp ska dropdownlistan visa blankt
+            //    DropDownListCategories.SelectedIndex = 0;
+            //}
+            //else
+            //{
+            //    DropDownListCategories.SelectedIndex =
+            //    DropDownListCategories.Items.IndexOf(
+            //        DropDownListCategories.Items.FindByValue(AssociationDB.GetAllCategoriesForAssociationByAssociation(asso)[0].Id.ToString()));
+            //}
 
-            foreach (var item in AssociationDB.GetAllCategoriesForAssociationByAssociation(asso))
-            {
-                CheckBoxListAssoType.Items.Add(new ListItem
-                {
-                    Text = item.Name,
-                    Value = item.Id.ToString()
-                });
+            //CheckBoxListAssoType.Items.Clear();
+            //BulletedListAssoType.Items.Clear();
 
-                BulletedListAssoType.Items.Add(new ListItem
-                {
-                    Text = item.Name,
-                    Value = item.Id.ToString()
-                });
-            }
+            //foreach (var item in AssociationDB.GetAllCategoriesForAssociationByAssociation(asso).OrderBy(item => item.Text))
+            //{
+            //    CheckBoxListAssoType.Items.Add(new ListItem
+            //    {
+            //        Text = item.Name,
+            //        Value = item.Id.ToString()
+            //    });
+
+            //    BulletedListAssoType.Items.Add(new ListItem
+            //    {
+            //        Text = item.Name,
+            //        Value = item.Id.ToString()
+            //    });
+            //}
+            //foreach (var item in CheckBoxListAssoType.OrderBy(item => item.Text))
+            //{
+            //    ddl.Items.Add(item);
+            //}
 
             // Visa Created, Created By och Publishing TermSet
             LabelCreatedAsso.Text = "<b>Created: </b>" +
@@ -651,14 +688,20 @@ namespace EventHandlingSystem
                         }
                     }
                 }
-
-
+                
                 // UPPDATERA föreningskategori, välj en kategori i dropdownlistan
-                categoriesinassociations cia = new categoriesinassociations();
+                //bool addedCatToAsso = false;
 
-                cia.Associations_Id = assoToUpdate.Id;
-                cia.Categories_Id = int.Parse(DropDownListAssoType.SelectedItem.Value);
-                AssociationDB.AddCategoriesToAssociation(cia);
+                //foreach (var addedCategory in ListBoxCatInAsso.Items)
+                //{
+                //    categoriesinassociations cia = new categoriesinassociations();
+
+                //    cia.Associations_Id = assoToUpdate.Id;
+                //    cia.Categories_Id = int.Parse(addedCategory.ToString());
+                //    addedCatToAsso = AssociationDB.AddCategoriesToAssociation(cia);
+                //}
+
+
 
                 // Visa föreningskategori i checkbox list
                 //CheckBoxListAssoType.Items.Clear();
@@ -691,7 +734,7 @@ namespace EventHandlingSystem
                 else
                 {
                     LabelUpdateAsso.Text += "Error: Changes might not have been made in " + TextBoxAssoName.Text +
-                        "... Make sure to set the update information.";
+                                            "... Make sure to set the update information.";
                     LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
             }
@@ -721,6 +764,8 @@ namespace EventHandlingSystem
         ////}
         
         //För att ta bort en association
+
+
         protected void ButtonDeleteAsso_OnClick(object sender, EventArgs e)
         {
             //Association assoToDelete = new Association
@@ -743,6 +788,33 @@ namespace EventHandlingSystem
             //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
             //}
         }
+
+
+        // Lägg till en kategori i en förening
+        protected void ButtonCatAdd_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(DropDownListCategories.SelectedValue))
+            {
+                //Add to right box
+        //        ListBoxCatInAsso.Items.Add(DropDownListCategories.SelectedItem.Text);
+
+        //        categoriesinassociations cia = new categoriesinassociations();
+        //        cia.Associations_Id = int.Parse(ListBoxAsso.SelectedItem.Value);
+        //        cia.Categories_Id = int.Parse(DropDownListCategories.SelectedItem.Value);
+
+        //        AssociationDB.AddCategoriesToAssociation(cia);
+
+        //        LabelUpdateAsso.Text = "The category " + DropDownListCategories.SelectedItem.Text +
+        //                " has been added to the association!";
+        //            LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+        //    }
+        //    else
+        //    {
+        //        LabelUpdateAsso.Text = "You cannot add an empty category! Try again. ";
+        //        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+        }
+
 
         #endregion
 

@@ -360,19 +360,10 @@
     <Compile Include="associations.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="associationsinevents.cs">
-      <DependentUpon>EHSModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="categories.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="categoriesinassociations.cs">
-      <DependentUpon>EHSModel.tt</DependentUpon>
-    </Compile>
     <Compile Include="communities.cs">
-      <DependentUpon>EHSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="communitiesinevents.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="CommunityAssociationControl.ascx.cs">
@@ -548,9 +539,6 @@
       <DependentUpon>SiteSettings.aspx</DependentUpon>
     </Compile>
     <Compile Include="subcategories.cs">
-      <DependentUpon>EHSModel.tt</DependentUpon>
-    </Compile>
-    <Compile Include="subcategoriesinevents.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
     <Compile Include="TaxonomyControl.ascx.cs">

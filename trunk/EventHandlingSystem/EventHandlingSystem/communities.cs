@@ -17,7 +17,7 @@ namespace EventHandlingSystem
         public communities()
         {
             this.associations = new HashSet<associations>();
-            this.communitiesinevents = new HashSet<communitiesinevents>();
+            this.events = new HashSet<events>();
         }
     
         public int Id { get; set; }
@@ -29,6 +29,6 @@ namespace EventHandlingSystem
         public bool IsDeleted { get; set; }
     
         public virtual ICollection<associations> associations { get; set; }
-        public virtual ICollection<communitiesinevents> communitiesinevents { get; set; }
+        public virtual ICollection<events> events { get; set; }
     }
 }

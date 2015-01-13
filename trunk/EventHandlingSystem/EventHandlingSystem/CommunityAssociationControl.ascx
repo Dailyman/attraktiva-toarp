@@ -20,7 +20,6 @@
         </asp:View>
     </asp:MultiView>
    <br />
-
     <asp:MultiView ID="MultiViewCommDetails" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewCommDetails" runat="server">
             <div class="view-community-details">
@@ -88,12 +87,24 @@
                     <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br /><br />
                 <span><b>Parent Association: </b>
                     <asp:DropDownList ID="DropDownListParentAsso" runat="server"></asp:DropDownList></span><br /><br />
-                <span><b>Category: </b>
-                    <asp:DropDownList ID="DropDownListAssoType" runat="server"></asp:DropDownList></span><br /><br />
-                <h5>Association Type(s)</h5>
-                <asp:CheckBoxList ID="CheckBoxListAssoType" runat="server"></asp:CheckBoxList>
-                <asp:BulletedList ID="BulletedListAssoType" runat="server"></asp:BulletedList><br /><br />
+                
+                <b>Categories in the Association: </b>
+                
+                    <asp:DropDownList ID="DropDownListCategories" AutoPostBack="True" runat="server"></asp:DropDownList>
+                    <asp:Button ID="ButtonCatAdd" runat="server" Text="Add Category" CssClass="smallButton" OnClick="ButtonCatAdd_OnClick"/>
+                    <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="smallButton"/>
+                    <br/>
+                    <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" runat="server"></asp:ListBox>
+               
 
+                <%--<span><b>Select Category: </b>
+                    <asp:ListBox ID="ListBoxCategories" AutoPostBack="True" Width="200px" runat="server"></asp:ListBox>
+                    </span><br /><br />--%>
+                <%--<h5>Categories in the Association</h5>
+                <asp:CheckBoxList ID="CheckBoxListAssoType" runat="server"></asp:CheckBoxList>
+                <asp:BulletedList ID="BulletedListAssoType" runat="server"></asp:BulletedList><br /><br />--%>
+                
+                <br/><br/>
                     <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
                     <asp:Label ID="LabelCreatedByAsso" runat="server" Text=""></asp:Label><br />
                     

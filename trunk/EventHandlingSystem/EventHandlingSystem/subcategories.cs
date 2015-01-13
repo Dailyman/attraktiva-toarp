@@ -16,7 +16,7 @@ namespace EventHandlingSystem
     {
         public subcategories()
         {
-            this.subcategoriesinevents = new HashSet<subcategoriesinevents>();
+            this.events = new HashSet<events>();
         }
     
         public int Id { get; set; }
@@ -25,6 +25,6 @@ namespace EventHandlingSystem
         public int Categories_Id { get; set; }
     
         public virtual categories categories { get; set; }
-        public virtual ICollection<subcategoriesinevents> subcategoriesinevents { get; set; }
+        public virtual ICollection<events> events { get; set; }
     }
 }
