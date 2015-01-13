@@ -59,18 +59,18 @@
     <h6>Target group</h6>
     <asp:TextBox ID="TxtBoxTargetGroup" runat="server"></asp:TextBox>
     <br />
-    <h6>Approximate attendees*</h6>
+    <h6>Approximate attendees</h6>
     <asp:TextBox ID="TxtBoxApproximateAttendees" runat="server"></asp:TextBox>
-    <asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
+    <%--<asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>--%>
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" />
     <br />
     <h6>Association</h6>
     <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
     <br />
-    <h6>Link</h6>
+    <%--<h6>Link</h6>
     <asp:TextBox ID="TxtBoxLink" runat="server"></asp:TextBox>
     <br />
-    <br />
+    <br />--%>
     <div class="btn-align-right">
         <asp:Button ID="BtnCreateEvent" CssClass="btn-blue" runat="server" Text="Create event" OnClick="BtnCreateEvent_OnClick" ValidationGroup="ValGroupCreateEvent" />
     </div>

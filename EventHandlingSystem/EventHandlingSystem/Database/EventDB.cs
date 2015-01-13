@@ -1,10 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Infrastructure;
+using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.UI;
 
 namespace EventHandlingSystem.Database
 {
@@ -35,13 +38,27 @@ namespace EventHandlingSystem.Database
 
 
         // ADD
-        public static bool AddEvent(events @event)
+        public static bool AddEvent(events ev)
         {
-            Context.events.Add(@event);
+            Context.events.Add(ev);
             try
             {
                 Context.SaveChanges();
             }
+            //catch (DbEntityValidationException ex)
+            //{
+            //    using (var sw = new StreamWriter(File.Open(@"C:\Users\Robin\Desktop\myfile2.txt", FileMode.CreateNew), Encoding.GetEncoding("iso-8859-1")))
+            //    {
+            //        foreach (var str in ex.EntityValidationErrors)
+            //        {
+            //            foreach (var valErr in str.ValidationErrors)
+            //            {
+            //                sw.WriteLine(str.Entry + "###" + valErr.PropertyName + "###" + valErr.ErrorMessage);
+            //            }
+                        
+            //        }
+            //    }
+            //}
             catch (DbUpdateException dbEx)
             {
                 return false;
@@ -67,21 +84,35 @@ namespace EventHandlingSystem.Database
 
 
         // UPDATE
-        public static int UpdateEvent(events @event)
+        public static int UpdateEvent(events ev)
         {
-            events eventToUpdate = GetEventById(@event.Id);
+            events eventToUpdate = GetEventById(ev.Id);
 
-            eventToUpdate.Title = @event.Title;
-            eventToUpdate.Description = @event.Description;
-            eventToUpdate.Summary = @event.Summary;
-            eventToUpdate.Other = @event.Other;
-            eventToUpdate.Location = @event.Location;
-            eventToUpdate.ImageUrl = @event.ImageUrl;
-            eventToUpdate.DayEvent = @event.DayEvent;
-            eventToUpdate.StartDate = @event.StartDate;
-            eventToUpdate.EndDate = @event.EndDate;
-            eventToUpdate.TargetGroup = @event.TargetGroup;
-            eventToUpdate.ApproximateAttendees = @event.ApproximateAttendees;
+            eventToUpdate.Title = ev.Title;
+            eventToUpdate.Description = ev.Description;
+            eventToUpdate.Summary = ev.Summary;
+            eventToUpdate.Other = ev.Other;
+            eventToUpdate.Location = ev.Location;
+            eventToUpdate.ImageUrl = ev.ImageUrl;
+            eventToUpdate.DayEvent = ev.DayEvent;
+            eventToUpdate.StartDate = ev.StartDate;
+            eventToUpdate.EndDate = ev.EndDate;
+            eventToUpdate.TargetGroup = ev.TargetGroup;
+            eventToUpdate.ApproximateAttendees = ev.ApproximateAttendees;
+            eventToUpdate.subcategoriesinevents = ev.subcategoriesinevents;
+            //if (eventToUpdate.associationsinevents.Count() != 0)
+            //{
+            //    for (int i = 0; i < eventToUpdate.associationsinevents.Count(); i++)
+            //    {
+            //        eventToUpdate.associationsinevents.Remove(eventToUpdate.associationsinevents.ElementAt(i));
+            //        Database.Context.associationsinevents.AddOrUpdate(eventToUpdate.associationsinevents.ElementAt(i));
+            //    }
+            //}
+            foreach (var associationsinevents in ev.associationsinevents)
+            {
+                eventToUpdate.associationsinevents.Add(associationsinevents);
+            }
+            eventToUpdate.communitiesinevents = ev.communitiesinevents;
             
             int affectedRows = Context.SaveChanges();
             return affectedRows;

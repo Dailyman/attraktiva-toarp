@@ -90,7 +90,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Events_Id" Type="int" Nullable="false" />
           <Property Name="Associations_Id" Type="int" Nullable="false" />
         </EntityType>
@@ -98,7 +98,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
@@ -126,7 +126,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Events_Id" Type="int" Nullable="false" />
           <Property Name="Communities_Id" Type="int" Nullable="false" />
         </EntityType>
@@ -187,7 +187,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Categories_Id" Type="int" Nullable="false" />
@@ -196,7 +196,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="SubCategories_Id" Type="int" Nullable="false" />
           <Property Name="Events_Id" Type="int" Nullable="false" />
         </EntityType>
@@ -204,7 +204,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Title" Type="varchar" MaxLength="255" />
           <Property Name="CommunityId" Type="int" />
           <Property Name="AssociationId" Type="int" />
@@ -465,7 +465,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="Events_Id" Nullable="false" />
           <Property Type="Int32" Name="Associations_Id" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_AssociationsInEvents_Associations1" FromRole="associationsinevents" ToRole="associations" />
@@ -475,7 +475,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="categoriesinassociations" Relationship="ATModel.fk_CategoriesInAssociations_Categories1" FromRole="categories" ToRole="categoriesinassociations" />
@@ -509,7 +509,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="Events_Id" Nullable="false" />
           <Property Type="Int32" Name="Communities_Id" Nullable="false" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_CommunitiesInEvents_Communities1" FromRole="communitiesinevents" ToRole="communities" />
@@ -579,7 +579,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Categories_Id" Nullable="false" />
@@ -590,7 +590,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="SubCategories_Id" Nullable="false" />
           <Property Type="Int32" Name="Events_Id" Nullable="false" />
           <NavigationProperty Name="events" Relationship="ATModel.fk_SubCategoriesInEvents_Events1" FromRole="subcategoriesinevents" ToRole="events" />
@@ -600,7 +600,7 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Title" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="CommunityId" />
           <Property Type="Int32" Name="AssociationId" />
