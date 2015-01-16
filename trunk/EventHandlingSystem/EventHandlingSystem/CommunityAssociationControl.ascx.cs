@@ -10,6 +10,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using Antlr.Runtime;
 using DotNetOpenAuth.OpenId;
+using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using EventHandlingSystem.Database;
 using Microsoft.Ajax.Utilities;
 using Microsoft.AspNet.FriendlyUrls;
@@ -25,7 +26,7 @@ namespace EventHandlingSystem
                 PopulateCommunityDropDownList(DropDownListCommunity);
             }
         }
-        
+
         #region Populate Methods
 
         //Metoden ska kunna användas av olika dropdownlistor
@@ -251,32 +252,29 @@ namespace EventHandlingSystem
             }
         }
 
-
-        public void PopulateCategoriesInAssoListBox(ListBox lbCat)
+        
+        public void PopulateCategoriesInAssoListBox()
         {
-            lbCat.Items.Clear();
+            ListBoxCatInAsso.Items.Clear();
 
             //Hämta alla kategorier för den aktuella föreningen 
-            List<ListItem> acList = new List<ListItem>();
+            List<ListItem> ciaList = new List<ListItem>();
 
-            foreach (var category in 
+            foreach (var category in
                 AssociationDB.GetAllCategoriesForAssociationByAssociation
                 (AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value))))
             {
-                acList.Add(new ListItem
+                ciaList.Add(new ListItem
                 {
                     Text = category.Name,
                     Value = category.Id.ToString()
                 });
             }
 
-            //ListItem emptyItem = new ListItem("", " ");
-            //lbCat.Items.Add(emptyItem); //index 0
-
-            foreach (var item in acList.Distinct()
+            foreach (var item in ciaList.Distinct()
                                        .OrderBy(item => item.Text))
             {
-                lbCat.Items.Add(item);
+                ListBoxCatInAsso.Items.Add(item);
             }
         }
 
@@ -352,7 +350,7 @@ namespace EventHandlingSystem
 
             // Visa alla kategorier i dropdownlista
             PopulateAllAssociationCategoriesDropDownList();
-            PopulateCategoriesInAssoListBox(ListBoxCatInAsso);
+            PopulateCategoriesInAssoListBox();
             DropDownListCategories.SelectedIndex = 0;
 
             //if (AssociationDB.GetAllCategoriesForAssociationByAssociation(asso).Count == 0)
@@ -565,25 +563,6 @@ namespace EventHandlingSystem
             {
                 commId = DropDownListCommunityCreateAsso.SelectedIndex = 1;
             }
-
-            ////// Lägg in alla föreningar i ddl
-            ////foreach (var asso in AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(commId)))
-            ////{
-            ////    assoList.Add(new ListItem
-            ////    {
-            ////        Text = AssociationDB.GetAssocationNameByPublishingTermSetId(asso.PublishingTermSetId),
-            ////        Value = asso.Id.ToString()
-            ////    });
-            ////}
-            ////ListItem emptyItem = new ListItem("", " ");
-            ////DropDownListCreateParAsso.Items.Add(emptyItem); //index 0
-
-            ////foreach (var item in assoList.OrderBy(item => item.Text))
-            ////{
-            ////    DropDownListCreateParAsso.Items.Add(item);
-            ////}
-            
-            //PopulateAssociationTypesDropDownList();
         }
         
         //Cancel Create Association View
@@ -597,7 +576,40 @@ namespace EventHandlingSystem
         {
             
         }
+        
+        // För att lägga till kategori(er) i listboxen
+        protected void ButtonCatAdd_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(DropDownListCategories.SelectedValue))
+            {
+                if (!ListBoxCatInAsso.Items.Contains(DropDownListCategories.SelectedItem))
+                {
+                    ListBoxCatInAsso.Items.Add(DropDownListCategories.SelectedItem);
+                }
+                else
+                {
+                    LabelUpdateAsso.Text = "You cannot add the same category twice!";
+                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+            }
+            else
+            {
+                LabelUpdateAsso.Text = "You cannot add an empty category! Try again. ";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+        }
 
+
+        // För att ta bort kategori(er) i listboxen
+        protected void ButtonCatRemove_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxCatInAsso.GetSelectedIndices().Select(index => (ListBoxCatInAsso.Items[index])).ToList();
+
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxCatInAsso.Items.Remove(itemToRemove);
+            }
+        }
 
 
         // För att spara ändringar i Association details - UPDATE-knappen
@@ -610,11 +622,8 @@ namespace EventHandlingSystem
 
 
                 // UPPDATERA det nya namnet från textboxen
-                associations assoToUpdate = new associations();
-                assoToUpdate.Id = assoId;
+                associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
                 assoToUpdate.Name = TextBoxAssoName.Text;
-
-                int affectedRows = AssociationDB.UpdateAssociation(AssociationDB.GetAssociationById(assoId));
 
                 PopulateAssocationListBox(assoId);
 
@@ -689,40 +698,61 @@ namespace EventHandlingSystem
                     }
                 }
                 
-                // UPPDATERA föreningskategori, välj en kategori i dropdownlistan
-                //bool addedCatToAsso = false;
 
-                //foreach (var addedCategory in ListBoxCatInAsso.Items)
-                //{
-                //    categoriesinassociations cia = new categoriesinassociations();
+                // UPPDATERA föreningskategori, lägg till de valda kategorierna från listboxen
 
-                //    cia.Associations_Id = assoToUpdate.Id;
-                //    cia.Categories_Id = int.Parse(addedCategory.ToString());
-                //    addedCatToAsso = AssociationDB.AddCategoriesToAssociation(cia);
-                //}
+                List<categories> catToAddList = new List<categories>();
+                List<categories> catToRemoveList = new List<categories>();
 
+                foreach (ListItem addedCategory in ListBoxCatInAsso.Items)
+                {
+                    categories category = CategoryDB.GetCategoryById(int.Parse(addedCategory.Value));
 
+                    if (assoToUpdate.categories.Count != 0)
+                    {
+                        catToAddList.AddRange(from item in assoToUpdate.categories where item.Id != category.Id select category);
+                    }
+                    else
+                    {
+                        catToAddList.Add(category);
+                    }
+                }
 
-                // Visa föreningskategori i checkbox list
-                //CheckBoxListAssoType.Items.Clear();
+                foreach (categories addItem in catToAddList)
+                {
+                    assoToUpdate.categories.Add(addItem);
+                }
 
-                //foreach (var item in AssociationDB.GetAllCategoriesForAssociationByAssociation(assoToUpdate))
-                //{
-                //    CheckBoxListAssoType.Items.Add(new ListItem
-                //    {
-                //        Text = item.Name,
-                //        Value = item.Id.ToString()
-                //    });
+                // Föreningskategori - REMOVE
+                foreach (var removedItem in assoToUpdate.categories)
+                {
+                    bool exist = false;
 
-                //    BulletedListAssoType.Items.Add(new ListItem
-                //    {
-                //        Text = item.Name,
-                //        Value = item.Id.ToString()
-                //    });
-                //}
+                    foreach (ListItem item in ListBoxCatInAsso.Items)
+                    {
+                        if (item.Value == removedItem.Id.ToString())
+                        {
+                            exist = true;
+                            break;
+                        }
+                        exist = false;
+                    }
+
+                    if (!exist)
+                    {
+                        catToRemoveList.Add(removedItem);
+                    }
+                }
+
+                foreach (categories removeItem in catToRemoveList)
+                {
+                    assoToUpdate.categories.Remove(removeItem);
+                }
+
                 
+              
                 //Anropa Update-metoden
-                affectedRows += AssociationDB.UpdateAssociation(assoToUpdate);
+                affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
                 PopulateAssocationListBox();
 
 
@@ -790,30 +820,7 @@ namespace EventHandlingSystem
         }
 
 
-        // Lägg till en kategori i en förening
-        protected void ButtonCatAdd_OnClick(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(DropDownListCategories.SelectedValue))
-            {
-                //Add to right box
-        //        ListBoxCatInAsso.Items.Add(DropDownListCategories.SelectedItem.Text);
-
-        //        categoriesinassociations cia = new categoriesinassociations();
-        //        cia.Associations_Id = int.Parse(ListBoxAsso.SelectedItem.Value);
-        //        cia.Categories_Id = int.Parse(DropDownListCategories.SelectedItem.Value);
-
-        //        AssociationDB.AddCategoriesToAssociation(cia);
-
-        //        LabelUpdateAsso.Text = "The category " + DropDownListCategories.SelectedItem.Text +
-        //                " has been added to the association!";
-        //            LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-        //    }
-        //    else
-        //    {
-        //        LabelUpdateAsso.Text = "You cannot add an empty category! Try again. ";
-        //        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-            }
-        }
+        
 
 
         #endregion
