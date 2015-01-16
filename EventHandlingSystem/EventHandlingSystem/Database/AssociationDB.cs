@@ -65,7 +65,7 @@ namespace EventHandlingSystem.Database
             associations assoToUpdate = GetAssociationById(assoc.Id);
 
             assoToUpdate.Name = assoc.Name; 
-            //assoToUpdate.communities = assoc.communities;
+            assoToUpdate.Communities_Id = assoc.Communities_Id;
             assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
             assoToUpdate.categories = assoc.categories;
 

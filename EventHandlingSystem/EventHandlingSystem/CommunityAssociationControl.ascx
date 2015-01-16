@@ -92,9 +92,9 @@
                 
                     <asp:DropDownList ID="DropDownListCategories" AutoPostBack="True" runat="server"></asp:DropDownList>
                     <asp:Button ID="ButtonCatAdd" runat="server" Text="Add Category" CssClass="smallButton" OnClick="ButtonCatAdd_OnClick"/>
-                    <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="smallButton"/>
+                    <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="smallButton" OnClick="ButtonCatRemove_OnClick"/>
                     <br/>
-                    <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" runat="server"></asp:ListBox>
+                    <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" runat="server" SelectionMode="Multiple"></asp:ListBox>
                
 
                 <%--<span><b>Select Category: </b>
