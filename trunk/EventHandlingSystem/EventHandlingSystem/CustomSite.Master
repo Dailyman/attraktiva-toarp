@@ -50,7 +50,7 @@
             <header>
                 <div class="float-left">
                     <a href="~/" runat="server">
-                        <img src="/Images/AT-logga.png" width="235px" height="113px" />
+                        <img src="/Images/AT-logga.png" width="219px" height="109px" />
                     </a>
                 </div>
                 <nav class="float-right">

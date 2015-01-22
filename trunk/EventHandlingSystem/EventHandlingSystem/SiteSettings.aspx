@@ -1,6 +1,6 @@
 ﻿<%@ Page Title="Site settings" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="SiteSettings.aspx.cs" Inherits="EventHandlingSystem.SiteSettings" %>
 
-<%@ Register TagPrefix="aspTaxonomy" TagName="TaxonomyHandler" Src="TaxonomyControl.ascx" %>
+<%@ Register TagPrefix="aspCategory" TagName="CategoryHandler" Src="CategoryHandlingControl.ascx" %>
 <%@ Register tagPrefix="aspCommAsso" tagName="CommAssoHandler" src="CommunityAssociationControl.ascx"%>
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -9,9 +9,9 @@
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
    
         <div class="titlebox">
-        <h1>Taxonomy Manager</h1>
+        <h1>Category Manager</h1>
     </div>
-        <aspTaxonomy:TaxonomyHandler runat="server" />
+        <aspCategory:CategoryHandler runat="server" />
     
     <br /><br />
     
