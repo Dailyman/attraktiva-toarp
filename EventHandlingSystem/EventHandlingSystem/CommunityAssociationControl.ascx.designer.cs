@@ -265,15 +265,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Button ButtonCatAdd;
         
         /// <summary>
-        /// ButtonCatRemove control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonCatRemove;
-        
-        /// <summary>
         /// ListBoxCatInAsso control.
         /// </summary>
         /// <remarks>
@@ -281,6 +272,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox ListBoxCatInAsso;
+        
+        /// <summary>
+        /// ButtonCatRemove control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCatRemove;
         
         /// <summary>
         /// LabelCreatedAsso control.
@@ -407,5 +407,59 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonCreateAsso;
+        
+        /// <summary>
+        /// MultiViewAssoDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiViewAssoDelete;
+        
+        /// <summary>
+        /// ViewAssoDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View ViewAssoDelete;
+        
+        /// <summary>
+        /// LabelDeleteAssoConfirm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelDeleteAssoConfirm;
+        
+        /// <summary>
+        /// BulletedListSubAssoToDelete control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList BulletedListSubAssoToDelete;
+        
+        /// <summary>
+        /// ButtonDeleteAssoCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonDeleteAssoCancel;
+        
+        /// <summary>
+        /// ButtonDeleteAsso2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonDeleteAsso2;
     }
 }

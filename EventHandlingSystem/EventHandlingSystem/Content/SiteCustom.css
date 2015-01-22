@@ -463,6 +463,27 @@ border-bottom-left-radius: 6px;*/
             left: 2px;
         }
 
+#btn-small 
+{
+        border: 1px solid #4c4c4d;
+        display: inline-block;
+        color: red;
+        /*color: #050505;*/
+        font-family: Arial;
+        font-size: 10px; 
+        font-weight: bold;
+        font-style: normal;
+        height: 35px; 
+        line-height: 35px;
+        width: 100px;
+        text-decoration: none;
+        text-align: center;
+        padding: 1px 5px 1px 5px;
+        margin-right: 8px;
+        width: auto;
+}
+        
+
 .inner-content-box
 {
     margin: 10px 0 10px 0;

@@ -294,7 +294,9 @@ namespace EventHandlingSystem
             // Visa Community logga med länk innehållande tooltip
             HyperLinkLogoCommunity.NavigateUrl =
                 "/SitePage.aspx?id=" +
-                WebPageDB.GetWebPageByCommunityId(int.Parse(DropDownListCommunity.SelectedValue)).Id + "&type=C";
+                (WebPageDB.GetWebPageByCommunityId(int.Parse(DropDownListCommunity.SelectedValue)) != null
+                    ? WebPageDB.GetWebPageByCommunityId(int.Parse(DropDownListCommunity.SelectedValue)).Id.ToString()
+                    : "") + "&type=C";
             HyperLinkLogoCommunity.Target = "_blank";
             HyperLinkLogoCommunity.ToolTip = "This link goes to the web page of " +
                                              DropDownListCommunity.SelectedItem.Text + ". (^-^)v";
@@ -321,7 +323,9 @@ namespace EventHandlingSystem
             //Visa Association logga plus web page link
             HyperLinkLogoAssociation.NavigateUrl =
                 "/SitePage.aspx?id=" +
-                WebPageDB.GetWebPageByAssociationId(int.Parse(ListBoxAsso.SelectedValue)).Id + "&type=C";
+                (WebPageDB.GetWebPageByAssociationId(int.Parse(ListBoxAsso.SelectedValue)) != null
+                    ? WebPageDB.GetWebPageByAssociationId(int.Parse(ListBoxAsso.SelectedValue)).Id.ToString()
+                    : "") + "&type=A";
             
             HyperLinkLogoAssociation.Target = "_blank";
             HyperLinkLogoAssociation.ToolTip = "This link goes to the web page of " + ListBoxAsso.SelectedItem.Text +
@@ -612,6 +616,8 @@ namespace EventHandlingSystem
         }
 
 
+        private int affectedRows;
+
         // För att spara ändringar i Association details - UPDATE-knappen
         protected void ButtonUpdateAsso_OnClick(object sender, EventArgs e)
         {
@@ -748,7 +754,6 @@ namespace EventHandlingSystem
                 {
                     assoToUpdate.categories.Remove(removeItem);
                 }
-
                 
               
                 //Anropa Update-metoden
@@ -777,50 +782,63 @@ namespace EventHandlingSystem
             }
         }
 
-        private int affectedRows;
+        private int _assoToDeleteId;
 
-        //Rekursiv metod för att hitta alla led nedåt i publishing termset för associations.
-        ////private int ChangeCommunityIdForChildAssocations(TermSet termSet, Association assoToUpdate)
-        ////{
-        ////    foreach (var tSet in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
-        ////    {
-        ////        Association asso = AssociationDB.GetAssociationByPublishingTermSetId(tSet.Id);
-        ////        asso.CommunityId = assoToUpdate.CommunityId;
-        ////        affectedRows += AssociationDB.UpdateAssociation(asso);
-
-        ////        ChangeCommunityIdForChildAssocations(tSet, assoToUpdate);
-        ////    }
-        ////    return affectedRows;
-        ////}
-        
-        //För att ta bort en association
-
-
+        // För att ta bort en association
         protected void ButtonDeleteAsso_OnClick(object sender, EventArgs e)
         {
-            //Association assoToDelete = new Association
-            //{
-            //    Id = int.Parse(ListBoxAsso.SelectedItem.Value)
-            //};
+            associations assoToDelete = new associations
+            {
+                Id = int.Parse(ListBoxAsso.SelectedItem.Value)
+            };
 
-            ////Anropa Delete-metoden
-            //int affectedRows = AssociationDB.DeleteAssociationById(assoToDelete.Id);
-            //PopulateAssocationListBox();
+            _assoToDeleteId = assoToDelete.Id;
 
-            //if (affectedRows != 0)
-            //{
-            //    LabelUpdateAsso.Text = TextBoxAssoName.Text + " was successfully deleted.";
-            //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-            //}
-            //else
-            //{
-            //    LabelUpdateAsso.Text = TextBoxAssoName.Text + "could not be deleted. Please try again.";
-            //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-            //}
+            //Om föreningen inte har några underföreningar
+            if (AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToDelete.Id).Count != 0)
+            {
+                //Ta även bort webpage för föreningen
+                webpages webpageToDelete = WebPageDB.GetWebPageByAssociationId(assoToDelete.Id);
+
+                //Anropa Delete-metoderna
+                if (webpageToDelete != null)
+                {
+                    int affectedRows = 
+                        AssociationDB.DeleteAssociationById(assoToDelete.Id) + WebPageDB.DeleteWebPageById(webpageToDelete.Id);
+
+                    PopulateAssocationListBox();
+
+                    if (affectedRows != 0)
+                    {
+                        LabelUpdateAsso.Text = TextBoxAssoName.Text + " was successfully deleted. ";
+                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    }
+                    else
+                    {
+                        LabelUpdateAsso.Text = TextBoxAssoName.Text + "could not be deleted. Please try again.";
+                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    }
+                }
+            }
+            else
+            {
+                MultiViewAssoDelete.ActiveViewIndex = 0;
+            }
         }
 
+        protected void ButtonDeleteAsso2_OnClick(object sender, EventArgs e)
+        {
+            LabelDeleteAssoConfirm.Text = "This Association has subassociations. Do you want to delete all?";
+            AssociationDB.GetAllSubAssociationsByParentAssociationId(_assoToDeleteId);
 
-        
+
+            //BulletedListSubAssoToDelete;
+        }
+
+        protected void ButtonDeleteAssoCancel_OnClick(object sender, EventArgs e)
+        {
+            MultiViewAssoDelete.ActiveViewIndex = -1;
+        }
 
 
         #endregion
