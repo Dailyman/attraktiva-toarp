@@ -11,6 +11,7 @@
     <title><%: Page.Title %> - Attraktiva Toarp</title>
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
+        <%--<%: Scripts.Render("~/Scripts/bootstrap.js") %>--%>
     </asp:PlaceHolder>
     <webopt:BundleReference runat="server" Path="~/Content/css" />
     <webopt:BundleReference runat="server" Path="~/Content/themes/base/css" />
@@ -92,6 +93,24 @@
                             </LoggedInTemplate>
                         </asp:LoginView>
                     </section>
+
+                  <%--  <div class="navbar">
+                        <div class="navbar-inner">
+                            <div class="container">
+                                <ul id="nav">
+                            <li><a runat="server" href="~/">Home</a></li>
+                            <li><a runat="server" href="~/EventCreate">Create event</a></li>
+                            <li><a runat="server" href="~/EventDetails">View events</a></li>
+                            <li><a runat="server" href="~/SitePage">SitePage.aspx</a></li>
+                            <li><a runat="server" href="~/SiteSettings">Site settings</a></li>
+                            <li><a runat="server" href="~/About">About</a></li>
+                            <li><a runat="server" href="~/Contact">Contact</a></li>
+                            <li><a runat="server" href="~/Admin/PageSettings.aspx">Settings</a></li>
+                        </ul>
+                            </div>
+                        </div>
+                    </div>--%>
+
                     <nav>
                         <ul id="menu">
                             <li><a runat="server" href="~/">Home</a></li>

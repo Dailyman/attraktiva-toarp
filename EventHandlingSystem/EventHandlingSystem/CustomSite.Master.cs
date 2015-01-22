@@ -4,16 +4,14 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using  EventHandlingSystem.Database;
 
 namespace EventHandlingSystem
 {
-    public partial class Default : System.Web.UI.Page
+    public partial class CustomSite : System.Web.UI.MasterPage
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Label1.Text = string.Empty;
-            Label1.Text = txtComments.Text;
+
         }
     }
 }

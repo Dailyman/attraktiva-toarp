@@ -10,60 +10,69 @@
 namespace EventHandlingSystem {
     
     
-    public partial class Default {
+    public partial class CustomSite {
         
         /// <summary>
-        /// MenuHome control.
+        /// HeadContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Menu MenuHome;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
         
         /// <summary>
-        /// TestLable control.
+        /// Stylesheets control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TestLable;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder Stylesheets;
         
         /// <summary>
-        /// txtComments control.
+        /// FeaturedContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtComments;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder FeaturedContent;
         
         /// <summary>
-        /// HtmlEditorExtender1 control.
+        /// TitleContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::AjaxControlToolkit.HtmlEditorExtender HtmlEditorExtender1;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder TitleContent;
         
         /// <summary>
-        /// BtnShow control.
+        /// SiteNavigation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnShow;
+        protected global::EventHandlingSystem.Navigation1 SiteNavigation;
         
         /// <summary>
-        /// Label1 control.
+        /// LeftColumnContent control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label Label1;
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder LeftColumnContent;
+        
+        /// <summary>
+        /// RightColumnContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ContentPlaceHolder RightColumnContent;
     }
 }

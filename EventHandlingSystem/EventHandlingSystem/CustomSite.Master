@@ -1,0 +1,100 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="CustomSite.master.cs" Inherits="EventHandlingSystem.CustomSite" %>
+
+<%@ Register TagPrefix="aspNavigation" TagName="SiteNavigation" Src="Navigation.ascx" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <title><%: Page.Title %> - Attraktiva Toarp</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <link rel="stylesheet" href="Content/Reset.css" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server">
+    </asp:ContentPlaceHolder>
+    <asp:ContentPlaceHolder ID="Stylesheets" runat="server">
+        <link rel="stylesheet" href="Content/StaticSite.css" type="text/css" />
+    </asp:ContentPlaceHolder>
+</head>
+<body>
+    <div id="TopBarFullWidthBackground"></div>
+    <form runat="server">
+        <asp:ScriptManager runat="server">
+            <Scripts>
+                <asp:ScriptReference Name="jquery" />
+                <asp:ScriptReference Name="jquery.ui.combined" />
+            </Scripts>
+        </asp:ScriptManager>
+        <div id="Content">
+            <section id="TopLoginArea">
+                <div class="float-right">
+                    <asp:LoginView runat="server" ViewStateMode="Disabled">
+                        <AnonymousTemplate>
+                            <ul>
+                                <li><a id="registerLink" runat="server" href="~/Account/Register.aspx">Register</a></li>
+                                <li><a id="loginLink" runat="server" href="~/Account/Login.aspx">Log in</a></li>
+                            </ul>
+                        </AnonymousTemplate>
+                        <LoggedInTemplate>
+                            <p>
+                                Hello, <a runat="server" class="username" href="~/Account/Manage.aspx" title="Manage your account">
+                                    <asp:LoginName runat="server" CssClass="username" />
+                                </a>!
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" />
+                            </p>
+                        </LoggedInTemplate>
+                    </asp:LoginView>
+                </div>
+            </section>
+
+            <header>
+                <div class="float-left">
+                    <a href="~/" runat="server">
+                        <img src="/Images/AT-logga.png" width="235px" height="113px" />
+                    </a>
+                </div>
+                <nav class="float-right">
+                    <ul id="Menu">
+                        <li><a runat="server" href="~/">Home</a></li>
+                        <li><a runat="server" href="~/EventCreate.aspx">Create event</a></li>
+                        <li><a runat="server" href="~/EventDetails.aspx">View events</a></li>
+                    </ul>
+                </nav>
+            </header>
+
+            <div id="Main">
+                <div id="Featured-Row">
+                    <asp:ContentPlaceHolder ID="FeaturedContent" runat="server" />
+                </div>
+                <div id="Title-Row">
+                    <asp:ContentPlaceHolder ID="TitleContent" runat="server" />
+                </div>
+
+                <div id="Left-Column">
+                    <%--<section id="Site-navigation-container">--%>
+                    <aspNavigation:SiteNavigation ID="SiteNavigation" runat="server" />
+                    <%--</section>--%>
+                    <asp:ContentPlaceHolder ID="LeftColumnContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+                <div id="Right-Column">
+                    <asp:ContentPlaceHolder ID="RightColumnContent" runat="server">
+                    </asp:ContentPlaceHolder>
+                </div>
+
+            </div>
+
+
+        </div>
+        <footer>
+            <section id="Footer">
+                <div class="float-left">
+                    <p>&copy; <%: DateTime.Now.Year %> - Attraktiva Toarp</p>
+                </div>
+            </section>
+        </footer>
+
+    </form>
+</body>
+</html>

@@ -30,6 +30,7 @@ namespace EventHandlingSystem
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
         public int Communities_Id { get; set; }
+        public string LogoUrl { get; set; }
     
         public virtual communities communities { get; set; }
         public virtual ICollection<members> members { get; set; }

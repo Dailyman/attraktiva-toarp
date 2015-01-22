@@ -165,7 +165,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Reset.css" />
     <Content Include="Content\SiteCustom.css" />
+    <Content Include="Content\StaticSite.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\Association.jpg" />
     <Content Include="Images\close-round-32x32.png" />
@@ -302,6 +304,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="CustomSite.Master" />
     <None Include="Scripts\jquery-1.9.0.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -336,6 +339,7 @@
     <Content Include="SiteSettings.aspx" />
     <Content Include="SQLDummy\AddDummyData.sql" />
     <Content Include="SQLDummy\AddDummyTaxonomy.sql" />
+    <Content Include="Start.aspx" />
     <Content Include="TaxonomyControl.ascx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
@@ -375,6 +379,13 @@
     </Compile>
     <Compile Include="components.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CustomSite.Master.cs">
+      <DependentUpon>CustomSite.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CustomSite.Master.designer.cs">
+      <DependentUpon>CustomSite.Master</DependentUpon>
     </Compile>
     <Compile Include="Database\AssociationDB.cs" />
     <Compile Include="Database\CategoryDB.cs" />
@@ -537,6 +548,13 @@
     </Compile>
     <Compile Include="SiteSettings.aspx.designer.cs">
       <DependentUpon>SiteSettings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Start.aspx.cs">
+      <DependentUpon>Start.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Start.aspx.designer.cs">
+      <DependentUpon>Start.aspx</DependentUpon>
     </Compile>
     <Compile Include="subcategories.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
