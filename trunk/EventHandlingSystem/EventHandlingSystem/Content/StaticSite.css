@@ -1,0 +1,337 @@
+﻿
+body
+{
+    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+a:hover
+{
+    color: #007399;
+}
+
+
+.float-left
+{
+    float: left;
+}
+
+.float-right
+{
+    float: right;
+}
+
+#TopBarFullWidthBackground
+{
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: lightblue;
+    z-index: -999;
+}
+
+#Content,
+#Footer
+{
+    width: 990px !important;
+    margin: 0 auto;
+}
+
+#TopLoginArea
+{
+    height: 40px;
+}
+
+    #TopLoginArea li
+    {
+        display: inline;
+    }
+
+
+    /*-------Start TopLoginArea Styles-------*/
+    #TopLoginArea a
+    {
+        color: #ffffff;
+        background-color: #007399;
+        margin-left: 10px;
+        margin-right: 3px;
+        padding: 3px 3px;
+        text-decoration: none;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        -webkit-box-shadow: #ffffff 0px 0px 5px;
+        -moz-box-shadow: #ffffff 0px 0px 5px;
+        box-shadow: #ffffff 0px 0px 5px;
+    }
+
+        #TopLoginArea a:hover
+        {
+            background-color: #00aacc;
+        }
+
+/*-------End TopLoginArea Styles-------*/
+
+/*-------Start Header Styles-------*/
+
+header
+{
+    height: 120px;
+    width: 100%;
+}
+
+ul#Menu {
+    margin: 50px auto;
+}
+
+ul#Menu li
+{
+    display: inline;
+    color: #00aacc;
+    margin: 10px;
+}
+
+    ul#Menu li a
+    {
+        font-size: 20px;
+        text-decoration: none;
+    }
+
+/*-------End Header Styles-------*/
+
+
+/*-------Start Main Styles-------*/
+
+#Main
+{
+    display: block;
+}
+
+#Featured-Row
+{
+    text-align: center;
+}
+
+#Title-Row
+{
+    text-align: center;
+}
+
+#Left-Column
+{
+    float: left;
+    margin-right: 20px;
+    border-right: 1px solid lightblue;
+    padding: 10px;
+}
+
+#Right-Column
+{
+    float: left;
+}
+
+/*-------End Main Styles-------*/
+
+
+
+/*-------Start LeftSideNavigation Styles-------*/
+#Site-navigation-container
+{
+    position: absolute;
+    z-index: 9999;
+}
+
+#Site-navigation
+{
+    /*margin-top: 10px;
+    margin-right: -5px;*/
+    display: inline-block;
+    background-color: gainsboro;
+    text-align: center;
+    margin-bottom: 10px;
+    /*box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+    -moz-box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+    -webkit-box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
+    -webkit-border-top-right-radius: 7px;
+    -webkit-border-bottom-right-radius: 7px;
+    -moz-border-radius-topright: 7px;
+    -moz-border-radius-bottomright: 7px;
+    border-top-right-radius: 7px;
+    border-bottom-right-radius: 7px;*/
+    width: 100%;
+    z-index: 9999;
+}
+
+    #Site-navigation hr
+    {
+        margin: 2px;
+    }
+
+    #Site-navigation td
+    {
+        padding: 0px;
+    }
+
+
+    #Site-navigation a
+    {
+        color: #333;
+        text-decoration: none;
+        padding: 3px;
+        display: block;
+    }
+
+        #Site-navigation a:hover
+        {
+            background-color: #217ebb; /*#354b60*/
+            color: #ffffff;
+            box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
+            -moz-box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
+            -webkit-box-shadow: 2px 3px 10px rgba(0,0,0, 0.5);
+            -webkit-border-radius: 2px;
+            -moz-border-radius: 2px;
+            border-radius: 2px;
+        }
+
+    #Site-navigation ul
+    {
+        padding: 0 5px 0 5px;
+        display: inline-block;
+    }
+
+    #Site-navigation li
+    {
+        display: block;
+    }
+
+    #Site-navigation .text-align-left
+    {
+        text-align: left;
+        padding-left: 10px;
+    }
+
+    #Site-navigation nav
+    {
+        margin: 5px;
+    }
+
+.current-link
+{
+    background-color: #95A5A6;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    padding: 0px;
+}
+
+#toggle-nav-icon
+{
+    margin: 0px;
+}
+
+#toggle-nav-btn
+{
+    cursor: pointer;
+    z-index: 9999;
+}
+
+.nav-title
+{
+    display: inline-block;
+    vertical-align: top;
+    /*padding: 5px;*/
+    background-color: #fff;
+    margin: 5px 0 5px 0;
+    width: 100%;
+    /*height: 42px;*/
+    box-shadow: 0px 1px 5px rgba(0,0,0, 0.5);
+            -moz-box-shadow: 0px 1px 5px rgba(0,0,0, 0.5);
+            -webkit-box-shadow: 0px 1px 5px rgba(0,0,0, 0.5);
+}
+
+.rotate
+{
+    /* Safari 3.1 to 6.0 */
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 0.3s;
+    -webkit-transition-timing-function: linear;
+    -webkit-transform: rotate(-180deg); /* Chrome, Safari, Opera */
+    /* Firefox */
+    -moz-transition-property: -moz-transform;
+    -moz-duration: 0.3s;
+    -moz-timing-funtion: linear;
+    -moz-transform: rotate(-180deg);
+    /* IE */
+    -ms-transition-property: -ms-transform;
+    -ms-transition-duration: 0.3s;
+    -ms-transition-timing-function: linear;
+    -ms-transform: rotate(-180deg); /* IE 9 */
+    /* Opera */
+    -o-transition-property: -o-transform;
+    -o-transition-duration: 0.3s;
+    -o-transition-timing-function: linear;
+    -o-transform: rotate(-180deg);
+    /* Standard syntax */
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
+    transform: rotate(-180deg);
+}
+
+.rotate-reset
+{
+    /* Safari 3.1 to 6.0 */
+    -webkit-transition-property: -webkit-transform;
+    -webkit-transition-duration: 0.3s;
+    -webkit-transition-timing-function: linear;
+    -webkit-transform: rotate(0deg); /* Chrome, Safari, Opera */
+    /* Firefox */
+    -moz-transition-property: -moz-transform;
+    -moz-duration: 0.3s;
+    -moz-timing-funtion: linear;
+    -moz-transform: rotate(0deg);
+    /* IE */
+    -ms-transition-property: -ms-transform;
+    -ms-transition-duration: 0.3s;
+    -ms-transition-timing-function: linear;
+    -ms-transform: rotate(0deg); /* IE 9 */
+    /* Opera */
+    -o-transition-property: -o-transform;
+    -o-transition-duration: 0.3s;
+    -o-transition-timing-function: linear;
+    -o-transform: rotate(0deg);
+    /* Standard syntax */
+    transition-property: transform;
+    transition-duration: 0.3s;
+    transition-timing-function: linear;
+    transform: rotate(0deg);
+}
+
+.collapsed
+{
+    visibility: collapse;
+    width: 0px;
+    height: 0px;
+}
+/*-------End LeftSideNavigation Styles-------*/
+
+
+/*-------Start Footer Styles-------*/
+
+footer
+{
+    width: 100%;
+    min-height: 100px;
+    clear: both;
+    background-color: #272727;
+    color: #ffffff;
+}
+
+#Footer
+{
+    clear: both;
+}
+
+/*-------End Footer Styles-------*/

@@ -35,7 +35,9 @@
         runat="server" />
 
     <asp:HtmlEditorExtender
+        ID="HtmlEditorExtender1"
         TargetControlID="txtComments"
         runat="server" />
-
+    <asp:Button ID="BtnShow" runat="server" Text="Show text" />
+    <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
 </asp:Content>

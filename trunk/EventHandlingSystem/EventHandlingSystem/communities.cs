@@ -27,6 +27,7 @@ namespace EventHandlingSystem
         public System.DateTime LatestUpdate { get; set; }
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
+        public string LogoUrl { get; set; }
     
         public virtual ICollection<associations> associations { get; set; }
         public virtual ICollection<events> events { get; set; }

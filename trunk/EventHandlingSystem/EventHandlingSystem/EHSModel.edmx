@@ -79,6 +79,7 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="ParentAssociationId" Type="int" />
+          <Property Name="LogoUrl" Type="varchar" MaxLength="255" />
           <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
@@ -116,6 +117,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="LogoUrl" Type="varchar" MaxLength="255" />
           <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
@@ -440,6 +442,7 @@
           <NavigationProperty Name="members" Relationship="ATModel.fk_Members_Associations1" FromRole="associations" ToRole="members" />
           <NavigationProperty Name="events" Relationship="ATModel.associations_in_events" FromRole="associations" ToRole="events" />
           <NavigationProperty Name="categories" Relationship="ATModel.categories_in_associations" FromRole="associations" ToRole="categories" />
+          <Property Type="String" Name="LogoUrl" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="categories">
           <Key>
@@ -464,6 +467,7 @@
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_Associations_Communities" FromRole="communities" ToRole="associations" />
           <NavigationProperty Name="events" Relationship="ATModel.communities_in_events" FromRole="communities" ToRole="events" />
+          <Property Type="String" Name="LogoUrl" MaxLength="255" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="components">
           <Key>
@@ -638,6 +642,7 @@
           <EntitySetMapping Name="associations">
             <EntityTypeMapping TypeName="ATModel.associations">
               <MappingFragment StoreEntitySet="associations">
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
                 <ScalarProperty Name="Communities_Id" ColumnName="Communities_Id" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -662,6 +667,7 @@
           <EntitySetMapping Name="communities">
             <EntityTypeMapping TypeName="ATModel.communities">
               <MappingFragment StoreEntitySet="communities">
+                <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
                 <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
