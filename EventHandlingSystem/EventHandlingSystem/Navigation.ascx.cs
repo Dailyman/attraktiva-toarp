@@ -312,8 +312,7 @@ namespace EventHandlingSystem
                     Value = "C-" + com.Id,
                     Expanded = false,
                     NavigateUrl =
-                        "/SitePage.aspx?id=" +
-                        WebPageDB.GetWebPageById(com.Id).CommunityId + "&type=C",
+                        "/SitePage.aspx?id=" + (WebPageDB.GetWebPageById(com.Id) != null ?WebPageDB.GetWebPageById(com.Id).Id.ToString() : "") + "&type=C",
                     SelectAction = TreeNodeSelectAction.Select
                 };
                 startNode.ChildNodes.Add(node);
@@ -352,8 +351,7 @@ namespace EventHandlingSystem
                     Text = com.Name,
                     Value = com.Id.ToString(),
                     Expanded = true,
-                    NavigateUrl = "/SitePage.aspx?id=" +
-                                  WebPageDB.GetWebPageByCommunityId(comId).Id + "&type=C",
+                    NavigateUrl = "/SitePage.aspx?id=" + (WebPageDB.GetWebPageByCommunityId(comId) != null ? WebPageDB.GetWebPageByCommunityId(comId).Id.ToString() : "") + "&type=C",
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
@@ -392,7 +390,7 @@ namespace EventHandlingSystem
                 Text = parentAsso.Name,
                 Value = "A-" + parentAsso.Id,
                 Expanded = false,
-                NavigateUrl = "/SitePage.aspx?id=" + WebPageDB.GetWebPageByAssociationId(parentAsso.Id).Id + "&type=A",
+                NavigateUrl = "/SitePage.aspx?id=" + (WebPageDB.GetWebPageByAssociationId(parentAsso.Id) != null ? WebPageDB.GetWebPageByAssociationId(parentAsso.Id).Id.ToString() : "") + "&type=A",
                 SelectAction = TreeNodeSelectAction.Select
             };
 
@@ -456,7 +454,7 @@ namespace EventHandlingSystem
                     Text = a.Name,
                     Value = "A-" + a.Id,
                     Expanded = false,
-                    NavigateUrl = "/SitePage.aspx?id=" + WebPageDB.GetWebPageByAssociationId(a.Id).Id + "&type=A",
+                    NavigateUrl = "/SitePage.aspx?id=" + (WebPageDB.GetWebPageByAssociationId(a.Id) != null ? WebPageDB.GetWebPageByAssociationId(a.Id).Id.ToString() : "") + "&type=A",
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
