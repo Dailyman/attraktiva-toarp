@@ -28,5 +28,17 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.AssociationId.Equals(id));
         }
+
+        // DELETE
+        public static int DeleteWebPageById(int id)
+        {
+            webpages webpageToDelete = GetWebPageByAssociationId(id);
+
+            if (webpageToDelete != null)
+                webpageToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }

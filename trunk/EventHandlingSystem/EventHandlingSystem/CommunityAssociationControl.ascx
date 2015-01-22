@@ -91,11 +91,11 @@
                 <b>Categories in the Association: </b>
                 
                     <asp:DropDownList ID="DropDownListCategories" AutoPostBack="True" runat="server"></asp:DropDownList>
-                    <asp:Button ID="ButtonCatAdd" runat="server" Text="Add Category" CssClass="smallButton" OnClick="ButtonCatAdd_OnClick"/>
-                    <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="smallButton" OnClick="ButtonCatRemove_OnClick"/>
+                    <asp:Button ID="ButtonCatAdd" runat="server" Text="Add Category" CssClass="btn-small" OnClick="ButtonCatAdd_OnClick"/>
+                    
                     <br/>
                     <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" runat="server" SelectionMode="Multiple"></asp:ListBox>
-               
+                    <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="btn-small" OnClick="ButtonCatRemove_OnClick"/>
 
                 <%--<span><b>Select Category: </b>
                     <asp:ListBox ID="ListBoxCategories" AutoPostBack="True" Width="200px" runat="server"></asp:ListBox>
@@ -155,6 +155,15 @@
                     <asp:Button ID="ButtonCreateAsso" CssClass="btn-blue" runat="server" Text="Create" OnClick="ButtonCreateAsso_OnClick" />
                 </div>
             </div>
+        </asp:View>
+    </asp:MultiView>
+
+    <asp:MultiView ID="MultiViewAssoDelete" runat="server">
+        <asp:View ID="ViewAssoDelete" runat="server">
+            <asp:Label ID="LabelDeleteAssoConfirm" runat="server" Text=""></asp:Label>
+            <asp:BulletedList ID="BulletedListSubAssoToDelete" runat="server"></asp:BulletedList>
+            <asp:Button ID="ButtonDeleteAssoCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonDeleteAssoCancel_OnClick"/>
+            <asp:Button ID="ButtonDeleteAsso2" CssClass="btn-blue" runat="server" Text="Delete" OnClick="ButtonDeleteAsso2_OnClick"/>            
         </asp:View>
     </asp:MultiView>
     
