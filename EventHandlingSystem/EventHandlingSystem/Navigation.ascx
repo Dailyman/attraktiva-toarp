@@ -31,9 +31,10 @@
     <div id="toggle-nav-btn" class="nav-title">
         <%--<asp:Label ID="LabelDisplay" runat="server" Text="ValuePath: "></asp:Label>--%>
         <img id="toggle-nav-icon" class="rotate-reset" src="../Images/list-32x32.png" />
+        <hr />
     </div>
     <nav id="SiteNavMenuList" runat="server">
-        <hr />
+        <%--<hr />--%>
         <ul>
             <li><a href="/">Home</a></li>
             <li>
@@ -56,7 +57,7 @@
             </li>
             <li>
                 <br />
-                <hr />
+                <%--<hr />--%>
                 <br />
             </li>
             <li><a href="/SiteSettings.aspx" class="text-align-left">
