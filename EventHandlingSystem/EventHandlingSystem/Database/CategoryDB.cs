@@ -29,5 +29,16 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedCategories().SingleOrDefault(c => c.Name.Equals(name));
         }
+
+        public static int UpdateCategory(categories category)
+        {
+            categories categoryToUpdate = GetCategoryById(category.Id);
+
+            categoryToUpdate.Name = category.Name;
+            categoryToUpdate.associations = category.associations;
+            categoryToUpdate.subcategories = category.subcategories;
+
+            return Context.SaveChanges();
+        }
     }
 }

@@ -71,7 +71,7 @@
                 <div class="float-left">
                     <p class="site-title">
                         <a runat="server" href="~/">
-                            <img src="/Images/AT-logga.png" width="233px" height="138px" /></a>
+                            <img src="/Images/AT-logga.png" width="219px" height="109px" /></a>
                     </p>
                 </div>
                 <div class="float-right">

@@ -160,6 +160,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="CategoryHandlingControl.ascx" />
     <Content Include="CommunityAssociationControl.ascx" />
     <Content Include="Content\bootstrap-theme.css" />
     <Content Include="Content\bootstrap-theme.min.css" />
@@ -366,6 +367,13 @@
     </Compile>
     <Compile Include="categories.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CategoryHandlingControl.ascx.cs">
+      <DependentUpon>CategoryHandlingControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="CategoryHandlingControl.ascx.designer.cs">
+      <DependentUpon>CategoryHandlingControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="communities.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
