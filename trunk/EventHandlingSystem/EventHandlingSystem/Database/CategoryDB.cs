@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -28,6 +29,24 @@ namespace EventHandlingSystem.Database
         public static categories GetCategoryByName(string name)
         {
             return GetAllNotDeletedCategories().SingleOrDefault(c => c.Name.Equals(name));
+        }
+
+        public static bool AddCategory(categories c)
+        {
+            Context.categories.Add(c);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         public static int UpdateCategory(categories category)
