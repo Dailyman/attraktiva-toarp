@@ -85,78 +85,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.MultiView MultiViewCreate;
         
         /// <summary>
-        /// ViewCreateCategory control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.View ViewCreateCategory;
-        
-        /// <summary>
-        /// ImageButtonClose1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose1;
-        
-        /// <summary>
-        /// LabelCreateTerm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelCreateTerm;
-        
-        /// <summary>
-        /// TxtBoxNameCreateT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtBoxNameCreateT;
-        
-        /// <summary>
-        /// RequiredFieldValidatorCreateTerm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorCreateTerm;
-        
-        /// <summary>
-        /// DropDownListTInTS control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListTInTS;
-        
-        /// <summary>
-        /// BtnCreateT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnCreateT;
-        
-        /// <summary>
-        /// LabelMessageCreateT control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelMessageCreateT;
-        
-        /// <summary>
         /// ViewTermSetCreate control.
         /// </summary>
         /// <remarks>
@@ -175,22 +103,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose2;
         
         /// <summary>
-        /// LabelCreateTermSet control.
+        /// LabelCreateCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelCreateTermSet;
+        protected global::System.Web.UI.WebControls.Label LabelCreateCategory;
         
         /// <summary>
-        /// TxtBoxNameCreateTS control.
+        /// TxtBoxNameCreateCategoryName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtBoxNameCreateTS;
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxNameCreateCategoryName;
         
         /// <summary>
         /// RequiredFieldValidatorCreateTermSet control.
@@ -202,31 +130,31 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredFieldValidatorCreateTermSet;
         
         /// <summary>
-        /// DropDownListCreateParentTS control.
+        /// DropDownListCreateParentCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateParentTS;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateParentCategory;
         
         /// <summary>
-        /// BtnCreateTS control.
+        /// BtnCreateCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button BtnCreateTS;
+        protected global::System.Web.UI.WebControls.Button BtnCreateCategory;
         
         /// <summary>
-        /// LabelMessageCreateTS control.
+        /// LabelMessageCreateCategory control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelMessageCreateTS;
+        protected global::System.Web.UI.WebControls.Label LabelMessageCreateCategory;
         
         /// <summary>
         /// EditBox control.

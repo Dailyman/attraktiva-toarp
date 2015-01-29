@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -29,6 +30,27 @@ namespace EventHandlingSystem.Database
             return GetAllSubCategories().Where(sc => sc.Categories_Id == (cat.Id)).ToList();
         }
 
+        //ADD
+        public static bool AddSubCategory(subcategories sC)
+        {
+            Context.subcategories.Add(sC);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+
+        //UPDATE
         public static int UpdateSubCategory(subcategories subCategory)
         {
             subcategories subCategoryToUpdate = GetSubCategoryById(subCategory.Id);
