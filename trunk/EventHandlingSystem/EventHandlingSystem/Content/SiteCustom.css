@@ -11,23 +11,23 @@
 {
     background-image: url("../Images/warning-pattern-30x30.png");
     /*background-repeat: repeat-x;*/
-    min-height: 45px;
+    min-height: 20px;
 }
 
 .temp-background
 {
-    background-image: url(http://fc07.deviantart.net/fs70/f/2013/245/8/6/despicable_me_gif___minion_faceslam_by_c0l0ss4l_st1nk3r-d6km3k9.gif);
-    height: 550px;
+    /*background-image: url(http://fc07.deviantart.net/fs70/f/2013/245/8/6/despicable_me_gif___minion_faceslam_by_c0l0ss4l_st1nk3r-d6km3k9.gif);*/
+    /*height: 550px;*/
     text-align: center;
 }
 
     .temp-background h1
     {
-        color: #ffffff;
+        color: #000;
         margin: auto;
-        position: relative;
-        top: 10%;
-        text-shadow: 2px 2px 4px #000000;
+        /*position: relative;*/
+        /*top: 10%;*/
+        /*text-shadow: 2px 2px 4px #000000;*/
         z-index: 999;
     }
 /*------------End Temp Styles--------------*/

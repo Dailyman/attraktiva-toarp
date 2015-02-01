@@ -328,6 +328,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.ImageButton ImageButtonClose5;
         
         /// <summary>
+        /// BtnSelectAll control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button BtnSelectAll;
+        
+        /// <summary>
         /// CheckBoxListItemsToDelete control.
         /// </summary>
         /// <remarks>

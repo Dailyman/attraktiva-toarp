@@ -27,7 +27,7 @@
 
     <!-- Added 12/01 2015 for the ajax control toolkit to work -->
     <%--<asp:ToolkitScriptManager ID="TSM" runat="Server" />--%>
-    <asp:TextBox
+    <%--<asp:TextBox
         ID="txtComments"
         TextMode="MultiLine"
         Columns="60"
@@ -39,5 +39,5 @@
         TargetControlID="txtComments"
         runat="server" />
     <asp:Button ID="BtnShow" runat="server" Text="Show text" />
-    <asp:Label ID="Label1" runat="server" Text=""></asp:Label>
+    <asp:Label ID="Label1" runat="server" Text=""></asp:Label>--%>
 </asp:Content>
