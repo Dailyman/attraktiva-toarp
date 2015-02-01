@@ -62,5 +62,17 @@ namespace EventHandlingSystem.Database
 
             return Context.SaveChanges();
         }
+
+        // DELETE
+        public static int DeleteSubCategoryById(int id)
+        {
+            subcategories subCategoryToDelete = GetSubCategoryById(id);
+
+            if (subCategoryToDelete != null)
+                subCategoryToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
     }
 }

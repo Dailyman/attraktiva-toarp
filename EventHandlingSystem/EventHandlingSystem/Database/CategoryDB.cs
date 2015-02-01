@@ -31,6 +31,8 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedCategories().SingleOrDefault(c => c.Name.Equals(name));
         }
 
+
+        //ADD
         public static bool AddCategory(categories c)
         {
             Context.categories.Add(c);
@@ -49,6 +51,8 @@ namespace EventHandlingSystem.Database
             return true;
         }
 
+
+        //UPDATE
         public static int UpdateCategory(categories category)
         {
             categories categoryToUpdate = GetCategoryById(category.Id);
@@ -56,6 +60,34 @@ namespace EventHandlingSystem.Database
             categoryToUpdate.Name = category.Name;
             categoryToUpdate.associations = category.associations;
             categoryToUpdate.subcategories = category.subcategories;
+
+            return Context.SaveChanges();
+        }
+
+        // DELETE
+        public static int DeleteCategoryById(int id)
+        {
+            categories categoryToDelete = GetCategoryById(id);
+
+            if (categoryToDelete != null)
+                categoryToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows;
+        }
+
+        // DELETE
+        public static int DeleteCategoryAndSubCategoriesByCategoryId(int id)
+        {
+            categories categoryToDelete = GetCategoryById(id);
+
+            foreach (var subCategory in categoryToDelete.subcategories)
+            {
+                SubCategoryDB.DeleteSubCategoryById(subCategory.Id);
+            }
+
+            if (categoryToDelete != null)
+                categoryToDelete.IsDeleted = true;
 
             return Context.SaveChanges();
         }

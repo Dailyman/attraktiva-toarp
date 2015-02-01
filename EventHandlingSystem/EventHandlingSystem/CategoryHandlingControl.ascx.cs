@@ -264,7 +264,8 @@ namespace EventHandlingSystem
 
 
 
-                bool okej = false;
+
+                bool validObject = false;
 
                 //Här sparas resultatet från "TryParse" av strId.
                 int id;
@@ -276,20 +277,18 @@ namespace EventHandlingSystem
                     string type = nodeValue.Substring(0, nodeValue.IndexOf('_'));
                     string strId = nodeValue.Substring(nodeValue.IndexOf('_') + 1);
 
-                    
-
-                    //Kontrollerar att användaren inte försöka ta bort objekt från Publiseringstaxonomin. 
+                    //Kontrollerar att användaren inte försöka ta bort objekt med inkorrekta värden. 
                     if ((type == "category" && int.TryParse(strId, out id)) || (type == "subcategory" && int.TryParse(strId, out id)))
                     {
-                        okej = true;
+                        validObject = true;
                     }
                     else
                     {
-                        okej = false;
+                        validObject = false;
                         break;
                     }
                 }
-                if (okej)
+                if (validObject)
                 {
                     ConfirmDeletion(CheckedTreeNodes);
                 }
@@ -343,17 +342,13 @@ namespace EventHandlingSystem
                 int id;
                 if (type == "category" && int.TryParse(strId, out id))
                 {
-                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Taxonomi*) " + treeNode.Text, treeNode.Value));
-                    LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
+                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Category*) " + treeNode.Text, treeNode.Value));
+                    LabelWarning.Text = "* Deleting an category will delete all its subcategories!!";
                 }
                 else if (type == "subcategory" && int.TryParse(strId, out id))
                 {
-                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Termset*) " + treeNode.Text, treeNode.Value));
-                    LabelWarning.Text = "* Deleting an parent item(taxonomy or termset) will delete all child items!!";
-                }
-                else if (type == "term" && int.TryParse(strId, out id))
-                {
-                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(Term) " + treeNode.Text, treeNode.Value));
+                    CheckBoxListItemsToDelete.Items.Add(new ListItem("(SubCategory) " + treeNode.Text, treeNode.Value));
+                    //LabelWarning.Text = "* Deleting an parent item(category) will delete all child items!!";
                 }
                 else
                 {
@@ -382,7 +377,6 @@ namespace EventHandlingSystem
 
         private void DeleteAllItemsInList(List<ListItem> itemsToDelete)
         {
-            int taxId = 0;
             LabelDisplay.Text = "Deleted: ";
 
             //För varje ListItem i listan 'items' kontrolleras vilken typ objekt är som ska tas bort.
@@ -402,71 +396,43 @@ namespace EventHandlingSystem
 
                 //Här tas olika typer av objekt bort på olika sätt.
                 int id;
-                if (type == "taxonomy" && int.TryParse(strId, out id))
+                if (type == "category" && int.TryParse(strId, out id))
                 {
-                    ////Taxonomy taxonomyToDelete = TaxonomyDB.GetTaxonomyById(id);
-                    ////foreach (TermSet termSet in TermSetDB.GetTermSetsByTaxonomy(taxonomyToDelete))
-                    ////{
-                    ////    DeleteAllChildTermsAndTermSetsForTermSet(termSet);
-                    ////}
-                    ////if (taxonomyToDelete != null)
-                    ////{
-                    ////    if (TaxonomyDB.DeleteTaxonomyById(id) != 0) LabelDisplay.Text += "(Taxonomy) "+taxonomyToDelete.Name + ",<br>";
-                    ////    taxId = taxonomyToDelete.Id;
-                    ////}
+                    categories categoryToDelete = CategoryDB.GetCategoryById(id);
+                    if (categoryToDelete != null)
+                    {
+                        if (CategoryDB.DeleteCategoryById(id) != 0) LabelDisplay.Text += "(Category) " + categoryToDelete.Name + ",<br>";
+                    }
+                    DeleteAllSubCategoriesForCategory(categoryToDelete);
                 }
-                else if (type == "termset" && int.TryParse(strId, out id))
+                else if (type == "subcategory" && int.TryParse(strId, out id))
                 {
-                    ////TermSet termSetToDelete = TermSetDB.GetTermSetById(id);
-                    ////if (termSetToDelete != null)
-                    ////{
-                    ////    DeleteAllChildTermsAndTermSetsForTermSet(termSetToDelete);
-                    ////    if (TermSetDB.DeleteTermSetById(id) != 0) LabelDisplay.Text += "(Termset) " + termSetToDelete.Name + ",<br>";
-                    ////    taxId = termSetToDelete.TaxonomyId;
-                    ////}
-                }
-                else if (type == "term" && int.TryParse(strId, out id))
-                {
-                    ////Term termToDelete = TermDB.GetTermById(id);
-                    ////if (termToDelete != null)
-                    ////{
-                    ////    if (TermDB.DeleteTermById(id) != 0) LabelDisplay.Text += "(Term) " + termToDelete.Name + ",<br>";
-                    ////    taxId = termToDelete.TermSet.FirstOrDefault().TaxonomyId;
-                    ////}
+                    subcategories subCategoryToDelete = SubCategoryDB.GetSubCategoryById(id);
+                    if (subCategoryToDelete != null)
+                    {
+                        if (SubCategoryDB.DeleteSubCategoryById(id) != 0)
+                            LabelDisplay.Text += "(SubCategory) " + subCategoryToDelete.Name + ",<br>";
+                    }
                 }
                 else
                 {
                     LabelDisplay.Text = "Something went wrong when loading what type of object to edit";
                 }
             }
+
+            //Refresh treeview.
+            AddCategoryNodesToTreeView(TreeViewCategories);
         }
 
         //Redundant metod för att hitta alla ChildTerm och TermSets för att sedan ta bort dem.
-        ////private void DeleteAllChildTermsAndTermSetsForTermSet(TermSet termSet)
-        ////{
-        ////    foreach (var t in termSet.Term)
-        ////    {
-        ////        Term term = TermDB.GetTermById(t.Id);
-        ////        if (term != null)
-        ////        {
-        ////            //Tar bort Terms och visar att de gick att ta bort.
-        ////            if (TermDB.DeleteTermById(term.Id) != 0) LabelDisplay.Text += "(Term) " + term.Name + ",<br>";
-        ////        }
-        ////    }
-
-        ////    foreach (var tS in TermSetDB.GetChildTermSetsByParentTermSetId(termSet.Id))
-        ////    {
-        ////        DeleteAllChildTermsAndTermSetsForTermSet(tS);
-
-        ////        TermSet termS = TermSetDB.GetTermSetById(tS.Id);
-        ////        if (termS != null)
-        ////        {
-        ////            //Tar bort TermSets och visar att de gick att ta bort.
-        ////            if (TermSetDB.DeleteTermSetById(termS.Id) != 0)
-        ////                LabelDisplay.Text += "(Term) "+ termS.Name + ",<br>";
-        ////        }
-        ////    }
-        ////}
+        private void DeleteAllSubCategoriesForCategory(categories category)
+        {
+            foreach (var subCat in category.subcategories)
+            {
+                if (SubCategoryDB.DeleteSubCategoryById(subCat.Id) != 0)
+                    LabelDisplay.Text += "(SubCategory) " + subCat.Name + ",<br>";
+            }
+        }
 
         #endregion
 
@@ -581,7 +547,7 @@ namespace EventHandlingSystem
 
             }
 
-            //Refresh taxonomytreeview.
+            //Refresh treeview.
             AddCategoryNodesToTreeView(TreeViewCategories);
         }
 
@@ -602,5 +568,37 @@ namespace EventHandlingSystem
         }
 
         #endregion
+
+        protected void BtnSelectAll_OnClick(object sender, EventArgs e)
+        {
+            bool allSelected = false;
+            foreach (ListItem item in CheckBoxListItemsToDelete.Items)
+            {
+                if (item.Selected)
+                {
+                    allSelected = true;
+                }
+                else
+                {
+                    allSelected = false;
+                    break;
+                }
+            }
+
+            if (!allSelected)
+            {
+                foreach (ListItem item in CheckBoxListItemsToDelete.Items)
+                {
+                    item.Selected = true;
+                }
+            }
+            else
+            {
+                foreach (ListItem item in CheckBoxListItemsToDelete.Items)
+                {
+                    item.Selected = false;
+                }
+            }
+        }
     }
 }

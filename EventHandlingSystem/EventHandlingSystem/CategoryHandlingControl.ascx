@@ -87,6 +87,7 @@
                 <asp:ImageButton ID="ImageButtonClose5" runat="server" ImageUrl="/Images/close-round-32x32.png" Height="20px" Width="20px" OnClick="ImageButtonCloseMultiViewEdit_OnClick" />
                 <h2>Do you want to delete these?</h2>
                 <br />
+                <asp:Button ID="BtnSelectAll" runat="server" Text="Select all" OnClick="BtnSelectAll_OnClick" />
                 <br />
                 <asp:CheckBoxList ID="CheckBoxListItemsToDelete" runat="server"></asp:CheckBoxList>
                 <br />

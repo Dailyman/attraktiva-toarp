@@ -12,8 +12,8 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            Label1.Text = string.Empty;
-            Label1.Text = txtComments.Text;
+            //Label1.Text = string.Empty;
+            //Label1.Text = txtComments.Text;
         }
     }
 }
