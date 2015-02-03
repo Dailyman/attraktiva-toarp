@@ -342,6 +342,7 @@
     <Content Include="SQLDummy\AddDummyTaxonomy.sql" />
     <Content Include="Start.aspx" />
     <Content Include="TaxonomyControl.ascx" />
+    <Content Include="UserHandlingControl.ascx" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -573,6 +574,13 @@
     </Compile>
     <Compile Include="TaxonomyControl.ascx.designer.cs">
       <DependentUpon>TaxonomyControl.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="UserHandlingControl.ascx.cs">
+      <DependentUpon>UserHandlingControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="UserHandlingControl.ascx.designer.cs">
+      <DependentUpon>UserHandlingControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>

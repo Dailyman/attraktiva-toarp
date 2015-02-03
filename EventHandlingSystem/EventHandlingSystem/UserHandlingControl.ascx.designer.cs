@@ -10,33 +10,42 @@
 namespace EventHandlingSystem {
     
     
-    public partial class Default {
+    public partial class UserHandlingControl {
         
         /// <summary>
-        /// TxtBox control.
+        /// GridViewUsers control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TxtBox;
+        protected global::System.Web.UI.WebControls.GridView GridViewUsers;
         
         /// <summary>
-        /// MenuHome control.
+        /// ButtonTest control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Menu MenuHome;
+        protected global::System.Web.UI.WebControls.Button ButtonTest;
         
         /// <summary>
-        /// TestLable control.
+        /// BtnEdit control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TestLable;
+        protected global::System.Web.UI.WebControls.Button BtnEdit;
+        
+        /// <summary>
+        /// LabelTest control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelTest;
     }
 }

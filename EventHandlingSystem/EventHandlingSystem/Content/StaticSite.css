@@ -28,7 +28,7 @@ body
     position: absolute;
     top: 0;
     left: 0;
-    background: lightblue;
+    background: #add8e6;
     z-index: -999;
 }
 
@@ -62,9 +62,9 @@ body
         -webkit-border-radius: 5px;
         -moz-border-radius: 5px;
         border-radius: 5px;
-        -webkit-box-shadow: #ffffff 0px 0px 5px;
-        -moz-box-shadow: #ffffff 0px 0px 5px;
-        box-shadow: #ffffff 0px 0px 5px;
+        -webkit-box-shadow: #ffffff 0px 0px 20px;
+        -moz-box-shadow: #ffffff 0px 0px 20px;
+        box-shadow: #ffffff 0px 0px 20px;
     }
 
         #TopLoginArea a:hover
@@ -154,7 +154,7 @@ ul#Menu
     /*margin-top: 10px;
     margin-right: -5px;*/
     display: inline-block;
-    background-color: gainsboro;
+    background-color: #add8e6;
     text-align: center;
     margin-bottom: 10px;
     /*box-shadow: 2px 2px 6px rgba(0,0,0, 0.5);
@@ -322,6 +322,35 @@ ul#Menu
     height: 0px;
 }
 /*-------End LeftSideNavigation Styles-------*/
+
+
+
+/*------------Start Temp Styles--------------*/
+.warning-pattern
+{
+    background-image: url("../Images/warning-pattern-30x30.png");
+    /*background-repeat: repeat-x;*/
+    min-height: 20px;
+    width: 700px;
+}
+
+.temp-background
+{
+    /*background-image: url(http://fc07.deviantart.net/fs70/f/2013/245/8/6/despicable_me_gif___minion_faceslam_by_c0l0ss4l_st1nk3r-d6km3k9.gif);*/
+    /*height: 550px;*/
+    text-align: center;
+}
+
+    .temp-background h1
+    {
+        color: #000;
+        margin: auto;
+        /*position: relative;*/
+        /*top: 10%;*/
+        /*text-shadow: 2px 2px 4px #000000;*/
+        z-index: 999;
+    }
+/*------------End Temp Styles--------------*/
 
 
 /*-------Start Footer Styles-------*/
