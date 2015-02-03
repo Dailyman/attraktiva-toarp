@@ -211,7 +211,7 @@ namespace EventHandlingSystem
             if (IsPostBack)
             {
                 List<string> list = new List<string>();
-                ////SaveTreeViewState(TreeViewNavigation.Nodes, list);
+                SaveTreeViewState(TreeViewNavigation.Nodes, list);
                 Session["TreeViewState"] = list;
             }
         }
@@ -221,7 +221,7 @@ namespace EventHandlingSystem
             if (IsPostBack)
             {
                 List<string> list = new List<string>();
-                ////SaveTreeViewState(TreeViewNavigation.Nodes, list);
+                SaveTreeViewState(TreeViewNavigation.Nodes, list);
                 Session["TreeViewState"] = list;
             }
         }
