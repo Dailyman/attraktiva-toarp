@@ -311,6 +311,32 @@ namespace EventHandlingSystem
                                       .CreatedBy;
         }
 
+        public void ShowCommunityDetails(communities comm)
+        {
+            // Visa Community Name i textboxen och i rubrik över föreningslista
+            TextBoxCommName.Text = comm.Name;
+            LabelAssoInComm.Text = "Associations in " + comm.Name;
+            LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "black");
+
+            // Visa Community logga med länk innehållande tooltip
+            HyperLinkLogoCommunity.NavigateUrl =
+                "/SitePage.aspx?id=" +
+                (WebPageDB.GetWebPageByCommunityId(comm.Id) != null
+                    ? WebPageDB.GetWebPageByCommunityId(comm.Id).Id.ToString()
+                    : "") + "&type=C";
+            HyperLinkLogoCommunity.Target = "_blank";
+            HyperLinkLogoCommunity.ToolTip = "This link goes to the web page of " +
+                                             comm.Name + ". (^-^)v";
+
+            // Visa Created och Created By
+            LabelCreated.Text = "<b>Created: </b>" +
+                                CommunityDB.GetCommunityById(comm.Id)
+                                    .Created.ToShortDateString();
+
+            LabelCreatedBy.Text = "<b>Created by: </b>" +
+                                  CommunityDB.GetCommunityById(comm.Id)
+                                      .CreatedBy;
+        }
 
 
         public void ShowAssociationDetails()
@@ -542,9 +568,55 @@ namespace EventHandlingSystem
         // För att komma till "Create New Community" vy
         protected void ButtonCreateNewComm_OnClick(object sender, EventArgs e)
         {
-            
+            MultiViewCommCreate.ActiveViewIndex = 0;
         }
 
+        //För att skapa en ny community
+        protected void ButtonCreateComm_OnClick(object sender, EventArgs e)
+        {
+            communities comm = new communities
+            {
+                Name = TextBoxCommNameCreate.Text,
+                LogoUrl = TextBoxCommLogoUrl.Text,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                UpdatedBy = HttpContext.Current.User.Identity.Name
+            };
+
+            if (CommunityDB.AddCommunity(comm))
+            {
+                webpages wp = new webpages
+                {
+                    Title = TextBoxCommNameCreate.Text,
+                    CommunityId = CommunityDB.GetCommunityByName(comm.Name).Id,
+                    //Layout och style - fixa dropdownlistor senare!
+                    CreatedBy = HttpContext.Current.User.Identity.Name,
+                    UpdatedBy = HttpContext.Current.User.Identity.Name
+                };
+
+                if (WebPageDB.AddWebPage(wp))
+                {
+                    MultiViewCommDetails.ActiveViewIndex = 0;
+                    MultiViewCommCreate.ActiveViewIndex = -1;
+                    ShowCommunityDetails(CommunityDB.GetCommunityByName(comm.Name));
+                }
+                else
+                {
+                    LabelCreateComm.Text = "Webpage could not be created. Try again!";
+                    LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+            }
+            else
+            {
+                LabelCreateComm.Text = "Community could not be created. Try again!";
+                LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+        }
+
+        //För att gå ur "Create New Community" vyn
+        protected void ButtonCreateCommCancel_OnClick(object sender, EventArgs e)
+        {
+            MultiViewCommCreate.ActiveViewIndex = -1;
+        }
 
         // För att komma till "Create New Association" vy
         protected void ButtonCreateNewAsso_OnClick(object sender, EventArgs e)
@@ -851,29 +923,9 @@ namespace EventHandlingSystem
                 FindSubAssociationsAndAddtoDeleteList(AssociationDB.GetAssociationById(int.Parse(item.Value)));
             }
         }
-
-
+        
         protected void ButtonDeleteAsso2_OnClick(object sender, EventArgs e)
         {
-            //if (webpageToDelete != null)
-            //{
-                //int affectedRows =
-                //    AssociationDB.DeleteAssociationById(_assoToDeleteId) + WebPageDB.DeleteWebPageByAssoId(webpageToDelete.Id);
-
-                //PopulateAssociationListBox();
-
-                //if (affectedRows != 0)
-                //{
-                //    LabelUpdateAsso.Text = TextBoxAssoName.Text + " was successfully deleted. ";
-                //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-                //}
-                //else
-                //{
-                //    LabelUpdateAsso.Text = TextBoxAssoName.Text + "could not be deleted. Please try again.";
-                //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-                //}
-            
-
             //Ta bort den valda föreningen i listboxen
             _assoToDeleteId = int.Parse(ListBoxAsso.SelectedItem.Value);
 
@@ -909,6 +961,7 @@ namespace EventHandlingSystem
 
         #endregion
 
+        
         
     }
 }

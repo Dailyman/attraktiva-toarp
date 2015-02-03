@@ -469,7 +469,7 @@ border-bottom-left-radius: 6px;*/
     height: 20px;
     line-height: 0;
     font-size: 10px !important;
-    background-color: aquamarine !important;
+    background-color: lightblue !important;
     text-align: match-parent;
         /*border: 1px solid #4c4c4d;
         display: inline-block;
@@ -539,11 +539,13 @@ border-bottom-left-radius: 6px;*/
 
 /*-------Start Community/AssociationHandler Styles-------*/
 .view-select-community,
+.view-community-create,
 .view-community-details,
 .view-community-details-association,
 .view-association-details,
 .view-association-create,
 .view-association-delete
+
 {
     border: #000000 solid 1px;
     padding: 15px;

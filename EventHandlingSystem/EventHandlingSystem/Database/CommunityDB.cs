@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -20,6 +21,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Id.Equals(id));
         }
 
+        public static communities GetCommunityByName(string name)
+        {
+            return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Name.Equals(name));
+        }
+
         public static List<communities> GetAllCommunities()
         {
             return GetAllNotDeletedCommunities().ToList();
@@ -33,6 +39,21 @@ namespace EventHandlingSystem.Database
             commToUpdate.Name = comm.Name;
             int affectedRows = Context.SaveChanges();
             return affectedRows;
+        }
+
+        //ADD
+        public static bool AddCommunity(communities comm)
+        {
+            Context.communities.Add(comm);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

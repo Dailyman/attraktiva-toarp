@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Web;
 
@@ -39,6 +40,21 @@ namespace EventHandlingSystem.Database
 
             int affectedRows = Context.SaveChanges();
             return affectedRows;
+        }
+
+        //ADD
+        public static bool AddWebPage(webpages wp)
+        {
+            Context.webpages.Add(wp);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            return true;
         }
     }
 }
