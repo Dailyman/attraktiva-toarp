@@ -30,7 +30,7 @@ namespace EventHandlingSystem.Database
         }
 
         // DELETE
-        public static int DeleteWebPageById(int id)
+        public static int DeleteWebPageByAssoId(int id)
         {
             webpages webpageToDelete = GetWebPageByAssociationId(id);
 

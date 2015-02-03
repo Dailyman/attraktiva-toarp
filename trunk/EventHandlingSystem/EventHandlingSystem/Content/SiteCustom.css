@@ -463,26 +463,34 @@ border-bottom-left-radius: 6px;*/
             left: 2px;
         }
 
-#btn-small 
+.btn-small 
 {
-        border: 1px solid #4c4c4d;
+    font-family: Arial;
+    height: 20px;
+    line-height: 0;
+    font-size: 10px !important;
+    background-color: aquamarine !important;
+    text-align: match-parent;
+        /*border: 1px solid #4c4c4d;
         display: inline-block;
         color: red;
-        /*color: #050505;*/
-        font-family: Arial;
-        font-size: 10px; 
+        color: #050505;
+        
+        
         font-weight: bold;
         font-style: normal;
-        height: 35px; 
-        line-height: 35px;
+        
+        line-height: 5px;
         width: 100px;
         text-decoration: none;
         text-align: center;
         padding: 1px 5px 1px 5px;
         margin-right: 8px;
-        width: auto;
+        width: auto;*/
 }
-        
+        .lbCatInAsso {
+            margin: 0 5px 0 5px !important;
+        }
 
 .inner-content-box
 {
@@ -529,12 +537,13 @@ border-bottom-left-radius: 6px;*/
 /*-------End MainContent Styles-------*/
 
 
-/*-------Start Community/AssociationHandeler Styles-------*/
+/*-------Start Community/AssociationHandler Styles-------*/
 .view-select-community,
 .view-community-details,
 .view-community-details-association,
 .view-association-details,
-.view-association-create
+.view-association-create,
+.view-association-delete
 {
     border: #000000 solid 1px;
     padding: 15px;

@@ -59,7 +59,7 @@ namespace EventHandlingSystem
 
 
         //Metoden ska kunna användas av olika dropdownlistor
-        public void PopulateAssocationDropDownList(DropDownList ddl)
+        public void PopulateAssociationDropDownList(DropDownList ddl)
         {
             ddl.Items.Clear();
 
@@ -92,7 +92,7 @@ namespace EventHandlingSystem
 
 
 
-        public void PopulateAssocationListBox()
+        public void PopulateAssociationListBox()
         {
             ListBoxAsso.Items.Clear();
 
@@ -117,7 +117,7 @@ namespace EventHandlingSystem
             }
         }
 
-        public void PopulateAssocationListBox(int aid)
+        public void PopulateAssociationListBox(int aid)
         {
             ListBoxAsso.Items.Clear();
 
@@ -146,7 +146,7 @@ namespace EventHandlingSystem
         }
 
         //Visa associations i en community
-        public void PopulateAssocationInCommunityDropDownList(DropDownList ddlPa, DropDownList ddlComm)
+        public void PopulateAssociationInCommunityDropDownList(DropDownList ddlPa, DropDownList ddlComm)
         {
             ddlPa.Items.Clear();
 
@@ -172,7 +172,7 @@ namespace EventHandlingSystem
         }
 
         //Visa associations i en community, förvald/markerad association
-        public void PopulateAssocationInCommunityDropDownList(int aid, DropDownList ddl)
+        public void PopulateAssociationInCommunityDropDownList(int aid, DropDownList ddl)
         {
             ddl.Items.Clear();
 
@@ -338,7 +338,7 @@ namespace EventHandlingSystem
                     DropDownListCommunityInAsso.Items.FindByValue(asso.Communities_Id.ToString()));
 
             // Visa ParentAssociation-dropdownlista
-            PopulateAssocationInCommunityDropDownList(asso.Id, DropDownListParentAsso);
+            PopulateAssociationInCommunityDropDownList(asso.Id, DropDownListParentAsso);
 
             if (asso.ParentAssociationId == null)
             {
@@ -429,7 +429,7 @@ namespace EventHandlingSystem
                 ShowCommunityDetails();
 
                 //Visa lista med föreningar
-                PopulateAssocationListBox();
+                PopulateAssociationListBox();
                 MultiViewAssoDetails.ActiveViewIndex = -1;
             }
             else
@@ -631,7 +631,7 @@ namespace EventHandlingSystem
                 associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
                 assoToUpdate.Name = TextBoxAssoName.Text;
 
-                PopulateAssocationListBox(assoId);
+                PopulateAssociationListBox(assoId);
 
 
                 // UPPDATERA community i vilken föreningen finns
@@ -758,7 +758,7 @@ namespace EventHandlingSystem
               
                 //Anropa Update-metoden
                 affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
-                PopulateAssocationListBox();
+                PopulateAssociationListBox();
 
 
                 if (affectedRows != 0)
@@ -787,26 +787,21 @@ namespace EventHandlingSystem
         // För att ta bort en association
         protected void ButtonDeleteAsso_OnClick(object sender, EventArgs e)
         {
-            associations assoToDelete = new associations
-            {
-                Id = int.Parse(ListBoxAsso.SelectedItem.Value)
-            };
-
-            _assoToDeleteId = assoToDelete.Id;
+            _assoToDeleteId = int.Parse(ListBoxAsso.SelectedItem.Value);
 
             //Om föreningen inte har några underföreningar
-            if (AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToDelete.Id).Count != 0)
+            if (AssociationDB.GetAllSubAssociationsByParentAssociationId(_assoToDeleteId).Count == 0)
             {
                 //Ta även bort webpage för föreningen
-                webpages webpageToDelete = WebPageDB.GetWebPageByAssociationId(assoToDelete.Id);
+                webpages webpageToDelete = WebPageDB.GetWebPageByAssociationId(_assoToDeleteId);
 
                 //Anropa Delete-metoderna
                 if (webpageToDelete != null)
                 {
-                    int affectedRows = 
-                        AssociationDB.DeleteAssociationById(assoToDelete.Id) + WebPageDB.DeleteWebPageById(webpageToDelete.Id);
+                    int affectedRows =
+                        AssociationDB.DeleteAssociationById(_assoToDeleteId) + WebPageDB.DeleteWebPageByAssoId(_assoToDeleteId);
 
-                    PopulateAssocationListBox();
+                    PopulateAssociationListBox();
 
                     if (affectedRows != 0)
                     {
@@ -820,19 +815,90 @@ namespace EventHandlingSystem
                     }
                 }
             }
+            //Visa Delete-view och lista på underföreningar som kommer att tas bort.
             else
             {
                 MultiViewAssoDelete.ActiveViewIndex = 0;
+
+                BulletedListSubAssoToDelete.Items.Clear();
+
+                FindSubAssociationsAndAddtoDeleteList(AssociationDB.GetAssociationById(_assoToDeleteId));
+            }
+        }
+        
+
+        //Metod för att hitta alla under- och underföreningar
+        protected void FindSubAssociationsAndAddtoDeleteList(associations asso)
+        {
+            List<ListItem> subAssoDeleteList = new List<ListItem>();
+
+            //Lägg in alla underföreningar som ska tas bort i en itemlista
+            foreach (var subasso in AssociationDB.GetAllSubAssociationsByParentAssociationId(asso.Id))
+            {
+                subAssoDeleteList.Add(new ListItem
+                {
+                    Text = subasso.Name,
+                    Value = subasso.Id.ToString()
+                });
+            }
+
+            //Lägg underföreningarna i ordning i punktlistan
+            foreach (ListItem item in subAssoDeleteList.OrderBy(item => item.Text))
+            {
+                BulletedListSubAssoToDelete.Items.Add((item));
+
+                //Hitta alla underföreningar och lägg till i listan - rekursiv
+                FindSubAssociationsAndAddtoDeleteList(AssociationDB.GetAssociationById(int.Parse(item.Value)));
             }
         }
 
+
         protected void ButtonDeleteAsso2_OnClick(object sender, EventArgs e)
         {
-            LabelDeleteAssoConfirm.Text = "This Association has subassociations. Do you want to delete all?";
-            AssociationDB.GetAllSubAssociationsByParentAssociationId(_assoToDeleteId);
+            //if (webpageToDelete != null)
+            //{
+                //int affectedRows =
+                //    AssociationDB.DeleteAssociationById(_assoToDeleteId) + WebPageDB.DeleteWebPageByAssoId(webpageToDelete.Id);
 
+                //PopulateAssociationListBox();
 
-            //BulletedListSubAssoToDelete;
+                //if (affectedRows != 0)
+                //{
+                //    LabelUpdateAsso.Text = TextBoxAssoName.Text + " was successfully deleted. ";
+                //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                //}
+                //else
+                //{
+                //    LabelUpdateAsso.Text = TextBoxAssoName.Text + "could not be deleted. Please try again.";
+                //    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                //}
+            
+
+            //Ta bort den valda föreningen i listboxen
+            _assoToDeleteId = int.Parse(ListBoxAsso.SelectedItem.Value);
+
+            int affectedRows = AssociationDB.DeleteAssociationById(_assoToDeleteId) + WebPageDB.DeleteWebPageByAssoId(_assoToDeleteId);
+            
+            // Ta bort underföreningarna
+            foreach (ListItem itemToDelete in BulletedListSubAssoToDelete.Items)
+            {
+                affectedRows =+ 
+                AssociationDB.DeleteAssociationById(int.Parse(itemToDelete.Value)) + WebPageDB.DeleteWebPageByAssoId(int.Parse(itemToDelete.Value));
+            }
+
+            if (affectedRows != 0)
+            {
+                LabelUpdateAsso.Text = TextBoxAssoName.Text + " (and all sub associations) was successfully deleted. ";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+            }
+            else
+            {
+                LabelUpdateAsso.Text = TextBoxAssoName.Text + "could not be deleted. Please try again.";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+
+            PopulateAssociationListBox();
+            MultiViewAssoDelete.ActiveViewIndex = -1;
         }
 
         protected void ButtonDeleteAssoCancel_OnClick(object sender, EventArgs e)

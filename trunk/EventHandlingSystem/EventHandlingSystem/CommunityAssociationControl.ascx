@@ -94,7 +94,7 @@
                     <asp:Button ID="ButtonCatAdd" runat="server" Text="Add Category" CssClass="btn-small" OnClick="ButtonCatAdd_OnClick"/>
                     
                     <br/>
-                    <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" runat="server" SelectionMode="Multiple"></asp:ListBox>
+                    <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" CssClass="lbCatInAsso" runat="server" SelectionMode="Multiple"></asp:ListBox>
                     <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="btn-small" OnClick="ButtonCatRemove_OnClick"/>
 
                 <%--<span><b>Select Category: </b>
@@ -160,10 +160,12 @@
 
     <asp:MultiView ID="MultiViewAssoDelete" runat="server">
         <asp:View ID="ViewAssoDelete" runat="server">
-            <asp:Label ID="LabelDeleteAssoConfirm" runat="server" Text=""></asp:Label>
-            <asp:BulletedList ID="BulletedListSubAssoToDelete" runat="server"></asp:BulletedList>
-            <asp:Button ID="ButtonDeleteAssoCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonDeleteAssoCancel_OnClick"/>
-            <asp:Button ID="ButtonDeleteAsso2" CssClass="btn-blue" runat="server" Text="Delete" OnClick="ButtonDeleteAsso2_OnClick"/>            
+            <div class="view-association-delete">
+                <asp:Label ID="LabelDeleteAssoConfirm" runat="server" Text="This Association has subassociations. Do you want to delete all?"></asp:Label>
+                <asp:BulletedList ID="BulletedListSubAssoToDelete" runat="server"></asp:BulletedList>
+                <asp:Button ID="ButtonDeleteAssoCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonDeleteAssoCancel_OnClick" />
+                <asp:Button ID="ButtonDeleteAsso2" CssClass="btn-blue" runat="server" Text="Delete" OnClick="ButtonDeleteAsso2_OnClick" />
+            </div>
         </asp:View>
     </asp:MultiView>
     
