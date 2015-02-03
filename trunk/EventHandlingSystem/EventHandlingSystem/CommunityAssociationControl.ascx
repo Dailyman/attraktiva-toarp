@@ -14,12 +14,38 @@
                     AutoPostBack="True">
                 </asp:DropDownList><br />
                 <div class="btn-align-right">
-                    <asp:Button ID="ButtonCreateNewComm" CssClass="btn-blue" runat="server" Text="Create New Community" OnClick="ButtonCreateNewComm_OnClick" />
+                    <asp:Button ID="ButtonCreateNewComm" 
+                        CssClass="btn-blue" 
+                        runat="server" 
+                        Text="Create New Community"
+                         OnClick="ButtonCreateNewComm_OnClick" />
                 </div>
             </div>
         </asp:View>
     </asp:MultiView>
    <br />
+    
+    <asp:MultiView ID="MultiViewCommCreate" runat="server" ActiveViewIndex="-1">
+        <asp:View ID="ViewCommCreate" runat="server">
+            <div class="view-community-create">
+                <h3>Create a new Community</h3><br />
+                <span><b>Name: </b>
+                    <asp:TextBox ID="TextBoxCommNameCreate" runat="server"></asp:TextBox>
+                </span><br />
+                <span><b>LogoUrl: </b>
+                    <asp:TextBox ID="TextBoxCommLogoUrl" runat="server"></asp:TextBox>
+                </span><br />
+                <br />
+                <asp:Label ID="LabelCreateComm" runat="server" Text=""></asp:Label>
+                <div class="btn-align-right">
+                    <asp:Button ID="ButtonCreateCommCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonCreateCommCancel_OnClick" />
+                    <asp:Button ID="ButtonCreateComm" CssClass="btn-blue" runat="server" Text="Create" OnClick="ButtonCreateComm_OnClick" />
+                </div>
+            </div>
+        </asp:View>
+    </asp:MultiView>
+    <br />
+
     <asp:MultiView ID="MultiViewCommDetails" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewCommDetails" runat="server">
             <div class="view-community-details">

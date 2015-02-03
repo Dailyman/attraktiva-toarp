@@ -49,6 +49,69 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Button ButtonCreateNewComm;
         
         /// <summary>
+        /// MultiViewCommCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiViewCommCreate;
+        
+        /// <summary>
+        /// ViewCommCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View ViewCommCreate;
+        
+        /// <summary>
+        /// TextBoxCommNameCreate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxCommNameCreate;
+        
+        /// <summary>
+        /// TextBoxCommLogoUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxCommLogoUrl;
+        
+        /// <summary>
+        /// LabelCreateComm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelCreateComm;
+        
+        /// <summary>
+        /// ButtonCreateCommCancel control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCreateCommCancel;
+        
+        /// <summary>
+        /// ButtonCreateComm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonCreateComm;
+        
+        /// <summary>
         /// MultiViewCommDetails control.
         /// </summary>
         /// <remarks>
