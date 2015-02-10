@@ -175,5 +175,17 @@ namespace EventHandlingSystem
 
             BuildGridView();
         }
+
+
+        void Test(string email)
+        {
+            MembershipUser user = Membership.GetUser(Membership.GetUserNameByEmail(email));
+
+            if (user != null)
+            {
+                string newstr = user.ResetPassword();
+            }
+            
+        }
     }
 }
