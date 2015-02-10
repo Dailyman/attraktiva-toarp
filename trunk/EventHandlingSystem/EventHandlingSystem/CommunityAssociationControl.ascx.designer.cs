@@ -166,13 +166,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TextBoxCommDescript;
         
         /// <summary>
-        /// TextBoxLogoImgUrl control.
+        /// TextBoxCommLogoImgUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBoxLogoImgUrl;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxCommLogoImgUrl;
         
         /// <summary>
         /// LabelCreated control.
@@ -346,6 +346,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Button ButtonCatRemove;
         
         /// <summary>
+        /// TextBoxAssoLogoImgUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TextBoxAssoLogoImgUrl;
+        
+        /// <summary>
         /// LabelCreatedAsso control.
         /// </summary>
         /// <remarks>
@@ -427,15 +436,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TextBoxCreateAssoName;
         
         /// <summary>
-        /// DropDownListCommunityCreateAsso control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListCommunityCreateAsso;
-        
-        /// <summary>
         /// DropDownListCreateParAsso control.
         /// </summary>
         /// <remarks>
@@ -445,13 +445,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateParAsso;
         
         /// <summary>
-        /// DropDownListCreateAssoType control.
+        /// TextBoxAssoImgUrl control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListCreateAssoType;
+        protected global::System.Web.UI.WebControls.TextBox TextBoxAssoImgUrl;
         
         /// <summary>
         /// ButtonCreateAssoCancel control.
