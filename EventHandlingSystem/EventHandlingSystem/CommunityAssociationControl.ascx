@@ -29,10 +29,10 @@
         <asp:View ID="ViewCommCreate" runat="server">
             <div class="view-community-create">
                 <h3>Create a new Community</h3><br />
-                <span><b>Name: </b>
+                <span><b>Community Name: </b>
                     <asp:TextBox ID="TextBoxCommNameCreate" runat="server"></asp:TextBox>
                 </span><br />
-                <span><b>LogoUrl: </b>
+                <span><b>Community LogoUrl: </b>
                     <asp:TextBox ID="TextBoxCommLogoUrl" runat="server"></asp:TextBox>
                 </span><br />
                 <br />
@@ -67,7 +67,7 @@
                         runat="server"></asp:TextBox>
                 </span><br />
                 <span><b>Logo URL: </b>
-                    <asp:TextBox ID="TextBoxLogoImgUrl" Text="~/Images/Community.jpg" ForeColor="gray" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxCommLogoImgUrl" Text="~/Images/Community.jpg" ForeColor="gray" runat="server"></asp:TextBox>
                 </span>
                 <br />
                 <br />
@@ -83,7 +83,10 @@
             <div class="view-community-details-association">
                 <b><asp:Label ID="LabelAssoInComm" runat="server" Text=""></asp:Label></b>
                 <br /><br />
-                <asp:ListBox ID="ListBoxAsso" OnSelectedIndexChanged="ListBoxAsso_OnSelectedIndexChanged" Width="200px" runat="server" AutoPostBack="True"></asp:ListBox>
+                <asp:ListBox ID="ListBoxAsso" OnSelectedIndexChanged="ListBoxAsso_OnSelectedIndexChanged" 
+                    Width="200px" 
+                    runat="server" 
+                    AutoPostBack="True"></asp:ListBox>
                 <br />
                 <br />
                 <div class="btn-align-right">
@@ -122,13 +125,10 @@
                     <br/>
                     <asp:ListBox ID="ListBoxCatInAsso" AutoPostBack="True" Width="200px" CssClass="lbCatInAsso" runat="server" SelectionMode="Multiple"></asp:ListBox>
                     <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="btn-small" OnClick="ButtonCatRemove_OnClick"/>
-
-                <%--<span><b>Select Category: </b>
-                    <asp:ListBox ID="ListBoxCategories" AutoPostBack="True" Width="200px" runat="server"></asp:ListBox>
-                    </span><br /><br />--%>
-                <%--<h5>Categories in the Association</h5>
-                <asp:CheckBoxList ID="CheckBoxListAssoType" runat="server"></asp:CheckBoxList>
-                <asp:BulletedList ID="BulletedListAssoType" runat="server"></asp:BulletedList><br /><br />--%>
+                <br /><br />
+                <span><b>Logo URL: </b>
+                    <asp:TextBox ID="TextBoxAssoLogoImgUrl" Text="~/Images/Community.jpg" ForeColor="gray" runat="server"></asp:TextBox>
+                </span>
                 
                 <br/><br/>
                     <asp:Label ID="LabelCreatedAsso" runat="server" Text=""></asp:Label><br />
@@ -152,28 +152,26 @@
         <asp:View ID="ViewAssoCreate" runat="server">
             <div class="view-association-create">
                 <h3>Create a new Association</h3><br />
-                <span><b>Name: </b>
+                <span><b>Association Name: </b>
                     <asp:TextBox ID="TextBoxCreateAssoName" runat="server"></asp:TextBox>
                 </span><br />
-                <span><b>Community: </b>
+                <%--<span><b>Community: </b>
                     <asp:DropDownList ID="DropDownListCommunityCreateAsso"
                         runat="server"
                         OnSelectedIndexChanged="DropDownListCommCreateAsso_OnSelectedIndexChanged"
                         EnableViewState="True"
                         AutoPostBack="True">
                     </asp:DropDownList>
-                </span><br />
+                </span><br />--%>
                 <span><b>Parent Association: </b>
                     <asp:DropDownList ID="DropDownListCreateParAsso"
                         runat="server"
-                        OnSelectedIndexChanged="DropDownListCreateParAsso_OnSelectedIndexChanged">
+                        OnSelectedIndexChanged="DropDownListCreateParAsso_OnSelectedIndexChanged"
+                        AutoPostBack="True">
                     </asp:DropDownList>
                 </span><br />
-                <span><b>Association Type: </b>
-                    <asp:DropDownList ID="DropDownListCreateAssoType"
-                        runat="server"
-                        OnSelectedIndexChanged="DropDownListCreateAssoType_OnSelectedIndexChanged">
-                    </asp:DropDownList>
+                <span><b>Logo URL: </b>
+                    <asp:TextBox ID="TextBoxAssoImgUrl" runat="server"></asp:TextBox>
                 </span><br />
                 <br />
                 <div class="btn-align-right">

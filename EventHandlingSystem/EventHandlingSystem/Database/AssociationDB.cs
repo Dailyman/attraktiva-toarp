@@ -26,6 +26,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Id.Equals(id));
         }
 
+        public static associations GetAssociationByName(string name)
+        {
+            return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Name.Equals(name));
+        }
+
         public static List<associations> GetAllAssociationsInCommunity(communities com)
         {
             return GetAllNotDeletedAssociations().Where(a => a.communities.Equals(com)).ToList();
@@ -87,6 +92,20 @@ namespace EventHandlingSystem.Database
         }
 
 
+        //ADD
+        public static bool AddAssociation(associations asso)
+        {
+            Context.associations.Add(asso);
+            try
+            {
+                Context.SaveChanges();
+            }
+            catch (DbUpdateException dbEx)
+            {
+                return false;
+            }
+            return true;
+        }
 
         //// Categories In Associations
 
