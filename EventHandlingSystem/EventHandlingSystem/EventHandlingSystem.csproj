@@ -187,6 +187,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Calendar.ascx" />
     <Content Include="CategoryHandlingControl.ascx" />
     <Content Include="CommunityAssociationControl.ascx" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -372,6 +373,13 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="associations.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Calendar.ascx.cs">
+      <DependentUpon>Calendar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Calendar.ascx.designer.cs">
+      <DependentUpon>Calendar.ascx</DependentUpon>
     </Compile>
     <Compile Include="categories.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
