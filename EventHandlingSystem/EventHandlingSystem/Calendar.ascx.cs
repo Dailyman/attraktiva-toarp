@@ -6,6 +6,7 @@ using System.Web.UI;
 using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Data;
+using EventHandlingSystem.Database;
 
 namespace EventHandlingSystem
 {
@@ -44,31 +45,52 @@ namespace EventHandlingSystem
             {
                 if (Convert.ToDateTime(dateTime.AddDays(i)).ToString("dddd") == "måndag")
                 {
-                    row["Mon"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Mon"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "tisdag")
                 {
-                    row["Tue"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Tue"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "onsdag")
                 {
-                    row["Wed"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Wed"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>";  
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "torsdag")
                 {
-                    row["Thu"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Thu"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>";  
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "fredag")
                 {
-                    row["Fri"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Fri"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "lördag")
                 {
-                    row["Sat"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Sat"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "söndag")
                 {
-                    row["Sun"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
+                    row["Sun"] =
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        " </div>"; 
 
                     table.Rows.Add(row);
                     row = table.NewRow();
@@ -84,6 +106,20 @@ namespace EventHandlingSystem
             GridView1.DataBind();
         }
         
+        //Metod som bygger upp en div, kollar först datumet har några events
+        public string BuildEventInCalendarCell(DateTime date)
+        {
+            string divs = "";
+            foreach (var ev in EventDB.GetAllEventsInMonth(date))
+            {
+                if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+                {
+                    divs += "<div class=\"event-in-cell\" >"+ ev.Title +"</div>";
+                }
+            }
+            return divs;
+        }
+
         protected void btnBackArrow_OnClick(object sender, EventArgs e)
         {
             hdnDate.Value = Convert.ToDateTime(hdnDate.Value).AddMonths(-1).ToString();

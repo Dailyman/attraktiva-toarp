@@ -36,6 +36,13 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedEvents().SingleOrDefault(e => e.Id.Equals(id));
         }
 
+        public static List<events> GetAllEventsInMonth(DateTime date)
+        {
+            return
+                GetAllNotDeletedEvents()
+                    .Where(e => e.StartDate.Month.Equals(date.Month) || e.EndDate.Month.Equals(date.Month))
+                    .ToList();
+        }
 
         // ADD
         public static bool AddEvent(events ev)
