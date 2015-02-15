@@ -22,15 +22,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl SiteNavMenuList;
         
         /// <summary>
-        /// UpdatePanelTreeNav control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanelTreeNav;
-        
-        /// <summary>
         /// TreeViewNavigation control.
         /// </summary>
         /// <remarks>
