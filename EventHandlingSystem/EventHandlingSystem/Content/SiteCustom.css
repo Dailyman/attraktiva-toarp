@@ -365,11 +365,6 @@ ul#menu li a
         -webkit-box-shadow: 3px 3px 5px rgba(33,126,187,0.6);
         -moz-box-shadow: 3px 3px 5px rgba(33,126,187,0.6);
         box-shadow: 3px 3px 5px rgba(33,126,187,0.6);
-    }
-
-
-    .titlebox h1
-    {
         background: #217ebb; /*old - #3198dd*/
         width: auto;
         min-width: 300px;

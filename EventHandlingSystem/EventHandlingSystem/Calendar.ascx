@@ -3,31 +3,46 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <style>
-    .table-event {
-        background-color: #2DB075;
-        width: 162px;
-        height: 100px;
-        margin: 0 auto;
+    .cal-table {
+        background-color: aliceblue;
+        padding: 5px;
+        border: 1px solid black;
     }
-    td {
-        padding: 1px;
+     .table-event {
+         background-color: white;
+         width: 127px;
+         height: 90px;
+         margin: 0 auto;
+         padding: 5px;
+     }
+     .cal-table td {
+        padding: 0;
+        border: 1px solid #3498db;
+    }
+     .cal-table th {
+        padding-left: 5px;
+        border: 1px solid #3498db;
     }
 </style>
 
-<asp:TextBox ID="txtMonth" runat="server">Feb</asp:TextBox>
-<asp:TextBox ID="txtYear" runat="server">2015</asp:TextBox>
-<asp:Button ID="Button1" runat="server" OnClick="Button1_Click" Text="Button" />
 <br />
 <br />
-<asp:GridView ID="GridView1" AutoGenerateColumns="False" runat="server">
+
+<br />
+<asp:HiddenField ID="hdnDate" runat="server"></asp:HiddenField>
+<asp:Button ID="btnBackArrow" runat="server" Text=" < " OnClick="btnBackArrow_OnClick"/>
+<asp:Button ID="btnForwardArrow" runat="server" Text=" > " OnClick="btnForwardArrow_OnClick" />
+<asp:Label ID="lblCurrentDate" runat="server" Text=""></asp:Label>
+<br />
+<asp:GridView ID="GridView1" CssClass="cal-table" AutoGenerateColumns="False" runat="server">
     <Columns>
         <asp:BoundField DataField="Mon" HtmlEncode="False" HeaderText="Mon" />
         <asp:BoundField DataField="Tue" HtmlEncode="False" HeaderText="Tue" />
-        <asp:BoundField DataField="Wed" HtmlEncode="False" HeaderText="Wed"/>
+        <asp:BoundField DataField="Wed" HtmlEncode="False" HeaderText="Wed" />
         <asp:BoundField DataField="Thu" HtmlEncode="False" HeaderText="Thu" />
-        <asp:BoundField DataField="Fri" HtmlEncode="False" HeaderText="Fri"/>
-        <asp:BoundField DataField="Sat" HtmlEncode="False" HeaderText="Sat"/>
-        <asp:BoundField DataField="Sun" HtmlEncode="False" HeaderText="Sun"/>
+        <asp:BoundField DataField="Fri" HtmlEncode="False" HeaderText="Fri" />
+        <asp:BoundField DataField="Sat" HtmlEncode="False" HeaderText="Sat" />
+        <asp:BoundField DataField="Sun" HtmlEncode="False" HeaderText="Sun" />
     </Columns>
 </asp:GridView>
 

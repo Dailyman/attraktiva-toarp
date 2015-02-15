@@ -13,31 +13,40 @@ namespace EventHandlingSystem {
     public partial class Calendar {
         
         /// <summary>
-        /// txtMonth control.
+        /// hdnDate control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtMonth;
+        protected global::System.Web.UI.WebControls.HiddenField hdnDate;
         
         /// <summary>
-        /// txtYear control.
+        /// btnBackArrow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtYear;
+        protected global::System.Web.UI.WebControls.Button btnBackArrow;
         
         /// <summary>
-        /// Button1 control.
+        /// btnForwardArrow control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button Button1;
+        protected global::System.Web.UI.WebControls.Button btnForwardArrow;
+        
+        /// <summary>
+        /// lblCurrentDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblCurrentDate;
         
         /// <summary>
         /// GridView1 control.

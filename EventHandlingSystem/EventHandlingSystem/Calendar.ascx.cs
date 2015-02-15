@@ -11,19 +11,24 @@ namespace EventHandlingSystem
 {
     public partial class Calendar : System.Web.UI.UserControl
     {
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (!IsPostBack)
+            {
+                hdnDate.Value = DateTime.Now.ToString(); //("yyyy-MM");
+                RenderCalendar(DateTime.Now);
+            }
         }
-
-        protected void Button1_Click(object sender, EventArgs e)
+        
+        public void RenderCalendar(DateTime date)
         {
-            string month = txtMonth.Text; // should be in the format of Jan, Feb, Mar, Apr, etc...
-            int yearofMonth = Convert.ToInt32(txtYear.Text);
-            DateTime dateTime = Convert.ToDateTime("01-" + month + "-" + yearofMonth);
+            DateTime dateTime = Convert.ToDateTime("01-" + date.ToString("MMMM") + "-" + date.Year);
+            
+            string dateText = dateTime.ToString("MMMM yyyy");
+            lblCurrentDate.Text = char.ToUpper(dateText[0]) + dateText.Substring(1);
 
             DataTable table = new DataTable();
-            DataRow row;
 
             table.Columns.Add("Mon");
             table.Columns.Add("Tue");
@@ -32,18 +37,11 @@ namespace EventHandlingSystem
             table.Columns.Add("Fri");
             table.Columns.Add("Sat");
             table.Columns.Add("Sun");
-            row = table.NewRow();
 
-            //row[0] = 1 + " test";
-
-            //table.Rows.Add(row);
+            DataRow row = table.NewRow();
 
             for (int i = 0; i < DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i += 1)
             {
-                //txtMonth.Text = Convert.ToDateTime(dateTime.AddDays(0)).ToString("dddd");
-                txtMonth.Text = dateTime.ToString("dddd");
-
-
                 if (Convert.ToDateTime(dateTime.AddDays(i)).ToString("dddd") == "måndag")
                 {
                     row["Mon"] = "<div class=\"table-event\">" + (i + 1) + "</div>";
@@ -77,19 +75,29 @@ namespace EventHandlingSystem
                     continue;
                 }
 
-                if (i == DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1)
-                {
-                    table.Rows.Add(row);
-                    row = table.NewRow();
-                }
+                if (i != DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1) continue;
+                table.Rows.Add(row);
+                row = table.NewRow();
             }
 
             GridView1.DataSource = table;
             GridView1.DataBind();
         }
         
+        protected void btnBackArrow_OnClick(object sender, EventArgs e)
+        {
+            hdnDate.Value = Convert.ToDateTime(hdnDate.Value).AddMonths(-1).ToString();
+            RenderCalendar(Convert.ToDateTime(hdnDate.Value));
+        }
+
+        protected void btnForwardArrow_OnClick(object sender, EventArgs e)
+        {
+            hdnDate.Value = Convert.ToDateTime(hdnDate.Value).AddMonths(1).ToString();
+            RenderCalendar(Convert.ToDateTime(hdnDate.Value));    
+        }
     }
 }
+    
 
 
 
