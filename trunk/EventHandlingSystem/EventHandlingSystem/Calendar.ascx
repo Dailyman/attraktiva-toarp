@@ -23,7 +23,14 @@
         padding-left: 5px;
         border: 1px solid #3498db;
     }
+     .event-in-cell {
+         background-color: plum;
+     }
 </style>
+
+
+<script type="text/javascript" src="/scripts/jquery-2.1.3.js"></script>
+
 
 <br />
 <br />
