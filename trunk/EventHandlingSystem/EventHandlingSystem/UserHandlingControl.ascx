@@ -68,19 +68,48 @@
     <tbody>
         <tr>
             <td style="width: 150px">
-                <asp:TextBox ID="txtUserName" runat="server" Width="140" TextMode="SingleLine" />
+                <asp:TextBox ID="txtUserName" runat="server" Width="140" TextMode="SingleLine" ValidationGroup="CreateUser" />
+                <asp:RequiredFieldValidator ID="RequiredFieldValiUserName" runat="server" ControlToValidate="txtUserName" ErrorMessage="< Required Field" ValidationGroup="CreateUser" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
+
             </td>
             <td style="width: 150px">
-                <asp:TextBox ID="txtEmail" runat="server" Width="140" TextMode="Email" />
+                <asp:TextBox ID="txtEmail" runat="server" Width="140" TextMode="Email" ValidationGroup="CreateUser" />
+                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="txtEmail" ErrorMessage="< Required Field" ValidationGroup="CreateUser" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
             </td>
             <td style="width: 150px">
-                <asp:TextBox ID="txtPassword" runat="server" Width="140" TextMode="Password" />
+                <asp:TextBox ID="txtPassword" runat="server" Width="140" TextMode="Password" ValidationGroup="CreateUser" />
+                <asp:RequiredFieldValidator ID="RequiredFieldValiPass" runat="server" ControlToValidate="txtPassword" ErrorMessage="< Required Field" ValidationGroup="CreateUser" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
             </td>
             <td style="width: 150px">
-                <asp:TextBox ID="txtConfirmPassword" runat="server" Width="140" TextMode="Password" />
+                <asp:TextBox ID="txtConfirmPassword" runat="server" Width="140" TextMode="Password" ValidationGroup="CreateUser" />
+                <asp:RequiredFieldValidator ID="RequiredFieldValiPassConfirm" runat="server" ControlToValidate="txtConfirmPassword" ErrorMessage="< Required Field" ValidationGroup="CreateUser" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
             </td>
             <td style="width: 100px">
-                <asp:Button ID="btnCreateUser" runat="server" Text="Create" OnClick="btnCreateUser_OnClick" />
+                <asp:Button ID="btnCreateUser" runat="server" Text="Create" OnClick="btnCreateUser_OnClick" ValidationGroup="CreateUser" />
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+
+<h2>Reset password</h2>
+<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse">
+    <thead>
+        <tr>
+            <th style="width: 150px">Email:
+            </th>
+            <th style="width: 100px"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td style="width: 150px">
+                <asp:TextBox ID="TxtEmailReset" runat="server" Width="140" TextMode="Email" ValidationGroup="Reset" />
+                <asp:RequiredFieldValidator ID="ReqFieldValiEmailReset" runat="server" ControlToValidate="TxtEmailReset" ErrorMessage="< Required Field" ValidationGroup="Reset" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
+
+            </td>
+            <td style="width: 100px">
+                <asp:Button ID="BtnReset" runat="server" Text="Reset" OnClick="BtnReset_OnClick" ValidationGroup="Reset" />
             </td>
         </tr>
     </tbody>

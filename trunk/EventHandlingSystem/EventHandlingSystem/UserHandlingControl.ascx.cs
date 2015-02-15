@@ -177,15 +177,28 @@ namespace EventHandlingSystem
         }
 
 
-        void Test(string email)
+        public void ResetPassword(string email)
         {
             MembershipUser user = Membership.GetUser(Membership.GetUserNameByEmail(email));
 
             if (user != null)
             {
                 string newstr = user.ResetPassword();
+
+                LabelDisplay.Text = "The password for user '" + user.UserName +"' has been changed to " + newstr;
+                    LabelDisplay.ForeColor = Color.Green;
+            }
+            else
+            {
+                LabelDisplay.Text = string.Format("The user did not exist");
+                LabelDisplay.ForeColor = Color.Red;
             }
             
+        }
+
+        protected void BtnReset_OnClick(object sender, EventArgs e)
+        {
+         ResetPassword(TxtEmailReset.Text);       
         }
     }
 }
