@@ -3,7 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <style>
-    .cal-table
+    html > body .cal-table
     {
         background-color: aliceblue;
         padding: 5px;
@@ -12,13 +12,13 @@
         min-width: 900px;
     }
 
-    .table-event
+    html > body .table-cell
     {
         background-color: white;
         min-width: 127px;
         min-height: 90px;
         height: 100%;
-        padding: 5px;
+        /*padding: 0 5px;*/
         /*position: relative;*/
     }
 
@@ -29,26 +29,31 @@
         vertical-align: top;
     }
 
-    .cal-table th
+    html > body .cal-table th
     {
         padding-left: 5px;
         border: 1px solid #3498db;
         /*background-color: aliceblue*/
     }
 
-    .event-in-cell
+    html > body .cell-date {
+        padding: 5px;
+    }
+
+    html > body .event-in-cell
     {
         background-color: plum;
         text-align: center;
-        margin-bottom: 1px;
+        margin: 1px;
+        padding: 2px;
     }
 
-    .table-event a
+    html > body .table-cell a
     {
         text-decoration: none;
     }
 
-        .table-event a:hover
+        html > body .table-cell a:hover
         {
             color: grey;
         }
