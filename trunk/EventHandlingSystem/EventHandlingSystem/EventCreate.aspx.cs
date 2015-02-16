@@ -45,13 +45,29 @@ namespace EventHandlingSystem
                 }
                 //Slut 'lägger till objekt i associationdropdownlist'. 
 
-                //Sätter in dagens datum och tid i textboxarna.
-                TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                 //Sätter in dagens datum och tid i textboxarna.
+                string dateStr = Request.QueryString["d"];
+                DateTime date;
+                if (!string.IsNullOrWhiteSpace(dateStr) && DateTime.TryParse(dateStr, out date))
+                {
+                    TxtBoxStartDate.Text = date.ToString("yyyy-MM-dd");
+                    TxtBoxStartTime.Text = date.ToString("HH:mm");
+                    CalendarStartDate.SelectedDate = date.Date;
+                    TxtBoxEndDate.Text = date.AddHours(1).ToString("yyyy-MM-dd");
+                    TxtBoxEndTime.Text = date.AddHours(1).ToString("HH:mm");
+                    CalendarEndDate.SelectedDate = date.AddHours(1).Date;
+                }
+                else
+                {
+                    TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 TxtBoxStartTime.Text = "00:00";
                 CalendarStartDate.SelectedDate = DateTime.Now.Date;
                 TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
                 TxtBoxEndTime.Text = "00:00";
                 CalendarEndDate.SelectedDate = DateTime.Now.Date;
+                }
+               
+                
 
                 //Gömmer kalendrarna från början. 
                 CalendarEndDate.Visible = false;

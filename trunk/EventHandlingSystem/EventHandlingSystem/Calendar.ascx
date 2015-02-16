@@ -3,29 +3,51 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
 <style>
-    .cal-table {
-        background-color: aliceblue;
+    .cal-table
+    {
+        /*background-color: aliceblue;*/
         padding: 5px;
         border: 1px solid black;
     }
-     .table-event {
-         background-color: white;
-         width: 127px;
-         height: 90px;
-         margin: 0 auto;
-         padding: 5px;
-     }
-     .cal-table td {
+
+    .table-event
+    {
+        background-color: white;
+        min-width: 127px;
+        min-height: 90px;
+        padding: 5px;
+    }
+
+    .cal-table td
+    {
         padding: 0;
         border: 1px solid #3498db;
+        vertical-align: top;
     }
-     .cal-table th {
+
+    .cal-table th
+    {
         padding-left: 5px;
         border: 1px solid #3498db;
+        background-color: aliceblue
     }
-     .event-in-cell {
-         background-color: plum;
-     }
+
+    .event-in-cell
+    {
+        background-color: plum;
+        text-align: center;
+        margin-bottom: 1px;
+    }
+
+    .table-event a
+    {
+        text-decoration: none;
+    }
+
+        .table-event a:hover
+        {
+            color: grey;
+        }
 </style>
 
 
@@ -37,7 +59,7 @@
 
 <br />
 <asp:HiddenField ID="hdnDate" runat="server"></asp:HiddenField>
-<asp:Button ID="btnBackArrow" runat="server" Text=" < " OnClick="btnBackArrow_OnClick"/>
+<asp:Button ID="btnBackArrow" runat="server" Text=" < " OnClick="btnBackArrow_OnClick" />
 <asp:Button ID="btnForwardArrow" runat="server" Text=" > " OnClick="btnForwardArrow_OnClick" />
 <asp:Label ID="lblCurrentDate" runat="server" Text=""></asp:Label>
 <br />

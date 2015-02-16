@@ -6,7 +6,7 @@
         //jQuery('#Site-navigation nav').hide();
         jQuery('#toggle-nav-btn').click(function () {
             //$("#Site-navigation nav").slideToggle(500, "swing", $(this).toggleClass("rotate-180 rotate-m180"));
-            jQuery('#Site-navigation nav').toggle('slide', 300).promise().done(function () {
+            jQuery('#Site-navigation nav').toggle('slide').promise().done(function () {
                 __doPostBack('SiteNavMenuList', $('#Site-navigation nav').css('display'));
             });
             jQuery('#toggle-nav-icon').toggleClass('rotate rotate-reset');

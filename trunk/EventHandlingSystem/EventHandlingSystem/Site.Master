@@ -2,7 +2,7 @@
 
 <%@ Register TagPrefix="aspNavigation" TagName="SiteNavigation" Src="Navigation.ascx" %>
 
-<%@ Register TagPrefix="ajax" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>
+<%--<%@ Register TagPrefix="ajax" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>--%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -22,12 +22,12 @@
 </head>
 <body>
     <form runat="server">
-        <%--
-            vvv OriginalScriptManager vvv
+        
+            
         <asp:ScriptManager runat="server">
             <Scripts>
-                <To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=272931&clcid=0x409 
-                Framework Scripts
+                <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=272931&clcid=0x409 
+                Framework Scripts--%>
 
                 <asp:ScriptReference Name="MsAjaxBundle" />
                 <asp:ScriptReference Name="jquery" />
@@ -41,15 +41,15 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                Site Scripts
+               <%--Site Scripts--%>
 
             </Scripts>
         </asp:ScriptManager>
-        --%>
+        
 
-        <ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
+        <%--<ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
             <Scripts>
-                <%--Framework Scripts--%>
+
                 <asp:ScriptReference Name="jquery" />
                 <asp:ScriptReference Name="jquery.ui.combined" />
                 <asp:ScriptReference Name="WebForms.js" Path="~/Scripts/WebForms/WebForms.js" />
@@ -61,9 +61,9 @@
                 <asp:ScriptReference Name="WebParts.js" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-                <%--Site Scripts--%>
+                
             </Scripts>
-        </ajaxToolkit:ToolkitScriptManager>
+        </ajaxToolkit:ToolkitScriptManager>--%>
 
 
         <header>

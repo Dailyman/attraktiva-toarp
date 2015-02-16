@@ -46,49 +46,49 @@ namespace EventHandlingSystem
                 if (Convert.ToDateTime(dateTime.AddDays(i)).ToString("dddd") == "måndag")
                 {
                     row["Mon"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
                         + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "tisdag")
                 {
                     row["Tue"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
                         + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "onsdag")
                 {
                     row["Wed"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        + (i + 1) + (string.IsNullOrEmpty(BuildEventInCalendarCell(dateTime.AddDays(i))) ? "<br/>&nbsp;" : BuildEventInCalendarCell(dateTime.AddDays(i))) +
                         " </div>";  
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "torsdag")
                 {
                     row["Thu"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
                         + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>";  
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "fredag")
                 {
                     row["Fri"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
                         + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "lördag")
                 {
                     row["Sat"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
                         + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>"; 
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "söndag")
                 {
                     row["Sun"] =
-                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                        "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
                         + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>"; 
 
@@ -114,7 +114,7 @@ namespace EventHandlingSystem
             {
                 if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
                 {
-                    divs += "<div class=\"event-in-cell\" >"+ ev.Title +"</div>";
+                    divs += "<a href=\"/EventDetails?id="+ ev.Id+"\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
                 }
             }
             return divs;
