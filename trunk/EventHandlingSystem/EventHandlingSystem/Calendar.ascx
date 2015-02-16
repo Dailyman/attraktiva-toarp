@@ -5,9 +5,11 @@
 <style>
     .cal-table
     {
-        /*background-color: aliceblue;*/
+        background-color: aliceblue;
         padding: 5px;
         border: 1px solid black;
+        height: 600px;
+        min-width: 900px;
     }
 
     .table-event
@@ -15,10 +17,12 @@
         background-color: white;
         min-width: 127px;
         min-height: 90px;
+        height: 100%;
         padding: 5px;
+        /*position: relative;*/
     }
 
-    .cal-table td
+    html > body .cal-table td
     {
         padding: 0;
         border: 1px solid #3498db;
@@ -29,7 +33,7 @@
     {
         padding-left: 5px;
         border: 1px solid #3498db;
-        background-color: aliceblue
+        /*background-color: aliceblue*/
     }
 
     .event-in-cell

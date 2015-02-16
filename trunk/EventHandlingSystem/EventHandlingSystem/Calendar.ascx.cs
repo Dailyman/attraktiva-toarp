@@ -61,8 +61,9 @@ namespace EventHandlingSystem
                 {
                     row["Wed"] =
                         "<div class=\"table-event\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + (i + 1) + (string.IsNullOrEmpty(BuildEventInCalendarCell(dateTime.AddDays(i))) ? "<br/>&nbsp;" : BuildEventInCalendarCell(dateTime.AddDays(i))) +
+                        + (i + 1) + BuildEventInCalendarCell(dateTime.AddDays(i)) +
                         " </div>";  
+                    //(string.IsNullOrEmpty(BuildEventInCalendarCell(dateTime.AddDays(i))) ? "<br/>&nbsp;" : BuildEventInCalendarCell(dateTime.AddDays(i)))
                 }
                 if (dateTime.AddDays(i).ToString("dddd") == "torsdag")
                 {
