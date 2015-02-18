@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Migrations;
 using System.Data.Entity.Validation;
@@ -47,47 +48,73 @@ namespace EventHandlingSystem.Database
         // ADD
         public static bool AddEvent(events ev)
         {
+            
             Context.events.Add(ev);
             try
             {
                 Context.SaveChanges();
             }
-            //catch (DbEntityValidationException ex)
-            //{
-            //    using (var sw = new StreamWriter(File.Open(@"C:\Users\Robin\Desktop\myfile2.txt", FileMode.CreateNew), Encoding.GetEncoding("iso-8859-1")))
-            //    {
-            //        foreach (var str in ex.EntityValidationErrors)
-            //        {
-            //            foreach (var valErr in str.ValidationErrors)
-            //            {
-            //                sw.WriteLine(str.Entry + "###" + valErr.PropertyName + "###" + valErr.ErrorMessage);
-            //            }
+                //catch (DbEntityValidationException ex)
+                //{
+                //    using (var sw = new StreamWriter(File.Open(@"C:\Users\Robin\Desktop\myfile2.txt", FileMode.CreateNew), Encoding.GetEncoding("iso-8859-1")))
+                //    {
+                //        foreach (var str in ex.EntityValidationErrors)
+                //        {
+                //            foreach (var valErr in str.ValidationErrors)
+                //            {
+                //                sw.WriteLine(str.Entry + "###" + valErr.PropertyName + "###" + valErr.ErrorMessage);
+                //            }
                         
-            //        }
-            //    }
-            //}
+                //        }
+                //    }
+                //}
             catch (DbUpdateException dbEx)
             {
                 return false;
             }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
+                {
+                    // Get entry
+
+                    DbEntityEntry entry = item.Entry;
+                    string entityTypeName = entry.Entity.GetType().Name;
+
+                    // Display or log error messages
+
+                    foreach (DbValidationError subItem in item.ValidationErrors)
+                    {
+                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
+                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
+                        Console.WriteLine(message);
+                    }
+                    // Rollback changes
+
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                        case EntityState.Modified:
+                            entry.CurrentValues.SetValues(entry.OriginalValues);
+                            entry.State = EntityState.Unchanged;
+                            break;
+                        case EntityState.Deleted:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                    }
+                }
+
+                return false;
+            }
+           
             return true;
+
+           
+            
+
         }
-
-        // CREATE
-        //    public static int CreateTerm(Term term)
-        //    {
-        //        Term termToCreate = new Term
-        //        {
-        //            Name = !string.IsNullOrWhiteSpace(term.Name) ? term.Name : "Untitled",
-        //            TermSet = term.TermSet,
-        //            Created = DateTime.Now
-        //        };
-
-        //        Context.Terms.Add(termToCreate);
-
-        //        int affectedRows = Context.SaveChanges();
-        //        return affectedRows;
-        //    }
 
 
         // UPDATE
@@ -121,8 +148,50 @@ namespace EventHandlingSystem.Database
             //}
             eventToUpdate.associations = ev.associations;
             eventToUpdate.communities = ev.communities;
+
+            int affectedRows;
+
+            try
+            {
+                affectedRows = Context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
+                {
+                    // Get entry
+
+                    DbEntityEntry entry = item.Entry;
+                    string entityTypeName = entry.Entity.GetType().Name;
+
+                    // Display or log error messages
+
+                    foreach (DbValidationError subItem in item.ValidationErrors)
+                    {
+                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
+                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
+                        Console.WriteLine(message);
+                    }
+                    // Rollback changes
+
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                        case EntityState.Modified:
+                            entry.CurrentValues.SetValues(entry.OriginalValues);
+                            entry.State = EntityState.Unchanged;
+                            break;
+                        case EntityState.Deleted:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                    }
+                }
+
+                return affectedRows = 0;
+            }
             
-            int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
 
@@ -134,8 +203,49 @@ namespace EventHandlingSystem.Database
             events eventToDelete = GetEventById(ev.Id);
 
             eventToDelete.IsDeleted = true;
+            
+            int affectedRows;
+            try
+            {
+                affectedRows = Context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
+                {
+                    // Get entry
 
-            int affectedRows = Context.SaveChanges();
+                    DbEntityEntry entry = item.Entry;
+                    string entityTypeName = entry.Entity.GetType().Name;
+
+                    // Display or log error messages
+
+                    foreach (DbValidationError subItem in item.ValidationErrors)
+                    {
+                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
+                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
+                        Console.WriteLine(message);
+                    }
+                    // Rollback changes
+
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                        case EntityState.Modified:
+                            entry.CurrentValues.SetValues(entry.OriginalValues);
+                            entry.State = EntityState.Unchanged;
+                            break;
+                        case EntityState.Deleted:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                    }
+                }
+
+                return false;
+            }
+
             return affectedRows > 0;
         }
 
