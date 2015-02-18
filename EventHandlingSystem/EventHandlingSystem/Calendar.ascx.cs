@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -31,6 +32,7 @@ namespace EventHandlingSystem
 
             DataTable table = new DataTable();
 
+            table.Columns.Add("Week");
             table.Columns.Add("Mon");
             table.Columns.Add("Tue");
             table.Columns.Add("Wed");
@@ -43,6 +45,8 @@ namespace EventHandlingSystem
 
             for (int i = 0; i < DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i += 1)
             {
+                row["week"] = "<div class=\"table-small-cell\"><div class=\"cell-week\">" + GetIso8601WeekOfYear(dateTime.AddDays(i)) + "</div></div>";
+
                 if (Convert.ToDateTime(dateTime.AddDays(i)).ToString("dddd") == "måndag")
                 {
                     row["Mon"] =
@@ -115,7 +119,7 @@ namespace EventHandlingSystem
             {
                 if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
                 {
-                    divs += "<a href=\"/EventDetails?id="+ ev.Id+"\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                    divs += "<a target=\"_blank\" href=\"/EventDetails?id="+ ev.Id+"\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
                 }
             }
             return divs;
@@ -131,6 +135,23 @@ namespace EventHandlingSystem
         {
             hdnDate.Value = Convert.ToDateTime(hdnDate.Value).AddMonths(1).ToString();
             RenderCalendar(Convert.ToDateTime(hdnDate.Value));    
+        }
+
+        // This presumes that weeks start with Monday.
+        // Week 1 is the 1st week of the year with a Thursday in it.
+        public static int GetIso8601WeekOfYear(DateTime time)
+        {
+            // Seriously cheat.  If its Monday, Tuesday or Wednesday, then it'll 
+            // be the same week# as whatever Thursday, Friday or Saturday are,
+            // and we always get those right
+            DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(time);
+            if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+            {
+                time = time.AddDays(3);
+            }
+
+            // Return the week of our adjusted day
+            return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(time, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
         }
     }
 }

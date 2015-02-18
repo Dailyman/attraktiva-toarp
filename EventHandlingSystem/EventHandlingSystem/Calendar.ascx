@@ -22,6 +22,18 @@
         /*position: relative;*/
     }
 
+    html > body .table-small-cell
+    {
+        /*background-color: white;*/
+        min-width: 30px;
+        max-width: 145px;
+        min-height: 90px;
+        height: 100%;
+        /*padding: 0 5px;*/
+        /*position: relative;*/
+    }
+    
+
     html > body .cal-table td
     {
         padding: 0;
@@ -33,7 +45,16 @@
     {
         padding-left: 5px;
         border: 1px solid #3498db;
+        text-align: center;
         /*background-color: aliceblue*/
+    }
+
+    html > body .cell-week {
+        /*padding: 5px;*/
+        text-align: center;
+        font-weight: bold;
+        position: relative;
+top: 45%;
     }
 
     html > body .cell-date {
@@ -74,6 +95,7 @@
 <br />
 <asp:GridView ID="GridView1" CssClass="cal-table" AutoGenerateColumns="False" runat="server">
     <Columns>
+        <asp:BoundField DataField="Week" HtmlEncode="False" HeaderText="" />
         <asp:BoundField DataField="Mon" HtmlEncode="False" HeaderText="Mon" />
         <asp:BoundField DataField="Tue" HtmlEncode="False" HeaderText="Tue" />
         <asp:BoundField DataField="Wed" HtmlEncode="False" HeaderText="Wed" />
