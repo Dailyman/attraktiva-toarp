@@ -93,7 +93,7 @@ top: 45%;
 <asp:Button ID="btnForwardArrow" runat="server" Text=" > " OnClick="btnForwardArrow_OnClick" />
 <asp:Label ID="lblCurrentDate" runat="server" Text=""></asp:Label>
 <br />
-<asp:GridView ID="GridView1" CssClass="cal-table" AutoGenerateColumns="False" runat="server">
+<asp:GridView ID="GridViewCalendar" CssClass="cal-table" AutoGenerateColumns="False" runat="server">
     <Columns>
         <asp:BoundField DataField="Week" HtmlEncode="False" HeaderText="" />
         <asp:BoundField DataField="Mon" HtmlEncode="False" HeaderText="Mon" />

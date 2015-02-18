@@ -107,8 +107,8 @@ namespace EventHandlingSystem
                 row = table.NewRow();
             }
 
-            GridView1.DataSource = table;
-            GridView1.DataBind();
+            GridViewCalendar.DataSource = table;
+            GridViewCalendar.DataBind();
         }
         
         //Metod som bygger upp en div, kollar först datumet har några events
