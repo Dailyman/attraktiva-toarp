@@ -120,7 +120,7 @@ namespace EventHandlingSystem
                 else
                 {
                     //Om evenemanget ej kunde hittas i DBn skrivs ett felmeddelande ut på sidan.
-                    var error = new HtmlGenericControl("h4") { InnerHtml = "The event does not exist!" };
+                    var error = new HtmlGenericControl("h4") { InnerHtml = "The event does not exist! It might have been deleted." };
                     Main.Controls.Add(error);
                 }
 

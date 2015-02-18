@@ -69,7 +69,8 @@
         <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
         <br />
         <div class="btn-align-right">
-            <asp:Button ID="BtnUpdateEvent" CssClass="btn-blue" runat="server" Text="Update event" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
+            <asp:Button ID="BtnUpdateEvent" CssClass="btn-blue" runat="server" Text="Update" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
+            <asp:Button ID="BtnDeleteEvent" CssClass="btn-blue" runat="server" Text="Delete" OnClientClick="if(!confirm('Are you sure you want to delete this event?')) return false;" OnClick="BtnDeleteEvent_OnClick" />
         </div>
 
    

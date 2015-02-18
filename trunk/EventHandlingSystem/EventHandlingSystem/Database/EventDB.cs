@@ -125,5 +125,19 @@ namespace EventHandlingSystem.Database
             int affectedRows = Context.SaveChanges();
             return affectedRows;
         }
+
+
+
+        // DELETE
+        public static bool DeleteEvent(events ev)
+        {
+            events eventToDelete = GetEventById(ev.Id);
+
+            eventToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges();
+            return affectedRows > 0;
+        }
+
     }
 }

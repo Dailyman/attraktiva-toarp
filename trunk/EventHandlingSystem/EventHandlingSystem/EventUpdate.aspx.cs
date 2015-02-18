@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
@@ -83,6 +84,8 @@ namespace EventHandlingSystem
                     //Om man inte har ett evenemang att hämta information från 
                     BtnUpdateEvent.Enabled = false;
                     BtnUpdateEvent.Visible = false;
+                    BtnDeleteEvent.Enabled = false;
+                    BtnDeleteEvent.Visible = false;
                 }
             }
         }
@@ -279,5 +282,33 @@ namespace EventHandlingSystem
         }
 
         #endregion
+
+        protected void BtnDeleteEvent_OnClick(object sender, EventArgs e)
+        {
+            //Hämtar evenemanget som ska uppdateras.
+            events ev = GetEventToUpdate();
+
+            if (ev != null)
+            {
+                //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
+                //Onödig kod ta bort och ersätt med css class
+                LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+
+                if (EventDB.DeleteEvent(ev))
+                {
+                    LabelMessage.Text = "Event was deleted";
+                    LabelMessage.ForeColor = Color.Green;
+                    Response.Redirect(
+                        HttpContext.Current.Request.Url.AbsoluteUri.Replace(
+                            HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id,
+                        false);
+                }
+                else
+                {
+                    LabelMessage.Text = "Event couldn't be updated";
+                    LabelMessage.ForeColor = Color.Red;
+                }
+            }
+        }
     }
 }
