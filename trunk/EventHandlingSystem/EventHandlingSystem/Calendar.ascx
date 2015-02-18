@@ -16,6 +16,7 @@
     {
         background-color: white;
         min-width: 127px;
+        max-width: 160px;
         min-height: 90px;
         height: 100%;
         /*padding: 0 5px;*/
@@ -26,7 +27,6 @@
     {
         /*background-color: white;*/
         min-width: 30px;
-        max-width: 145px;
         min-height: 90px;
         height: 100%;
         /*padding: 0 5px;*/
