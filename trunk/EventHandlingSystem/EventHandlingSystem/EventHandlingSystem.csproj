@@ -230,6 +230,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="Feed.ascx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\Association.jpg" />
     <Content Include="Images\close-round-32x32.png" />
@@ -433,6 +434,13 @@
     </Compile>
     <Compile Include="events.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Feed.ascx.cs">
+      <DependentUpon>Feed.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Feed.ascx.designer.cs">
+      <DependentUpon>Feed.ascx</DependentUpon>
     </Compile>
     <Compile Include="filterdata.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
