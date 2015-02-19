@@ -15,13 +15,14 @@
         <h1>Home</h1>
     </div>
     <br/>
-    <asp:TextBox ID="TxtBox" runat="server" type="datetime-local"></asp:TextBox>
+    <%--<asp:TextBox ID="TxtBox" runat="server" type="datetime-local"></asp:TextBox>--%>
     <br/>
     <div class="warning-pattern">
     </div>
     <div class="temp-background">
+        <br/>
         <h1>¡Site under construction!</h1>
-
+        <br/>
     </div>
     <div class="warning-pattern"></div>
     <asp:Menu ID="MenuHome" runat="server"></asp:Menu>
