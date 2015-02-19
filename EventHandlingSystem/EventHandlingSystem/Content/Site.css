@@ -12,7 +12,7 @@ body
     /*border-top: solid 10px #000;*/
     color: #222; /*Old - #333*/
     font-size: 1em; /*old - .85em*/
-    font-family: 'Open Sans', 'Helvetica Neue', Arial, sans-serif; /*old - "Segoe UI", Verdana, Helvetica, Sans-Serif*/
+    font-family: "Segoe UI", Verdana, Helvetica, Sans-Serif; /*'Open Sans', 'Helvetica Neue', Arial, sans-serif;*/ 
     -webkit-font-smoothing: antialiased;
     margin: 0;
     padding: 0;

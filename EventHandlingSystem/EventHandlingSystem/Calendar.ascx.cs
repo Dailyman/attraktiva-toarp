@@ -43,72 +43,99 @@ namespace EventHandlingSystem
 
             DataRow row = table.NewRow();
 
+
+            var culture = new CultureInfo("en-US");
+            
             for (int i = 0; i < DateTime.DaysInMonth(dateTime.Year, dateTime.Month); i += 1)
             {
                 row["week"] = "<div class=\"table-small-cell\"><div class=\"cell-week\">" + GetIso8601WeekOfYear(dateTime.AddDays(i)) + "</div></div>";
+                
+                #region Den gamla TabelCell-läggaren
+                //if (Convert.ToDateTime(dateTime.AddDays(i)).ToString("dddd") == "måndag")
+                //{
+                //    //row["Mon"] =
+                //    //    "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
+                //    //    + "<div class=\"cell-date " + SetCssClassIfToday(dateTime.AddDays(i)) + "\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
+                //    //    " </div>"; 
 
-                if (Convert.ToDateTime(dateTime.AddDays(i)).ToString("dddd") == "måndag")
-                {
-                    row["Mon"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>"; 
-                }
-                if (dateTime.AddDays(i).ToString("dddd") == "tisdag")
-                {
-                    row["Tue"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>"; 
-                }
-                if (dateTime.AddDays(i).ToString("dddd") == "onsdag")
-                {
-                    row["Wed"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>";  
-                    //(string.IsNullOrEmpty(BuildEventInCalendarCell(dateTime.AddDays(i))) ? "<br/>&nbsp;" : BuildEventInCalendarCell(dateTime.AddDays(i)))
-                }
-                if (dateTime.AddDays(i).ToString("dddd") == "torsdag")
-                {
-                    row["Thu"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>";  
-                }
-                if (dateTime.AddDays(i).ToString("dddd") == "fredag")
-                {
-                    row["Fri"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>"; 
-                }
-                if (dateTime.AddDays(i).ToString("dddd") == "lördag")
-                {
-                    row["Sat"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>"; 
-                }
+                //    //(string.IsNullOrEmpty(BuildEventInCalendarCell(dateTime.AddDays(i))) ? "<br/>&nbsp;" : BuildEventInCalendarCell(dateTime.AddDays(i)))
+                    
+                //    row["Mon"] = CreateHtmlForDateCell(dateTime.AddDays(i));
+                    
+                    
+                //}
+                //if (dateTime.AddDays(i).ToString("dddd") == "tisdag")
+                //{
+                //    row["Tue"] = CreateHtmlForDateCell(dateTime.AddDays(i));
+                //}
+                //if (dateTime.AddDays(i).ToString("dddd") == "onsdag")
+                //{
+                //    row["Wed"] = CreateHtmlForDateCell(dateTime.AddDays(i)); 
+                //}
+                //if (dateTime.AddDays(i).ToString("dddd") == "torsdag")
+                //{
+                //    row["Thu"] = CreateHtmlForDateCell(dateTime.AddDays(i)); 
+                //}
+                //if (dateTime.AddDays(i).ToString("dddd") == "fredag")
+                //{
+                //    row["Fri"] = CreateHtmlForDateCell(dateTime.AddDays(i));
+                //}
+                //if (dateTime.AddDays(i).ToString("dddd") == "lördag")
+                //{
+                //    row["Sat"] = CreateHtmlForDateCell(dateTime.AddDays(i));
+                //}
+                //if (dateTime.AddDays(i).ToString("dddd") == "söndag")
+                //{
+                //    row["Sun"] = CreateHtmlForDateCell(dateTime.AddDays(i));
+
+                //    table.Rows.Add(row);
+                //    row = table.NewRow();
+                //    continue;
+                //}
+                #endregion
+
+                row[GetColumnNameByDate(dateTime.AddDays(i), culture)] = CreateHtmlForDateCell(dateTime.AddDays(i));
+
                 if (dateTime.AddDays(i).ToString("dddd") == "söndag")
                 {
-                    row["Sun"] =
-                        "<div class=\"table-cell\" onclick=\"location.href='EventCreate.aspx?d=" + dateTime.AddDays(i).AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "';\" style=\"cursor: pointer;\">"
-                        + "<div class=\"cell-date\">" + (i + 1) + "</div>" + BuildEventInCalendarCell(dateTime.AddDays(i)) +
-                        " </div>"; 
-
                     table.Rows.Add(row);
                     row = table.NewRow();
                     continue;
                 }
 
-                if (i != DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1) continue;
+                if (i != DateTime.DaysInMonth(dateTime.Year, dateTime.Month) - 1)
+                {
+                    continue;
+                }
                 table.Rows.Add(row);
                 row = table.NewRow();
             }
 
             GridViewCalendar.DataSource = table;
             GridViewCalendar.DataBind();
+        }
+
+
+
+        public string GetColumnNameByDate(DateTime date, CultureInfo culture )
+        {
+            return  culture.DateTimeFormat.GetDayName(date.DayOfWeek).Substring(0, 3);
+        }
+
+        public string CreateHtmlForDateCell(DateTime date)
+        {
+            return "<div class=\"table-cell\" data-date=\"" + date.AddHours(DateTime.Now.Hour).ToString("yyyy-MM-dd HH:mm") + "\" style=\"cursor: pointer;\">"
+                        + "<div class=\"cell-date " + SetCssClassIfToday(date) + "\">" + (date.Day) + "</div>" + BuildEventInCalendarCell(date) +
+                        " </div>";
+        }
+
+        public string SetCssClassIfToday(DateTime date)
+        {
+            if (date.Date == DateTime.Now.Date)
+            {
+                return "cell-today";
+            }
+            return "";
         }
         
         //Metod som bygger upp en div, kollar först datumet har några events
