@@ -20,10 +20,10 @@
 
     html > body .cal-table
     {
-        background-color: aliceblue;
-        padding: 5px;
-        /*height: 600px;
-        min-width: 900px;*/
+        /*background-color: aliceblue;*/
+        margin:1px auto;
+        /*height: 600px;*/
+        /*min-width: 900px;*/
         height: 100%;
         width: 100%;
     }
@@ -59,13 +59,16 @@
         padding: 0;
         border: 1px solid lightblue;
         vertical-align: top;
+        max-width: 160px;
+        background-color: aliceblue;
     }
 
     html > body .cal-table th
     {
         padding-left: 5px;
-        border: 1px solid lightblue;
+        /*border: 1px solid lightblue;*/
         text-align: center;
+        font-size: 16px;
         /*background-color: aliceblue*/
     }
 
@@ -96,14 +99,18 @@
         font-weight: bold;
     }
 
-    html > body .event-in-cell
-    {
+    html > body .event-in-cell {
         background-color: plum;
         text-align: center;
         margin: 1px;
         padding: 2px;
-        -ms-word-wrap: break-word;
-        word-wrap: break-word;
+        -ms-word-break: break-all;
+        -moz-word-break: break-all;
+        -o-word-break: break-all;
+        word-break: break-all;
+overflow: hidden;
+height: 20px;
+font-size: 14px;
     }
 
     html > body .table-cell a
@@ -143,10 +150,14 @@
 
         $('table.cal-table').closest("div").css("height", $('table.cal-table').closest("div").height());
 
-        $('table.cal-table').closest("div").css("overflow", "hidden");
+        //$('table.cal-table').closest("div").css("overflow", "hidden");
 
 
         $('div.table-small-cell').closest("td").css("vertical-align", "middle");
+        $('div.table-small-cell').closest("td").css("border", "0");
+        $('div.table-small-cell').closest("td").css("background-color", "transparent");
+        //$('.event-in-cell').width("200px");
+        
 
         $(".resizable").closest("div").resizable();
 
