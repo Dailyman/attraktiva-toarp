@@ -293,7 +293,7 @@ namespace EventHandlingSystem
                 Text = "Communities/Associations",
                 Value = "0",
                 Expanded = true,
-                NavigateUrl = "/SitePage.aspx",
+                NavigateUrl = "/SitePage",
                 SelectAction = TreeNodeSelectAction.Select
             };
             //Lägger till HuvudNoden (ex. Publiceringstaxonomi).
@@ -312,7 +312,7 @@ namespace EventHandlingSystem
                     Value = "C-" + com.Id,
                     Expanded = false,
                     NavigateUrl =
-                        "/SitePage.aspx?id=" + (WebPageDB.GetWebPageById(com.Id) != null ?WebPageDB.GetWebPageById(com.Id).Id.ToString() : "") + "&type=C",
+                        "/SitePage?id=" + (WebPageDB.GetWebPageById(com.Id) != null ?WebPageDB.GetWebPageById(com.Id).Id.ToString() : "") + "&type=C",
                     SelectAction = TreeNodeSelectAction.Select
                 };
                 startNode.ChildNodes.Add(node);
@@ -351,7 +351,7 @@ namespace EventHandlingSystem
                     Text = com.Name,
                     Value = com.Id.ToString(),
                     Expanded = true,
-                    NavigateUrl = "/SitePage.aspx?id=" + (WebPageDB.GetWebPageByCommunityId(comId) != null ? WebPageDB.GetWebPageByCommunityId(comId).Id.ToString() : "") + "&type=C",
+                    NavigateUrl = "/SitePage?id=" + (WebPageDB.GetWebPageByCommunityId(comId) != null ? WebPageDB.GetWebPageByCommunityId(comId).Id.ToString() : "") + "&type=C",
                     SelectAction = TreeNodeSelectAction.Select
                 };
 
@@ -390,7 +390,7 @@ namespace EventHandlingSystem
                 Text = parentAsso.Name,
                 Value = "A-" + parentAsso.Id,
                 Expanded = false,
-                NavigateUrl = "/SitePage.aspx?id=" + (WebPageDB.GetWebPageByAssociationId(parentAsso.Id) != null ? WebPageDB.GetWebPageByAssociationId(parentAsso.Id).Id.ToString() : "") + "&type=A",
+                NavigateUrl = "/SitePage?id=" + (WebPageDB.GetWebPageByAssociationId(parentAsso.Id) != null ? WebPageDB.GetWebPageByAssociationId(parentAsso.Id).Id.ToString() : "") + "&type=A",
                 SelectAction = TreeNodeSelectAction.Select
             };
 
@@ -454,7 +454,7 @@ namespace EventHandlingSystem
                     Text = a.Name,
                     Value = "A-" + a.Id,
                     Expanded = false,
-                    NavigateUrl = "/SitePage.aspx?id=" + (WebPageDB.GetWebPageByAssociationId(a.Id) != null ? WebPageDB.GetWebPageByAssociationId(a.Id).Id.ToString() : "") + "&type=A",
+                    NavigateUrl = "/SitePage?id=" + (WebPageDB.GetWebPageByAssociationId(a.Id) != null ? WebPageDB.GetWebPageByAssociationId(a.Id).Id.ToString() : "") + "&type=A",
                     SelectAction = TreeNodeSelectAction.Select
                 };
 

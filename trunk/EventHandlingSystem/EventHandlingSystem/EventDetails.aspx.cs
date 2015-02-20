@@ -18,10 +18,13 @@ namespace EventHandlingSystem
             //Hämtar EventId från URL.
             string stId = Request.QueryString["Id"];
 
-            //Lägger till alla evenemang som ListItems, Titel(Text) och Id(Value), i DropDownListan.
-            foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
+            if (!IsPostBack)
             {
-                DropDownListEvents.Items.Add(new ListItem(ev.Title, ev.Id.ToString()));
+                //Lägger till alla evenemang som ListItems, Titel(Text) och Id(Value), i DropDownListan.
+                foreach (var ev in EventDB.GetEventsBySpecifiedNumberOfPreviousMonthsFromToday())
+                {
+                    DropDownListEvents.Items.Add(new ListItem(ev.Title, ev.Id.ToString()));
+                }
             }
 
             //Om Id värdet som tas från URLn är i giltigt format kommer evenemangets information att laddas och skrivas på sidan.
@@ -80,7 +83,7 @@ namespace EventHandlingSystem
                     {
                         association = new HtmlGenericControl("p")
                         {
-                            InnerHtml = "<b>Association:</b> " + firstOrDefault.Name
+                            InnerHtml = "<b>Association:</b> <a href=\"sitepage?id="+WebPageDB.GetWebPageByAssociationId(firstOrDefault.Id).Id+"&type=a\">"+firstOrDefault.Name+"</a>"
                         };
                     }
                     var created = new HtmlGenericControl("p")

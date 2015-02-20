@@ -7,11 +7,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventHandlingSystem
-{
-
-    public partial class About
-    {
-
+namespace EventHandlingSystem {
+    
+    
+    public partial class About1 {
     }
 }
