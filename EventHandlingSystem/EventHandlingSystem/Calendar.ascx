@@ -1,6 +1,9 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="Calendar.ascx.cs" Inherits="EventHandlingSystem.Calendar" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<%--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">--%>
+
+<link type="text/css" href="Content/themes/base/all.css" rel="stylesheet"/>
+<link type="text/css" href="Content/themes/base/resizable.css" rel="stylesheet"/>
 
 <style type="text/css">
     html > body .toggle-btn
@@ -19,44 +22,49 @@
     {
         background-color: aliceblue;
         padding: 5px;
-        border: 1px solid black;
-        height: 600px;
-        min-width: 900px;
+        /*height: 600px;
+        min-width: 900px;*/
+        height: 100%;
+        width: 100%;
     }
 
     html > body .table-cell
     {
         background-color: white;
-        min-width: 127px;
-        max-width: 160px;
-        min-height: 90px;
+        min-width: 50px;
+        /*max-width: 160px;*/
+        min-height: 50px;
         height: 100%;
         /*padding: 0 5px;*/
-        /*position: relative;*/
+        position: relative;
+        width: 100%;
     }
 
     html > body .table-small-cell
     {
         /*background-color: white;*/
-        min-width: 30px;
-        min-height: 90px;
+        /*min-width: 30px;
+        min-height: 90px;*/
         height: 100%;
         /*padding: 0 5px;*/
         /*position: relative;*/
+        height: auto;
+        width: auto;
     }
+
 
 
     html > body .cal-table td
     {
         padding: 0;
-        border: 1px solid #3498db;
+        border: 1px solid lightblue;
         vertical-align: top;
     }
 
     html > body .cal-table th
     {
         padding-left: 5px;
-        border: 1px solid #3498db;
+        border: 1px solid lightblue;
         text-align: center;
         /*background-color: aliceblue*/
     }
@@ -66,10 +74,15 @@
         /*padding: 5px;*/
         text-align: center;
         font-weight: bold;
-        position: relative;
-        top: 45%;
+        /*position: relative;
+        top: 45%;*/
         font-style: italic;
         font-size: 14px;
+
+        display:block;
+    /*height:50%;
+    width: 50%;*/
+    /*margin: auto;*/
     }
 
     html > body .cell-date
@@ -127,30 +140,40 @@
                 }
             });
         });
+
+        $('table.cal-table').closest("div").css("height", $('table.cal-table').closest("div").height());
+
+        $('table.cal-table').closest("div").css("overflow", "hidden");
+
+
+        $('div.table-small-cell').closest("td").css("vertical-align", "middle");
+
+        $(".resizable").closest("div").resizable();
+
     });
 </script>
-
-<br />
-<br />
-<h1 style="display: inline; vertical-align: middle;">Calendar</h1><input type="button" id="Toggle-calendar-btn" class="toggle-btn" value="-" />
-<br />
-<div id="Calendar">
-    <asp:HiddenField ID="hdnDate" runat="server"></asp:HiddenField>
-    <asp:Button ID="btnBackArrow" runat="server" Text=" < " OnClick="btnBackArrow_OnClick" />
-    <asp:Button ID="btnForwardArrow" runat="server" Text=" > " OnClick="btnForwardArrow_OnClick" />
-    <asp:Label ID="lblCurrentDate" runat="server" Text=""></asp:Label>
+<%--<div class="resizable" style="width: 300px; height: 250px; overflow: hidden; border:1px solid black;">--%>
+    <h1 style="display: inline; vertical-align: middle;">Calendar</h1>
+    <input type="button" id="Toggle-calendar-btn" class="toggle-btn" value="-" />
     <br />
+    <div id="Calendar">
+        <asp:HiddenField ID="hdnDate" runat="server"></asp:HiddenField>
+        <asp:Button ID="btnBackArrow" runat="server" Text=" < " OnClick="btnBackArrow_OnClick" />
+        <asp:Button ID="btnForwardArrow" runat="server" Text=" > " OnClick="btnForwardArrow_OnClick" />
+        <asp:Label ID="lblCurrentDate" runat="server" Text=""></asp:Label>
+        <br />
 
-    <asp:GridView ID="GridViewCalendar" CssClass="cal-table" AutoGenerateColumns="False" runat="server">
-        <Columns>
-            <asp:BoundField DataField="Week" HtmlEncode="False" HeaderText="" />
-            <asp:BoundField DataField="Mon" HtmlEncode="False" HeaderText="Mon" />
-            <asp:BoundField DataField="Tue" HtmlEncode="False" HeaderText="Tue" />
-            <asp:BoundField DataField="Wed" HtmlEncode="False" HeaderText="Wed" />
-            <asp:BoundField DataField="Thu" HtmlEncode="False" HeaderText="Thu" />
-            <asp:BoundField DataField="Fri" HtmlEncode="False" HeaderText="Fri" />
-            <asp:BoundField DataField="Sat" HtmlEncode="False" HeaderText="Sat" />
-            <asp:BoundField DataField="Sun" HtmlEncode="False" HeaderText="Sun" />
-        </Columns>
-    </asp:GridView>
-</div>
+        <asp:GridView ID="GridViewCalendar" CssClass="cal-table resizable" AutoGenerateColumns="False" runat="server">
+            <Columns>
+                <asp:BoundField DataField="Week" HtmlEncode="False" HeaderText="" />
+                <asp:BoundField DataField="Mon" HtmlEncode="False" HeaderText="Mon" />
+                <asp:BoundField DataField="Tue" HtmlEncode="False" HeaderText="Tue" />
+                <asp:BoundField DataField="Wed" HtmlEncode="False" HeaderText="Wed" />
+                <asp:BoundField DataField="Thu" HtmlEncode="False" HeaderText="Thu" />
+                <asp:BoundField DataField="Fri" HtmlEncode="False" HeaderText="Fri" />
+                <asp:BoundField DataField="Sat" HtmlEncode="False" HeaderText="Sat" />
+                <asp:BoundField DataField="Sun" HtmlEncode="False" HeaderText="Sun" />
+            </Columns>
+        </asp:GridView>
+    </div>
+<%--</div>--%>

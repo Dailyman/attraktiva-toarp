@@ -187,6 +187,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="About.ascx" />
     <Content Include="Calendar.ascx" />
     <Content Include="CategoryHandlingControl.ascx" />
     <Content Include="CommunityAssociationControl.ascx" />
@@ -369,6 +370,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="About.ascx.cs">
+      <DependentUpon>About.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="About.ascx.designer.cs">
+      <DependentUpon>About.ascx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\AuthConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />

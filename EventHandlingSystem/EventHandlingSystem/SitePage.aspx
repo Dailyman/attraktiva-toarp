@@ -5,6 +5,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+    <%--
     <br />
     <div class="titlebox">
         <h1>
@@ -12,4 +13,7 @@
     </div>
     <br />
     <asp:Label ID="LabelWelcome" runat="server" Text=""></asp:Label>
+    --%>
+
+    <asp:PlaceHolder ID="ControlHolder" runat="server"></asp:PlaceHolder>
 </asp:Content>

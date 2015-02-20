@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace EventHandlingSystem
 {
-    public partial class About1 : Page
+    public partial class About : System.Web.UI.UserControl
     {
         protected void Page_Load(object sender, EventArgs e)
         {

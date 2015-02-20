@@ -48,11 +48,11 @@ namespace EventHandlingSystem
             foreach (var ev in eventList)
             {
                 Controls.Add(new HtmlGenericControl("div"));
-                Controls.Add(new HtmlGenericControl("br"));
+                Controls.Add(new LiteralControl("<br />"));
                 Label eventDate = new Label();
                 eventDate.CssClass = "feedbox-eventdate";
                 eventDate.Text = ev.StartDate.ToString("dd MMM");
-                Controls.Add(new HtmlGenericControl("br"));
+                Controls.Add(new LiteralControl("<br />"));
 
                 HyperLink title = new HyperLink();
                 title.Text = ev.Title;

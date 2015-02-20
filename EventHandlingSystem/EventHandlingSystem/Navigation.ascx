@@ -19,13 +19,13 @@
     //<![CDATA[
     function pageLoad() {
         jQuery('#Site-navigation a').each(function () {
-            if (jQuery(this).attr('href') === window.location.pathname + window.location.search) {
+            if (jQuery(this).attr('href').toLowerCase() === (window.location.pathname + window.location.search).toLowerCase()) {
                 jQuery(this).addClass('current-link');
             }
         });
     };
     //]]>
-</script>
+    </script>
 
 <div id="Site-navigation">
     <div id="toggle-nav-btn" class="nav-title">
