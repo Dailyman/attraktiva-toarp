@@ -23,6 +23,11 @@ namespace EventHandlingSystem.Database
             return Context.events.Where(e => !e.IsDeleted);
         }
 
+        public static List<events> GetAllEvents()
+        {
+            return GetAllNotDeletedEvents().ToList();
+        }
+
         public static List<events> GetEventsBySpecifiedNumberOfPreviousMonthsFromToday(int nrOfMonths = 3)
         {
             return GetAllNotDeletedEvents().Where(e => e.StartDate > (DateTime.Now.AddMonths(-(nrOfMonths)))).ToList();
@@ -45,6 +50,11 @@ namespace EventHandlingSystem.Database
         public static List<events> GetEventsByRangeDate(DateTime startDate, DateTime endDate)
         {
             return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate && e.EndDate < endDate).ToList();
+        }
+
+        public static List<events> GetEventsBySearchWord(string searchStr)
+        {
+            return GetAllNotDeletedEvents().Where(e => e.Title.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >=0).ToList();
         }
 
         //public static List<events> GetEventsByAssociation(associations asso)

@@ -12,43 +12,16 @@
         font-size: 14px;
     }
 
-    .input-date {
+    .input-date
+    {
         width: 150px;
         margin-right: 10px;
     }
 
-    /*.feedbox
-    {
-        background-color: aliceblue;
-        margin: 5px;
-        padding: 20px;
-        border: 2px solid blue;
+    .search-box {
+        width: auto;
     }
 
-    .feedbox-eventdate
-    {
-        background-color: black;
-        color: white;
-        border: 1px dotted white;
-        padding: 10px;
-        text-decoration: wavy;
-        font-size: 14px;
-    }
-
-    .feedbox-title
-    {
-        text-decoration: none;
-        font-size: 16px;
-        font-family: Verdana,Geneva,sans-serif;
-        color: blue;
-        cursor: pointer;
-    }
-
-    .feedbox-summary
-    {
-        font-size: 12px;
-        font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
-    }*/
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -72,19 +45,29 @@
         <tr>
             <th>Start</th>
             <th>End</th>
+            <th>Association</th>
+            <th>Title Search</th>
+            <th></th>
         </tr>
         <tr>
             <td>
                 <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server"></asp:TextBox>
             </td>
             <td>
-                 <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
+                <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
             </td>
             <td>
-                <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" /></td>
+                <asp:DropDownList ID="DropDownListAsso" runat="server"></asp:DropDownList>
+            </td>
+            <td>
+                <asp:TextBox ID="TxtSearch" runat="server" TextMode="Search" CssClass="search-box"></asp:TextBox>
+            </td>
+            <td>
+                <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" />
+            </td>
         </tr>
     </table>
-    <%--<asp:DropDownList ID="DropDownList1" runat="server"></asp:DropDownList>--%>
+
     <asp:Repeater ID="RepeaterEvents" runat="server">
         <HeaderTemplate>
             <table>
@@ -115,7 +98,7 @@
                         Text='<%# Eval("Location") %>' />
                 </td>
                 <td>
-                    <asp:HyperLink ID="HyperLink" NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' runat="server" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png"></asp:HyperLink>
+                    <asp:HyperLink ID="HyperLink" NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' runat="server" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png" Target="_blank"></asp:HyperLink>
                 </td>
             </tr>
         </ItemTemplate>
@@ -138,7 +121,7 @@
                         Text='<%# Eval("Location") %>' />
                 </td>
                 <td bgcolor="#00FFFF">
-                    <asp:HyperLink ID="HyperLink" NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' runat="server" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png"></asp:HyperLink>
+                    <asp:HyperLink ID="HyperLink" NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' runat="server" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png" Target="_blank"></asp:HyperLink>
                 </td>
             </tr>
         </AlternatingItemTemplate>
