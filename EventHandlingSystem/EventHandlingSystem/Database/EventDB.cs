@@ -28,6 +28,15 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedEvents().Where(e => e.StartDate > (DateTime.Now.AddMonths(-(nrOfMonths)))).ToList();
         }
 
+        public static List<events> GetEventsBySpecifiedNumberOfMonthsFromToday(int nrOfMonths = 3)
+        {
+            return GetAllNotDeletedEvents().Where(e => 
+                e.StartDate <= (DateTime.Now.AddMonths((nrOfMonths))) 
+                && e.StartDate >= DateTime.Now 
+                && e.EndDate <= (DateTime.Now.AddMonths((nrOfMonths))) 
+                && e.EndDate >= DateTime.Now).ToList();
+        }
+
         public static List<events> GetEventsFromSpecifiedStartDate(DateTime startDate)
         {
             return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate).ToList();

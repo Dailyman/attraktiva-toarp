@@ -21,8 +21,12 @@ namespace EventHandlingSystem
 
         public void RenderFeeds()
         {
-            List<events> eventList = EventDB.GetAllEventsInMonth(DateTime.Now);
-            
+            List<events> eventList = EventDB.GetEventsBySpecifiedNumberOfMonthsFromToday().OrderBy(item => item.StartDate).ToList();
+
+            RepeaterFeed.DataSource = eventList;
+            RepeaterFeed.DataBind();
+
+            #region
             //foreach (var ev in eventList)
             //{
             //        //Lägg in...
@@ -42,27 +46,24 @@ namespace EventHandlingSystem
             //}
             //Controls.Add(panelFeed);
 
-            RepeaterFeed.DataSource = eventList;
-            RepeaterFeed.DataBind();
+            //foreach (var ev in eventList)
+            //{
+            //    Controls.Add(new HtmlGenericControl("div"));
+            //    Controls.Add(new LiteralControl("<br />"));
+            //    Label eventDate = new Label();
+            //    eventDate.CssClass = "feedbox-eventdate";
+            //    eventDate.Text = ev.StartDate.ToString("dd MMM");
+            //    Controls.Add(new LiteralControl("<br />"));
 
-            foreach (var ev in eventList)
-            {
-                Controls.Add(new HtmlGenericControl("div"));
-                Controls.Add(new LiteralControl("<br />"));
-                Label eventDate = new Label();
-                eventDate.CssClass = "feedbox-eventdate";
-                eventDate.Text = ev.StartDate.ToString("dd MMM");
-                Controls.Add(new LiteralControl("<br />"));
+            //    HyperLink title = new HyperLink();
+            //    title.Text = ev.Title;
 
-                HyperLink title = new HyperLink();
-                title.Text = ev.Title;
+            //    Controls.Add(eventDate);
+            //    Controls.Add(title);
+            //    Controls.Add(new HtmlGenericControl("div"));
 
-                Controls.Add(eventDate);
-                Controls.Add(title);
-                Controls.Add(new HtmlGenericControl("div"));
-
-            }
-            
+            //}
+            #endregion
         }
     }
 }

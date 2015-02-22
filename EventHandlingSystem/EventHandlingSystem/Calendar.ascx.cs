@@ -141,11 +141,11 @@ namespace EventHandlingSystem
         //Metod som bygger upp en div, kollar först datumet har några events
         public string BuildEventInCalendarCell(DateTime date)
         {
-            string divs = ""; var stType = Request.QueryString["Type"];
+            string divs = ""; 
+            var stType = Request.QueryString["Type"];
 
             if (!string.IsNullOrWhiteSpace(stType))
             {
-
                 if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                 {
                     communities c = CommunityDB.GetCommunityByName(Page.Title);
@@ -163,7 +163,6 @@ namespace EventHandlingSystem
                                     commEvents.Add(eventInMonth);
                                 }
                             }
-
                         }
 
                         foreach (var ev in commEvents)

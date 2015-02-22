@@ -16,9 +16,11 @@
     .feedbox
     {
         background-color: aliceblue;
-        margin: 5px;
+        margin: 15px;
         padding: 20px;
         border: 2px solid blue;
+        max-width: 900px;
+        width: auto;
     }
 
     .feedbox-eventdate
@@ -34,7 +36,8 @@
     .feedbox-title
     {
         text-decoration: none;
-        font-size: 16px;
+        font-weight: bold;
+        font-size: 20px;
         font-family: Verdana,Geneva,sans-serif;
         color: blue;
         cursor: pointer;
@@ -45,7 +48,21 @@
         font-size: 12px;
         font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     }
+
+    .feedbox-image {
+        /*height: auto;
+        width: auto;*/
+        height: 260px;
+        width: 300px;
+        /*max-height: 250px;
+        max-width: 300px;*/
+    }
+    
+    .hide {
+        display: none;
+    }
 </style>
+
 <script type="text/javascript">
     $(document).ready(function () {
         $('#Toggle-feed-btn').click(function () {
@@ -59,25 +76,68 @@
         });
     });
 </script>
+
 <br />
 <h1 style="display: inline; vertical-align: middle;">Feed</h1>
 <input type="button" id="Toggle-feed-btn" class="toggle-btn" value="-" />
 <br />
 <div id="Feed">
-    <asp:Repeater ID="RepeaterFeed" runat="server">
+    <asp:Repeater ID="RepeaterFeed" runat="server" >
         <ItemTemplate>
-            <table>
-                <tr>
-                    <td>
-                        <asp:Label runat="server" ID="Label1"
-                            Text='<%# Eval("Title") %>' />
-                    </td>
-                    <td>
-                        <asp:Label runat="server" ID="Label2"
-                            Text='<%# Eval("Summary") %>' />
-                    </td>
-                </tr>
-            </table>
+            <div id="feedtable" class="feedbox" runat="server">
+                <table>
+                    <tr>
+                        <td rowspan="5">
+                            <asp:HyperLink runat="server" NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' Target="_blank">
+                                <asp:Image runat="server" ID="Image1" CssClass="feedbox-image"
+                                ImageUrl='<%# Eval("ImageUrl") %>' />
+                            </asp:HyperLink>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label runat="server" ID="lbStartDate" CssClass="feedbox-eventdate"
+                                Text='<%# Convert.ToDateTime(Eval("StartDate")).ToString("dd MMMM") %>' />
+                            <br />
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class='<%# ((bool)Eval("DayEvent") ? "hide" : "")  %>' >
+                            <asp:Label runat="server" ID="lbTime" 
+                                       Text='<%# Convert.ToDateTime(Eval("StartDate")).ToShortTimeString() + " - " 
+                                                 + Convert.ToDateTime(Eval("EndDate")).ToShortTimeString() %>' 
+                                     Visible='<%# !(bool)Eval("DayEvent") %>'
+                                 /> 
+                            <br />
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:HyperLink runat="server" ID="lbTitle" CssClass="feedbox-title" Target="_blank"
+                                Text='<%# Eval("Title") %>'
+                                NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' />
+                            <br />
+                            <br />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <asp:Label runat="server" ID="lbSummary"
+                                Text='<%# Eval("Summary") %>' />
+                            <br />
+                            <br />
+                        </td>
+                    </tr>
+                    <%--<tr>
+                        <td>
+                            <asp:Image runat="server" ID="imgEventImage" CssClass="feedbox-image"
+                                ImageUrl='<%# Eval("ImageUrl") %>' />
+                        </td>
+                    </tr>--%>
+                </table>
+            </div>
         </ItemTemplate>
     </asp:Repeater>
 
