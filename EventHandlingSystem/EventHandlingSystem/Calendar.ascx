@@ -28,9 +28,12 @@
         width: 100%;
     }
 
-    html > body .table-cell
-    {
+    html > body .table-cell {
         background-color: white;
+        -moz-min-width: 50px;
+        -ms-min-width: 50px;
+        -o-min-width: 50px;
+        -webkit-min-width: 50px;
         min-width: 50px;
         /*max-width: 160px;*/
         min-height: 50px;
@@ -149,6 +152,7 @@ font-size: 14px;
         });
 
         $('table.cal-table').closest("div").css("height", $('table.cal-table').closest("div").height());
+        //$('table.cal-table').closest("div").css("display", "inline");
 
         //$('table.cal-table').closest("div").css("overflow", "hidden");
 
@@ -164,6 +168,7 @@ font-size: 14px;
     });
 </script>
 <%--<div class="resizable" style="width: 300px; height: 250px; overflow: hidden; border:1px solid black;">--%>
+<div style="display: block; padding: 1px;">
     <h1 style="display: inline; vertical-align: middle;">Calendar</h1>
     <input type="button" id="Toggle-calendar-btn" class="toggle-btn" value="-" />
     <br />
@@ -174,7 +179,7 @@ font-size: 14px;
         <asp:Label ID="lblCurrentDate" runat="server" Text=""></asp:Label>
         <br />
 
-        <asp:GridView ID="GridViewCalendar" CssClass="cal-table resizable" AutoGenerateColumns="False" runat="server">
+        <asp:GridView ID="GridViewCalendar" CssClass="cal-table" AutoGenerateColumns="False" runat="server">
             <Columns>
                 <asp:BoundField DataField="Week" HtmlEncode="False" HeaderText="" />
                 <asp:BoundField DataField="Mon" HtmlEncode="False" HeaderText="Mon" />
@@ -187,4 +192,4 @@ font-size: 14px;
             </Columns>
         </asp:GridView>
     </div>
-<%--</div>--%>
+</div>

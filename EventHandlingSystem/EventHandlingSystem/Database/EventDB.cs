@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.UI;
+using Microsoft.Ajax.Utilities;
 
 namespace EventHandlingSystem.Database
 {
@@ -31,6 +32,22 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate).ToList();
         }
+
+        //public static List<events> GetEventsByAssociation(associations asso)
+        //{
+        //    List<events> eventsToReturn = new List<events>();
+        //    foreach (events notDeletedEvent in GetAllNotDeletedEvents())
+        //    {
+        //        foreach (associations association in notDeletedEvent.associations)
+        //        {
+        //            if (association.Id == asso.Id)
+        //            {
+        //                eventsToReturn.Add(notDeletedEvent);
+        //            }
+        //        }
+        //    }
+        //    return eventsToReturn;
+        //}
 
         public static events GetEventById(int id)
         {

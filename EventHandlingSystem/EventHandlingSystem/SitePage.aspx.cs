@@ -53,9 +53,12 @@ namespace EventHandlingSystem
             //MyControl is the Custom User Control with a code behind file
             About myControl = (About)Page.LoadControl("~/About.ascx");
 
+            Calendar calendarControl = (Calendar) Page.LoadControl("~/Calendar.ascx");
+
             //ControlHolder is a place holder on the aspx page where I want to load the
             //user control to.
             ControlHolder.Controls.Add(myControl);
+            ControlHolder.Controls.Add(calendarControl);
 
         }
 

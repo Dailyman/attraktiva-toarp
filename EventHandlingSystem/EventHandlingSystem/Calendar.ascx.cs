@@ -141,16 +141,88 @@ namespace EventHandlingSystem
         //Metod som bygger upp en div, kollar först datumet har några events
         public string BuildEventInCalendarCell(DateTime date)
         {
-            string divs = "";
-            foreach (var ev in EventDB.GetAllEventsInMonth(date))
+            string divs = ""; var stType = Request.QueryString["Type"];
+
+            if (!string.IsNullOrWhiteSpace(stType))
             {
-                if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+
+                if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                 {
-                    divs += "<a target=\"_blank\" href=\"/EventDetails?id="+ ev.Id+"\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                    communities c = CommunityDB.GetCommunityByName(Page.Title);
+
+                    List<events> commEvents = new List<events>();
+
+                    if (c != null)
+                    {
+                        foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
+                        {
+                            foreach (communities community in eventInMonth.communities)
+                            {
+                                if (community.Id == c.Id)
+                                {
+                                    commEvents.Add(eventInMonth);
+                                }
+                            }
+
+                        }
+
+                        foreach (var ev in commEvents)
+                        {
+                            if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+                            {
+                                divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id +
+                                        "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                            }
+                        }
+
+                    }
+                }
+                else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
+                {
+                    associations a = AssociationDB.GetAssociationByName(Page.Title);
+
+                    List<events> assoEvents = new List<events>();
+
+                    if (a != null)
+                    {
+                        foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
+                        {
+                            foreach (associations association in eventInMonth.associations)
+                            {
+                                if (association.Id == a.Id)
+                                {
+                                    assoEvents.Add(eventInMonth);
+                                }
+                            }
+
+                        }
+
+                        foreach (var ev in assoEvents)
+                        {
+                            if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+                            {
+                                divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id +
+                                        "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                            }
+                        }
+
+                    }
                 }
             }
+            else
+            {
+                foreach (var ev in EventDB.GetAllEventsInMonth(date))
+                {
+                    if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+                    {
+                        divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                    }
+                } 
+            }
+
             return divs;
         }
+
 
         protected void btnBackArrow_OnClick(object sender, EventArgs e)
         {
