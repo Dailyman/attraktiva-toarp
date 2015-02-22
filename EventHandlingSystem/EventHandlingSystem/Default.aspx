@@ -4,6 +4,7 @@
 <%--<%@ Register TagPrefix="asp" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit, Version=4.5.7.1213, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e" %>--%>
 <%@ Register TagPrefix="aspCal" TagName="CalendarTable" Src="Calendar.ascx" %>
 <%@ Register TagPrefix="aspFeed" TagName="FeedBox" Src="Feed.ascx" %>
+<%@ Register TagPrefix="aspList" TagName="EventList" Src="EventList.ascx" %>
 
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
@@ -32,6 +33,8 @@
     
       <br/>  <br/>
     <aspFeed:FeedBox runat="server" />
+      <br/>  <br/>
+    <aspList:EventList runat="server" />
 
     <!-- Added 12/01 2015 for the ajax control toolkit to work -->
     <%--<asp:ToolkitScriptManager ID="TSM" runat="Server" />

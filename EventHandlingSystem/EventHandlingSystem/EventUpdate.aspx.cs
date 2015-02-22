@@ -36,7 +36,7 @@ namespace EventHandlingSystem
                         Value = association.Id.ToString()
                     });
                 }
-
+                DropDownAssociation.Items.Add(new ListItem("None", ""));
                 //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
                 foreach (var item in listItems.OrderBy(item => item.Text))
                 {
@@ -70,13 +70,18 @@ namespace EventHandlingSystem
                     TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
                     //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                    var firstOrDefault   = @event.associations.FirstOrDefault();
+                    var firstOrDefault = @event.associations.FirstOrDefault();
                     if (firstOrDefault != null)
                     {
                         DropDownAssociation.SelectedIndex =
                             DropDownAssociation.Items.IndexOf(
                                 DropDownAssociation.Items.FindByValue(
                                     firstOrDefault.Id.ToString()));
+                    }
+                    else
+                    {
+                        DropDownAssociation.SelectedIndex = DropDownAssociation.Items.IndexOf(
+                            DropDownAssociation.Items.FindByValue(""));
                     }
                 }
                 else
@@ -233,9 +238,11 @@ namespace EventHandlingSystem
 
             if (ev != null)
             {
+                int assoId;
+
                 //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet.
                 var evToUpdate = new events
-                {   
+                {
                     Id = ev.Id,
                     Title = TxtBoxTitle.Text,
                     Description = TxtBoxDescription.Text,
@@ -256,11 +263,10 @@ namespace EventHandlingSystem
                             : 0,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     UpdatedBy = HttpContext.Current.User.Identity.Name,
-                    associations = new List<associations>()
-                    {
-                        AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)),
-                    }
-
+                    associations =
+                        int.TryParse(DropDownAssociation.SelectedItem.Value, out assoId)
+                            ? new List<associations>() {AssociationDB.GetAssociationById(assoId)}
+                            : new List<associations>()
                 };
 
                 //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
