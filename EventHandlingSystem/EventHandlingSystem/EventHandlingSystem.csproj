@@ -231,6 +231,7 @@
     <Content Include="Content\themes\base\tabs.css" />
     <Content Include="Content\themes\base\theme.css" />
     <Content Include="Content\themes\base\tooltip.css" />
+    <Content Include="EventList.ascx" />
     <Content Include="Feed.ascx" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Images\Association.jpg" />
@@ -439,6 +440,13 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>EHSModel.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="EventList.ascx.cs">
+      <DependentUpon>EventList.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="EventList.ascx.designer.cs">
+      <DependentUpon>EventList.ascx</DependentUpon>
     </Compile>
     <Compile Include="events.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
