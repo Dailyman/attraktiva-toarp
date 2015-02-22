@@ -33,6 +33,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate).ToList();
         }
 
+        public static List<events> GetEventsByRangeDate(DateTime startDate, DateTime endDate)
+        {
+            return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate && e.EndDate < endDate).ToList();
+        }
+
         //public static List<events> GetEventsByAssociation(associations asso)
         //{
         //    List<events> eventsToReturn = new List<events>();

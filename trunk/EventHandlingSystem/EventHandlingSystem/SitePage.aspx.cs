@@ -55,10 +55,13 @@ namespace EventHandlingSystem
 
             Calendar calendarControl = (Calendar) Page.LoadControl("~/Calendar.ascx");
 
+            EventList eventListControl = (EventList)Page.LoadControl("~/EventList.ascx");
+
             //ControlHolder is a place holder on the aspx page where I want to load the
             //user control to.
             ControlHolder.Controls.Add(myControl);
             ControlHolder.Controls.Add(calendarControl);
+            ControlHolder.Controls.Add(eventListControl);
 
         }
 
