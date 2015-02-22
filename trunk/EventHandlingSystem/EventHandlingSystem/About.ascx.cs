@@ -28,7 +28,8 @@ namespace EventHandlingSystem
                     {
 
                         LiteralAbout.Text = "This is a Community with no description";
-                        //CommunityDB.GetCommunityById((int)webPage.CommunityId).Name;
+                        if (webPage.CommunityId != null)
+                            ImageLogo.ImageUrl = CommunityDB.GetCommunityById((int)webPage.CommunityId).LogoUrl;
                     }
                     else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
                     {
