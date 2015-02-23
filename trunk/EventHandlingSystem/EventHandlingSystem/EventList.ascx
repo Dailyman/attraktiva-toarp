@@ -68,7 +68,7 @@
         </tr>
     </table>
 
-    <asp:Repeater ID="RepeaterEvents" runat="server">
+    <asp:Repeater ID="RepeaterEvents" runat="server" >
         <HeaderTemplate>
             <table>
                 <tr>
