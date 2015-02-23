@@ -15,8 +15,95 @@ namespace EventHandlingSystem
             if (!IsPostBack)
             {
                 PopulateDropDownAsso();
-                RenderEventList();
+
+                if (Request.QueryString["Type"] != null)
+                {
+                    if (Request.QueryString["Type"].Equals("c", StringComparison.OrdinalIgnoreCase))
+                    {
+                        GetCommunityFromQueryStringsAndSelectInDropDown();
+                    }
+                    else if (Request.QueryString["Type"].Equals("a", StringComparison.OrdinalIgnoreCase))
+                    {
+                        RenderEventList(GetAssociationFromQueryStringAndSelectInDropDown());
+                    }
+                }
+                else
+                {
+                    RenderEventList();
+                }
             }
+        }
+
+        public communities GetCommunityFromQueryStringsAndSelectInDropDown()
+        {
+            communities comm = new communities();
+            //Hämtar WebPageId från URL.
+            var stId = Request.QueryString["Id"];
+            int id;
+            //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
+            if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id))
+            {
+                webpages webPage = WebPageDB.GetWebPageById(id);
+                if (webPage != null)
+                {
+                    if (webPage.CommunityId != null)
+                    {
+                        //comm = CommunityDB.GetCommunityById(webPage.CommunityId);
+                        //if (comm != null)
+                        //{
+                        //    DropDownListComm.SelectedIndex =
+                        //        DropDownListComm.Items.IndexOf(
+                        //            DropDownListComm.Items.FindByValue(
+                        //                comm.Id.ToString()));
+                        //}
+                        //else
+                        //{
+                        //    DropDownListComm.SelectedIndex = DropDownListComm.Items.IndexOf(
+                        //        DropDownListComm.Items.FindByValue(""));
+                        //}
+                    }
+                }
+            }
+            return comm;
+        }
+
+        public associations GetAssociationFromQueryStringAndSelectInDropDown()
+        {
+            associations asso = new associations();
+            //Hämtar WebPageId från URL.
+            var stId = Request.QueryString["Id"];
+            int id;
+            //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
+            if (!string.IsNullOrWhiteSpace(stId) && int.TryParse(stId, out id))
+            {
+                webpages webPage = WebPageDB.GetWebPageById(id);
+                if (webPage != null)
+                {
+                    if (webPage.AssociationId != null)
+                    {
+                        asso = AssociationDB.GetAssociationById((int)webPage.AssociationId);
+                        if (asso != null)
+                        {
+                            DropDownListAsso.SelectedIndex =
+                                DropDownListAsso.Items.IndexOf(
+                                    DropDownListAsso.Items.FindByValue(
+                                        asso.Id.ToString()));
+                        }
+                        else
+                        {
+                            DropDownListAsso.SelectedIndex = DropDownListAsso.Items.IndexOf(
+                                DropDownListAsso.Items.FindByValue(""));
+                        }
+                    }
+                }
+            }
+            return asso;
+        }
+
+        protected void Page_PreRender(object sender, EventArgs e)
+        {
+            RepeaterEvents.Visible = RepeaterEvents.Items.Count != 0;
+            
         }
 
         //DateTime eventdate = Convert.ToDateTime("03/15/2015");
