@@ -205,6 +205,7 @@ namespace EventHandlingSystem
                 Other = TxtBoxOther.Text,
                 Location = TxtBoxLocation.Text,
                 ImageUrl = TxtBoxImageUrl.Text,
+                EventUrl = TxtBoxEventUrl.Text,
                 DayEvent = ChkBoxDayEvent.Checked,
                 StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
                 EndDate =

@@ -59,6 +59,7 @@ namespace EventHandlingSystem
                     TxtBoxOther.Text = @event.Other;
                     TxtBoxLocation.Text = @event.Location;
                     TxtBoxImageUrl.Text = @event.ImageUrl;
+                    TxtBoxEventUrl.Text = @event.EventUrl;
                     ChkBoxDayEvent.Checked = @event.DayEvent;
                     TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
                     TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
@@ -250,6 +251,7 @@ namespace EventHandlingSystem
                     Other = TxtBoxOther.Text,
                     Location = TxtBoxLocation.Text,
                     ImageUrl = TxtBoxImageUrl.Text,
+                    EventUrl = TxtBoxEventUrl.Text,
                     DayEvent = ChkBoxDayEvent.Checked,
                     StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
                     EndDate =

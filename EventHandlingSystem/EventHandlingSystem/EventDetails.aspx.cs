@@ -46,6 +46,10 @@ namespace EventHandlingSystem
                     var summary = new HtmlGenericControl("p") { InnerHtml = "<b>Summary:</b> " + @event.Summary };
                     var other = new HtmlGenericControl("p") { InnerHtml = "<b>Other:</b> " + @event.Other };
                     var location = new HtmlGenericControl("p") { InnerHtml = "<b>Location:</b> " + @event.Location };
+                    var eventUrl = new HtmlGenericControl("p")
+                    {
+                        InnerHtml = "<b>Event URL:</b> <a href=" + @event.EventUrl + ">" + @event.EventUrl + "</a>"
+                    };
                     var dayEvent = new HtmlGenericControl("p")
                     {
                         InnerHtml = "<b>Whole day event:</b> " + (@event.DayEvent ? "Yes" : "No")
@@ -103,6 +107,7 @@ namespace EventHandlingSystem
                         Main.Controls.Add(summary);
                         Main.Controls.Add(other);
                         Main.Controls.Add(location);
+                        Main.Controls.Add(eventUrl);
                         Main.Controls.Add(dayEvent);
                         Main.Controls.Add(startDate);
                         Main.Controls.Add(endDate);

@@ -31,6 +31,9 @@
     <h6>Image(Url)</h6>
     <asp:TextBox ID="TxtBoxImageUrl" runat="server"></asp:TextBox>
     <br />
+    <h6>Event(Url) eg. Facebook eventpage</h6>
+    <asp:TextBox ID="TxtBoxEventUrl" runat="server"></asp:TextBox>
+    <br />
     <h6>Whole day event</h6><asp:CheckBox ID="ChkBoxDayEvent" runat="server" OnCheckedChanged="ChkBoxDayEvent_OnCheckedChanged" AutoPostBack="True" />
     <br />
     <h6>Start date*</h6>
