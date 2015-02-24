@@ -24,13 +24,15 @@ namespace EventHandlingSystem
         public int Id { get; set; }
         public string Name { get; set; }
         public Nullable<int> ParentAssociationId { get; set; }
+        public string LogoUrl { get; set; }
+        public string Description { get; set; }
+        public string ContactInfo { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime LatestUpdate { get; set; }
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
         public int Communities_Id { get; set; }
-        public string LogoUrl { get; set; }
     
         public virtual communities communities { get; set; }
         public virtual ICollection<members> members { get; set; }

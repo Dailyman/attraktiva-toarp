@@ -39,6 +39,7 @@ namespace EventHandlingSystem.Database
             communities commToUpdate = GetCommunityById(comm.Id);
 
             commToUpdate.Name = comm.Name;
+            commToUpdate.Description = comm.Description;
             int affectedRows;
 
             try

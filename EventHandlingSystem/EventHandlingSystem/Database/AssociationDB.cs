@@ -74,6 +74,8 @@ namespace EventHandlingSystem.Database
             assoToUpdate.Name = assoc.Name; 
             assoToUpdate.Communities_Id = assoc.Communities_Id;
             assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
+            assoToUpdate.Description = assoc.Description;
+            assoToUpdate.ContactInfo = assoc.ContactInfo;
             assoToUpdate.categories = assoc.categories;
 
             int affectedRows;
