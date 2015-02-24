@@ -21,17 +21,21 @@ namespace EventHandlingSystem
 
         public void RenderFeeds()
         {
-            List<events> eventList = EventDB.GetEventsBySpecifiedNumberOfMonthsFromToday().OrderBy(item => item.StartDate).ToList();
+            List<events> eventList = EventDB.GetEventsBySpecifiedNumberOfMonthsFromToday()
+                .OrderBy(item => item.StartDate)
+                .Take(2) //visar antalet angivet (om items är färre än antalet visar det antalet items som finns)
+                .ToList();
 
             RepeaterFeed.DataSource = eventList;
             RepeaterFeed.DataBind();
 
             #region
+
             //foreach (var ev in eventList)
             //{
             //        //Lägg in...
             //        // datum
-                
+
             //        lnkbtnEventDate.Text = ev.StartDate.ToShortDateString();
 
             //        // titel och url
@@ -63,7 +67,30 @@ namespace EventHandlingSystem
             //    Controls.Add(new HtmlGenericControl("div"));
 
             //}
+
             #endregion
+        }
+
+        protected void btnShowMore_OnClick(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(hdfFeedLimit.Value))
+            {
+                hdfFeedLimit.Value = "2";
+            }
+                int numberOfShownEvents = int.Parse(hdfFeedLimit.Value); //
+
+                List<events> eventList = EventDB.GetEventsBySpecifiedNumberOfMonthsFromToday()
+                    .OrderBy(item => item.StartDate)
+                    .Take(numberOfShownEvents + 2)
+                    .ToList();
+
+            hdfFeedLimit.Value = (numberOfShownEvents + 2).ToString();
+
+                RepeaterFeed.DataSource = eventList;
+            RepeaterFeed.DataBind();
+
+
+
         }
     }
 }

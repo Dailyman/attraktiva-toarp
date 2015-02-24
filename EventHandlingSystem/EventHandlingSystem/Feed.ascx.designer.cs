@@ -13,6 +13,15 @@ namespace EventHandlingSystem {
     public partial class Feed {
         
         /// <summary>
+        /// hdfFeedLimit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField hdfFeedLimit;
+        
+        /// <summary>
         /// RepeaterFeed control.
         /// </summary>
         /// <remarks>
@@ -20,5 +29,14 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Repeater RepeaterFeed;
+        
+        /// <summary>
+        /// btnShowMore control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnShowMore;
     }
 }
