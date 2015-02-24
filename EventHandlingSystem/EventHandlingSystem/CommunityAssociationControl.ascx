@@ -53,7 +53,6 @@
                     <asp:HyperLink ID="HyperLinkLogoCommunity" runat="server">
                         <%--Just nu har alla communities samma bild--%>
                         <asp:Image ID="ImageLogoCommunity" 
-                            ImageUrl="~/Images/Community.jpg" 
                             ImageAlign="Right"
                             runat="server" />
                     </asp:HyperLink>
@@ -62,12 +61,10 @@
                 <span><b>Description: </b><br />
                     <asp:TextBox ID="TextBoxCommDescript" 
                         TextMode="MultiLine" 
-                        Text="This is a very friendly community..." 
-                        ForeColor="gray"
                         runat="server"></asp:TextBox>
                 </span><br />
                 <span><b>Logo URL: </b>
-                    <asp:TextBox ID="TextBoxCommLogoImgUrl" Text="~/Images/Community.jpg" ForeColor="gray" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxCommLogoImgUrl" runat="server" ></asp:TextBox>
                 </span>
                 <br />
                 <br />
@@ -106,12 +103,13 @@
                 <asp:HyperLink ID="HyperLinkLogoAssociation" runat="server">
                         <%--Just nu har alla associations samma bild--%>
                         <asp:Image ID="ImageLogoAssociation" 
-                            ImageUrl="~/Images/Association.jpg"
                             ImageAlign="Right"
                             runat="server" />
                     </asp:HyperLink>
                 <span><b>Name: </b>
                     <asp:TextBox ID="TextBoxAssoName" Text="" runat="server"></asp:TextBox></span><br /><br />
+                <span><b>Description: </b><br />
+                    <asp:TextBox ID="TextBoxAssoDescript" TextMode="MultiLine" runat="server"></asp:TextBox></span><br /><br />
                 <span><b>Community: </b>
                     <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br /><br />
                 <span><b>Parent Association: </b>
@@ -127,7 +125,7 @@
                     <asp:Button ID="ButtonCatRemove" runat="server" Text="Remove" CssClass="btn-small" OnClick="ButtonCatRemove_OnClick"/>
                 <br /><br />
                 <span><b>Logo URL: </b>
-                    <asp:TextBox ID="TextBoxAssoLogoImgUrl" Text="~/Images/Community.jpg" ForeColor="gray" runat="server"></asp:TextBox>
+                    <asp:TextBox ID="TextBoxAssoLogoImgUrl" runat="server"></asp:TextBox>
                 </span>
                 
                 <br/><br/>

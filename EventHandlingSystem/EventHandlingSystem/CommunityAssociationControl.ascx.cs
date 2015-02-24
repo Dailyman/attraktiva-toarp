@@ -288,10 +288,17 @@ namespace EventHandlingSystem
         {
             // Visa Community Name i textboxen och i rubrik över föreningslista
             TextBoxCommName.Text = DropDownListCommunity.SelectedItem.Text;
+
+            communities comm = CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedItem.Value));
+
+            TextBoxCommDescript.Text = comm.Description ?? "This is a very friendly community...";
+            TextBoxCommLogoImgUrl.Text = comm.LogoUrl ?? "~/Images/Community.jpg";
+
             LabelAssoInComm.Text = "Associations in " + DropDownListCommunity.SelectedItem.Text;
             LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "black");
 
             // Visa Community logga med länk innehållande tooltip
+            ImageLogoCommunity.ImageUrl = comm.LogoUrl ?? "~/Images/Community.jpg";
             HyperLinkLogoCommunity.NavigateUrl =
                 "/SitePage.aspx?id=" +
                 (WebPageDB.GetWebPageByCommunityId(int.Parse(DropDownListCommunity.SelectedValue)) != null
@@ -315,10 +322,13 @@ namespace EventHandlingSystem
         {
             // Visa Community Name i textboxen och i rubrik över föreningslista
             TextBoxCommName.Text = comm.Name;
+            TextBoxCommDescript.Text = comm.Description ?? "This is a very friendly community...";
+            TextBoxCommLogoImgUrl.Text = comm.LogoUrl ?? "~/Images/Community.jpg";
             LabelAssoInComm.Text = "Associations in " + comm.Name;
             LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "black");
 
             // Visa Community logga med länk innehållande tooltip
+            ImageLogoCommunity.ImageUrl = comm.LogoUrl ?? "~/Images/Community.jpg";
             HyperLinkLogoCommunity.NavigateUrl =
                 "/SitePage.aspx?id=" +
                 (WebPageDB.GetWebPageByCommunityId(comm.Id) != null
@@ -346,7 +356,11 @@ namespace EventHandlingSystem
             //Visa Association Name i textboxen
             TextBoxAssoName.Text = a.Name;
 
+            //Visa Description i multitextbox
+            TextBoxAssoDescript.Text = a.Description ?? "There is no one more friendly than us. ^^";
+
             //Visa Association logga plus web page link
+            ImageLogoAssociation.ImageUrl = a.LogoUrl ?? "~/Images/Association.jpg";
             HyperLinkLogoAssociation.NavigateUrl =
                 "/SitePage.aspx?id=" +
                 (WebPageDB.GetWebPageByAssociationId(a.Id) != null
@@ -382,6 +396,9 @@ namespace EventHandlingSystem
             PopulateAllAssociationCategoriesDropDownList();
             PopulateCategoriesInAssoListBox();
             DropDownListCategories.SelectedIndex = 0;
+
+            //Visa Logo Url i textbox
+            TextBoxAssoLogoImgUrl.Text = a.LogoUrl ?? "~/Images/Association.jpg";
 
             // Visa Created, Created By och Publishing TermSet
             LabelCreatedAsso.Text = "<b>Created: </b>" +
@@ -507,6 +524,11 @@ namespace EventHandlingSystem
                 communities commToUpdate = CommunityDB.GetCommunityById(commId);
                 commToUpdate.Name = TextBoxCommName.Text;
 
+                //Uppdatera description från textboxen
+                commToUpdate.Description = TextBoxCommDescript.Text;
+
+                //Uppdatera logo-adressen från textboxen
+                commToUpdate.LogoUrl = TextBoxCommLogoImgUrl.Text; 
 
                 int affectedRows = CommunityDB.UpdateCommunity(commToUpdate);
                 
@@ -712,14 +734,15 @@ namespace EventHandlingSystem
             {
                 //Hitta Association-Id i listboxen - value
                 int assoId = int.Parse(ListBoxAsso.SelectedItem.Value);
-
-
+                
                 // UPPDATERA det nya namnet från textboxen
                 associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
                 assoToUpdate.Name = TextBoxAssoName.Text;
 
                 PopulateAssociationListBox(assoId);
-
+                
+                //UPPDATERA Description från textboxen
+                assoToUpdate.Description = TextBoxAssoDescript.Text;
 
                 // UPPDATERA community i vilken föreningen finns
                 assoToUpdate.Communities_Id = int.Parse(DropDownListCommunityInAsso.SelectedItem.Value);
@@ -842,6 +865,8 @@ namespace EventHandlingSystem
                     assoToUpdate.categories.Remove(removeItem);
                 }
                 
+                //UPPDATERA Logo Url
+                assoToUpdate.LogoUrl = TextBoxAssoLogoImgUrl.Text;
               
                 //Anropa Update-metoden
                 affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
