@@ -28,6 +28,7 @@ namespace EventHandlingSystem
         public string Other { get; set; }
         public string Location { get; set; }
         public string ImageUrl { get; set; }
+        public string EventUrl { get; set; }
         public bool DayEvent { get; set; }
         public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }

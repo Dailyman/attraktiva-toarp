@@ -169,6 +169,7 @@ namespace EventHandlingSystem.Database
             eventToUpdate.Other = ev.Other;
             eventToUpdate.Location = ev.Location;
             eventToUpdate.ImageUrl = ev.ImageUrl;
+            eventToUpdate.EventUrl = ev.EventUrl;
             eventToUpdate.DayEvent = ev.DayEvent;
             eventToUpdate.StartDate = ev.StartDate;
             eventToUpdate.EndDate = ev.EndDate;
