@@ -85,6 +85,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxImageUrl;
         
         /// <summary>
+        /// TxtBoxEventUrl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox TxtBoxEventUrl;
+        
+        /// <summary>
         /// ChkBoxDayEvent control.
         /// </summary>
         /// <remarks>

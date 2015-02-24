@@ -4,8 +4,8 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="0cb4e480261e4d0c878f9c8f5f7763f5" Name="Diagram1" ZoomLevel="40">
-        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="8.2625035067379962" PointY="2.3027974526876571" />
+      <Diagram DiagramId="0cb4e480261e4d0c878f9c8f5f7763f5" Name="Diagram1" ZoomLevel="56">
+        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="15.75" PointY="1.5" />
         <EntityTypeShape EntityType="ATModel.categories" Width="1.5" PointX="2.6480703571103841" PointY="6.5174560130189434" />
         <EntityTypeShape EntityType="ATModel.communities" Width="1.5" PointX="7.0172608695073331" PointY="13.134061193621745" />
         <EntityTypeShape EntityType="ATModel.components" Width="1.5" PointX="2.4294766534257106" PointY="20.262929299968729" />

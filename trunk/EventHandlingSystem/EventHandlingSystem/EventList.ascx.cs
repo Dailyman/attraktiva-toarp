@@ -107,62 +107,70 @@ namespace EventHandlingSystem
         }
 
         //DateTime eventdate = Convert.ToDateTime("03/15/2015");
-        public void RenderEventList()
+        public List<events> RenderEventList()
         {
             List<events> eventList = EventDB.GetAllEvents();
 
             RepeaterEvents.DataSource = eventList;
             RepeaterEvents.DataBind();
+            return eventList;
 
         }
-        public void RenderEventList(DateTime sTime)
+        public List<events> RenderEventList(DateTime sTime)
         {
             List<events> eventList = EventDB.GetEventsFromSpecifiedStartDate(sTime.Date);
 
             RepeaterEvents.DataSource = eventList;
             RepeaterEvents.DataBind();
+            return eventList;
 
         }
-        public void RenderEventList(DateTime sDate, DateTime eDate)
+        public List<events> RenderEventList(DateTime sDate, DateTime eDate)
         {
             List<events> eventList = EventDB.GetEventsByRangeDate(sDate, eDate);
             
             RepeaterEvents.DataSource = eventList;
             RepeaterEvents.DataBind();
 
+            return eventList;
+
         }
-        public void RenderEventList(DateTime sDate, DateTime eDate, associations asso)
+
+        public List<events> RenderEventList(DateTime sDate, DateTime eDate, associations asso)
         {
+            List<events> eventList = new List<events>();
             if (asso != null)
             {
-            List<events> eventList = new List<events>();
-
-            foreach (events e in EventDB.GetEventsByRangeDate(sDate, eDate))
-            {
-                foreach (associations a in e.associations)
+                foreach (events e in EventDB.GetEventsByRangeDate(sDate, eDate))
                 {
-                    if (a.Id == asso.Id)
+                    foreach (associations a in e.associations)
                     {
-                        eventList.Add(e);
-                        break;
+                        if (a.Id == asso.Id)
+                        {
+                            eventList.Add(e);
+                            break;
+                        }
                     }
                 }
-            }
 
-            RepeaterEvents.DataSource = eventList;
-            RepeaterEvents.DataBind();
+                RepeaterEvents.DataSource = eventList;
+                RepeaterEvents.DataBind();
+                return eventList;
             }
             else
             {
-                RenderEventList();
+                return RenderEventList();
             }
 
+            
         }
-        public void RenderEventList(associations asso)
+
+        public List<events> RenderEventList(associations asso)
         {
+            List<events> eventList = new List<events>();
             if (asso != null)
             {
-                List<events> eventList = new List<events>();
+                
 
                 foreach (events e in EventDB.GetAllEvents())
                 {
@@ -178,15 +186,17 @@ namespace EventHandlingSystem
 
                 RepeaterEvents.DataSource = eventList;
                 RepeaterEvents.DataBind();
+
+                return eventList;
             }
             else
             {
-                RenderEventList();
+                return RenderEventList();
             }
 
         }
 
-        public void RenderEventList(string searchStr)
+        public List<events> RenderEventList(string searchStr)
         {
             List<events> eventList = EventDB.GetEventsBySearchWord(searchStr);
 
@@ -198,13 +208,28 @@ namespace EventHandlingSystem
 
         protected void BtnFilter_OnClick(object sender, EventArgs e)
         {
+            int aId;
+
             if (!String.IsNullOrWhiteSpace(TxtSearch.Text))
             {
-                RenderEventList(TxtSearch.Text);
+                
+
+                if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
+                    int.TryParse(DropDownListAsso.SelectedValue, out aId))
+                {
+                    rend
+                }
+                else
+                {
+                    RenderEventList(TxtSearch.Text);
+                    return;
+                }
                 return;
             }
 
-            int aId;
+
+
+            
             if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
                 int.TryParse(DropDownListAsso.SelectedValue, out aId))
             {
