@@ -198,7 +198,7 @@ namespace EventHandlingSystem
 
                         foreach (var ev in assoEvents)
                         {
-                            if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+                            if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
                             {
                                 divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id +
                                         "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
@@ -212,7 +212,7 @@ namespace EventHandlingSystem
             {
                 foreach (var ev in EventDB.GetAllEventsInMonth(date))
                 {
-                    if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
+                    if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
                     {
                         divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
                     }

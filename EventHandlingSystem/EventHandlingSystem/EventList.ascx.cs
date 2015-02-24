@@ -111,16 +111,16 @@ namespace EventHandlingSystem
         {
             List<events> eventList = EventDB.GetAllEvents();
 
-            RepeaterEvents.DataSource = eventList;
+            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
             RepeaterEvents.DataBind();
             return eventList;
 
         }
-        public List<events> RenderEventList(DateTime sTime)
+        public List<events> RenderEventList(DateTime sDate)
         {
-            List<events> eventList = EventDB.GetEventsFromSpecifiedStartDate(sTime.Date);
+            List<events> eventList = EventDB.GetEventsFromSpecifiedStartDate(sDate.Date);
 
-            RepeaterEvents.DataSource = eventList;
+            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
             RepeaterEvents.DataBind();
             return eventList;
 
@@ -128,14 +128,13 @@ namespace EventHandlingSystem
         public List<events> RenderEventList(DateTime sDate, DateTime eDate)
         {
             List<events> eventList = EventDB.GetEventsByRangeDate(sDate, eDate);
-            
-            RepeaterEvents.DataSource = eventList;
+
+            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
             RepeaterEvents.DataBind();
 
             return eventList;
 
         }
-
         public List<events> RenderEventList(DateTime sDate, DateTime eDate, associations asso)
         {
             List<events> eventList = new List<events>();
@@ -153,7 +152,7 @@ namespace EventHandlingSystem
                     }
                 }
 
-                RepeaterEvents.DataSource = eventList;
+                RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
                 RepeaterEvents.DataBind();
                 return eventList;
             }
@@ -164,7 +163,6 @@ namespace EventHandlingSystem
 
             
         }
-
         public List<events> RenderEventList(associations asso)
         {
             List<events> eventList = new List<events>();
@@ -184,7 +182,7 @@ namespace EventHandlingSystem
                     }
                 }
 
-                RepeaterEvents.DataSource = eventList;
+                RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
                 RepeaterEvents.DataBind();
 
                 return eventList;
@@ -195,14 +193,72 @@ namespace EventHandlingSystem
             }
 
         }
-
         public List<events> RenderEventList(string searchStr)
         {
             List<events> eventList = EventDB.GetEventsBySearchWord(searchStr);
 
-            RepeaterEvents.DataSource = eventList;
+            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
             RepeaterEvents.DataBind();
 
+            return eventList;
+
+        }
+        public List<events> RenderEventList(associations asso, string searchStr)
+        {
+            List<events> eventList = new List<events>();
+
+            if (asso != null)
+            {
+                foreach (events e in EventDB.GetEventsBySearchWord(searchStr))
+                {
+                    foreach (associations a in e.associations)
+                    {
+                        if (a.Id == asso.Id)
+                        {
+                            eventList.Add(e);
+                            break;
+                        }
+                    }
+                }
+
+                RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
+                RepeaterEvents.DataBind();
+
+                return eventList;
+            }
+            else
+            {
+                return RenderEventList();
+            }
+        }
+        public List<events> RenderEventList(DateTime sDate, DateTime eDate, associations asso, string searchStr)
+        {
+            List<events> eventList = new List<events>();
+
+            if (asso != null)
+            {
+                foreach (events e in EventDB.GetEventsBySearchWord(searchStr))
+                {
+                    foreach (associations a in e.associations)
+                    {
+                        if (a.Id == asso.Id)
+                        {
+                            eventList.Add(e);
+                            break;
+                        }
+                    }
+                }
+                
+
+                RepeaterEvents.DataSource = eventList.Where(e => e.StartDate > sDate && e.EndDate < eDate).OrderBy(e => e.StartDate);
+                RepeaterEvents.DataBind();
+
+                return eventList;
+            }
+            else
+            {
+                return RenderEventList();
+            }
         }
         
 
@@ -212,24 +268,30 @@ namespace EventHandlingSystem
 
             if (!String.IsNullOrWhiteSpace(TxtSearch.Text))
             {
-                
 
                 if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
-                    int.TryParse(DropDownListAsso.SelectedValue, out aId))
+                    int.TryParse(DropDownListAsso.SelectedValue, out aId) && !String.IsNullOrWhiteSpace(TxtStart.Text) &&
+                    !String.IsNullOrWhiteSpace(TxtEnd.Text))
                 {
-                    rend
+                    RenderEventList(Convert.ToDateTime(TxtStart.Text), Convert.ToDateTime(TxtEnd.Text),
+                        AssociationDB.GetAssociationById(aId), TxtSearch.Text);
                 }
-                else
-                {
-                    RenderEventList(TxtSearch.Text);
-                    return;
-                }
+                else if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
+                        int.TryParse(DropDownListAsso.SelectedValue, out aId))
+                    {
+                        RenderEventList(AssociationDB.GetAssociationById(aId), TxtSearch.Text);
+                    }
+                    else
+                    {
+                        RenderEventList(TxtSearch.Text);
+                        return;
+                    }
                 return;
             }
 
 
 
-            
+
             if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
                 int.TryParse(DropDownListAsso.SelectedValue, out aId))
             {
