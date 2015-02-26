@@ -425,6 +425,7 @@
     <Compile Include="Database\CategoryDB.cs" />
     <Compile Include="Database\CommunityDB.cs" />
     <Compile Include="Database\ComponentDB.cs" />
+    <Compile Include="Database\MemberDB.cs" />
     <Compile Include="Database\SubCategoryDB.cs" />
     <Compile Include="Database\WebPageDB.cs" />
     <Compile Include="EHSModel.Context.cs">

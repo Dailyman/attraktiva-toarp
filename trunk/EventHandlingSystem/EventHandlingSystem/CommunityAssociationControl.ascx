@@ -101,7 +101,6 @@
             <div class="view-association-details">
                 <h3>Association Details</h3><br />
                 <asp:HyperLink ID="HyperLinkLogoAssociation" runat="server">
-                        <%--Just nu har alla associations samma bild--%>
                         <asp:Image ID="ImageLogoAssociation" 
                             ImageAlign="Right"
                             runat="server" />
@@ -136,6 +135,14 @@
                 <h5>Sub Associations</h5>
                 <asp:BulletedList ID="BulletedListSubAssociations" runat="server"></asp:BulletedList>
                 <br />
+                <b><asp:LinkButton ID="lnkbtnMembers" Text="Show members" runat="server" 
+                    OnClick="lnkbtnMembers_OnClick"></asp:LinkButton></b>
+                <br/>
+                <asp:BulletedList ID="bullListMemberList" runat="server" 
+                    OnClick="bullListMemberList_OnClick" 
+                    DisplayMode="LinkButton"></asp:BulletedList>
+                <br/>
+                <asp:LinkButton ID="lnkbtnAddNewMember" runat="server" OnClick="lnkbtnAddNewMember_OnClick" >Add New Member</asp:LinkButton>
                 <div class="btn-align-right">
                     <asp:Button ID="ButtonUpdateAsso" CssClass="btn-blue" runat="server" Text="Update" OnClick="ButtonUpdateAsso_OnClick"/>
                     <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" Text="Delete this Association" OnClick="ButtonDeleteAsso_OnClick"/>
@@ -164,7 +171,6 @@
                 <span><b>Parent Association: </b>
                     <asp:DropDownList ID="DropDownListCreateParAsso"
                         runat="server"
-                        OnSelectedIndexChanged="DropDownListCreateParAsso_OnSelectedIndexChanged"
                         AutoPostBack="True">
                     </asp:DropDownList>
                 </span><br />
@@ -190,5 +196,32 @@
             </div>
         </asp:View>
     </asp:MultiView>
-    
+
+    <asp:MultiView ID="MultiViewManageMembers" runat="server" ActiveViewIndex="-1">
+        <asp:View ID="ViewMembers" runat="server">
+            <div class="view-manage-members">
+                <h3><asp:Label ID="lbMembersTitle" runat="server" ></asp:Label></h3>
+                <span><b>First Name: </b>
+                    <asp:TextBox ID="tbMemberFName" runat="server"></asp:TextBox></span><br/>
+                <span><b>Surname: </b>
+                    <asp:TextBox ID="tbMemberSName" runat="server"></asp:TextBox></span><br/>
+                <span><b>Email: </b>
+                    <asp:TextBox ID="tbMemberEmail" runat="server"></asp:TextBox></span><br/>
+                <span><b>Phone: </b>
+                    <asp:TextBox ID="tbMemberPhone" runat="server"></asp:TextBox></span><br/>
+                <asp:HiddenField ID="hdfMemberId" runat="server" />
+                <div class="btn-align-right" runat="server">
+                    <asp:Button ID="btnMembersSaveChanges" runat="server" 
+                        Text="Save Changes" 
+                        CssClass="btn-blue" 
+                        OnClick="btnMembersSaveChanges_OnClick"/>
+                    <asp:Button ID="btnMemberDelete" runat="server" 
+                        Text="Delete this member" CssClass="btn-blue" 
+                        Visible="True" OnClick="btnMemberDelete_OnClick"/>
+                </div>
+                 <asp:Label ID="lbMemberUpdate" runat="server" Text=""></asp:Label>
+            </div>
+        </asp:View>
+    </asp:MultiView>
+
 </div>

@@ -70,15 +70,15 @@ namespace EventHandlingSystem
                 Value = asso.Id.ToString()
             }).ToList();
 
-            // ALTERNATIV med foreach
-            foreach (var asso in AssociationDB.GetAllAssociations())
-            {
-                assoList.Add(new ListItem
-                {
-                    Text = asso.Name,
-                    Value = asso.Id.ToString()
-                });
-            }
+            //// ALTERNATIV med foreach
+            //foreach (var asso in AssociationDB.GetAllAssociations())
+            //{
+            //    assoList.Add(new ListItem
+            //    {
+            //        Text = asso.Name,
+            //        Value = asso.Id.ToString()
+            //    });
+            //}
 
             ListItem emptyItem = new ListItem("", " ");
             ddl.Items.Add(emptyItem); //index 0
@@ -418,6 +418,9 @@ namespace EventHandlingSystem
                 ListItem emptyItem = new ListItem(" --- ", " ");
                 BulletedListSubAssociations.Items.Add(emptyItem); //index 0
             }
+
+            bullListMemberList.Items.Clear();
+            lnkbtnMembers.Text = "Show members";
         }
     
     #endregion
@@ -464,31 +467,7 @@ namespace EventHandlingSystem
             ShowAssociationDetails(AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)));
             LabelUpdateAsso.Text = "";
         }
-
-
-        ////Dropdownlista för Communities i Create Association View
-        //protected void DropDownListCommCreateAsso_OnSelectedIndexChanged(object sender, EventArgs e)
-        //{
-        //    if (!string.IsNullOrWhiteSpace(DropDownListCommunityCreateAsso.SelectedValue))
-        //    {
-
-        //    }
-        //}
-
-
-        //Dropdownlista för Parent Associations 
-        protected void DropDownListCreateParAsso_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
-
         
-        //Dropdownlista för Association Types
-        protected void DropDownListCreateAssoType_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
-
         #endregion
 
 
@@ -723,7 +702,137 @@ namespace EventHandlingSystem
                 ListBoxCatInAsso.Items.Remove(itemToRemove);
             }
         }
+        
+        //För att visa alla members i en bull-lista
+        protected void lnkbtnMembers_OnClick(object sender, EventArgs e)
+        {
+            lnkbtnMembers.Text = "Members in " +
+                                      AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)).Name;
+            bullListMemberList.Items.Clear();
 
+            List<ListItem> memberList = MemberDB.GetAllMembersByAssociationId
+                (AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)))
+                .OrderBy(m => m.SurName)
+                .ThenBy(m => m.FirstName)
+                .Select(member => new ListItem
+            {
+                Text = member.FirstName + " " + member.SurName, 
+                Value = member.Id.ToString()
+            }).ToList();
+
+            foreach (var item in memberList)
+            {
+                bullListMemberList.Items.Add(item);
+            }
+        }
+
+        //För att hantera en member - gå till current member view
+        protected void bullListMemberList_OnClick(object sender, BulletedListEventArgs e)
+        {
+            //Visa view när "Show Member"-länken klickas
+            MultiViewManageMembers.ActiveViewIndex = 0;
+            btnMemberDelete.Visible = true;
+
+            //Labeltext och member info
+            lbMemberUpdate.Text = string.Empty;
+            lbMembersTitle.Text = "Current Member Information, in " +
+                                  AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)).Name;
+
+            members member = MemberDB.GetMemberById(int.Parse(bullListMemberList.Items[e.Index].Value)); //e.Index på valt item i listan
+                
+            tbMemberFName.Text = member.FirstName;
+            tbMemberSName.Text = member.SurName;
+            tbMemberEmail.Text = member.Email;
+            tbMemberPhone.Text = member.Phone;
+            hdfMemberId.Value = member.Id.ToString(); //spara id i en hiddenfield
+        }
+
+        //För att spara ändringar som gjorts för en member 
+        //ELLER 
+        //för att SKAPA en ny member
+        protected void btnMembersSaveChanges_OnClick(object sender, EventArgs e)
+        {
+            if (hdfMemberId.Value != "-1") //om hiddenfield inte är -1
+            {
+                //Hitta befintlig member och spara ändringar
+                members memberToUpdate = MemberDB.GetMemberById(int.Parse(hdfMemberId.Value));
+
+                memberToUpdate.FirstName = tbMemberFName.Text;
+                memberToUpdate.SurName = tbMemberSName.Text;
+                memberToUpdate.Email = tbMemberEmail.Text;
+                memberToUpdate.Phone = tbMemberPhone.Text;
+
+                //Anropa Update-metoden
+                affectedRows = MemberDB.UpdateMember(memberToUpdate);
+
+                if (affectedRows != 0)
+                {
+                    lbMemberUpdate.Text = "Information about " + tbMemberFName.Text + " " + tbMemberSName.Text +
+                                          " has been updated! o(^O^)o";
+                    lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                }
+                else
+                {
+                    lbMemberUpdate.Text += "Error: Changes might not have been made in " + tbMemberFName.Text +
+                                           "... Make sure to set the update information.";
+                    lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+            }
+            else
+            {
+                members newMember = new members
+                {
+                    FirstName = tbMemberFName.Text,
+                    SurName = tbMemberSName.Text,
+                    Email = tbMemberEmail.Text,
+                    Phone = tbMemberPhone.Text,
+                    Associations_Id = int.Parse(ListBoxAsso.SelectedItem.Value)
+                };
+
+                if (MemberDB.Addmember(newMember))
+                {
+                    lbMemberUpdate.Text = newMember.FirstName + " " + newMember.SurName + " has been successfully created! (^o^)/";
+                    lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                }
+                else
+                {
+                    lbMemberUpdate.Text = "Member could not be added. Try again!";
+                    lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+            }
+        }
+
+        //För att komma till vyn där man skapar en ny member
+        protected void lnkbtnAddNewMember_OnClick(object sender, EventArgs e)
+        {
+            MultiViewManageMembers.ActiveViewIndex = 0;
+            hdfMemberId.Value = "-1";
+            btnMemberDelete.Visible = false;
+
+            //Rensa textboxarna och label
+            tbMemberFName.Text = string.Empty;
+            tbMemberSName.Text = string.Empty;
+            tbMemberEmail.Text = string.Empty;
+            tbMemberPhone.Text = string.Empty;
+            lbMemberUpdate.Text = string.Empty;
+        }
+
+        protected void btnMemberDelete_OnClick(object sender, EventArgs e)
+        {
+            //Ta bort den aktuella membern - använda värdet i hiddenfield
+            int affectedRows = MemberDB.DeleteMemberById(int.Parse(hdfMemberId.Value));
+
+            if (affectedRows != 0)
+            {
+                lbMemberUpdate.Text = tbMemberFName.Text + " " + tbMemberSName.Text + " was successfully deleted. T_T ";
+                lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+            }
+            else
+            {
+                lbMemberUpdate.Text = tbMemberFName.Text + " " + tbMemberSName.Text + "could not be deleted. Please try again.";
+                lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+        }
 
         private int affectedRows;
 
@@ -1001,7 +1110,6 @@ namespace EventHandlingSystem
 
         #endregion
 
-        
         
     }
 }
