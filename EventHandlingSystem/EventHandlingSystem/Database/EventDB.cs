@@ -93,21 +93,10 @@ namespace EventHandlingSystem.Database
                     .ToList();
         }
 
-        //public static List<events> GetEventsByAssociation(associations asso)
-        //{
-        //    List<events> eventsToReturn = new List<events>();
-        //    foreach (events notDeletedEvent in GetAllNotDeletedEvents())
-        //    {
-        //        foreach (associations association in notDeletedEvent.associations)
-        //        {
-        //            if (association.Id == asso.Id)
-        //            {
-        //                eventsToReturn.Add(notDeletedEvent);
-        //            }
-        //        }
-        //    }
-        //    return eventsToReturn;
-        //}
+        public static List<events> GetEventsByAssociation(associations asso)
+        {
+            return asso.events.ToList();
+        }
 
         public static events GetEventById(int id)
         {

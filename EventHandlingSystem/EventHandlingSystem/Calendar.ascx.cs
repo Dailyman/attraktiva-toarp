@@ -199,10 +199,43 @@ namespace EventHandlingSystem
             {
                 if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
                 {
-                    htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                    htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\">" +
+                                        "<div id=\"" + ev.Id + "\" class=\"event-in-cell\" >" + ev.Title + "</div>" +
+                                      "</a>" +
+                                      "<div id=\"" + ev.Id +"\" class=\"event-pop-up\">" +
+                                        "<div class=\"arrow-up\"></div>" +
+                                        "<div class=\"pop-up-text\">" +
+                                        "<b>Title</b><br/> " + ev.Title + 
+                                        "<br/><b>Date</b><br/> " +
+                                        ev.StartDate.ToString("dddd, MMM d, HH:mm") +
+                                        (ev.StartDate.Day == ev.EndDate.Day
+                                            ? "-" + ev.EndDate.ToString("HH:mm")
+                                            : "-<br/>" + ev.EndDate.ToString("dddd, MMM d, HH:mm")) +
+                                        "<br/><b>Location</b><br/> " + ev.Location + 
+                                        "<br/><b>Summary</b><br/> " + ev.Summary + 
+                                        "<br/><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br/> " + WriteAllAssociations(ev.associations) + 
+                                        "</div>" +
+                                      "</div>";
                 }
             }
             return htmlEventCells;
+        }
+
+        public string WriteAllAssociations(ICollection<associations> list)
+        {
+            string result = "";
+            foreach (var association in list)
+            {
+                result += association.Name + ", ";
+            }
+            if (String.IsNullOrEmpty(result))
+            {
+                return result;
+            }
+            else
+            {
+                return result.TrimEnd(',', ' ');
+            }
         }
 
 

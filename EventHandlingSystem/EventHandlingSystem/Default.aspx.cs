@@ -14,6 +14,10 @@ namespace EventHandlingSystem
         {
             //Label1.Text = string.Empty;
             //Label1.Text = txtComments.Text;
+            //foreach (var ev in EventDB.GetEventsByAssociation(AssociationDB.GetAssociationByName("Hajklubben")))
+            //{
+            //    TestLable.Text += ev.Title + " - ";
+            //}
         }
     }
 }
