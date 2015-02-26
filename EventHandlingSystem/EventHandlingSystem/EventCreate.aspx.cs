@@ -15,12 +15,9 @@ namespace EventHandlingSystem
     {
         #region Page_Load
 
+
         protected void Page_Load(object sender, EventArgs e)
         {
-            //RegEx för att kontrollera att rätt tidsformat används i TimeTextboxarna.
-            RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-            RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-
             //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
@@ -45,7 +42,7 @@ namespace EventHandlingSystem
                 }
                 //Slut 'lägger till objekt i associationdropdownlist'. 
 
-                 //Sätter in dagens datum och tid i textboxarna.
+                
                 string dateStr = Request.QueryString["d"];
                 DateTime date;
                 if (!string.IsNullOrWhiteSpace(dateStr) && DateTime.TryParse(dateStr, out date))
@@ -59,20 +56,61 @@ namespace EventHandlingSystem
                 }
                 else
                 {
+                    //Sätter in dagens datum och tid i textboxarna.
                     TxtBoxStartDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                TxtBoxStartTime.Text = "00:00";
-                CalendarStartDate.SelectedDate = DateTime.Now.Date;
-                TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
-                TxtBoxEndTime.Text = "00:00";
-                CalendarEndDate.SelectedDate = DateTime.Now.Date;
+                    TxtBoxStartTime.Text = "00:00";
+                    CalendarStartDate.SelectedDate = DateTime.Now.Date;
+                    TxtBoxEndDate.Text = DateTime.Now.ToString("yyyy-MM-dd");
+                    TxtBoxEndTime.Text = "00:00";
+                    CalendarEndDate.SelectedDate = DateTime.Now.Date;
                 }
-               
-                
-
                 //Gömmer kalendrarna från början. 
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
 
+                int eventId;
+                if (!String.IsNullOrWhiteSpace(Request.QueryString["copy"]) &&
+                    !String.IsNullOrWhiteSpace(Request.QueryString["id"]) &&
+                    int.TryParse(Request.QueryString["id"], out eventId))
+                {
+                    if (String.Equals(Request.QueryString["copy"], "true", StringComparison.OrdinalIgnoreCase))
+                    {
+                        //Fyller formuläret med evenemangets nuvarande information.
+                        events @event = EventDB.GetEventById(eventId);
+
+                        TxtBoxTitle.Text = @event.Title;
+                        TxtBoxDescription.Text = @event.Description;
+                        TxtBoxSummary.Text = @event.Summary;
+                        TxtBoxOther.Text = @event.Other;
+                        TxtBoxLocation.Text = @event.Location;
+                        TxtBoxImageUrl.Text = @event.ImageUrl;
+                        TxtBoxEventUrl.Text = @event.EventUrl;
+                        ChkBoxDayEvent.Checked = @event.DayEvent;
+                        TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
+                        TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
+                        TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
+                        TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
+                        TxtBoxTargetGroup.Text = @event.TargetGroup;
+                        CalendarStartDate.SelectedDate = @event.StartDate;
+                        CalendarEndDate.SelectedDate = @event.EndDate;
+                        TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
+
+                        //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
+                        var firstAsso = @event.associations.FirstOrDefault();
+                        if (firstAsso != null)
+                        {
+                            DropDownAssociation.SelectedIndex =
+                                DropDownAssociation.Items.IndexOf(
+                                    DropDownAssociation.Items.FindByValue(
+                                        firstAsso.Id.ToString()));
+                        }
+                        else
+                        {
+                            DropDownAssociation.SelectedIndex = DropDownAssociation.Items.IndexOf(
+                                DropDownAssociation.Items.FindByValue(""));
+                        }
+                    }
+                }
             }
         }
 

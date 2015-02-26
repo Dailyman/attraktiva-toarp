@@ -265,15 +265,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtBoxApproximateAttendees;
         
         /// <summary>
-        /// ReqFieldValiApproxAttend control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.RequiredFieldValidator ReqFieldValiApproxAttend;
-        
-        /// <summary>
         /// CompValiApproxAttend control.
         /// </summary>
         /// <remarks>

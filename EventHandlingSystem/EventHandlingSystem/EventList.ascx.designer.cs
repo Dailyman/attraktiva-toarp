@@ -22,6 +22,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TxtStart;
         
         /// <summary>
+        /// CustomValiStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator CustomValiStartDate;
+        
+        /// <summary>
         /// TxtEnd control.
         /// </summary>
         /// <remarks>
@@ -29,6 +38,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TxtEnd;
+        
+        /// <summary>
+        /// CustomValiEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CustomValidator CustomValiEndDate;
         
         /// <summary>
         /// DropDownListAsso control.

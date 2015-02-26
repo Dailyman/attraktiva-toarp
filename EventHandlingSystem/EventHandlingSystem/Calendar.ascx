@@ -62,7 +62,7 @@
         padding: 0;
         border: 1px solid lightblue;
         vertical-align: top;
-        max-width: 160px;
+        max-width: 150px;
         background-color: aliceblue;
     }
 

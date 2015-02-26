@@ -98,6 +98,7 @@ namespace EventHandlingSystem
                         var latestUpdate = new HtmlGenericControl("p") { InnerHtml = "<b>Latest update:</b> " + @event.LatestUpdate.ToString("yyyy-MM-dd HH:mm") };
                         var updatedBy = new HtmlGenericControl("p") { InnerHtml = "<b>Updated by:</b> " + @event.UpdatedBy };
                         var updateLink = new HtmlAnchor() { HRef = "~/EventUpdate?Id=" + @event.Id, InnerText = "Update the event here!" };
+                        var copyLink = new HtmlAnchor() { HRef = "~/EventCreate?Copy=true&Id=" + @event.Id, InnerText = "Copy the event here!" };
 
 
                         //Lägger in alla skapade controls i Main(en Div-tag på sidan).
@@ -123,6 +124,8 @@ namespace EventHandlingSystem
                         Main.Controls.Add(updatedBy);
                         Main.Controls.Add(new LiteralControl("<br />"));
                         Main.Controls.Add(updateLink);
+                        Main.Controls.Add(new LiteralControl("<br />"));
+                        Main.Controls.Add(copyLink);
                     
                 }
                 else

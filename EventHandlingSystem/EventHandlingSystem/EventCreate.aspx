@@ -42,7 +42,7 @@
     <asp:ImageButton ID="ImageButtonStartDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonStartDate_OnClick" />
     <asp:RequiredFieldValidator ID="ReqFieldValiStartDate" runat="server" ControlToValidate="TxtBoxStartDate" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="ReqFieldValiStartTime" runat="server" ControlToValidate="TxtBoxStartTime" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
-    <asp:RegularExpressionValidator ID="RegExpValStartTime" runat="server" ControlToValidate="TxtBoxStartTime" ErrorMessage="Use the right format! (e.g. 15:30)" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RegularExpressionValidator>
+    <asp:RegularExpressionValidator ID="RegExpValStartTime" runat="server" ControlToValidate="TxtBoxStartTime" ErrorMessage="Use the right format! (e.g. 15:30)" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" ValidationExpression="^([01]?[0-9]|2[0-3]):[0-5][0-9]$"></asp:RegularExpressionValidator>
     <asp:CustomValidator ID="CustomValiStartDate" runat="server" ControlToValidate="TxtBoxStartDate" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiStartDate_OnServerValidate" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" ValidateEmptyText="True"></asp:CustomValidator>
     <br />
     <asp:Calendar ID="CalendarStartDate" runat="server" OnSelectionChanged="CalendarStartDate_OnSelectionChanged"></asp:Calendar>
@@ -53,7 +53,7 @@
     <asp:ImageButton ID="ImageButtonEndDate" runat="server" ImageUrl="Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonEndDate_OnClick" />
     <asp:RequiredFieldValidator ID="ReqFieldValiEndDate" runat="server" ControlToValidate="TxtBoxEndDate" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="ReqFieldValiEndTime" runat="server" ControlToValidate="TxtBoxEndTime" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
-    <asp:RegularExpressionValidator ID="RegExpValEndTime" runat="server" ControlToValidate="TxtBoxEndTime" ErrorMessage="Use the right format! (e.g. 15:30)" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RegularExpressionValidator>
+    <asp:RegularExpressionValidator ID="RegExpValEndTime" runat="server" ControlToValidate="TxtBoxEndTime" ErrorMessage="Use the right format! (e.g. 15:30)" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" ValidationExpression="^([01]?[0-9]|2[0-3]):[0-5][0-9]$"></asp:RegularExpressionValidator>
     <asp:CustomValidator ID="CustomValiEndDate" runat="server" ControlToValidate="TxtBoxEndDate" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiEndDate_OnServerValidate" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" ValidateEmptyText="True"></asp:CustomValidator>
     <br />
     <asp:Calendar ID="CalendarEndDate" runat="server" OnSelectionChanged="CalendarEndDate_OnSelectionChanged"></asp:Calendar>
