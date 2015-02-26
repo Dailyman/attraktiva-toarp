@@ -103,10 +103,10 @@ namespace EventHandlingSystem
         protected void Page_PreRender(object sender, EventArgs e)
         {
             RepeaterEvents.Visible = RepeaterEvents.Items.Count != 0;
-
+            LabelNoData.Visible = RepeaterEvents.Items.Count == 0;
         }
 
-        //DateTime eventdate = Convert.ToDateTime("03/15/2015");
+        
         public List<events> RenderEventList()
         {
             List<events> eventList = EventDB.GetAllEvents();
@@ -203,19 +203,7 @@ namespace EventHandlingSystem
             List<events> eventList = new List<events>();
             if (asso != null)
             {
-
-
-                foreach (events e in EventDB.GetAllEvents())
-                {
-                    foreach (associations a in e.associations)
-                    {
-                        if (a.Id == asso.Id)
-                        {
-                            eventList.Add(e);
-                            break;
-                        }
-                    }
-                }
+                eventList = EventDB.GetEventsByAssociation(asso);
 
                 RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
                 RepeaterEvents.DataBind();

@@ -14,6 +14,27 @@
         font-size: 14px;
     }
 
+    .filter-section
+    {
+        overflow: auto;
+        display: table;
+        background-color: lightblue;
+        padding: 5px;
+    }
+
+        .filter-section span
+        {
+            display: inline-table;
+            vertical-align: middle;
+        }
+
+            .filter-section span h6
+            {
+                margin: 0 auto;
+                padding: 3px;
+                display: inline;
+            }
+
     .event-list-table
     {
         /*background-color: aliceblue;*/
@@ -46,6 +67,16 @@
     {
         width: auto;
     }
+
+    .no-data-text-wrap {
+        text-align: center;
+    }
+
+    .no-data-text {
+        font-weight: bold;
+        font-size: 24px;
+    }
+
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -69,34 +100,28 @@
 <input type="button" id="Toggle-list-btn" class="toggle-btn" value="-" />
 <br />
 <div id="Event-list">
-    <table>
-        <tr>
-            <th>Start</th>
-            <th>End</th>
-            <th>Association</th>
-            <th>Title Search</th>
-            <th></th>
-        </tr>
-        <tr>
-            <td>
-                <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server"></asp:TextBox>
-                <asp:CustomValidator ID="CustomValiStartDate" runat="server" ControlToValidate="TxtStart" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiStartDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator>
-            </td>
-            <td>
-                <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
-                <asp:CustomValidator ID="CustomValiEndDate" runat="server" ControlToValidate="TxtEnd" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiEndDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator>
-            </td>
-            <td>
-                <asp:DropDownList ID="DropDownListAsso" runat="server"></asp:DropDownList>
-            </td>
-            <td>
-                <asp:TextBox ID="TxtSearch" runat="server" TextMode="Search" CssClass="search-box"></asp:TextBox>
-            </td>
-            <td>
-                <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" ValidationGroup="ValGroupFilter"/>
-            </td>
-        </tr>
-    </table>
+    <div class="filter-section">
+        <div>
+        <span>
+            <h6>Start</h6>
+            <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server"></asp:TextBox>
+            <asp:CustomValidator ID="CustomValiStartDate" runat="server" ControlToValidate="TxtStart" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiStartDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator></span>
+        <span>
+            <h6>End</h6>
+            <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
+            <asp:CustomValidator ID="CustomValiEndDate" runat="server" ControlToValidate="TxtEnd" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiEndDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator></span>
+        <span>
+            <h6>Association</h6>
+            <asp:DropDownList ID="DropDownListAsso" runat="server"></asp:DropDownList></span>
+        <span>
+            <h6>Search</h6>
+            <asp:TextBox ID="TxtSearch" runat="server" TextMode="Search" CssClass="search-box"></asp:TextBox></span>
+        
+            </div>
+        <span>
+            <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" ValidationGroup="ValGroupFilter" />
+        </span>
+    </div>
 
     <asp:Repeater ID="RepeaterEvents" runat="server">
         <HeaderTemplate>
@@ -168,4 +193,8 @@
             </table>
         </FooterTemplate>
     </asp:Repeater>
+    <div class="no-data-text-wrap">
+            <asp:Label ID="LabelNoData" runat="server" Text="No Data" CssClass="no-data-text"></asp:Label>
+
+    </div>
 </div>

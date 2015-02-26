@@ -116,6 +116,34 @@ height: 20px;
 font-size: 14px;
     }
 
+    
+
+    html > body .event-pop-up {
+        display: none;
+        z-index: 9999;
+        position: absolute;
+        width: 240px;
+        
+    }
+
+    .arrow-up {
+        margin-left: 10px; 
+	width: 0; 
+	height: 0; 
+	border-left: 10px solid transparent;
+	border-right: 10px solid transparent;
+	border-bottom: 10px solid lightpink;
+}
+
+    html > body .pop-up-text {
+        background-color: lightpink;
+        padding: 20px;
+        -moz-border-radius: 7px;
+        -webkit-border-radius: 7px;
+        -ms-border-radius: 7px;
+        border-radius: 7px;
+    }
+
     html > body .table-cell a
     {
         text-decoration: none;
@@ -164,6 +192,14 @@ font-size: 14px;
         
 
         $(".resizable").closest("div").resizable();
+
+        $(".event-in-cell").hover(function () {
+            $("#" + $(this).attr("id") + ".event-pop-up:first").stop(true, true).fadeIn(200);
+            //alert("over...");
+        }, function () {
+            $("#" + $(this).attr("id") + ".event-pop-up:first").stop(true, true).fadeOut(100);
+            //alert("...and out");
+        });
 
     });
 </script>
