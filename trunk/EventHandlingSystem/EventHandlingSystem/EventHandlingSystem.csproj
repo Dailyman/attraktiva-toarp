@@ -633,6 +633,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Components\" />
     <Folder Include="DatabaseMySQL\" />
   </ItemGroup>
   <ItemGroup>

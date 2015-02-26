@@ -49,12 +49,48 @@ namespace EventHandlingSystem.Database
 
         public static List<events> GetEventsByRangeDate(DateTime startDate, DateTime endDate)
         {
-            return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate && e.EndDate < endDate).ToList();
+            return GetAllNotDeletedEvents().Where(e => e.StartDate >= startDate && e.EndDate <= endDate).ToList();
         }
 
         public static List<events> GetEventsBySearchWord(string searchStr)
         {
-            return GetAllNotDeletedEvents().Where(e => e.Title.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >=0).ToList();
+            return
+                GetAllNotDeletedEvents()
+                    .Where(
+                        e =>
+                            (
+                                (!String.IsNullOrEmpty(e.Title)
+                                    ? e.Title.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                        ? 0
+                                        : e.Title.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                    : 0) +
+                                (!String.IsNullOrEmpty(e.Description)
+                                    ? e.Description.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                        ? 0
+                                        : e.Description.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                    : 0) +
+                                (!String.IsNullOrEmpty(e.Summary)
+                                    ? e.Summary.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                        ? 0
+                                        : e.Summary.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                    : 0) +
+                                (!String.IsNullOrEmpty(e.Other)
+                                    ? e.Other.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                        ? 0
+                                        : e.Other.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                    : 0) +
+                                (!String.IsNullOrEmpty(e.TargetGroup)
+                                    ? e.TargetGroup.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                        ? 0
+                                        : e.TargetGroup.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                    : 0) +
+                                (!String.IsNullOrEmpty(e.Location)
+                                    ? e.Location.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                        ? 0
+                                        : e.Location.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                    : 0)
+                                ) > 0)
+                    .ToList();
         }
 
         //public static List<events> GetEventsByAssociation(associations asso)
@@ -89,7 +125,6 @@ namespace EventHandlingSystem.Database
         // ADD
         public static bool AddEvent(events ev)
         {
-            
             Context.events.Add(ev);
             try
             {
@@ -146,15 +181,9 @@ namespace EventHandlingSystem.Database
                             break;
                     }
                 }
-
                 return false;
             }
-           
             return true;
-
-           
-            
-
         }
 
 

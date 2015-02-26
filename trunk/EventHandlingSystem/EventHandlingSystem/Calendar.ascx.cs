@@ -149,9 +149,7 @@ namespace EventHandlingSystem
                 if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                 {
                     communities c = CommunityDB.GetCommunityByName(Page.Title);
-
                     List<events> commEvents = new List<events>();
-
                     if (c != null)
                     {
                         foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
@@ -164,24 +162,13 @@ namespace EventHandlingSystem
                                 }
                             }
                         }
-
-                        foreach (var ev in commEvents)
-                        {
-                            if (ev.StartDate.ToShortDateString() == date.ToShortDateString())
-                            {
-                                divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id +
-                                        "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
-                            }
-                        }
-
+                        divs = GetHtmlForEventCellsByEventList(commEvents, date);
                     }
                 }
                 else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
                 {
                     associations a = AssociationDB.GetAssociationByName(Page.Title);
-
                     List<events> assoEvents = new List<events>();
-
                     if (a != null)
                     {
                         foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
@@ -193,33 +180,29 @@ namespace EventHandlingSystem
                                     assoEvents.Add(eventInMonth);
                                 }
                             }
-
                         }
-
-                        foreach (var ev in assoEvents)
-                        {
-                            if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
-                            {
-                                divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id +
-                                        "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
-                            }
-                        }
-
+                        divs = GetHtmlForEventCellsByEventList(assoEvents, date);
                     }
                 }
             }
             else
             {
-                foreach (var ev in EventDB.GetAllEventsInMonth(date))
-                {
-                    if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
-                    {
-                        divs += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
-                    }
-                } 
+                divs = GetHtmlForEventCellsByEventList(EventDB.GetAllEventsInMonth(date), date);
             }
-
             return divs;
+        }
+
+        private string GetHtmlForEventCellsByEventList(IEnumerable<events> eList, DateTime date)
+        {
+            string htmlEventCells = "";
+            foreach (var ev in eList)
+            {
+                if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
+                {
+                    htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\"><div class=\"event-in-cell\" >" + ev.Title + "</div></a>";
+                }
+            }
+            return htmlEventCells;
         }
 
 

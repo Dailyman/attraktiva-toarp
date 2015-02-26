@@ -25,7 +25,7 @@ namespace EventHandlingSystem
             //    clientId: "your Microsoft account client id",
             //    clientSecret: "your Microsoft account client secret");
 
-            //OpenAuth.AuthenticationClients.AddGoogle();
+            OpenAuth.AuthenticationClients.AddGoogle();
         }
     }
 }

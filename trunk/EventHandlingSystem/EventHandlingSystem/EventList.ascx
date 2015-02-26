@@ -1,4 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventList.ascx.cs" Inherits="EventHandlingSystem.EventList" %>
+<%@ Import Namespace="EventHandlingSystem" %>
+<%@ Import Namespace="Microsoft.Ajax.Utilities" %>
 <style>
     .toggle-btn
     {
@@ -12,16 +14,38 @@
         font-size: 14px;
     }
 
+    .event-list-table
+    {
+        /*background-color: aliceblue;*/
+        margin: 1px auto;
+        /*height: 600px;*/
+        /*min-width: 900px;*/
+        height: 100%;
+        width: 100%;
+    }
+
+        .event-list-table td
+        {
+            padding: 5px;
+            /* border: 1px solid lightblue; */
+            vertical-align: top;
+            max-width: 120px;
+            /* background-color: aliceblue; */
+            overflow: hidden;
+            /*word-break: normal;*/
+            /*word-wrap: break-word;*/
+        }
+
     .input-date
     {
         width: 150px;
         margin-right: 10px;
     }
 
-    .search-box {
+    .search-box
+    {
         width: auto;
     }
-
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
@@ -34,6 +58,10 @@
                 }
             });
         });
+
+        if ($('[type="date"]').prop('type') != 'date') {
+            $('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd' });
+        }
     });
 </script>
 <br />
@@ -52,9 +80,11 @@
         <tr>
             <td>
                 <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server"></asp:TextBox>
+                <asp:CustomValidator ID="CustomValiStartDate" runat="server" ControlToValidate="TxtStart" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiStartDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator>
             </td>
             <td>
                 <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
+                <asp:CustomValidator ID="CustomValiEndDate" runat="server" ControlToValidate="TxtEnd" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiEndDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator>
             </td>
             <td>
                 <asp:DropDownList ID="DropDownListAsso" runat="server"></asp:DropDownList>
@@ -63,20 +93,21 @@
                 <asp:TextBox ID="TxtSearch" runat="server" TextMode="Search" CssClass="search-box"></asp:TextBox>
             </td>
             <td>
-                <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" />
+                <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" ValidationGroup="ValGroupFilter"/>
             </td>
         </tr>
     </table>
 
-    <asp:Repeater ID="RepeaterEvents" runat="server" >
+    <asp:Repeater ID="RepeaterEvents" runat="server">
         <HeaderTemplate>
-            <table>
+            <table class="event-list-table">
                 <tr>
                     <th>Start Date</th>
                     <th>End Date</th>
+                    <th>Association</th>
                     <th>Title</th>
                     <th>Location</th>
-                    <th>Open</th>
+                    <th></th>
                 </tr>
         </HeaderTemplate>
         <ItemTemplate>
@@ -86,8 +117,12 @@
                         Text='<%# DateTime.Parse(Eval("StartDate").ToString()).ToString("yyyy MMM d HH:mm") %>' />
                 </td>
                 <td>
-                    <asp:Label runat="server" ID="Label1"
+                    <asp:Label runat="server" ID="EndDate"
                         Text='<%# DateTime.Parse(Eval("EndDate").ToString()).ToString("yyyy MMM d HH:mm") %>' />
+                </td>
+                <td>
+                    <asp:Label runat="server" ID="Association"
+                        Text='<%# WriteAllAssociations((ICollection<associations>)Eval("associations")) %>' />
                 </td>
                 <td>
                     <asp:Label runat="server" ID="Title"
@@ -109,8 +144,12 @@
                         Text='<%# DateTime.Parse(Eval("StartDate").ToString()).ToString("yyyy MMM d HH:mm") %>' />
                 </td>
                 <td bgcolor="#00FFFF">
-                    <asp:Label runat="server" ID="Label1"
+                    <asp:Label runat="server" ID="EndDate"
                         Text='<%# DateTime.Parse(Eval("EndDate").ToString()).ToString("yyyy MMM d HH:mm") %>' />
+                </td>
+                <td bgcolor="#00FFFF">
+                    <asp:Label runat="server" ID="Association"
+                        Text='<%# WriteAllAssociations((ICollection<associations>)Eval("associations")) %>' />
                 </td>
                 <td bgcolor="#00FFFF">
                     <asp:Label runat="server" ID="Title"
