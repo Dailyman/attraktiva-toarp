@@ -40,15 +40,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl Main;
         
         /// <summary>
-        /// LinkUpdate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.HyperLink LinkUpdate;
-        
-        /// <summary>
         /// LinkCopy control.
         /// </summary>
         /// <remarks>
@@ -58,13 +49,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.HyperLink LinkCopy;
         
         /// <summary>
+        /// LinkUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HyperLink LinkUpdate;
+        
+        /// <summary>
         /// EventTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EventTitle;
+        protected global::System.Web.UI.WebControls.Literal EventTitle;
         
         /// <summary>
         /// EventImage control.
@@ -74,6 +74,24 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Image EventImage;
+        
+        /// <summary>
+        /// EventStartDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EventStartDate;
+        
+        /// <summary>
+        /// EventEndDate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label EventEndDate;
         
         /// <summary>
         /// EventDescription control.
@@ -128,24 +146,6 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.CheckBox DayEvent;
-        
-        /// <summary>
-        /// EventStartDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EventStartDate;
-        
-        /// <summary>
-        /// EventEndDate control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label EventEndDate;
         
         /// <summary>
         /// EventTargetGroup control.

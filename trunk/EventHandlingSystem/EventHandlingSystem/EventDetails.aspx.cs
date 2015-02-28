@@ -127,6 +127,11 @@ namespace EventHandlingSystem
                     //    Main.Controls.Add(new LiteralControl("<br />"));
                     //    Main.Controls.Add(copyLink);
 
+                    LinkUpdate.NavigateUrl = "~/EventUpdate?Id=" + ev.Id;
+                    LinkUpdate.ToolTip = "Update the event here!";
+                    LinkCopy.NavigateUrl = "~/EventCreate?Copy=true&Id=" + ev.Id;
+                    LinkCopy.ToolTip = "Copy the event here!";
+
                     EventTitle.Text = ev.Title;
                     EventImage.ImageUrl = ev.ImageUrl;
                     EventDescription.Text = ev.Description;
