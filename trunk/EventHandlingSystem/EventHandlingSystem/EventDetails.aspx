@@ -23,8 +23,7 @@ height: 100%;
     <asp:HyperLink ID="LinkCopy" ImageUrl="http://static.iconsplace.com/icons/preview/black/copy-32.png" runat="server"></asp:HyperLink>
      <br />
     
-    <h5>Title</h5>
-    <asp:Label ID="EventTitle" runat="server" Text="No title" CssClass="title"></asp:Label>
+    <h1><asp:Label ID="EventTitle" runat="server" Text="No title" CssClass="title"></asp:Label></h1>
     
     <asp:Image ID="EventImage" runat="server" AlternateText="No image" CssClass="image-box" />
     

@@ -321,7 +321,7 @@ namespace EventHandlingSystem
                     Value = "C-" + com.Id,
                     Expanded = false,
                     NavigateUrl =
-                        "/SitePage?id=" + (WebPageDB.GetWebPageById(com.Id) != null ?WebPageDB.GetWebPageById(com.Id).Id.ToString() : "") + "&type=C",
+                        "/SitePage?id=" + (WebPageDB.GetWebPageByCommunityId(com.Id) != null ? WebPageDB.GetWebPageByCommunityId(com.Id).Id.ToString() : "") + "&type=C",
                     SelectAction = TreeNodeSelectAction.Select
                 };
                 startNode.ChildNodes.Add(node);
