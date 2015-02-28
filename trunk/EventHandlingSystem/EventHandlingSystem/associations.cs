@@ -26,7 +26,6 @@ namespace EventHandlingSystem
         public Nullable<int> ParentAssociationId { get; set; }
         public string LogoUrl { get; set; }
         public string Description { get; set; }
-        public string ContactInfo { get; set; }
         public System.DateTime Created { get; set; }
         public string CreatedBy { get; set; }
         public System.DateTime LatestUpdate { get; set; }

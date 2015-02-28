@@ -46,7 +46,7 @@ namespace EventHandlingSystem
                 //    }
                 //}
 
-                Page.Title = webPage != null ? webPage.Title : "No title";
+                Page.Title = webPage != null ? webPage.Title : "Unknown page";
             }
            
         }
@@ -71,20 +71,18 @@ namespace EventHandlingSystem
 
             if (_wId > 0)
             {
-                if (ComponentDB.GetComponentsByWebPageId(_wId).Count > 0)
+                if (WebPageDB.GetWebPageById(_wId) != null)
                 {
                     foreach (var component in ComponentDB.GetComponentsByWebPageId(_wId).OrderBy(c => c.Row))
                     {
                         ControlHolder.Controls.Add(Page.LoadControl("~/" + component.FileName));
                     }
-                }
-                else
-                {
-                    ControlHolder.Controls.Add(Page.LoadControl("~/About.ascx"));
-
+                    if (ComponentDB.GetComponentsByWebPageId(_wId).Count == 0)
+                    {
+                        ControlHolder.Controls.Add(Page.LoadControl("~/About.ascx"));
+                    }
                 }
             }
-
         }
 
 

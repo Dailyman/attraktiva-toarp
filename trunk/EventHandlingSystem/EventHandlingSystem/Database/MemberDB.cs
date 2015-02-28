@@ -37,6 +37,7 @@ namespace EventHandlingSystem.Database
             memberToUpdate.SurName = member.SurName;
             memberToUpdate.Email = member.Email;
             memberToUpdate.Phone = member.Phone;
+            memberToUpdate.IsContact = member.IsContact;
             memberToUpdate.Associations_Id = member.Associations_Id;
 
             int affectedRows;
