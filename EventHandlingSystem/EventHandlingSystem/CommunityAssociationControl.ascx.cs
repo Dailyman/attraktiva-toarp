@@ -1,19 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Drawing;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Web;
-using System.Web.Services.Description;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using Antlr.Runtime;
-using DotNetOpenAuth.OpenId;
-using DotNetOpenAuth.OpenId.Extensions.AttributeExchange;
 using EventHandlingSystem.Database;
-using Microsoft.Ajax.Utilities;
-using Microsoft.AspNet.FriendlyUrls;
+
 
 namespace EventHandlingSystem
 {
@@ -89,8 +81,7 @@ namespace EventHandlingSystem
                 ddl.Items.Add(item);
             }
         }
-
-
+        
 
         public void PopulateAssociationListBox()
         {
@@ -462,6 +453,9 @@ namespace EventHandlingSystem
         //Associationslistbox för en viss Community - när ett item klickas visas föreningsdetaljerna
         protected void ListBoxAsso_OnSelectedIndexChanged(object sender, EventArgs e)
         {
+            //Lägg in värdet av AssoId i hiddenfield
+            hdfAssoId.Value = ListBoxAsso.SelectedItem.Value;
+
             MultiViewAssoDetails.ActiveViewIndex = 0;
             MultiViewAssoCreate.ActiveViewIndex = -1;
             ShowAssociationDetails(AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)));
@@ -503,13 +497,17 @@ namespace EventHandlingSystem
                 communities commToUpdate = CommunityDB.GetCommunityById(commId);
                 commToUpdate.Name = TextBoxCommName.Text;
 
+                //Uppdatera det nya namnet i webpage också
+                webpages wpToUpdate = WebPageDB.GetWebPageByCommunityId(commId);
+                wpToUpdate.Title = TextBoxCommName.Text;
+
                 //Uppdatera description från textboxen
                 commToUpdate.Description = TextBoxCommDescript.Text;
 
                 //Uppdatera logo-adressen från textboxen
                 commToUpdate.LogoUrl = TextBoxCommLogoImgUrl.Text; 
 
-                int affectedRows = CommunityDB.UpdateCommunity(commToUpdate);
+                int affectedRows = CommunityDB.UpdateCommunity(commToUpdate) + WebPageDB.UpdateWebPage(wpToUpdate);
                 
                 if (affectedRows != 0)
                 {
@@ -642,7 +640,7 @@ namespace EventHandlingSystem
             {
                 webpages wp = new webpages
                 {
-                    Title = TextBoxCommNameCreate.Text,
+                    Title = TextBoxCreateAssoName.Text,
                     AssociationId = AssociationDB.GetAssociationByName(asso.Name).Id,
                     //Layout och style - fixa dropdownlistor senare!
                     CreatedBy = HttpContext.Current.User.Identity.Name,
@@ -848,6 +846,14 @@ namespace EventHandlingSystem
                 associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
                 assoToUpdate.Name = TextBoxAssoName.Text;
 
+                //Uppdatera det nya namnet i webpage också
+                webpages wpToUpdate = WebPageDB.GetWebPageByAssociationId(int.Parse(hdfAssoId.Value));
+                if (wpToUpdate != null)
+                {
+                    wpToUpdate.Title = TextBoxAssoName.Text;
+                    //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
+                }
+
                 PopulateAssociationListBox(assoId);
                 
                 //UPPDATERA Description från textboxen
@@ -900,16 +906,24 @@ namespace EventHandlingSystem
                 else //assoToUpdate är en childAsso
                 {
                     int? oldPAId = assoToUpdate.ParentAssociationId;
-
-                    //assoToUpdate får ny PAId, får inte välja sig själv
-                    if (assoToUpdate.Id != int.Parse(DropDownListParentAsso.SelectedItem.Value))
+                    if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
                     {
-                        assoToUpdate.ParentAssociationId = newParentAsso.Id;
+                        //assoToUpdate får ny PAId, får inte välja sig själv
+                        if (assoToUpdate.Id != int.Parse(DropDownListParentAsso.SelectedItem.Value))
+                        {
+                            assoToUpdate.ParentAssociationId = newParentAsso.Id;
+                        }
+                        else
+                        {
+                            LabelUpdateAsso.Text = TextBoxAssoName.Text +
+                                                   " cannot be Parent Association to itself. Please try again. \r\n";
+                            LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                        }
                     }
                     else
                     {
-                        LabelUpdateAsso.Text = TextBoxAssoName.Text + " cannot be Parent Association to itself. Please try again. \r\n";
-                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                        //Om man väljer blankt i ddl blir ParentAssociation null
+                        assoToUpdate.ParentAssociationId = null;
                     }
 
                     if (assoToUpdate.ParentAssociationId > oldPAId) //assoToUpdate flyttar neråt
@@ -978,7 +992,7 @@ namespace EventHandlingSystem
                 assoToUpdate.LogoUrl = TextBoxAssoLogoImgUrl.Text;
               
                 //Anropa Update-metoden
-                affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
+                affectedRows = AssociationDB.UpdateAssociation(assoToUpdate) + WebPageDB.UpdateWebPage(wpToUpdate);
                 PopulateAssociationListBox();
 
 

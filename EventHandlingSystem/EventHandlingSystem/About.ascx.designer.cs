@@ -49,12 +49,30 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.HtmlControls.HtmlAnchor A3;
         
         /// <summary>
-        /// LiteralAbout control.
+        /// LiteralDescription control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Literal LiteralAbout;
+        protected global::System.Web.UI.WebControls.Literal LiteralDescription;
+        
+        /// <summary>
+        /// RepeaterContacts control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterContacts;
+        
+        /// <summary>
+        /// lbContactMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbContactMessage;
     }
 }
