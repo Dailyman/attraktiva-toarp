@@ -26,21 +26,44 @@ namespace EventHandlingSystem
                 {
                     if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                     {
-
-                        LiteralAbout.Text = "This is a Community with no description";
                         if (webPage.CommunityId != null)
-                            ImageLogo.ImageUrl = CommunityDB.GetCommunityById((int)webPage.CommunityId).LogoUrl;
+                        {
+                            LiteralDescription.Text =
+                                CommunityDB.GetCommunityById((int) webPage.CommunityId).Description ??
+                                "This is a Community with no description.";
+                            ImageLogo.ImageUrl = CommunityDB.GetCommunityById((int) webPage.CommunityId).LogoUrl;
+                        }
                     }
                     else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
                     {
-                        LiteralAbout.Text = "This is an Association with no description";
                         if (webPage.AssociationId != null)
-                            ImageLogo.ImageUrl = AssociationDB.GetAssociationById((int)webPage.AssociationId).LogoUrl;
+                        {
+                            LiteralDescription.Text =
+                                AssociationDB.GetAssociationById((int) webPage.AssociationId).Description ??
+                                "This is an Association with no description.";
+                            ImageLogo.ImageUrl = AssociationDB.GetAssociationById((int) webPage.AssociationId).LogoUrl;
+
+                            //Lägg till kontakter - lista
+                            List<members> contactList =
+                                MemberDB.GetAllContactsInAssociationByAssoId((int) webPage.AssociationId)
+                                    .OrderBy(i => i.SurName)
+                                    .ToList();
+
+                            if (contactList.Count != 0)
+                            {
+                                RepeaterContacts.DataSource = contactList;
+                                RepeaterContacts.DataBind();
+                            }
+                            else
+                            {
+                                lbContactMessage.Text = "There are no members in this Association, hence no contacts.";
+                            }
+                        }
                     }
                     else
                     {
                         //Sätter rätt pagetitel på sidan
-                        LiteralAbout.Text = "Unknown type";
+                        LiteralDescription.Text = "Unknown type";
                     }
                 }
             }

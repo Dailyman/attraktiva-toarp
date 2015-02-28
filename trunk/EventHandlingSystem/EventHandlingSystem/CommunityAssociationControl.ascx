@@ -1,5 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CommunityAssociationControl.ascx.cs" Inherits="EventHandlingSystem.CommunityAssociationControl" %>
 <div class="inner-content-box">
+
     
     <asp:MultiView ID="MultiViewSelectComm" runat="server" ActiveViewIndex="0">
         <asp:View ID="ViewSelectComm" runat="server">
@@ -95,6 +96,7 @@
         </asp:View>
     </asp:MultiView>
     
+    <asp:HiddenField ID="hdfAssoId" runat="server" />
     <asp:MultiView ID="MultiViewAssoDetails" runat="server" ActiveViewIndex="-1">
         <asp:View ID="ViewAssoDetails" runat="server">
             <br />

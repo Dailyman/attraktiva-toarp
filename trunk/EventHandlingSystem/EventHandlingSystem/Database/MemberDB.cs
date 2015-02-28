@@ -28,6 +28,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedMembers().SingleOrDefault(m => m.Id.Equals(id));
         }
 
+        public static List<members> GetAllContactsInAssociationByAssoId(int id)
+        {
+            return GetAllNotDeletedMembers().Where(m => m.Associations_Id.Equals(id) && m.IsContact).ToList();
+        }
+
         // UPDATE
         public static int UpdateMember(members member)
         {

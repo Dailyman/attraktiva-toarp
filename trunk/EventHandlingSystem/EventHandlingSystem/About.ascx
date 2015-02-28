@@ -1,9 +1,13 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="About.ascx.cs" Inherits="EventHandlingSystem.About" %>
 <style type="text/css">
-    .content-table td
-    {
-        vertical-align: top;
-    }
+     .content-table {
+        width: 100%;
+     }
+     .content-table td
+     {
+         vertical-align: top;
+         padding: 0;
+     }
 
     .logo-box
     {
@@ -17,11 +21,15 @@
         height: 100%;
     }
 
-    .aside-box
-    {
+    .aside-box {
         display: inline-block;
         vertical-align: top;
+        -moz-min-width: 300px;
+        -ms-min-width: 300px;
+        -o-min-width: 300px;
+        -webkit-min-width: 300px;
         min-width: 300px;
+        width: 100%;
     }
 </style>
 <script type="text/javascript">
@@ -44,16 +52,7 @@
                 <div class="logo-box">
                     <asp:Image ID="ImageLogo" CssClass="logo" runat="server" />
                 </div>
-                <h3>Aside Title</h3>
-                <p>
-                    Use this area to provide additional information.
-                </p>
-                <p>
-                    Use this area to provide additional information.
-                </p>
-                <p>
-                    Use this area to provide additional information.
-                </p>
+                <h3>Shortcuts</h3>
                 <ul>
                     <li><a id="A1" runat="server" href="~/">Home</a></li>
                     <li><a id="A2" runat="server" href="~/EventDetails">Events</a></li>
@@ -66,25 +65,33 @@
         <td>
             <h3>About us</h3>
             <div>
-                <h5>The standard Lorem Ipsum passage, used since the 1500s</h5>
-                <p>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                </p>
-                <asp:Literal ID="LiteralAbout" runat="server"></asp:Literal>
+                <h5>Description:</h5>
+                <asp:Literal ID="LiteralDescription" runat="server" Text="There is no description"></asp:Literal>
+                <br/> <br/> <br/>
             </div>
         </td>
-
     </tr>
     <tr>
         <td>
-            <h3>Contact</h3>
+            <h3>Contact Us</h3>
             <div>
-                <h5>The standard Lorem Ipsum passage, used since the 1500s</h5>
-                <p>
-                    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-                </p>
+                <asp:Repeater ID="RepeaterContacts" runat="server">
+                    <ItemTemplate>
+                        <div style="float: left; padding: 10px;" >
+                            <b><asp:Label ID="lbContactFirstName" runat="server" Text='<%# Eval("FirstName") %>'></asp:Label>
+                            <asp:Label ID="lbContactSurName" runat="server" Text='<%# Eval("SurName") %>'></asp:Label></b><br />
+                            Email: <asp:HyperLink ID="hlnk" runat="server" 
+                                NavigateUrl=' <%# "mailto: " + Eval("Email") %>'
+                                Text='<%# Eval("Email") %>'></asp:HyperLink><br />
+                            Phone: <asp:Label ID="lbContactPhone" runat="server" Text='<%# Eval("Phone") %>'></asp:Label><br />
+                            <br />
+                        </div>
+                    </ItemTemplate>
+                </asp:Repeater>
+                </div>
+            <div>
+               <asp:Label ID="lbContactMessage" runat="server" Text=""></asp:Label>
             </div>
         </td>
     </tr>
-
 </table>
