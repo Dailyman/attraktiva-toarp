@@ -187,6 +187,7 @@
           <Property Name="SurName" Type="varchar" MaxLength="255" />
           <Property Name="Email" Type="varchar" MaxLength="255" />
           <Property Name="Phone" Type="varchar" MaxLength="255" />
+          <Property Name="Type" Type="varchar" MaxLength="255" />
           <Property Name="IsContact" Type="bool" Nullable="false" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Associations_Id" Type="int" Nullable="false" />
@@ -536,6 +537,7 @@
           <Property Type="String" Name="SurName" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Email" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Phone" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Type" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsContact" Nullable="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Associations_Id" Nullable="false" />
@@ -745,6 +747,7 @@
                 <ScalarProperty Name="Associations_Id" ColumnName="Associations_Id" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="IsContact" ColumnName="IsContact" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
                 <ScalarProperty Name="Phone" ColumnName="Phone" />
                 <ScalarProperty Name="Email" ColumnName="Email" />
                 <ScalarProperty Name="SurName" ColumnName="SurName" />
