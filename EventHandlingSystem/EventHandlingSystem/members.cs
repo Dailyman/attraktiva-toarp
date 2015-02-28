@@ -19,6 +19,7 @@ namespace EventHandlingSystem
         public string SurName { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+        public bool IsContact { get; set; }
         public bool IsDeleted { get; set; }
         public int Associations_Id { get; set; }
     

@@ -37,33 +37,42 @@ namespace EventHandlingSystem
                 //Session["NavVisible"] = SiteNavMenuList.Style["display"] != "none";
 
                 //LabelDisplay.Text += Request.Path;
-
+                int webPageId;
                 if (Request.QueryString["Type"] == "C")
                 {
-                    if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+                    if (!string.IsNullOrEmpty(Request.QueryString["Id"]) && int.TryParse(Request.QueryString["Id"], out webPageId))
                     {
-                        Session["NavCommunityId"] =
-                            WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"])).CommunityId.ToString();
+                        webpages comWebPage = WebPageDB.GetWebPageById(webPageId);
+                        string comId = comWebPage != null ? comWebPage.CommunityId.ToString() : null;
+
+                        Session["NavCommunityId"] = !String.IsNullOrWhiteSpace(comId) ? comId : null;
+
                     }
                 }
                 else if (Request.QueryString["Type"] == "A")
                 {
-                    if (!string.IsNullOrEmpty(Request.QueryString["Id"]))
+                    if (!string.IsNullOrEmpty(Request.QueryString["Id"]) && int.TryParse(Request.QueryString["Id"], out webPageId))
                     {
-                        Session["NavCommunityId"] =
-                            AssociationDB.GetAssociationById((int)WebPageDB.GetWebPageById(int.Parse(Request.QueryString["Id"])).AssociationId).Communities_Id;
+                        webpages assoWebPage = WebPageDB.GetWebPageById(webPageId);
+                        if (assoWebPage != null)
+                        {
+                             Session["NavCommunityId"] = assoWebPage.AssociationId != null ? AssociationDB.GetAssociationById((int)assoWebPage.AssociationId).Communities_Id.ToString() : null;
+                        }
                     }
                 }
                 else if (Request.Path == "/default.aspx")
                 {
                     Session["NavCommunityId"] = null;
                 }
-
+                
 
                 //Bygger LeftSideNavigation
                 if (Session["NavCommunityId"] != null)
                 {
-                    AddSpecificNodesToTreeView(TreeViewNavigation, int.Parse(Session["NavCommunityId"].ToString()));
+                    if (!String.IsNullOrWhiteSpace(Session["NavCommunityId"].ToString()))
+                    {
+                        AddSpecificNodesToTreeView(TreeViewNavigation, int.Parse(Session["NavCommunityId"].ToString()));
+                    }
                 }
                 else
                 {
