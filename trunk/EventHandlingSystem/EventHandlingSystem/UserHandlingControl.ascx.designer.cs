@@ -22,6 +22,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.GridView GridViewUsers;
         
         /// <summary>
+        /// LabelDisplay control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelDisplay;
+        
+        /// <summary>
         /// txtUserName control.
         /// </summary>
         /// <remarks>
@@ -128,14 +137,5 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button BtnReset;
-        
-        /// <summary>
-        /// LabelDisplay control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelDisplay;
     }
 }

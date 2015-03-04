@@ -129,9 +129,9 @@ namespace EventHandlingSystem
                     //    Main.Controls.Add(copyLink);
                     if (!IsPostBack)
                     {
-                        LinkUpdate.NavigateUrl = "~/EventUpdate?Id=" + ev.Id;
+                        LinkUpdate.NavigateUrl = "~/Contributors/EventUpdate?Id=" + ev.Id;
                         LinkUpdate.ToolTip = "Update the event here!";
-                        LinkCopy.NavigateUrl = "~/EventCreate?Copy=true&Id=" + ev.Id;
+                        LinkCopy.NavigateUrl = "~/Contributors/EventCreate?Copy=true&Id=" + ev.Id;
                         LinkCopy.ToolTip = "Copy the event here!";
 
                         EventTitle.Text = ev.Title;
