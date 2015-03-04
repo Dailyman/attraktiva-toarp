@@ -16,7 +16,7 @@
     .feedbox
     {
         background-color: aliceblue;
-        margin: 5px 0 5px 0; 
+        margin: 5px 0 5px 0;
         padding: 10px;
         border: 2px solid blue;
         max-width: 900px;
@@ -52,7 +52,8 @@
         font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
     }
 
-    .feedbox-image {
+    .feedbox-image
+    {
         /*height: auto;
         width: auto;*/
         height: auto;
@@ -60,17 +61,21 @@
         max-height: 160px;
         max-width: 200px;
     }
-    .image-box {
+
+    .image-box
+    {
         text-align: center;
         width: 200px;
         height: 160px;
     }
-    
-    .image-td {
+
+    .image-td
+    {
         vertical-align: top;
     }
-    
-    .hide {
+
+    .hide
+    {
         display: none;
     }
 </style>
@@ -96,15 +101,24 @@
 
 <asp:HiddenField ID="hdfFeedLimit" runat="server" />
 <div id="Feed">
-    <asp:Repeater ID="RepeaterFeed" runat="server" >
+    <asp:Repeater ID="RepeaterFeed" runat="server">
         <ItemTemplate>
             <div id="feedtable" class="feedbox" runat="server">
                 <table>
                     <tr>
                         <td rowspan="5" class="image-td">
                             <asp:HyperLink runat="server" NavigateUrl='<%# "/EventDetails?id=" + Eval("Id") %>' Target="_blank">
-                                <div class="image-box"><asp:Image runat="server" ID="Image1" CssClass="feedbox-image"
-                                ImageUrl='<%# Eval("ImageUrl") %>' /></div>
+                                <div class="image-box">
+                                    <asp:Image runat="server" ID="FeedImage"
+                                        CssClass="feedbox-image"
+                                        ImageUrl='<%# Eval("ImageUrl") %>'
+                                        Visible='<%# (Eval("ImageUrl") != null) %>' />
+
+                                    <asp:Image ID="Image1" runat="server"
+                                        CssClass="feedbox-image"
+                                        ImageUrl="https://cdn0.iconfinder.com/data/icons/small-n-flat/24/678120-calendar-clock-128.png"
+                                        Visible='<%# (Eval("ImageUrl") == null) %>' />
+                                </div>
                             </asp:HyperLink>
                         </td>
                     </tr>
@@ -112,15 +126,15 @@
                         <td>
                             <asp:Label runat="server" ID="lbStartDate" CssClass="feedbox-eventdate"
                                 Text='<%# Convert.ToDateTime(Eval("StartDate")).ToString("dd MMMM") %>' />
-                            <br/>
+                            <br />
                         </td>
                     </tr>
                     <tr>
-                        <td class='<%# ((bool)Eval("DayEvent") ? "hide" : "")  %>' >
-                            <asp:Label runat="server" ID="lbTime" 
-                                       Text='<%# Convert.ToDateTime(Eval("StartDate")).ToShortTimeString() + " - " 
-                                                 + Convert.ToDateTime(Eval("EndDate")).ToShortTimeString() %>' 
-                                     Visible='<%# !(bool)Eval("DayEvent") %>' /> 
+                        <td class='<%# ((bool)Eval("DayEvent") ? "hide" : "")  %>'>
+                            <asp:Label runat="server" ID="lbTime"
+                                Text='<%# Convert.ToDateTime(Eval("StartDate")).ToShortTimeString() + " - " 
+                                                 + Convert.ToDateTime(Eval("EndDate")).ToShortTimeString() %>'
+                                Visible='<%# !(bool)Eval("DayEvent") %>' />
                         </td>
                     </tr>
                     <tr>
@@ -140,8 +154,6 @@
             </div>
         </ItemTemplate>
     </asp:Repeater>
-
-    <asp:Button ID="btnShowMore" runat="server" Text="Show more" OnClick="btnShowMore_OnClick"/>
-    
+    <asp:Button ID="btnShowMore" runat="server" Text="Show more" OnClick="btnShowMore_OnClick" />
 </div>
 
