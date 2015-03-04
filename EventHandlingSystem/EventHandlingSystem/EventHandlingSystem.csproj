@@ -292,6 +292,7 @@
     <Content Include="Images\top_back_1.jpg" />
     <Content Include="packages.config" />
     <Content Include="Admin\Web.config" />
+    <Content Include="WebPageComponentControl.ascx" />
     <EntityDeploy Include="EHSModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>EHSModel.Designer.cs</LastGenOutput>
@@ -629,6 +630,13 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WebPageComponentControl.ascx.cs">
+      <DependentUpon>WebPageComponentControl.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WebPageComponentControl.ascx.designer.cs">
+      <DependentUpon>WebPageComponentControl.ascx</DependentUpon>
     </Compile>
     <Compile Include="webpages.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>

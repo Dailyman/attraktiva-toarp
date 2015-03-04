@@ -17,6 +17,16 @@ namespace EventHandlingSystem.Database
             return Context.webpages.Where(wP => !wP.IsDeleted);
         }
 
+        public static List<webpages> GetAllCommunityWebpages()
+        {
+            return GetAllNotDeletedWebPages().Where(w => w.AssociationId.Equals(null)).ToList();
+        }
+
+        public static List<webpages> GetAllAssociationWebpages()
+        {
+            return GetAllNotDeletedWebPages().Where(w => w.CommunityId.Equals(null)).ToList();
+        }
+
         public static webpages GetWebPageById(int id)
         {
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.Id.Equals(id));
@@ -26,7 +36,7 @@ namespace EventHandlingSystem.Database
         {
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.CommunityId.Equals(id));
         }
-
+        
         public static webpages GetWebPageByAssociationId(int id)
         {
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.AssociationId.Equals(id));
