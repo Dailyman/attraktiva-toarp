@@ -65,6 +65,13 @@ namespace EventHandlingSystem
                     TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
                     TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
                     TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
+
+                    TxtBoxStartTime.Enabled = !@event.DayEvent;
+                    TxtBoxStartTime.Visible = !@event.DayEvent;
+                    TxtBoxEndTime.Enabled = !@event.DayEvent;
+                    TxtBoxEndTime.Visible = !@event.DayEvent;
+
+                    
                     TxtBoxTargetGroup.Text = @event.TargetGroup;
                     CalendarStartDate.SelectedDate = @event.StartDate;
                     CalendarEndDate.SelectedDate = @event.EndDate;

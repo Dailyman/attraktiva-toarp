@@ -10,7 +10,7 @@
         <h1>Update event</h1>
     </div>
     <br />
-    <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>
+    
     <br />
     <h6>* = Required field.</h6>
     <br />
@@ -72,6 +72,8 @@
     <h6>Association</h6>
     <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
     <br />
+    <br/>
+    <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>
     <div class="btn-align-right">
         <asp:Button ID="BtnUpdateEvent" CssClass="btn-blue" runat="server" Text="Update" OnClick="BtnUpdateEvent_OnClick" ValidationGroup="ValGroupUpdateEvent" />
         <asp:Button ID="BtnDeleteEvent" CssClass="btn-blue" runat="server" Text="Delete" OnClientClick="if(!confirm('Are you sure you want to delete this event?')) return false;" OnClick="BtnDeleteEvent_OnClick" />
