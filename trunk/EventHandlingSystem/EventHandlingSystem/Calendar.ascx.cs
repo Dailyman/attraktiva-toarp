@@ -208,7 +208,7 @@ namespace EventHandlingSystem
                                         "<b>Title</b><br/> " + ev.Title + 
                                         "<br/><b>Date</b><br/> " +
                                         ev.StartDate.ToString("dddd, MMM d, HH:mm") +
-                                        (ev.StartDate.Day == ev.EndDate.Day
+                                        (ev.StartDate.Date == ev.EndDate.Date
                                             ? "-" + ev.EndDate.ToString("HH:mm")
                                             : "-<br/>" + ev.EndDate.ToString("dddd, MMM d, HH:mm")) +
                                         "<br/><b>Location</b><br/> " + ev.Location + 
