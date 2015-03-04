@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
+using System.Drawing;
 using System.Globalization;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
@@ -264,7 +266,7 @@ namespace EventHandlingSystem
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(ev))
             {
-                    Response.Redirect(
+                Response.Redirect(
                         HttpContext.Current.Request.Url.AbsoluteUri.Replace(
                             HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id, false);
                
@@ -272,6 +274,7 @@ namespace EventHandlingSystem
             }
             else
             {
+                LabelMessage.ForeColor = Color.Red;
                 LabelMessage.Text = "Event couldn't be created";
             }
 

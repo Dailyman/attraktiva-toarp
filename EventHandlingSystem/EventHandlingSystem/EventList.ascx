@@ -1,7 +1,6 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventList.ascx.cs" Inherits="EventHandlingSystem.EventList" %>
 <%@ Import Namespace="EventHandlingSystem" %>
-<%@ Import Namespace="Microsoft.Ajax.Utilities" %>
-<style>
+<style type="text/css">
     .toggle-btn
     {
         background-color: white;

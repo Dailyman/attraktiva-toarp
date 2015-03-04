@@ -1,13 +1,51 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="UserHandlingControl.ascx.cs" Inherits="EventHandlingSystem.UserHandlingControl" %>
-<%--<script type="text/javascript">
-    function Clicked() {
-        if (confirm('Do you wanna to submit?')) {
-            submit();
-        } else {
-            return false;
-        }
+
+
+<style type="text/css">
+    
+
+
+    .user-list-table
+    {
+        /*background-color: aliceblue;*/
+        margin: 1px auto;
+        /*height: 600px;*/
+        /*min-width: 900px;*/
+        height: 100%;
+        width: 100%;
     }
-    </script>--%>
+
+        .user-list-table td
+        {
+            padding: 3px;
+            /* border: 1px solid lightblue; */
+            /*vertical-align: top;*/
+            max-width: 350px;
+            /* background-color: aliceblue; */
+            overflow: auto;
+            /*word-break: normal;*/
+            /*word-wrap: break-word;*/
+        }
+
+        .user-list-table input
+        {
+            width: auto;
+        }
+
+   
+
+</style>
+
+
+<script type="text/javascript">
+
+    $(document).ready(function() {
+        $('table.user-list-table').closest("div").css("overflow", "auto");
+    });
+    
+
+    </script>
+<h2>All users</h2>
 <asp:GridView ID="GridViewUsers" runat="server"
     AutoGenerateColumns="False"
     OnRowCancelingEdit="GridViewUsers_OnRowCancelingEdit"
@@ -17,7 +55,8 @@
     OnRowUpdated="GridViewUsers_OnRowUpdated"
     CellPadding="4"
     ForeColor="#333333"
-    GridLines="None">
+    GridLines="None"
+    CssClass="user-list-table">
     <AlternatingRowStyle BackColor="White" />
     <EditRowStyle BackColor="#2461BF" />
     <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
@@ -42,16 +81,14 @@
         <asp:BoundField DataField="LastLoginDate" HeaderText="LastLoginDate" ReadOnly="true" />
         <asp:BoundField DataField="LastActivityDate" HeaderText="LastActivityDate" ReadOnly="true" />
         <asp:BoundField DataField="LastPasswordChangedDate" HeaderText="LastPasswordChangedDate" ReadOnly="true" />--%>
-        <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true"
-            ItemStyle-Width="100" />
+        <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" />
     </Columns>
 </asp:GridView>
-
 <br />
+<asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
 <br />
-
 <h2>Create user</h2>
-<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse">
+<table style="border-collapse: collapse">
     <thead>
         <tr>
             <th style="width: 150px">UserName:
@@ -93,7 +130,7 @@
 
 
 <h2>Reset password</h2>
-<table border="1" cellpadding="0" cellspacing="0" style="border-collapse: collapse">
+<table style="border-collapse: collapse">
     <thead>
         <tr>
             <th style="width: 150px">Email:
@@ -122,6 +159,6 @@
 
 <br />
 <br />
-<asp:Label ID="LabelDisplay" runat="server" Text=""></asp:Label>
+
 
 

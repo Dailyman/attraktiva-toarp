@@ -268,9 +268,9 @@
     <Content Include="OldPages\Contact.aspx" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
-    <Content Include="EventCreate.aspx" />
+    <Content Include="Contributors\EventCreate.aspx" />
     <Content Include="EventDetails.aspx" />
-    <Content Include="EventUpdate.aspx" />
+    <Content Include="Contributors\EventUpdate.aspx" />
     <Content Include="Images\accent.png" />
     <Content Include="Images\bullet.png" />
     <Content Include="Images\calendar-22x21.png" />
@@ -318,6 +318,7 @@
     <Content Include="CustomSite.Master" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Contributors\Web.config" />
     <None Include="Scripts\jquery-2.1.3.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.3.js" />
     <Content Include="Scripts\jquery-2.1.3.min.js" />
@@ -538,11 +539,11 @@
     <Compile Include="OldPages\Defaultoriginal.aspx.designer.cs">
       <DependentUpon>Defaultoriginal.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EventCreate.aspx.cs">
+    <Compile Include="Contributors\EventCreate.aspx.cs">
       <DependentUpon>EventCreate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="EventCreate.aspx.designer.cs">
+    <Compile Include="Contributors\EventCreate.aspx.designer.cs">
       <DependentUpon>EventCreate.aspx</DependentUpon>
     </Compile>
     <Compile Include="EventDetails.aspx.cs">
@@ -552,11 +553,11 @@
     <Compile Include="EventDetails.aspx.designer.cs">
       <DependentUpon>EventDetails.aspx</DependentUpon>
     </Compile>
-    <Compile Include="EventUpdate.aspx.cs">
+    <Compile Include="Contributors\EventUpdate.aspx.cs">
       <DependentUpon>EventUpdate.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="EventUpdate.aspx.designer.cs">
+    <Compile Include="Contributors\EventUpdate.aspx.designer.cs">
       <DependentUpon>EventUpdate.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
