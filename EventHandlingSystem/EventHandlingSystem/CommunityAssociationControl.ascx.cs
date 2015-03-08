@@ -870,6 +870,7 @@ namespace EventHandlingSystem
                 {
                     if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
                     {
+                        //Den nya ParentAsso blir den valda i ddl-listan
                         newParentAsso.Id = int.Parse(DropDownListParentAsso.SelectedItem.Value);
 
                         if (assoToUpdate.Id != newParentAsso.Id) //Får inte välja sig själv
@@ -992,7 +993,8 @@ namespace EventHandlingSystem
                 assoToUpdate.LogoUrl = TextBoxAssoLogoImgUrl.Text;
               
                 //Anropa Update-metoden
-                affectedRows = AssociationDB.UpdateAssociation(assoToUpdate) + WebPageDB.UpdateWebPage(wpToUpdate);
+                affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
+                affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
                 PopulateAssociationListBox();
 
 
@@ -1040,8 +1042,9 @@ namespace EventHandlingSystem
 
                     if (affectedRows != 0)
                     {
-                        LabelUpdateAsso.Text = TextBoxAssoName.Text + " was successfully deleted. ";
-                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                        LabelAssoInComm.Text = TextBoxAssoName.Text + " was successfully deleted. ";
+                        LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                        MultiViewAssoDetails.ActiveViewIndex = -1;
                     }
                     else
                     {
