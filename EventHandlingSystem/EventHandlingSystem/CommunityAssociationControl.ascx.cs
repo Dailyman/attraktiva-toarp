@@ -163,7 +163,7 @@ namespace EventHandlingSystem
         }
 
         //Visa associations i en community, förvald/markerad association
-        public void PopulateAssociationInCommunityDropDownList(int aid, DropDownList ddl)
+        public void PopulateAssociationInCommunityDropDownList(int aId, DropDownList ddl)
         {
             ddl.Items.Clear();
 
@@ -179,18 +179,52 @@ namespace EventHandlingSystem
                 });
             }
 
-            ListItem emptyItem = new ListItem("", " ");
+
+            //ROBIN vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+            //Hämtar all huvudAssociations in en community.
+
+            List<int> associationIdsToNotShowInDropDownList = new List<int> { aId };
+
+            //För att hitta alla ChildNodes till den aktuella ParentNoden.
+            FindSubAssociationsByAssoIdAndAddToList(aId, associationIdsToNotShowInDropDownList);
+
+            //End ROBIN^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+            
+            ListItem emptyItem = new ListItem("", "");
             ddl.Items.Add(emptyItem); //index 0
 
             foreach (var item in assoList.OrderBy(item => item.Text))
             {
-                ddl.Items.Add(item);
+                if (!associationIdsToNotShowInDropDownList.Contains(int.Parse(item.Value)))
+                {
+                    ddl.Items.Add(item);
+                }
             }
 
             //Markera vilket item som ska vara vald när listan renderas
-            ddl.SelectedValue = aid.ToString();
+            if (AssociationDB.GetAssociationById(aId).ParentAssociationId != null)
+            {
+                ddl.SelectedValue = AssociationDB.GetAssociationById(aId).ParentAssociationId.ToString();
+            }
+            
+
         }
-        
+
+        //ROBINvvv
+        private void FindSubAssociationsByAssoIdAndAddToList(int assoId, List<int> assoIdList)
+        {
+            foreach (
+                var a in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoId).OrderBy(a => a.Name).ToList()
+                )
+            {
+                assoIdList.Add(a.Id);
+                    //För att hitta alla ChildAssociationNodes till den aktuella AssociationNoden.
+                    //Rekursiv anropning av metoden görs för att bygga upp hela "grenen".
+                FindSubAssociationsByAssoIdAndAddToList(a.Id, assoIdList);
+            }
+        }
+        //End ROBIN^^^^
 
 
         // Visa ALLA föreningstyper i ddl
@@ -865,8 +899,9 @@ namespace EventHandlingSystem
                 
                 // UPPDATERA ParentAssociation - omflyttningar i strukturen
                 associations newParentAsso = new associations();
-                
-                if (assoToUpdate.ParentAssociationId == null) //assoToUpdate är en parentAsso, flyttar neråt eller under en annan asso
+
+                if (assoToUpdate.ParentAssociationId == null)
+                    //assoToUpdate är en parentAsso, flyttar neråt eller under en annan asso
                 {
                     if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
                     {
@@ -884,7 +919,9 @@ namespace EventHandlingSystem
                             else //om den flyttar under sig själv eller till en childAsso
                             {
                                 //Hitta alla barnen för att släppa dem. De blir alla parentAssos och får PA = null
-                                foreach (var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
+                                foreach (
+                                    var subAsso in
+                                        AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
                                 {
                                     subAsso.ParentAssociationId = null;
                                     affectedRows += AssociationDB.UpdateAssociation(subAsso);
@@ -894,7 +931,7 @@ namespace EventHandlingSystem
                         else
                         {
                             LabelUpdateAsso.Text = TextBoxAssoName.Text +
-                                " cannot be Parent Association to itself. Please try again. \n";
+                                                   " cannot be Parent Association to itself. Please try again. \n";
                             LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
                         }
                     }
@@ -912,7 +949,7 @@ namespace EventHandlingSystem
                         //assoToUpdate får ny PAId, får inte välja sig själv
                         if (assoToUpdate.Id != int.Parse(DropDownListParentAsso.SelectedItem.Value))
                         {
-                            assoToUpdate.ParentAssociationId = newParentAsso.Id;
+                            assoToUpdate.ParentAssociationId = int.Parse(DropDownListParentAsso.SelectedItem.Value);
                         }
                         else
                         {
@@ -930,14 +967,15 @@ namespace EventHandlingSystem
                     if (assoToUpdate.ParentAssociationId > oldPAId) //assoToUpdate flyttar neråt
                     {
                         //Hitta barnen och ge dem assoToUpdates gamla PAId
-                        foreach (var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
+                        foreach (
+                            var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
                         {
                             subAsso.ParentAssociationId = oldPAId;
                             affectedRows += AssociationDB.UpdateAssociation(subAsso);
                         }
                     }
                 }
-                
+
 
                 // UPPDATERA föreningskategori, lägg till de valda kategorierna från listboxen
 

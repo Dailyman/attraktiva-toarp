@@ -265,6 +265,33 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.CompareValidator CompValiApproxAttend;
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// ListBoxAssociations control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox ListBoxAssociations;
+        
+        /// <summary>
+        /// LabelAssociations control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label LabelAssociations;
+        
+        /// <summary>
         /// DropDownAssociation control.
         /// </summary>
         /// <remarks>

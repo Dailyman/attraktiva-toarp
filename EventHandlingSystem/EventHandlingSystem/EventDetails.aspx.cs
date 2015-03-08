@@ -163,6 +163,7 @@ namespace EventHandlingSystem
                             ListBoxAssociations.Items.Add(new ListItem(a.Name,
                                 "/sitepage?id=" + WebPageDB.GetWebPageByAssociationId(a.Id).Id + "&type=a"));
                         }
+                        PanelMain.Visible = true;
                     }
                 }
                 else
@@ -173,6 +174,7 @@ namespace EventHandlingSystem
                         InnerHtml = "The event does not exist! It might have been deleted."
                     };
                     Main.Controls.Add(error);
+                    PanelMain.Visible = false;
                 }
 
             }
@@ -181,6 +183,7 @@ namespace EventHandlingSystem
                 //Om Id-värdet som tas från URLn INTE är i giltigt format skrivs ett felmeddelande ut på sidan.
                 var error = new HtmlGenericControl("h4") {InnerHtml = "Use a correct event ID to show the event!"};
                 Main.Controls.Add(error);
+                PanelMain.Visible = false;
             }
         }
 

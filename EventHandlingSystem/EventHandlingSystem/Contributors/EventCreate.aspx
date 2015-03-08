@@ -65,7 +65,18 @@
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" />
     <br />
     <h6>Association</h6>
-    <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
+                    <ContentTemplate>
+    <asp:ListBox ID="ListBoxAssociations" runat="server" Height="100px" AutoPostBack="True" OnSelectedIndexChanged="ListBoxAssociations_OnSelectedIndexChanged" SelectionMode="Multiple" ></asp:ListBox>
+                        <asp:Label ID="LabelAssociations" runat="server" Text="No Association"></asp:Label>
+</ContentTemplate>
+                    <Triggers>
+                        <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
+                    </Triggers>
+                </asp:UpdatePanel>    
+                        
+                        
+                        <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
     <br />
     <br />
     <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>

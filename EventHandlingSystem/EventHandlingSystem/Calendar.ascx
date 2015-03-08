@@ -162,7 +162,7 @@ font-size: 14px;
     $(document).ready(function () {
         $('div.table-cell').click(function (e) {
             if ($(e.target).hasClass('event-in-cell')) return;
-            location.href = 'EventCreate.aspx?d=' + $(this).data('date');
+            location.href = 'Contributors/EventCreate.aspx?d=' + $(this).data('date');
         });
     });
 </script>
