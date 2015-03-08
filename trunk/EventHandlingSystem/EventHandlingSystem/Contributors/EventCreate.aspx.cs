@@ -21,6 +21,7 @@ namespace EventHandlingSystem
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            LabelMessage.Text = "";
             //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
@@ -47,7 +48,7 @@ namespace EventHandlingSystem
 
 
                 //Lägger in Associations i alfabetisk ordning i ListBox
-                ListBoxAssociations.Items.AddRange(listItems.OrderBy(item => item.Text).ToArray());
+                //ListBoxAssociations.Items.AddRange(listItems.OrderBy(item => item.Text).ToArray());
 
                 
                 string dateStr = Request.QueryString["d"];
@@ -103,19 +104,24 @@ namespace EventHandlingSystem
                         TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
                         //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                        var firstAsso = @event.associations.FirstOrDefault();
-                        if (firstAsso != null)
+                        foreach (var asso in @event.associations.OrderBy(a => a.Name))
                         {
-                            DropDownAssociation.SelectedIndex =
-                                DropDownAssociation.Items.IndexOf(
-                                    DropDownAssociation.Items.FindByValue(
-                                        firstAsso.Id.ToString()));
+                            ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));
                         }
-                        else
-                        {
-                            DropDownAssociation.SelectedIndex = DropDownAssociation.Items.IndexOf(
-                                DropDownAssociation.Items.FindByValue(""));
-                        }
+
+                        //var firstAsso = @event.associations.FirstOrDefault();
+                        //if (firstAsso != null)
+                        //{
+                        //    DropDownAssociation.SelectedIndex =
+                        //        DropDownAssociation.Items.IndexOf(
+                        //            DropDownAssociation.Items.FindByValue(
+                        //                firstAsso.Id.ToString()));
+                        //}
+                        //else
+                        //{
+                        //    DropDownAssociation.SelectedIndex = DropDownAssociation.Items.IndexOf(
+                        //        DropDownAssociation.Items.FindByValue(""));
+                        //}
                     }
                 }
             }
@@ -241,6 +247,19 @@ namespace EventHandlingSystem
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
 
+            List<associations> associationsList = new List<associations>();
+            foreach (ListItem item in ListBoxAssociations.Items)
+            {
+                int aId;
+                if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out aId))
+                {
+                    if (AssociationDB.GetAssociationById(aId) != null)
+                    {
+                        associationsList.Add(AssociationDB.GetAssociationById(aId));
+                    }
+                }
+            }
+
             //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet
             var ev = new events
             {
@@ -260,8 +279,7 @@ namespace EventHandlingSystem
                     !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
                         ? int.Parse(TxtBoxApproximateAttendees.Text)
                         : 0,
-                //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                associations = new List<associations>() { AssociationDB.GetAssociationById(int.Parse(DropDownAssociation.SelectedItem.Value)) },
+                associations = associationsList,
                 CreatedBy = HttpContext.Current.User.Identity.Name,
                 UpdatedBy = HttpContext.Current.User.Identity.Name
 
@@ -289,7 +307,38 @@ namespace EventHandlingSystem
 
         protected void ListBoxAssociations_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-                
+            
+        }
+
+        protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
+
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxAssociations.Items.Remove(itemToRemove);
+            }
+        }
+
+        protected void ButtonAddAssociation_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(DropDownAssociation.SelectedValue))
+            {
+                if (!ListBoxAssociations.Items.Contains(DropDownAssociation.SelectedItem))
+                {
+                    ListBoxAssociations.Items.Add(DropDownAssociation.SelectedItem);
+                }
+                else
+                {
+                    LabelMessage.ForeColor = Color.Red;
+                    LabelMessage.Text = "You cannot add the same association twice!";
+                }
+            }
+            else
+            {
+                LabelMessage.ForeColor = Color.Red;
+                LabelMessage.Text = "You cannot add an empty association! Try again.";
+            }
         }
     }
 }

@@ -70,8 +70,25 @@
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True" />
     <br />
     <h6>Association</h6>
-    <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
-    <br />
+    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
+        <ContentTemplate>
+            <div class="box-inline">
+            <asp:DropDownList ID="DropDownAssociation" runat="server" AutoPostBack="True"></asp:DropDownList>
+            <asp:Button ID="ButtonAddAssociation" runat="server" Text="Add Association" CssClass="btn-small" OnClick="ButtonAddAssociation_OnClick" />
+
+            </div>
+           <div class="box-inline">
+            <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="" runat="server" SelectionMode="Multiple"></asp:ListBox>
+            <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
+            </div>
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="DropDownAssociation" EventName="SelectedIndexChanged" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonAddAssociation" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonRemoveAssociation" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
+        </Triggers>
+    </asp:UpdatePanel>
     <br/>
     <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>
     <div class="btn-align-right">
