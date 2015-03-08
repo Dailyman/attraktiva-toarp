@@ -36,7 +36,9 @@ namespace EventHandlingSystem
                         Value = association.Id.ToString()
                     });
                 }
-                DropDownAssociation.Items.Add(new ListItem("None", ""));
+
+                //DropDownAssociation.Items.Add(new ListItem("None", ""));
+
                 //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
                 foreach (var item in listItems.OrderBy(item => item.Text))
                 {
@@ -77,19 +79,9 @@ namespace EventHandlingSystem
                     CalendarEndDate.SelectedDate = @event.EndDate;
                     TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
-                    //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
-                    var firstOrDefault = @event.associations.FirstOrDefault();
-                    if (firstOrDefault != null)
+                    foreach (var asso in @event.associations.OrderBy(a => a.Name))
                     {
-                        DropDownAssociation.SelectedIndex =
-                            DropDownAssociation.Items.IndexOf(
-                                DropDownAssociation.Items.FindByValue(
-                                    firstOrDefault.Id.ToString()));
-                    }
-                    else
-                    {
-                        DropDownAssociation.SelectedIndex = DropDownAssociation.Items.IndexOf(
-                            DropDownAssociation.Items.FindByValue(""));
+                        ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));
                     }
                 }
                 else
@@ -244,6 +236,19 @@ namespace EventHandlingSystem
             //Hämtar evenemanget som ska uppdateras.
             events ev = GetEventToUpdate();
 
+            List<associations> associationsList = new List<associations>();
+            foreach (ListItem item in ListBoxAssociations.Items)
+            {
+                int aId;
+                if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out aId))
+                {
+                    if (AssociationDB.GetAssociationById(aId) != null)
+                    {
+                        associationsList.Add(AssociationDB.GetAssociationById(aId));
+                    }
+                }
+            }
+
             if (ev != null)
             {
                 int assoId;
@@ -272,10 +277,7 @@ namespace EventHandlingSystem
                             : 0,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     UpdatedBy = HttpContext.Current.User.Identity.Name,
-                    associations =
-                        int.TryParse(DropDownAssociation.SelectedItem.Value, out assoId)
-                            ? new List<associations>() {AssociationDB.GetAssociationById(assoId)}
-                            : new List<associations>()
+                    associations = associationsList
                 };
 
                 //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
@@ -293,6 +295,42 @@ namespace EventHandlingSystem
                 {
                     LabelMessage.Text = "Event couldn't be updated";
                 }
+            }
+        }
+
+        protected void ListBoxAssociations_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
+
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxAssociations.Items.Remove(itemToRemove);
+            }
+        }
+
+        protected void ButtonAddAssociation_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(DropDownAssociation.SelectedValue))
+            {
+                if (!ListBoxAssociations.Items.Contains(DropDownAssociation.SelectedItem))
+                {
+                    ListBoxAssociations.Items.Add(DropDownAssociation.SelectedItem);
+                }
+                else
+                {
+                    LabelMessage.ForeColor = Color.Red;
+                    LabelMessage.Text = "You cannot add the same association twice!";
+                }
+            }
+            else
+            {
+                LabelMessage.ForeColor = Color.Red;
+                LabelMessage.Text = "You cannot add an empty association! Try again.";
             }
         }
 

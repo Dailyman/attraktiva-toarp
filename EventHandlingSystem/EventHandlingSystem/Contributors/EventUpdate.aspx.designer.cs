@@ -265,6 +265,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.CompareValidator CompValiApproxAttend;
         
         /// <summary>
+        /// UpdatePanel1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
         /// DropDownAssociation control.
         /// </summary>
         /// <remarks>
@@ -272,6 +281,33 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DropDownAssociation;
+        
+        /// <summary>
+        /// ButtonAddAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonAddAssociation;
+        
+        /// <summary>
+        /// ListBoxAssociations control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox ListBoxAssociations;
+        
+        /// <summary>
+        /// ButtonRemoveAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonRemoveAssociation;
         
         /// <summary>
         /// LabelMessage control.

@@ -274,6 +274,24 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.UpdatePanel UpdatePanel1;
         
         /// <summary>
+        /// DropDownAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownAssociation;
+        
+        /// <summary>
+        /// ButtonAddAssociation control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonAddAssociation;
+        
+        /// <summary>
         /// ListBoxAssociations control.
         /// </summary>
         /// <remarks>
@@ -283,22 +301,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.ListBox ListBoxAssociations;
         
         /// <summary>
-        /// LabelAssociations control.
+        /// ButtonRemoveAssociation control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelAssociations;
-        
-        /// <summary>
-        /// DropDownAssociation control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownAssociation;
+        protected global::System.Web.UI.WebControls.Button ButtonRemoveAssociation;
         
         /// <summary>
         /// LabelMessage control.

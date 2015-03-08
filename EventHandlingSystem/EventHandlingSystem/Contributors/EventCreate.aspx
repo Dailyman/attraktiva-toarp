@@ -5,10 +5,26 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+        .box-inline {
+            vertical-align: top;
+            display: inline;
+        }
+        .box-inline select {
+            margin: 0;
+display: inline;
+vertical-align: middle;
+        }
+        .box-inline input {
+            vertical-align: middle;
+        }
+    </style>
+    
+
     <div class="titlebox">
         <h1>Create event</h1>
     </div>
-    
+
     <h6>* = Required field.</h6>
     <br />
     <h6>Title*</h6>
@@ -33,7 +49,8 @@
     <h6>Event(Url) eg. Facebook eventpage</h6>
     <asp:TextBox ID="TxtBoxEventUrl" runat="server"></asp:TextBox>
     <br />
-    <h6>Whole day event</h6><asp:CheckBox ID="ChkBoxDayEvent" runat="server" OnCheckedChanged="ChkBoxDayEvent_OnCheckedChanged" AutoPostBack="True" />
+    <h6>Whole day event</h6>
+    <asp:CheckBox ID="ChkBoxDayEvent" runat="server" OnCheckedChanged="ChkBoxDayEvent_OnCheckedChanged" AutoPostBack="True" />
     <br />
     <h6>Start date*</h6>
     <asp:TextBox ID="TxtBoxStartDate" runat="server" OnTextChanged="TxtBoxStartDate_OnTextChanged" Width="205px" AutoPostBack="True"></asp:TextBox>
@@ -64,20 +81,27 @@
     <asp:TextBox ID="TxtBoxApproximateAttendees" runat="server"></asp:TextBox>
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" />
     <br />
-    <h6>Association</h6>
+    <h6>Associations</h6>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
-                    <ContentTemplate>
-    <asp:ListBox ID="ListBoxAssociations" runat="server" Height="100px" AutoPostBack="True" OnSelectedIndexChanged="ListBoxAssociations_OnSelectedIndexChanged" SelectionMode="Multiple" ></asp:ListBox>
-                        <asp:Label ID="LabelAssociations" runat="server" Text="No Association"></asp:Label>
-</ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>    
-                        
-                        
-                        <asp:DropDownList ID="DropDownAssociation" runat="server"></asp:DropDownList>
-    <br />
+        <ContentTemplate>
+            <div class="box-inline">
+            <asp:DropDownList ID="DropDownAssociation" runat="server" AutoPostBack="True"></asp:DropDownList>
+            <asp:Button ID="ButtonAddAssociation" runat="server" Text="Add Association" CssClass="btn-small" OnClick="ButtonAddAssociation_OnClick" />
+
+            </div>
+           <div class="box-inline">
+            <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="" runat="server" SelectionMode="Multiple"></asp:ListBox>
+            <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
+            </div>
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="DropDownAssociation" EventName="SelectedIndexChanged" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonAddAssociation" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonRemoveAssociation" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
+        </Triggers>
+    </asp:UpdatePanel>
+    
     <br />
     <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>
     <div class="btn-align-right">
