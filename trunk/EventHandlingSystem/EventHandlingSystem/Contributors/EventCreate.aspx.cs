@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
@@ -43,6 +44,10 @@ namespace EventHandlingSystem
                     DropDownAssociation.Items.Add(item);
                 }
                 //Slut 'lägger till objekt i associationdropdownlist'. 
+
+
+                //Lägger in Associations i alfabetisk ordning i ListBox
+                ListBoxAssociations.Items.AddRange(listItems.OrderBy(item => item.Text).ToArray());
 
                 
                 string dateStr = Request.QueryString["d"];
@@ -281,5 +286,10 @@ namespace EventHandlingSystem
         }
 
         #endregion
+
+        protected void ListBoxAssociations_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+                
+        }
     }
 }

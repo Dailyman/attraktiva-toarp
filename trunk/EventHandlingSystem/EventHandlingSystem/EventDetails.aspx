@@ -109,8 +109,9 @@
     <br />
     <asp:DropDownList ID="DropDownListEvents" runat="server"></asp:DropDownList><asp:Button ID="BtnSearch" runat="server" Text="Load event" OnClick="BtnSearch_OnClick" />
     <br />
-
+    
     <div id="Main" runat="server"></div>
+    <asp:Panel ID="PanelMain" runat="server">
     <br />
 
     <table class="content-table">
@@ -272,5 +273,6 @@
             </td>
         </tr>
     </table>
+        </asp:Panel>
 
 </asp:Content>
