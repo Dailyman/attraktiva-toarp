@@ -178,8 +178,7 @@ namespace EventHandlingSystem
                     Value = asso.Id.ToString()
                 });
             }
-
-
+            
             //ROBIN vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
             //Hämtar all huvudAssociations in en community.
 
@@ -188,7 +187,7 @@ namespace EventHandlingSystem
             //För att hitta alla ChildNodes till den aktuella ParentNoden.
             FindSubAssociationsByAssoIdAndAddToList(aId, associationIdsToNotShowInDropDownList);
 
-            //End ROBIN^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            //End ROBIN ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
             
             ListItem emptyItem = new ListItem("", "");
@@ -764,6 +763,7 @@ namespace EventHandlingSystem
             //Visa view när "Show Member"-länken klickas
             MultiViewManageMembers.ActiveViewIndex = 0;
             btnMemberDelete.Visible = true;
+            btnMembersSaveChanges.Text = "Save Changes";
 
             //Labeltext och member info
             lbMemberUpdate.Text = string.Empty;
@@ -782,11 +782,12 @@ namespace EventHandlingSystem
         //För att spara ändringar som gjorts för en member 
         //ELLER 
         //för att SKAPA en ny member
+
         protected void btnMembersSaveChanges_OnClick(object sender, EventArgs e)
         {
             if (hdfMemberId.Value != "-1") //om hiddenfield inte är -1
             {
-                //Hitta befintlig member och spara ändringar
+                //Hitta befintlig member och spara ÄNDRINGAR
                 members memberToUpdate = MemberDB.GetMemberById(int.Parse(hdfMemberId.Value));
 
                 memberToUpdate.FirstName = tbMemberFName.Text;
@@ -812,6 +813,7 @@ namespace EventHandlingSystem
             }
             else
             {
+                //SKAPA ny medlem
                 members newMember = new members
                 {
                     FirstName = tbMemberFName.Text,
@@ -840,6 +842,7 @@ namespace EventHandlingSystem
             MultiViewManageMembers.ActiveViewIndex = 0;
             hdfMemberId.Value = "-1";
             btnMemberDelete.Visible = false;
+            btnMembersSaveChanges.Text = "Create";
 
             //Rensa textboxarna och label
             tbMemberFName.Text = string.Empty;

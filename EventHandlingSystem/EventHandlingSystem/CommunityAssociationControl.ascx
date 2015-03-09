@@ -214,7 +214,7 @@
                 <asp:HiddenField ID="hdfMemberId" runat="server" />
                 <div class="btn-align-right" runat="server">
                     <asp:Button ID="btnMembersSaveChanges" runat="server" 
-                        Text="Save Changes" 
+                        Text="Save Changes"
                         CssClass="btn-blue" 
                         OnClick="btnMembersSaveChanges_OnClick"/>
                     <asp:Button ID="btnMemberDelete" runat="server" 

@@ -27,6 +27,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedWebPages().Where(w => w.CommunityId.Equals(null)).ToList();
         }
 
+        public static List<webpages> GetAllAssociationWebpagesByCommunityId(int comId)
+        {
+            return GetAllNotDeletedWebPages().Where(w => w.CommunityId.Equals(comId)).ToList();
+        }
+
         public static webpages GetWebPageById(int id)
         {
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.Id.Equals(id));
