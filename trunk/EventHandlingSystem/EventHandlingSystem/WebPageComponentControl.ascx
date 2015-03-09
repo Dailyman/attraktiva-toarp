@@ -16,14 +16,21 @@
             <div class="view-webpage">
                 <table>
                     <tr>
-                        <td class="bull-list-comm"><b>Community WebPages: </b>
+                        <td class="bull-list-comm">
+                            <b><asp:Label ID="lbCommWebPage" runat="server" Text="Community Webpages"></asp:Label></b>
                             <asp:BulletedList ID="bullListCommWebpages" runat="server" 
-                    OnClick="bullListCommWebpages_OnClick" 
-                    DisplayMode="LinkButton"></asp:BulletedList></td>
-                        <td class="bull-list-asso" ><b>Association WebPages: </b>
-                            <asp:BulletedList ID="bullListAssoWebpages" runat="server" 
-                    OnClick="bullListAssoWebpages_OnClick"
-                    DisplayMode="LinkButton"></asp:BulletedList></td>
+                                OnClick="bullListCommWebpages_OnClick"
+                                DisplayMode="LinkButton">
+                            </asp:BulletedList>
+                        </td>
+                        <td class="bull-list-asso">
+                            <b><asp:Label ID="lbAssoWebPage" runat="server" Text="Association Webpages" Visible="False"></asp:Label></b>
+                            <asp:BulletedList ID="bullListAssoWebpages" runat="server"
+                                Visible="False"
+                                OnClick="bullListAssoWebpages_OnClick"
+                                DisplayMode="LinkButton">
+                            </asp:BulletedList>
+                        </td>
                     </tr>
                 </table>
                 
