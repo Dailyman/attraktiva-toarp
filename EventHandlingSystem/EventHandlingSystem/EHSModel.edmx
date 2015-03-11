@@ -13,6 +13,7 @@
           <EntitySet Name="communities" EntityType="ATModel.Store.communities" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="communities_in_events" EntityType="ATModel.Store.communities_in_events" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="components" EntityType="ATModel.Store.components" store:Type="Tables" Schema="attraktiva_toarp" />
+          <EntitySet Name="controls" EntityType="ATModel.Store.controls" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="events" EntityType="ATModel.Store.events" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="filterdata" EntityType="ATModel.Store.filterdata" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="members" EntityType="ATModel.Store.members" store:Type="Tables" Schema="attraktiva_toarp" />
@@ -57,7 +58,11 @@
             <End Role="events" EntitySet="events" />
             <End Role="communities_in_events" EntitySet="communities_in_events" />
           </AssociationSet>
-          <AssociationSet Name="fk_Components_Webpages1" Association="ATModel.Store.fk_Components_Webpages1">
+          <AssociationSet Name="fk_components_controls1" Association="ATModel.Store.fk_components_controls1">
+            <End Role="controls" EntitySet="controls" />
+            <End Role="components" EntitySet="components" />
+          </AssociationSet>
+          <AssociationSet Name="fk_components_webpages1" Association="ATModel.Store.fk_components_webpages1">
             <End Role="webpages" EntitySet="webpages" />
             <End Role="components" EntitySet="components" />
           </AssociationSet>
@@ -149,11 +154,19 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
-          <Property Name="FileName" Type="varchar" MaxLength="255" />
-          <Property Name="Row" Type="int" />
-          <Property Name="Column" Type="int" />
+          <Property Name="OrderingNumber" Type="int" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
-          <Property Name="Webpages_Id" Type="int" Nullable="false" />
+          <Property Name="controls_Id" Type="int" Nullable="false" />
+          <Property Name="webpages_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="controls">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="FilePath" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="events">
           <Key>
@@ -359,7 +372,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Components_Webpages1">
+        <Association Name="fk_components_controls1">
+          <End Role="controls" Type="ATModel.Store.controls" Multiplicity="1" />
+          <End Role="components" Type="ATModel.Store.components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="controls">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="components">
+              <PropertyRef Name="controls_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_components_webpages1">
           <End Role="webpages" Type="ATModel.Store.webpages" Multiplicity="1" />
           <End Role="components" Type="ATModel.Store.components" Multiplicity="*" />
           <ReferentialConstraint>
@@ -367,7 +392,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="components">
-              <PropertyRef Name="Webpages_Id" />
+              <PropertyRef Name="webpages_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -440,6 +465,7 @@
           <EntitySet Name="categories" EntityType="ATModel.categories" />
           <EntitySet Name="communities" EntityType="ATModel.communities" />
           <EntitySet Name="components" EntityType="ATModel.components" />
+          <EntitySet Name="controls" EntityType="ATModel.controls" />
           <EntitySet Name="events" EntityType="ATModel.events" />
           <EntitySet Name="filterdata" EntityType="ATModel.filterdata" />
           <EntitySet Name="members" EntityType="ATModel.members" />
@@ -458,7 +484,11 @@
             <End Role="categories" EntitySet="categories" />
             <End Role="subcategories" EntitySet="subcategories" />
           </AssociationSet>
-          <AssociationSet Name="fk_Components_Webpages1" Association="ATModel.fk_Components_Webpages1">
+          <AssociationSet Name="fk_components_controls1" Association="ATModel.fk_components_controls1">
+            <End Role="controls" EntitySet="controls" />
+            <End Role="components" EntitySet="components" />
+          </AssociationSet>
+          <AssociationSet Name="fk_components_webpages1" Association="ATModel.fk_components_webpages1">
             <End Role="webpages" EntitySet="webpages" />
             <End Role="components" EntitySet="components" />
           </AssociationSet>
@@ -539,13 +569,23 @@
             <PropertyRef Name="Id" />
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Type="String" Name="FileName" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="Row" />
-          <Property Type="Int32" Name="Column" />
+          <Property Type="Int32" Name="OrderingNumber" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <Property Type="Int32" Name="Webpages_Id" Nullable="false" />
-          <NavigationProperty Name="webpages" Relationship="ATModel.fk_Components_Webpages1" FromRole="components" ToRole="webpages" />
+          <Property Type="Int32" Name="controls_Id" Nullable="false" />
+          <Property Type="Int32" Name="webpages_Id" Nullable="false" />
+          <NavigationProperty Name="controls" Relationship="ATModel.fk_components_controls1" FromRole="components" ToRole="controls" />
+          <NavigationProperty Name="webpages" Relationship="ATModel.fk_components_webpages1" FromRole="components" ToRole="webpages" />
           <NavigationProperty Name="filterdata" Relationship="ATModel.fk_FilterData_Components1" FromRole="components" ToRole="filterdata" />
+        </EntityType>
+        <EntityType Name="controls">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="FilePath" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="components" Relationship="ATModel.fk_components_controls1" FromRole="controls" ToRole="components" />
         </EntityType>
         <EntityType Name="events">
           <Key>
@@ -634,7 +674,7 @@
           <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <NavigationProperty Name="components" Relationship="ATModel.fk_Components_Webpages1" FromRole="webpages" ToRole="components" />
+          <NavigationProperty Name="components" Relationship="ATModel.fk_components_webpages1" FromRole="webpages" ToRole="components" />
         </EntityType>
         <Association Name="fk_Associations_Communities">
           <End Type="ATModel.communities" Role="communities" Multiplicity="1" />
@@ -672,7 +712,19 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="fk_Components_Webpages1">
+        <Association Name="fk_components_controls1">
+          <End Type="ATModel.controls" Role="controls" Multiplicity="1" />
+          <End Type="ATModel.components" Role="components" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="controls">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="components">
+              <PropertyRef Name="controls_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_components_webpages1">
           <End Type="ATModel.webpages" Role="webpages" Multiplicity="1" />
           <End Type="ATModel.components" Role="components" Multiplicity="*" />
           <ReferentialConstraint>
@@ -680,7 +732,7 @@
               <PropertyRef Name="Id" />
             </Principal>
             <Dependent Role="components">
-              <PropertyRef Name="Webpages_Id" />
+              <PropertyRef Name="webpages_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -766,11 +818,20 @@
           <EntitySetMapping Name="components">
             <EntityTypeMapping TypeName="ATModel.components">
               <MappingFragment StoreEntitySet="components">
-                <ScalarProperty Name="Webpages_Id" ColumnName="Webpages_Id" />
+                <ScalarProperty Name="webpages_Id" ColumnName="webpages_Id" />
+                <ScalarProperty Name="controls_Id" ColumnName="controls_Id" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
-                <ScalarProperty Name="Column" ColumnName="Column" />
-                <ScalarProperty Name="Row" ColumnName="Row" />
-                <ScalarProperty Name="FileName" ColumnName="FileName" />
+                <ScalarProperty Name="OrderingNumber" ColumnName="OrderingNumber" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="controls">
+            <EntityTypeMapping TypeName="ATModel.controls">
+              <MappingFragment StoreEntitySet="controls">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

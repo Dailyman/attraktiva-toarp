@@ -8,31 +8,27 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    public class ComponentDB
+    public class ControlDB
     {
         private static readonly ATEntities Context = Database.Context;
 
         // GET
-        private static IEnumerable<components> GetAllNotDeletedComponents()
+        private static IEnumerable<controls> GetAllNotDeletedControls()
         {
-            return Context.components.Where(c => !c.IsDeleted);
+            return Context.controls.Where(c => !c.IsDeleted);
         }
 
-        public static components GetComponentById(int id)
+        public static controls GetControlsById(int id)
         {
-            return GetAllNotDeletedComponents().SingleOrDefault(c => c.Id.Equals(id));
+            return GetAllNotDeletedControls().SingleOrDefault(c => c.Id.Equals(id));
         }
-
-        public static List<components> GetComponentsByWebPageId(int wId)
-        {
-            return GetAllNotDeletedComponents().Where(c => c.webpages_Id.Equals(wId)).ToList();
-        }
+        
 
         // ADD
-        public static bool AddComponent(components c)
+        public static bool AddControl(controls c)
         {
 
-            Context.components.Add(c);
+            Context.controls.Add(c);
             try
             {
                 Context.SaveChanges();
@@ -81,17 +77,13 @@ namespace EventHandlingSystem.Database
 
 
         // UPDATE
-        public static int UpdateComponent(components c)
+        public static int UpdateComponent(controls c)
         {
-            components componentToUpdate = GetComponentById(c.Id);
+            controls controlsToUpdate = GetControlsById(c.Id);
 
-            
-            componentToUpdate.OrderingNumber = c.OrderingNumber;
-            componentToUpdate.webpages = c.webpages;
-            componentToUpdate.filterdata = c.filterdata;
-            componentToUpdate.controls_Id = c.controls_Id;
-            componentToUpdate.webpages_Id = c.webpages_Id;
-            
+            controlsToUpdate.Name = c.Name;
+            controlsToUpdate.FilePath = c.FilePath;
+            controlsToUpdate.components = c.components;
 
             int affectedRows;
 
@@ -140,11 +132,11 @@ namespace EventHandlingSystem.Database
 
 
         // DELETE
-        public static bool DeleteComponent(components c)
+        public static bool DeleteControl(controls c)
         {
-            components componentToDelete = GetComponentById(c.Id);
+            controls controlToDelete = GetControlsById(c.Id);
 
-            componentToDelete.IsDeleted = true;
+            controlToDelete.IsDeleted = true;
 
             int affectedRows;
             try
