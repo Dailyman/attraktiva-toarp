@@ -4,6 +4,7 @@
 <%@ Register TagPrefix="aspCommAsso" TagName="CommAssoHandler" Src="CommunityAssociationControl.ascx" %>
 <%@ Register TagPrefix="aspUser" TagName="UserHandler" Src="UserHandlingControl.ascx" %>
 <%@ Register tagPrefix="aspWPComponent" tagName="WPComponentHandler" src="WebPageComponentControl.ascx" %>
+<%@ Register tagPrefix="aspRolPer" tagName="RolPerHandler" src="RolesPermissionsControl.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -31,6 +32,14 @@
         <h1>Webpage/Component Manager</h1>
         </div>
     <aspWPComponent:WPComponentHandler runat="server"/>
+    
+    <br />
+    <br />
+    
+    <div class="titlebox">
+        <h1>Roles and Permissions Manager</h1>
+        </div>
+    <aspRolPer:RolPerHandler ID="RolPerHandler1" runat="server"/>
     
     <br />
     <br />

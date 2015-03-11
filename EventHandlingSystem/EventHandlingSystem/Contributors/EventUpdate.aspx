@@ -5,6 +5,20 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+    <style type="text/css">
+        .box-inline {
+            vertical-align: top;
+            display: inline;
+        }
+        .box-inline select {
+            margin: 0;
+display: inline;
+vertical-align: middle;
+        }
+        .box-inline input {
+            vertical-align: middle;
+        }
+    </style>
     <br />
     <div class="titlebox">
         <h1>Update event</h1>

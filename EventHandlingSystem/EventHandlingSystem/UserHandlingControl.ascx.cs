@@ -4,9 +4,11 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Providers.Entities;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using EventHandlingSystem.Database;
 
 namespace EventHandlingSystem
 {
@@ -92,10 +94,17 @@ namespace EventHandlingSystem
             {
                 LabelDisplay.Text = string.Format("{0} was deleted Successfully", _username);
                 LabelDisplay.ForeColor = Color.Green;
+                var userToDelete = UserDB.GetUsersByUsername(_username);
+                if (userToDelete != null)
+                {
+                if (UserDB.DeleteUserById(userToDelete.Id) > 0)
+                {
+                    LabelDisplay.Text = string.Format("{0} and all permissions associated to the user was deleted Successfully", _username);
+                }}
             }
             else
             {
-                LabelDisplay.Text = string.Format("{0} was could not be deleted", _username);
+                LabelDisplay.Text = string.Format("{0} could not be deleted", _username);
                 LabelDisplay.ForeColor = Color.Red;
             }
             BuildGridView();
@@ -152,6 +161,13 @@ namespace EventHandlingSystem
                     if (password.Length >= Membership.MinRequiredPasswordLength)
                     {
                         Membership.CreateUser(username, password, email);
+                        Roles.AddUserToRole(username, "Members");
+                        //Copy the user to the second users table
+                        if (!String.IsNullOrWhiteSpace(username))
+                        {
+                            UserDB.AddUser(new users() { Username = username });
+                        }
+
                         LabelDisplay.Text = string.Format("{0} was created Successfully", username);
                         LabelDisplay.ForeColor = Color.Green;
                     }
