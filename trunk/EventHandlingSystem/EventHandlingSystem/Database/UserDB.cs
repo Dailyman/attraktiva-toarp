@@ -5,134 +5,47 @@ using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
 using System.Linq;
 using System.Web;
+using System.Web.Providers.Entities;
 
 namespace EventHandlingSystem.Database
 {
-    public class AssociationDB
+    public class UserDB
     {
         private static readonly ATEntities Context = Database.Context;
 
         // GET
-        private static IEnumerable<associations> GetAllNotDeletedAssociations()
+        private static IEnumerable<users> GetAllNotDeletedUsers()
         {
-            return Context.associations.Where(a => !a.IsDeleted);
+            return Context.users.Where(u => !u.IsDeleted);
         }
 
-        public static List<associations> GetAllAssociations()
-        {
-            return GetAllNotDeletedAssociations().ToList();
-        }
-
-        public static associations GetAssociationById(int id)
-        {
-            return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Id.Equals(id));
-        }
-
-        public static associations GetAssociationByName(string name)
-        {
-            return GetAllNotDeletedAssociations().SingleOrDefault(a => a.Name.Equals(name));
-        }
-
-        public static List<associations> GetAllAssociationsInCommunity(communities com)
-        {
-            return GetAllNotDeletedAssociations().Where(a => a.communities.Equals(com)).ToList();
-        }
-
-        public static List<associations> GetAllParentAssociations()
-        {
-            return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null)).ToList();
-        }
-
-        public static List<associations> GetAllParentAssociationsByCommunityId(int id)
-        {
-            return GetAllNotDeletedAssociations().Where(a => a.ParentAssociationId.Equals(null) && a.Communities_Id.Equals(id)).ToList();
-        }
-
-        public static List<categories> GetAllCategoriesForAssociationByAssociation(associations a)
-        {
-            List<categories> catList = a.categories.ToList(); 
-            return catList;
-        }
-        
-
-        //public static List<associations> GetAllAssociationsWithAssociationType()
+        //public static List<users> GetAllUsersByAssociationId(int id)
         //{
-        //    return GetAllNotDeletedAssociations().Where(a => !a.AssociationType.Equals(null)).ToList();
+        //    List<users> usersInAsso = new List<users>();
+        //    foreach (var notDeletedUser in GetAllNotDeletedUsers())
+        //    {
+        //        usersInAsso.AddRange(from association in notDeletedUser.associations where association.Id == id select notDeletedUser);
+        //    }
+        //    return usersInAsso;
         //}
 
-        public static List<associations> GetAllSubAssociationsByParentAssociationId(int id)
+        public static users GetUsersById(int id)
         {
-            return GetAllNotDeletedAssociations().Where(sa => sa.ParentAssociationId.Equals(id)).ToList();
+            return GetAllNotDeletedUsers().SingleOrDefault(u => u.Id.Equals(id));
         }
 
+        public static users GetUsersByUsername(string username)
+        {
+            return GetAllNotDeletedUsers().SingleOrDefault(u => u.Username.Equals(username));
+        }
 
         // UPDATE
-        public static int UpdateAssociation(associations assoc)
+        public static int UpdateMember(users user)
         {
-            associations assoToUpdate = GetAssociationById(assoc.Id);
+            users userToUpdate = GetUsersById(user.Id);
 
-            assoToUpdate.Name = assoc.Name; 
-            assoToUpdate.Communities_Id = assoc.Communities_Id;
-            assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
-            assoToUpdate.Description = assoc.Description;
-            assoToUpdate.categories = assoc.categories;
-            assoToUpdate.users = assoc.users;
-
-            int affectedRows;
-
-            try
-            {
-               affectedRows = Context.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
-                {
-                    // Get entry
-
-                    DbEntityEntry entry = item.Entry;
-                    string entityTypeName = entry.Entity.GetType().Name;
-
-                    // Display or log error messages
-
-                    foreach (DbValidationError subItem in item.ValidationErrors)
-                    {
-                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
-                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
-                        Console.WriteLine(message);
-                    }
-                    // Rollback changes
-
-                    switch (entry.State)
-                    {
-                        case EntityState.Added:
-                            entry.State = EntityState.Detached;
-                            break;
-                        case EntityState.Modified:
-                            entry.CurrentValues.SetValues(entry.OriginalValues);
-                            entry.State = EntityState.Unchanged;
-                            break;
-                        case EntityState.Deleted:
-                            entry.State = EntityState.Unchanged;
-                            break;
-                    }
-                }
-
-                return affectedRows = 0;
-            }
+            userToUpdate.Username = user.Username;
             
-            
-            return affectedRows;
-        }
-
-
-        // DELETE
-        public static int DeleteAssociationById(int id)
-        {
-            associations assoToDelete = GetAssociationById(id);
-
-            if (assoToDelete != null)
-                assoToDelete.IsDeleted = true;
 
             int affectedRows;
 
@@ -173,19 +86,15 @@ namespace EventHandlingSystem.Database
                             break;
                     }
                 }
-
                 return affectedRows = 0;
             }
-
-
             return affectedRows;
         }
 
-
         //ADD
-        public static bool AddAssociation(associations asso)
+        public static bool AddUser(users user)
         {
-            Context.associations.Add(asso);
+            Context.users.Add(user);
             try
             {
                 Context.SaveChanges();
@@ -193,6 +102,56 @@ namespace EventHandlingSystem.Database
             catch (DbUpdateException dbEx)
             {
                 return false;
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
+                {
+                    // Get entry
+                    DbEntityEntry entry = item.Entry;
+                    string entityTypeName = entry.Entity.GetType().Name;
+
+                    // Display or log error messages
+                    foreach (DbValidationError subItem in item.ValidationErrors)
+                    {
+                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
+                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
+                        Console.WriteLine(message);
+                    }
+
+                    // Rollback changes
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                        case EntityState.Modified:
+                            entry.CurrentValues.SetValues(entry.OriginalValues);
+                            entry.State = EntityState.Unchanged;
+                            break;
+                        case EntityState.Deleted:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                    }
+                }
+                return false;
+            }
+            return true;
+        }
+
+        // DELETE
+        public static int DeleteUserById(int id)
+        {
+            users userToDelete = GetUsersById(id);
+
+            if (userToDelete != null)
+                userToDelete.IsDeleted = true;
+
+            int affectedRows;
+
+            try
+            {
+                affectedRows = Context.SaveChanges();
             }
             catch (DbEntityValidationException ex)
             {
@@ -227,62 +186,9 @@ namespace EventHandlingSystem.Database
                             break;
                     }
                 }
-
-                return false;
+                return affectedRows = 0;
             }
-            return true;
+            return affectedRows;
         }
-
-        //// Categories In Associations
-
-        //// GET
-        //public static IEnumerable<categoriesinassociations> GetAllCIA()
-        //{
-        //    return Context.categoriesinassociations;
-        //}
-
-        //public static List<categoriesinassociations> GetCIAbyAssociationId(int aid)
-        //{
-        //    return GetAllCIA().Where(cia => cia.Associations_Id.Equals(aid)).ToList();
-        //}
-
-        //// ADD
-        //public static bool AddCategoriesToAssociation(categoriesinassociations cia)
-        //{
-        //    Context.categoriesinassociations.Add(cia);
-        //    try
-        //    {
-        //        Context.SaveChanges();
-        //    }
-        //    catch (DbUpdateException dbEx)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-        //// DELETE
-        //public static int RemoveCIAByAssoIdAndCatId(int aId, int cId)
-        //{
-        //    //Hitta CIA-objektet mha aId, cId
-        //    categoriesinassociations ciaToDelete = new categoriesinassociations();
-
-        //    GetCIAbyAssociationId(aId);
-
-        //}
-
-            
-        //{
-        //    Context.categoriesinassociations.Add(cia);
-        //    try
-        //    {
-        //        Context.SaveChanges();
-        //    }
-        //    catch (DbUpdateException dbEx)
-        //    {
-        //        return false;
-        //    }
-        //    return true;
-        //}
     }
 }

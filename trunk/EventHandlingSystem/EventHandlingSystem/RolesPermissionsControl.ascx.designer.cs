@@ -10,24 +10,33 @@
 namespace EventHandlingSystem {
     
     
-    public partial class SiteSettings {
+    public partial class RolesPermissionsControl {
         
         /// <summary>
-        /// RolPerHandler1 control.
+        /// DropDownListRoles control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::EventHandlingSystem.RolesPermissionsControl RolPerHandler1;
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListRoles;
         
         /// <summary>
-        /// UserHandler control.
+        /// UpdatePanel1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::EventHandlingSystem.UserHandlingControl UserHandler;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        
+        /// <summary>
+        /// BulletedListUsersInRoles control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList BulletedListUsersInRoles;
     }
 }

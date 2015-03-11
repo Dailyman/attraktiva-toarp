@@ -33,6 +33,7 @@ namespace EventHandlingSystem
         public DbSet<filterdata> filterdata { get; set; }
         public DbSet<members> members { get; set; }
         public DbSet<subcategories> subcategories { get; set; }
+        public DbSet<users> users { get; set; }
         public DbSet<webpages> webpages { get; set; }
     }
 }
