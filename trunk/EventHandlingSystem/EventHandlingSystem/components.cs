@@ -20,7 +20,7 @@ namespace EventHandlingSystem
         }
     
         public int Id { get; set; }
-        public Nullable<int> OrderingNumber { get; set; }
+        public int OrderingNumber { get; set; }
         public bool IsDeleted { get; set; }
         public int controls_Id { get; set; }
         public int webpages_Id { get; set; }

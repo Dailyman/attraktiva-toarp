@@ -73,9 +73,9 @@ namespace EventHandlingSystem
             {
                 if (WebPageDB.GetWebPageById(_wId) != null)
                 {
-                    foreach (var component in ComponentDB.GetComponentsByWebPageId(_wId).OrderBy(c => c.Row))
+                    foreach (var component in ComponentDB.GetComponentsByWebPageId(_wId).OrderBy(c => c.OrderingNumber))
                     {
-                        ControlHolder.Controls.Add(Page.LoadControl("~/" + component.FileName));
+                        ControlHolder.Controls.Add(Page.LoadControl("~/" + ControlDB.GetControlsById(component.controls_Id).FilePath));
                     }
                     if (ComponentDB.GetComponentsByWebPageId(_wId).Count == 0)
                     {
