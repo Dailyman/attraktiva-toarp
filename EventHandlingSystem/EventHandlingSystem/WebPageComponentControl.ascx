@@ -39,11 +39,27 @@
         </asp:View>
     </asp:MultiView>
     <br />
-    
-    <asp:MultiView ID="MultiViewComponent" runat="server" ActiveViewIndex="0">
-        <asp:View ID="ViewComponent" runat="server">
-            <div class="view-component">
-                Hejdå
+
+    <asp:HiddenField ID="hdnfWebpageId" runat="server" />
+    <asp:MultiView ID="MultiViewWebPageDetails" runat="server" ActiveViewIndex="-1">
+        <asp:View ID="ViewWebPageDetails" runat="server">
+            <div class="view-webpage">
+                <h3><asp:Label ID="lbWebpageDetail" runat="server" Text="Web Page Details"></asp:Label></h3><br/>
+                <span><b>Title: </b>
+                    <asp:Label ID="lbWebPageTitle" runat="server"></asp:Label></span>
+                <br/><br/>
+                <span><asp:Label ID="lbWebpageCommId" runat="server" Visible="False"></asp:Label>
+                    <asp:Label ID="lbWebpageAssoId" runat="server" Visible="False"></asp:Label></span><br/><br/>
+                <span><b>Layout: </b>
+                    <asp:TextBox ID="tbLayout" runat="server"></asp:TextBox></span><br/>
+                <span><b>Style: </b>
+                    <asp:TextBox ID="tbStyle" runat="server"></asp:TextBox></span><br/>
+                
+                <div class="btn-align-right">
+                    <asp:Button ID="btnWebpageUpdate" CssClass="btn-blue" runat="server" Text="Update" 
+                        OnClick="btnWebpageUpdate_OnClick"/>
+                </div>
+                <asp:Label ID="lbWebPageUpdate" runat="server" Text=""></asp:Label>
             </div>
         </asp:View>
     </asp:MultiView>

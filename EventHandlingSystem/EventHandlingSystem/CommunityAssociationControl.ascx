@@ -146,8 +146,12 @@
                 <br/>
                 <asp:LinkButton ID="lnkbtnAddNewMember" runat="server" OnClick="lnkbtnAddNewMember_OnClick" >Add New Member</asp:LinkButton>
                 <div class="btn-align-right">
-                    <asp:Button ID="ButtonUpdateAsso" CssClass="btn-blue" runat="server" Text="Update" OnClick="ButtonUpdateAsso_OnClick"/>
-                    <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" Text="Delete this Association" OnClick="ButtonDeleteAsso_OnClick"/>
+                    <asp:Button ID="ButtonUpdateAsso" CssClass="btn-blue" runat="server" Text="Update" 
+                        OnClick="ButtonUpdateAsso_OnClick"/>
+                    <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" 
+                        Text="Delete this Association" 
+                        OnClientClick="if(!confirm('Are you sure you want to DELETE this Association?')) return false;" 
+                        OnClick="ButtonDeleteAsso_OnClick"/>
                 </div>
                 <asp:Label ID="LabelUpdateAsso" runat="server" Text=""></asp:Label>
             </div>
@@ -194,7 +198,10 @@
                 <asp:Label ID="LabelDeleteAssoConfirm" runat="server" Text="This Association has subassociations. Do you want to delete all?"></asp:Label>
                 <asp:BulletedList ID="BulletedListSubAssoToDelete" runat="server"></asp:BulletedList>
                 <asp:Button ID="ButtonDeleteAssoCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonDeleteAssoCancel_OnClick" />
-                <asp:Button ID="ButtonDeleteAsso2" CssClass="btn-blue" runat="server" Text="Delete" OnClick="ButtonDeleteAsso2_OnClick" />
+                <asp:Button ID="ButtonDeleteAsso2" CssClass="btn-blue" runat="server" 
+                    Text="Delete" 
+                    OnClientClick="if(!confirm('Are you sure you want to DELETE this Association?')) return false;"
+                    OnClick="ButtonDeleteAsso2_OnClick" />
             </div>
         </asp:View>
     </asp:MultiView>
@@ -219,7 +226,9 @@
                         OnClick="btnMembersSaveChanges_OnClick"/>
                     <asp:Button ID="btnMemberDelete" runat="server" 
                         Text="Delete this member" CssClass="btn-blue" 
-                        Visible="True" OnClick="btnMemberDelete_OnClick"/>
+                        Visible="True" 
+                        OnClientClick="if(!confirm('Are you sure you want to DELETE this Member?')) return false;"
+                        OnClick="btnMemberDelete_OnClick"/>
                 </div>
                  <asp:Label ID="lbMemberUpdate" runat="server" Text=""></asp:Label>
             </div>
