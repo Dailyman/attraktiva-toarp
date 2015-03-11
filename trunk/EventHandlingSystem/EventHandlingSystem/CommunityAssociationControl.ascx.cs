@@ -569,7 +569,7 @@ namespace EventHandlingSystem
             MultiViewCommCreate.ActiveViewIndex = 0;
         }
 
-        //För att skapa en ny community
+        // För att skapa en ny community
         protected void ButtonCreateComm_OnClick(object sender, EventArgs e)
         {
             communities comm = new communities
@@ -610,7 +610,7 @@ namespace EventHandlingSystem
             }
         }
 
-        //För att gå ur "Create New Community" vyn
+        // För att gå ur "Create New Community" vyn
         protected void ButtonCreateCommCancel_OnClick(object sender, EventArgs e)
         {
             MultiViewCommCreate.ActiveViewIndex = -1;
@@ -649,7 +649,7 @@ namespace EventHandlingSystem
             }
         }
         
-        //Cancel Create Association View
+        // Cancel Create Association View
         protected void ButtonCreateAssoCancel_OnClick(object sender, EventArgs e)
         {
             MultiViewAssoCreate.ActiveViewIndex = -1;
@@ -721,8 +721,7 @@ namespace EventHandlingSystem
                 LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
-
-
+        
         // För att ta bort kategori(er) i listboxen
         protected void ButtonCatRemove_OnClick(object sender, EventArgs e)
         {
@@ -734,7 +733,7 @@ namespace EventHandlingSystem
             }
         }
         
-        //För att visa alla members i en bull-lista
+        // För att visa alla members i en bull-lista
         protected void lnkbtnMembers_OnClick(object sender, EventArgs e)
         {
             lnkbtnMembers.Text = "Members in " +
@@ -757,7 +756,7 @@ namespace EventHandlingSystem
             }
         }
 
-        //För att hantera en member - gå till current member view
+        // För att hantera en member - gå till current member view
         protected void bullListMemberList_OnClick(object sender, BulletedListEventArgs e)
         {
             //Visa view när "Show Member"-länken klickas
@@ -779,10 +778,9 @@ namespace EventHandlingSystem
             hdfMemberId.Value = member.Id.ToString(); //spara id i en hiddenfield
         }
 
-        //För att spara ändringar som gjorts för en member 
-        //ELLER 
-        //för att SKAPA en ny member
-
+        // För att spara ändringar som gjorts för en member 
+        // ELLER 
+        // För att SKAPA en ny member
         protected void btnMembersSaveChanges_OnClick(object sender, EventArgs e)
         {
             if (hdfMemberId.Value != "-1") //om hiddenfield inte är -1
@@ -836,7 +834,7 @@ namespace EventHandlingSystem
             }
         }
 
-        //För att komma till vyn där man skapar en ny member
+        // För att komma till vyn där man skapar en ny member
         protected void lnkbtnAddNewMember_OnClick(object sender, EventArgs e)
         {
             MultiViewManageMembers.ActiveViewIndex = 0;
@@ -1106,7 +1104,7 @@ namespace EventHandlingSystem
         }
         
 
-        //Metod för att hitta alla under- och underföreningar
+        // Metod för att hitta alla under- och underföreningar
         protected void FindSubAssociationsAndAddtoDeleteList(associations asso)
         {
             List<ListItem> subAssoDeleteList = new List<ListItem>();

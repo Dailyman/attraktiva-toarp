@@ -48,15 +48,26 @@ namespace EventHandlingSystem.Database
         }
 
         // DELETE
-        public static int DeleteWebPageByAssoId(int id)
+        public static int DeleteWebPageById(int id)
         {
-            webpages webpageToDelete = GetWebPageByAssociationId(id);
+            webpages webpageToDelete = GetWebPageById(id);
 
             if (webpageToDelete != null)
                 webpageToDelete.IsDeleted = true;
 
             int affectedRows = Context.SaveChanges();
             return affectedRows;
+        }
+
+        //DELETE 
+        public static int DeleteWebPageByAssoId(int id) 
+        { 
+            webpages webpageToDelete = GetWebPageByAssociationId(id); 
+
+            if (webpageToDelete != null) 
+                webpageToDelete.IsDeleted = true; 
+            
+            int affectedRows = Context.SaveChanges(); return affectedRows; 
         }
 
         //ADD

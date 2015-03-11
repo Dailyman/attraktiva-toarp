@@ -19,6 +19,7 @@ namespace EventHandlingSystem
         }
 
         #region Populate Methods
+
         public void PopulateBullListCommWebpage()
         {
             bullListCommWebpages.Items.Clear();
@@ -68,13 +69,6 @@ namespace EventHandlingSystem
                 assoIdsInCommunityList.Add(asso.Id);
             }
 
-            //foreach (var asso in CommunityDB.GetCommunityById(
-            //    WebPageDB.GetWebPageById(int.Parse(bullListCommWebpages.Items[e.Index].Value)).CommunityId.GetValueOrDefault())
-            //    .associations)
-            //{
-            //    assoIdsInCommunityList.Add(asso.Id);
-            //}
-
             foreach (var wp in assoWebpageList.OrderBy(w => w.Title))
             {
                 if (assoIdsInCommunityList.Contains(wp.AssociationId.GetValueOrDefault()))
@@ -86,20 +80,86 @@ namespace EventHandlingSystem
 
         #endregion
 
+
         #region Click Methods
+
+        //Klick på Comm Webpage listitem
         protected void bullListCommWebpages_OnClick(object sender, BulletedListEventArgs e)
         {
+            lbWebPageUpdate.Text = string.Empty;
+
+            //Markera valt item
+            bullListCommWebpages.Items[e.Index].Attributes.CssStyle.Add(HtmlTextWriterStyle.FontWeight, "Bold");
+            bullListCommWebpages.Items[e.Index].Attributes.CssStyle.Add(HtmlTextWriterStyle.Color, "Cyan");
+
+            //Visa Association Webpage-lista
             lbAssoWebPage.Visible = true;
             lbAssoWebPage.Text = "Association Webpages";
             bullListAssoWebpages.Visible = true;
             PopulateBullListAssoWebpage(e);
+
+            //Visa WebPage Details för Association
+            MultiViewWebPageDetails.ActiveViewIndex = 0;
+            lbWebpageCommId.Visible = true;
+            lbWebpageAssoId.Visible = false;
+
+            //Visa information från databas för Community webpage
+            webpages currentWp = WebPageDB.GetWebPageById(int.Parse(bullListCommWebpages.Items[e.Index].Value));
+            lbWebPageTitle.Text = currentWp.Title ?? "Untitled";
+            lbWebpageCommId.Text = "Community Id: " + currentWp.CommunityId;
+            tbLayout.Text = currentWp.Layout ?? "No Layout Specified";
+            tbStyle.Text = currentWp.Style ?? "No Style Specified";
+            hdnfWebpageId.Value = currentWp.Id.ToString();
         }
 
+
+        //Klick på Asso Webpage listitem
         protected void bullListAssoWebpages_OnClick(object sender, BulletedListEventArgs e)
         {
+            lbWebPageUpdate.Text = string.Empty;
 
+            //Visa Association Webpage-lista
+            lbAssoWebPage.Visible = true;
+            lbAssoWebPage.Text = "Association Webpages";
+            bullListAssoWebpages.Visible = true;
+
+            //Markera valt item
+            bullListAssoWebpages.Items[e.Index].Attributes.CssStyle.Add(HtmlTextWriterStyle.FontWeight, "Bold");
+            bullListAssoWebpages.Items[e.Index].Attributes.CssStyle.Add(HtmlTextWriterStyle.BackgroundColor, "Cyan");
+            
+            //Visa WebPage Details för Association
+            MultiViewWebPageDetails.ActiveViewIndex = 0;
+            lbWebpageAssoId.Visible = true;
+            lbWebpageCommId.Visible = false;
+
+            //Visa information från databas för Association webpage
+            webpages currentWp = WebPageDB.GetWebPageById(int.Parse(bullListAssoWebpages.Items[e.Index].Value));
+            lbWebPageTitle.Text = currentWp.Title ?? "Untitled";
+            lbWebpageAssoId.Text = "Association Id: " + currentWp.AssociationId;
+            tbLayout.Text = currentWp.Layout ?? "No Layout Specified";
+            tbStyle.Text = currentWp.Style ?? "No Style Specified";
+            hdnfWebpageId.Value = currentWp.Id.ToString();
         }
 
+
+        //För att uppdatera Webpage
+        protected void btnWebpageUpdate_OnClick(object sender, EventArgs e)
+        {
+            //Använd hiddenfield för att hitta rätt webpage Id
+            webpages wpToUpdate = WebPageDB.GetWebPageById(int.Parse(hdnfWebpageId.Value));
+            wpToUpdate.Layout = tbLayout.Text;
+            wpToUpdate.Style = tbStyle.Text;
+
+            //Anropa Update-metoden
+            int affectedRows = WebPageDB.UpdateWebPage(wpToUpdate);
+
+            if (affectedRows != 0)
+            {
+                lbWebPageUpdate.Text = lbWebPageTitle.Text + " has been updated";
+                lbWebPageUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+            }
+        }
+        
         #endregion
     }
 }

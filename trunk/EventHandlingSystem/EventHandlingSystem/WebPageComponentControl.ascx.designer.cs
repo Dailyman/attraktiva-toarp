@@ -67,21 +67,102 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.BulletedList bullListAssoWebpages;
         
         /// <summary>
-        /// MultiViewComponent control.
+        /// hdnfWebpageId control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.MultiView MultiViewComponent;
+        protected global::System.Web.UI.WebControls.HiddenField hdnfWebpageId;
         
         /// <summary>
-        /// ViewComponent control.
+        /// MultiViewWebPageDetails control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.View ViewComponent;
+        protected global::System.Web.UI.WebControls.MultiView MultiViewWebPageDetails;
+        
+        /// <summary>
+        /// ViewWebPageDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.View ViewWebPageDetails;
+        
+        /// <summary>
+        /// lbWebpageDetail control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbWebpageDetail;
+        
+        /// <summary>
+        /// lbWebPageTitle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbWebPageTitle;
+        
+        /// <summary>
+        /// lbWebpageCommId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbWebpageCommId;
+        
+        /// <summary>
+        /// lbWebpageAssoId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbWebpageAssoId;
+        
+        /// <summary>
+        /// tbLayout control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbLayout;
+        
+        /// <summary>
+        /// tbStyle control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbStyle;
+        
+        /// <summary>
+        /// btnWebpageUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnWebpageUpdate;
+        
+        /// <summary>
+        /// lbWebPageUpdate control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbWebPageUpdate;
     }
 }
