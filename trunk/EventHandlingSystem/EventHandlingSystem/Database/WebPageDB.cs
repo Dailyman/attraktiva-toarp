@@ -84,6 +84,7 @@ namespace EventHandlingSystem.Database
             wpToUpdate.AssociationId = wp.AssociationId;
             wpToUpdate.Layout = wp.Layout;
             wpToUpdate.Style = wp.Style;
+            wpToUpdate.components = wp.components;
             
             int affectedRows;
 

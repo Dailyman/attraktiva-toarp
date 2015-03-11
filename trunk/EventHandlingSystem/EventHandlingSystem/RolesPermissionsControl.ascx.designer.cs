@@ -13,30 +13,66 @@ namespace EventHandlingSystem {
     public partial class RolesPermissionsControl {
         
         /// <summary>
-        /// DropDownListRoles control.
+        /// ActionStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownListRoles;
+        protected global::System.Web.UI.WebControls.Label ActionStatus;
         
         /// <summary>
-        /// UpdatePanel1 control.
+        /// UserList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.UpdatePanel UpdatePanel1;
+        protected global::System.Web.UI.WebControls.DropDownList UserList;
         
         /// <summary>
-        /// BulletedListUsersInRoles control.
+        /// UsersRoleList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.BulletedList BulletedListUsersInRoles;
+        protected global::System.Web.UI.WebControls.Repeater UsersRoleList;
+        
+        /// <summary>
+        /// RoleList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleList;
+        
+        /// <summary>
+        /// RolesUserList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView RolesUserList;
+        
+        /// <summary>
+        /// UserNameToAddToRole control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox UserNameToAddToRole;
+        
+        /// <summary>
+        /// AddUserToRoleButton control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddUserToRoleButton;
     }
 }

@@ -12,21 +12,18 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class components
+    public partial class controls
     {
-        public components()
+        public controls()
         {
-            this.filterdata = new HashSet<filterdata>();
+            this.components = new HashSet<components>();
         }
     
         public int Id { get; set; }
-        public Nullable<int> OrderingNumber { get; set; }
+        public string Name { get; set; }
+        public string FilePath { get; set; }
         public bool IsDeleted { get; set; }
-        public int controls_Id { get; set; }
-        public int webpages_Id { get; set; }
     
-        public virtual controls controls { get; set; }
-        public virtual webpages webpages { get; set; }
-        public virtual ICollection<filterdata> filterdata { get; set; }
+        public virtual ICollection<components> components { get; set; }
     }
 }
