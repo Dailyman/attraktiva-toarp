@@ -160,8 +160,11 @@ namespace EventHandlingSystem
                         ListBoxAssociations.Items.Clear();
                         foreach (var a in ev.associations)
                         {
+                            if (WebPageDB.GetWebPageByAssociationId(a.Id) != null)
+                            {
                             ListBoxAssociations.Items.Add(new ListItem(a.Name,
                                 "/sitepage?id=" + WebPageDB.GetWebPageByAssociationId(a.Id).Id + "&type=a"));
+                            }
                         }
                         PanelMain.Visible = true;
                     }
