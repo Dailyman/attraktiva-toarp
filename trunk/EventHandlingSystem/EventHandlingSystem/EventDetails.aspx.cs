@@ -167,7 +167,7 @@ namespace EventHandlingSystem
                             }
                             else
                             {
-                                ListBoxAssociations.Items.Add(new ListItem(a.Name));
+                                ListBoxAssociations.Items.Add(new ListItem(a.Name, ""));
                             }
                         }
                         PanelMain.Visible = true;
@@ -218,7 +218,7 @@ namespace EventHandlingSystem
                 if (ListBoxAssociations.SelectedItem != null)
                 {
                     AssoName.Text = ListBoxAssociations.SelectedItem.Text;
-                    if (!String.IsNullOrWhiteSpace(ListBoxAssociations.SelectedItem.Value))
+                    if (!String.IsNullOrWhiteSpace(ListBoxAssociations.SelectedValue))
                     {
                         AssoLink.NavigateUrl = ListBoxAssociations.SelectedValue;
                         AssoLink.ImageUrl = "http://www.ric.edu/images/icons/icon_new-tab.png";
