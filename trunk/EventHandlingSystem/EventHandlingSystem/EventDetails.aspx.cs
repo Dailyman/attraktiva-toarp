@@ -218,10 +218,15 @@ namespace EventHandlingSystem
                 if (ListBoxAssociations.SelectedItem != null)
                 {
                     AssoName.Text = ListBoxAssociations.SelectedItem.Text;
-                    if (!String.IsNullOrWhiteSpace(ListBoxAssociations.SelectedValue))
+                    if (!String.IsNullOrWhiteSpace(ListBoxAssociations.SelectedItem.Value))
                     {
                         AssoLink.NavigateUrl = ListBoxAssociations.SelectedValue;
                         AssoLink.ImageUrl = "http://www.ric.edu/images/icons/icon_new-tab.png";
+                        AssoLink.Enabled = true;
+                    }
+                    else
+                    {
+                        AssoLink.Enabled = false;
                     }
                 }
                 else
