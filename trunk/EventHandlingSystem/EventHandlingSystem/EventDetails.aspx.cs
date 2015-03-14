@@ -165,6 +165,10 @@ namespace EventHandlingSystem
                             ListBoxAssociations.Items.Add(new ListItem(a.Name,
                                 "/sitepage?id=" + WebPageDB.GetWebPageByAssociationId(a.Id).Id + "&type=a"));
                             }
+                            else
+                            {
+                                ListBoxAssociations.Items.Add(new ListItem(a.Name));
+                            }
                         }
                         PanelMain.Visible = true;
                     }
