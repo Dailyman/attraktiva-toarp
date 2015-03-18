@@ -30,7 +30,6 @@ vertical-align: middle;
 <div class="inner-content-box">
     <div class="content-block">
         <p align="center">
-
             <asp:Label ID="ActionStatus" runat="server" CssClass="Important"></asp:Label>
         </p>
         <h3>Manage Roles By User</h3>

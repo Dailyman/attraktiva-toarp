@@ -8,12 +8,14 @@ namespace EventHandlingSystem.Database
 {
     public class SubCategoryDB
     {
-        private static readonly ATEntities Context = new ATEntities();
+        private static readonly ATEntities Context = Database.Context;
 
         // GET
         private static IEnumerable<subcategories> GetAllNotDeletedSubCategories()
         {
-            return Context.subcategories.Where(sc => !sc.IsDeleted).ToList();
+            
+                return Context.subcategories.Where(sc => !sc.IsDeleted).ToList();
+            
         }
         public static List<subcategories> GetAllSubCategories()
         {
@@ -22,12 +24,27 @@ namespace EventHandlingSystem.Database
 
         public static subcategories GetSubCategoryById(int id)
         {
+            
             return GetAllNotDeletedSubCategories().SingleOrDefault(sc => sc.Id.Equals(id));
+            
         }
 
         public static List<subcategories> GetAllSubCategoryByCategory(categories cat)
         {
-            return GetAllSubCategories().Where(sc => sc.Categories_Id == (cat.Id)).ToList();
+            return GetAllSubCategories().Where(sc => sc.categories_Id == (cat.Id)).ToList();
+        }
+
+        public static List<subcategories> GetAllSubCategoriesByAssociations(associations[] asso)
+        {
+            List<subcategories> subCateList = new List<subcategories>();
+            foreach (associations a in asso)
+            {
+                foreach (var c in a.categories)
+                {
+                    subCateList.AddRange(GetAllSubCategoryByCategory(c));
+                }
+            }
+            return subCateList;
         }
 
         //ADD
@@ -56,7 +73,7 @@ namespace EventHandlingSystem.Database
             subcategories subCategoryToUpdate = GetSubCategoryById(subCategory.Id);
 
             subCategoryToUpdate.Name = subCategory.Name;
-            subCategoryToUpdate.Categories_Id = subCategory.Categories_Id;
+            subCategoryToUpdate.categories_Id = subCategory.categories_Id;
             subCategoryToUpdate.categories = subCategory.categories;
             subCategoryToUpdate.events = subCategory.events;
 

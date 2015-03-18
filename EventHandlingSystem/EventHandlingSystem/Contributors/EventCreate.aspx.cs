@@ -10,6 +10,7 @@ using System.Web;
 using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using DotNetOpenAuth.Messaging;
 using EventHandlingSystem.Database;
 
 namespace EventHandlingSystem
@@ -17,10 +18,10 @@ namespace EventHandlingSystem
     public partial class EventCreate : Page
     {
         #region Page_Load
-
-
         protected void Page_Load(object sender, EventArgs e)
         {
+            LabelErrorAsso.Text = "";
+            LabelErrorSubCat.Text = "";
             LabelMessage.Text = "";
             //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
@@ -28,29 +29,29 @@ namespace EventHandlingSystem
 
             if (!IsPostBack)
             {
-                //Skapar och lägger till alla associations i dropdownboxen.
-                List<ListItem> listItems = new List<ListItem>();
-                foreach (var association in AssociationDB.GetAllAssociations())
+                var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+                if (currentUser != null)
                 {
-                    listItems.Add(new ListItem
+                    foreach (var association in currentUser.associations.OrderBy(a => a.Name))
                     {
-                        Text = association.Name,
-                        Value = association.Id.ToString()
-                    });
+                        DropDownAssociation.Items.Add(new ListItem
+                        {
+                            Text = association.Name,
+                            Value = association.Id.ToString()
+                        });
+                    }
+                    AddNoneToListBoxAssoIfListBoxIsEmpty();
+                    
+                    foreach (
+                        var subCat in
+                            SubCategoryDB.GetAllSubCategoriesByAssociations(currentUser.associations.ToArray()).OrderBy(s => s.Name))
+                    {
+                        DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
+                    }
+                    AddNoneToListBoxSubCateIfListBoxIsEmpty();
                 }
 
-                //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
-                foreach (var item in listItems.OrderBy(item => item.Text))
-                {
-                    DropDownAssociation.Items.Add(item);
-                }
-                //Slut 'lägger till objekt i associationdropdownlist'. 
 
-
-                //Lägger in Associations i alfabetisk ordning i ListBox
-                //ListBoxAssociations.Items.AddRange(listItems.OrderBy(item => item.Text).ToArray());
-
-                
                 string dateStr = Request.QueryString["d"];
                 DateTime date;
                 if (!string.IsNullOrWhiteSpace(dateStr) && DateTime.TryParse(dateStr, out date))
@@ -103,25 +104,18 @@ namespace EventHandlingSystem
                         CalendarEndDate.SelectedDate = @event.EndDate;
                         TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
-                        //Lägg till vvv HÄR vvv kod för att kunna skapa events med fler associations kopplade till sig....
+                        
                         foreach (var asso in @event.associations.OrderBy(a => a.Name))
                         {
                             ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));
                         }
+                        AddNoneToListBoxAssoIfListBoxIsEmpty();
 
-                        //var firstAsso = @event.associations.FirstOrDefault();
-                        //if (firstAsso != null)
-                        //{
-                        //    DropDownAssociation.SelectedIndex =
-                        //        DropDownAssociation.Items.IndexOf(
-                        //            DropDownAssociation.Items.FindByValue(
-                        //                firstAsso.Id.ToString()));
-                        //}
-                        //else
-                        //{
-                        //    DropDownAssociation.SelectedIndex = DropDownAssociation.Items.IndexOf(
-                        //        DropDownAssociation.Items.FindByValue(""));
-                        //}
+                        foreach (var subC in @event.subcategories.OrderBy(sC => sC.Name))
+                        {
+                            ListBoxSubCategories.Items.Add(new ListItem(subC.Name, subC.Id.ToString()));
+                        }
+                        AddNoneToListBoxSubCateIfListBoxIsEmpty();
                     }
                 }
             }
@@ -129,6 +123,40 @@ namespace EventHandlingSystem
 
         #endregion
 
+        private void AddNoneToListBoxAssoIfListBoxIsEmpty()
+        {
+            // Lägger in ett "None" ListItem om inga associations är valda.
+            // Tar bort det igen om man valt associations
+            if (ListBoxAssociations.Items.Count == 0)
+            {
+                ListBoxAssociations.Items.Add(new ListItem("None", ""));
+            }
+            else
+            {
+                if (ListBoxAssociations.Items.FindByValue(String.Empty) != null && ListBoxAssociations.Items.Count >= 2)
+                {
+                    ListBoxAssociations.Items.RemoveAt(ListBoxAssociations.Items.IndexOf(
+                    ListBoxAssociations.Items.FindByValue(String.Empty)));
+                }
+            }
+        }
+        private void AddNoneToListBoxSubCateIfListBoxIsEmpty()
+        {
+            // Lägger in ett "None" ListItem om inga subcategories är valda.
+            // Tar bort det igen om man valt subcategories
+            if (ListBoxSubCategories.Items.Count == 0)
+            {
+                ListBoxSubCategories.Items.Add(new ListItem("None", ""));
+            }
+            else
+            {
+                if (ListBoxSubCategories.Items.FindByValue(String.Empty) != null && ListBoxSubCategories.Items.Count >= 2)
+                {
+                    ListBoxSubCategories.Items.RemoveAt(ListBoxSubCategories.Items.IndexOf(
+                    ListBoxSubCategories.Items.FindByValue(String.Empty)));
+                }
+            }
+        }
 
         #region ChkBoxDayEvent_OnCheckedChanged
 
@@ -247,6 +275,7 @@ namespace EventHandlingSystem
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
 
+
             List<associations> associationsList = new List<associations>();
             foreach (ListItem item in ListBoxAssociations.Items)
             {
@@ -259,6 +288,21 @@ namespace EventHandlingSystem
                     }
                 }
             }
+
+
+            List<subcategories> subCategoriesList = new List<subcategories>();
+            foreach (ListItem item in ListBoxSubCategories.Items)
+            {
+                int subCatId;
+                if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out subCatId))
+                {
+                    if (SubCategoryDB.GetSubCategoryById(subCatId) != null)
+                    {
+                        subCategoriesList.Add(SubCategoryDB.GetSubCategoryById(subCatId));
+                    }
+                }
+            }
+
 
             //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet
             var ev = new events
@@ -280,8 +324,11 @@ namespace EventHandlingSystem
                         ? int.Parse(TxtBoxApproximateAttendees.Text)
                         : 0,
                 associations = associationsList,
+                subcategories = subCategoriesList,
+                //subcategories = (from ListItem item in ListBoxSubCategories.Items select SubCategoryDB.GetSubCategoryById(int.Parse(item.Value))).ToList(),
                 CreatedBy = HttpContext.Current.User.Identity.Name,
                 UpdatedBy = HttpContext.Current.User.Identity.Name
+                
 
             };
 
@@ -289,7 +336,7 @@ namespace EventHandlingSystem
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(ev))
             {
-                Response.Redirect(
+               Response.Redirect(
                         HttpContext.Current.Request.Url.AbsoluteUri.Replace(
                             HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id, false);
                
@@ -305,21 +352,8 @@ namespace EventHandlingSystem
 
         #endregion
 
-        protected void ListBoxAssociations_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
-            
-        }
 
-        protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
-        {
-            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
-
-            foreach (ListItem itemToRemove in itemsToRemove)
-            {
-                ListBoxAssociations.Items.Remove(itemToRemove);
-            }
-        }
-
+        #region Buttons Add/Remove Association
         protected void ButtonAddAssociation_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(DropDownAssociation.SelectedValue))
@@ -330,15 +364,63 @@ namespace EventHandlingSystem
                 }
                 else
                 {
-                    LabelMessage.ForeColor = Color.Red;
-                    LabelMessage.Text = "You cannot add the same association twice!";
+                    LabelErrorAsso.ForeColor = Color.Red;
+                    LabelErrorAsso.Text = "You cannot add the same association twice!";
                 }
             }
             else
             {
-                LabelMessage.ForeColor = Color.Red;
-                LabelMessage.Text = "You cannot add an empty association! Try again.";
+                LabelErrorAsso.ForeColor = Color.Red;
+                LabelErrorAsso.Text = "You cannot add an empty association! Try again.";
             }
+            AddNoneToListBoxAssoIfListBoxIsEmpty();
         }
+        protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
+
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxAssociations.Items.Remove(itemToRemove);
+            }
+            AddNoneToListBoxAssoIfListBoxIsEmpty();
+        }
+        #endregion
+
+
+        #region Buttons Add/Remove SubCategory
+        protected void ButtonAddSubCat_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(DropDownSubCategories.SelectedValue))
+            {
+                if (!ListBoxSubCategories.Items.Contains(DropDownSubCategories.SelectedItem))
+                {
+                    ListBoxSubCategories.Items.Add(DropDownSubCategories.SelectedItem);
+                }
+                else
+                {
+                    LabelErrorSubCat.ForeColor = Color.Red;
+                    LabelErrorSubCat.Text = "You cannot add the same category twice!";
+                }
+            }
+            else
+            {
+                LabelErrorSubCat.ForeColor = Color.Red;
+                LabelErrorSubCat.Text = "You cannot add an empty category! Try again.";
+            }
+            AddNoneToListBoxSubCateIfListBoxIsEmpty();
+        }
+        protected void ButtonRemoveSubCat_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxSubCategories.GetSelectedIndices().Select(index => (ListBoxSubCategories.Items[index])).ToList();
+
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxSubCategories.Items.Remove(itemToRemove);
+            }
+            AddNoneToListBoxSubCateIfListBoxIsEmpty();
+        }
+        #endregion
+        
     }
 }

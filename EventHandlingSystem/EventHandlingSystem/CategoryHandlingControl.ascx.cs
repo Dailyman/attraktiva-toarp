@@ -181,7 +181,7 @@ namespace EventHandlingSystem
 
                         DropDownListCategoryForSubCategory.SelectedIndex =
                             DropDownListCategoryForSubCategory.Items.IndexOf(
-                                DropDownListCategoryForSubCategory.Items.FindByValue(sC.Categories_Id.ToString()));
+                                DropDownListCategoryForSubCategory.Items.FindByValue(sC.categories_Id.ToString()));
                     }
                     else
                     {
@@ -474,7 +474,7 @@ namespace EventHandlingSystem
         {
             subcategories updateSubCategory = SubCategoryDB.GetSubCategoryById(int.Parse(LabelIdSC.Text));
             updateSubCategory.Name = TxtBoxNameSC.Text;
-            updateSubCategory.Categories_Id = int.Parse(DropDownListCategoryForSubCategory.SelectedValue);
+            updateSubCategory.categories_Id = int.Parse(DropDownListCategoryForSubCategory.SelectedValue);
 
             if (SubCategoryDB.UpdateSubCategory(updateSubCategory) != 0)
             {
@@ -524,7 +524,7 @@ namespace EventHandlingSystem
                 subcategories newSubCategory = new subcategories()
                 {
                     Name = TxtBoxNameCreateCategoryName.Text,
-                    Categories_Id =
+                    categories_Id = 
                         (CategoryDB.GetCategoryById(int.Parse(DropDownListCreateParentCategory.SelectedValue)) != null
                             ? int.Parse(DropDownListCreateParentCategory.SelectedValue)
                             : 0)

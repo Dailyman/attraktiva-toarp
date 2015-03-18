@@ -6,20 +6,30 @@
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
     <style type="text/css">
-        .box-inline {
+        .listbox
+        {
+            min-width: 100px;
+        }
+
+        .box-inline
+        {
             vertical-align: top;
             display: inline;
         }
-        .box-inline select {
-            margin: 0;
-display: inline;
-vertical-align: middle;
-        }
-        .box-inline input {
-            vertical-align: middle;
-        }
+
+            .box-inline select
+            {
+                margin: 0;
+                display: inline;
+                vertical-align: middle;
+            }
+
+            .box-inline input
+            {
+                vertical-align: middle;
+            }
     </style>
-    
+
 
     <div class="titlebox">
         <h1>Create event</h1>
@@ -85,14 +95,15 @@ vertical-align: middle;
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
         <ContentTemplate>
             <div class="box-inline">
-            <asp:DropDownList ID="DropDownAssociation" runat="server" AutoPostBack="True"></asp:DropDownList>
-            <asp:Button ID="ButtonAddAssociation" runat="server" Text="Add Association" CssClass="btn-small" OnClick="ButtonAddAssociation_OnClick" />
+                <asp:DropDownList ID="DropDownAssociation" runat="server" CssClass="listbox" AutoPostBack="True"></asp:DropDownList>
+                <asp:Button ID="ButtonAddAssociation" runat="server" Text="Add Association" CssClass="btn-small" OnClick="ButtonAddAssociation_OnClick" />
 
             </div>
-           <div class="box-inline">
-            <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="" runat="server" SelectionMode="Multiple"></asp:ListBox>
-            <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
+            <div class="box-inline">
+                <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="listbox" runat="server" SelectionMode="Multiple"></asp:ListBox>
+                <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
             </div>
+            <asp:Label ID="LabelErrorAsso" runat="server" Text=""></asp:Label>
         </ContentTemplate>
         <Triggers>
             <asp:AsyncPostBackTrigger ControlID="DropDownAssociation" EventName="SelectedIndexChanged" />
@@ -101,7 +112,28 @@ vertical-align: middle;
             <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
         </Triggers>
     </asp:UpdatePanel>
-    
+    <br />
+    <h6>Caegories</h6>
+    <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Always">
+        <ContentTemplate>
+            <div class="box-inline">
+                <asp:DropDownList ID="DropDownSubCategories" runat="server" CssClass="listbox" AutoPostBack="True"></asp:DropDownList>
+                <asp:Button ID="ButtonAddSubCat" runat="server" Text="Add Category" CssClass="btn-small" OnClick="ButtonAddSubCat_OnClick" />
+            </div>
+            <div class="box-inline">
+                <asp:ListBox ID="ListBoxSubCategories" AutoPostBack="True" CssClass="listbox" runat="server" SelectionMode="Multiple"></asp:ListBox>
+                <asp:Button ID="ButtonRemoveSubCat" runat="server" Text="Remove Category" CssClass="btn-small" OnClick="ButtonRemoveSubCat_OnClick" />
+            </div>
+            <asp:Label ID="LabelErrorSubCat" runat="server" Text=""></asp:Label>
+        </ContentTemplate>
+        <Triggers>
+            <asp:AsyncPostBackTrigger ControlID="DropDownSubCategories" EventName="SelectedIndexChanged" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonAddSubCat" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="ButtonRemoveSubCat" EventName="Click" />
+            <asp:AsyncPostBackTrigger ControlID="ListBoxSubCategories" EventName="SelectedIndexChanged" />
+        </Triggers>
+    </asp:UpdatePanel>
+    <br />
     <br />
     <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>
     <div class="btn-align-right">

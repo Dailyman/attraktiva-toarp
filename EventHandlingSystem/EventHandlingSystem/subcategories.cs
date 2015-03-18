@@ -22,7 +22,7 @@ namespace EventHandlingSystem
         public int Id { get; set; }
         public string Name { get; set; }
         public bool IsDeleted { get; set; }
-        public int Categories_Id { get; set; }
+        public int categories_Id { get; set; }
     
         public virtual categories categories { get; set; }
         public virtual ICollection<events> events { get; set; }
