@@ -15,43 +15,46 @@ namespace EventHandlingSystem
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            LabelErrorAsso.Text = "";
+            LabelErrorSubCat.Text = "";
+            
             //RegEx för att kontrollera att rätt tidsformat används i TimeTextboxarna.
             RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
             RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
 
-            //Lägger kalender ikonen i våg med DateTextBoxarna.
+            // Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
-
-
+            
+            
             if (!IsPostBack)
             {
-                //Skapar och lägger till alla associations i dropdownboxen.
-                List<ListItem> listItems = new List<ListItem>();
-                foreach (var association in AssociationDB.GetAllAssociations())
+                var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+                if (currentUser != null)
                 {
-                    listItems.Add(new ListItem
+                    foreach (var association in currentUser.associations.OrderBy(a => a.Name))
                     {
-                        Text = association.Name,
-                        Value = association.Id.ToString()
-                    });
+                        DropDownAssociation.Items.Add(new ListItem
+                        {
+                            Text = association.Name,
+                            Value = association.Id.ToString()
+                        });
+                    }
+                    foreach (
+                        var subCat in
+                            SubCategoryDB.GetAllSubCategoriesByAssociations(currentUser.associations.ToArray())
+                                .OrderBy(s => s.Name))
+                    {
+                        DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
+                    }
                 }
-
-                //DropDownAssociation.Items.Add(new ListItem("None", ""));
-
-                //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
-                foreach (var item in listItems.OrderBy(item => item.Text))
-                {
-                    DropDownAssociation.Items.Add(item);
-                }
-                //Slut 'lägger till objekt i associationdropdownlist'. 
 
                 //Gömmer kalendrarna från början.
                 CalendarEndDate.Visible = false;
                 CalendarStartDate.Visible = false;
 
                 //Fyller formuläret med evenemangets nuvarande information.
-                if (!String.IsNullOrWhiteSpace(Request.QueryString["Id"]))
+                if (GetEventToUpdate() != null)
                 {
                     events @event = GetEventToUpdate();
 
@@ -73,7 +76,7 @@ namespace EventHandlingSystem
                     TxtBoxEndTime.Enabled = !@event.DayEvent;
                     TxtBoxEndTime.Visible = !@event.DayEvent;
 
-                    
+
                     TxtBoxTargetGroup.Text = @event.TargetGroup;
                     CalendarStartDate.SelectedDate = @event.StartDate;
                     CalendarEndDate.SelectedDate = @event.EndDate;
@@ -83,6 +86,13 @@ namespace EventHandlingSystem
                     {
                         ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));
                     }
+                    AddNoneToListBoxAssoIfListBoxIsEmpty();
+
+                    foreach (var subC in @event.subcategories.OrderBy(sC => sC.Name))
+                    {
+                        ListBoxSubCategories.Items.Add(new ListItem(subC.Name, subC.Id.ToString()));
+                    }
+                    AddNoneToListBoxSubCateIfListBoxIsEmpty();
                 }
                 else
                 {
@@ -96,6 +106,42 @@ namespace EventHandlingSystem
         }
 
         #endregion
+        
+
+        private void AddNoneToListBoxAssoIfListBoxIsEmpty()
+        {
+            // Lägger in ett "None" ListItem om inga associations är valda.
+            // Tar bort det igen om man valt associations
+            if (ListBoxAssociations.Items.Count == 0)
+            {
+                ListBoxAssociations.Items.Add(new ListItem("None", ""));
+            }
+            else
+            {
+                if (ListBoxAssociations.Items.FindByValue(String.Empty) != null && ListBoxAssociations.Items.Count >= 2)
+                {
+                    ListBoxAssociations.Items.RemoveAt(ListBoxAssociations.Items.IndexOf(
+                    ListBoxAssociations.Items.FindByValue(String.Empty)));
+                }
+            }
+        }
+        private void AddNoneToListBoxSubCateIfListBoxIsEmpty()
+        {
+            // Lägger in ett "None" ListItem om inga subcategories är valda.
+            // Tar bort det igen om man valt subcategories
+            if (ListBoxSubCategories.Items.Count == 0)
+            {
+                ListBoxSubCategories.Items.Add(new ListItem("None", ""));
+            }
+            else
+            {
+                if (ListBoxSubCategories.Items.FindByValue(String.Empty) != null && ListBoxSubCategories.Items.Count >= 2)
+                {
+                    ListBoxSubCategories.Items.RemoveAt(ListBoxSubCategories.Items.IndexOf(
+                    ListBoxSubCategories.Items.FindByValue(String.Empty)));
+                }
+            }
+        }
 
 
         #region GetEventToUpdate
@@ -221,8 +267,7 @@ namespace EventHandlingSystem
         #endregion
 
 
-        #region BtnUpdateEvent_OnClick
-
+        #region Button UpdateEvent
         protected void BtnUpdateEvent_OnClick(object sender, EventArgs e)
         {
             //Gör om texterna i textboxarna Start- och EndDate till typen DateTime, som används vid skapandet av evenemanget.
@@ -233,10 +278,8 @@ namespace EventHandlingSystem
                 .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
                 .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
 
-            //Hämtar evenemanget som ska uppdateras.
-            events ev = GetEventToUpdate();
-
-            List<associations> associationsList = new List<associations>();
+            // Hämtar valda Associations i ListBox och lägger dem i en List<associations>.
+            var associationsList = new List<associations>();
             foreach (ListItem item in ListBoxAssociations.Items)
             {
                 int aId;
@@ -248,6 +291,24 @@ namespace EventHandlingSystem
                     }
                 }
             }
+
+            // Hämtar valda SubCategories i ListBox och lägger dem i en List<subcategories>.
+            var subCategoriesList = new List<subcategories>();
+            foreach (ListItem item in ListBoxSubCategories.Items)
+            {
+                int subCatId;
+                if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out subCatId))
+                {
+                    if (SubCategoryDB.GetSubCategoryById(subCatId) != null)
+                    {
+                        subCategoriesList.Add(SubCategoryDB.GetSubCategoryById(subCatId));
+                    }
+                }
+            }
+
+
+            //Hämtar evenemanget som ska uppdateras.
+            events ev = GetEventToUpdate();
 
             if (ev != null)
             {
@@ -275,12 +336,13 @@ namespace EventHandlingSystem
                         !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
                             ? int.Parse(TxtBoxApproximateAttendees.Text)
                             : 0,
+                    associations = associationsList,
+                    subcategories = subCategoriesList,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
-                    UpdatedBy = HttpContext.Current.User.Identity.Name,
-                    associations = associationsList
+                    UpdatedBy = HttpContext.Current.User.Identity.Name
                 };
 
-                //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
+                //Ger LabelMessage en större font-storlek.
                 LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
                 if (EventDB.UpdateEvent(evToUpdate) != 0)
                 {
@@ -289,30 +351,20 @@ namespace EventHandlingSystem
                     //        HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id,
                     //    false);
                     //Server.Transfer(Request.Url.AbsolutePath);
+                    LabelMessage.ForeColor = Color.CornflowerBlue;
                     LabelMessage.Text = "Event was updated";
                 }
                 else
                 {
+                    LabelMessage.ForeColor = Color.Red;
                     LabelMessage.Text = "Event couldn't be updated";
                 }
             }
         }
+        #endregion
 
-        protected void ListBoxAssociations_OnSelectedIndexChanged(object sender, EventArgs e)
-        {
 
-        }
-
-        protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
-        {
-            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
-
-            foreach (ListItem itemToRemove in itemsToRemove)
-            {
-                ListBoxAssociations.Items.Remove(itemToRemove);
-            }
-        }
-
+        #region Buttons Add/Remove Association
         protected void ButtonAddAssociation_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(DropDownAssociation.SelectedValue))
@@ -323,19 +375,66 @@ namespace EventHandlingSystem
                 }
                 else
                 {
-                    LabelMessage.ForeColor = Color.Red;
-                    LabelMessage.Text = "You cannot add the same association twice!";
+                    LabelErrorAsso.ForeColor = Color.Red;
+                    LabelErrorAsso.Text = "You cannot add the same association twice!";
                 }
             }
             else
             {
-                LabelMessage.ForeColor = Color.Red;
-                LabelMessage.Text = "You cannot add an empty association! Try again.";
+                LabelErrorAsso.ForeColor = Color.Red;
+                LabelErrorAsso.Text = "You cannot add an empty association! Try again.";
             }
+            AddNoneToListBoxAssoIfListBoxIsEmpty();
         }
+        protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
 
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxAssociations.Items.Remove(itemToRemove);
+            }
+            AddNoneToListBoxAssoIfListBoxIsEmpty();
+        }
         #endregion
 
+
+        #region Buttons Add/Remove SubCategory
+        protected void ButtonAddSubCat_OnClick(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrWhiteSpace(DropDownSubCategories.SelectedValue))
+            {
+                if (!ListBoxSubCategories.Items.Contains(DropDownSubCategories.SelectedItem))
+                {
+                    ListBoxSubCategories.Items.Add(DropDownSubCategories.SelectedItem);
+                }
+                else
+                {
+                    LabelErrorSubCat.ForeColor = Color.Red;
+                    LabelErrorSubCat.Text = "You cannot add the same category twice!";
+                }
+            }
+            else
+            {
+                LabelErrorSubCat.ForeColor = Color.Red;
+                LabelErrorSubCat.Text = "You cannot add an empty category! Try again.";
+            }
+            AddNoneToListBoxSubCateIfListBoxIsEmpty();
+        }
+        protected void ButtonRemoveSubCat_OnClick(object sender, EventArgs e)
+        {
+            List<ListItem> itemsToRemove = ListBoxSubCategories.GetSelectedIndices().Select(index => (ListBoxSubCategories.Items[index])).ToList();
+
+            foreach (ListItem itemToRemove in itemsToRemove)
+            {
+                ListBoxSubCategories.Items.Remove(itemToRemove);
+            }
+            AddNoneToListBoxSubCateIfListBoxIsEmpty();
+        }
+        #endregion
+        
+        
+        #region Button DeleteEvent
         protected void BtnDeleteEvent_OnClick(object sender, EventArgs e)
         {
             //Hämtar evenemanget som ska uppdateras.
@@ -363,5 +462,7 @@ namespace EventHandlingSystem
                 }
             }
         }
+        #endregion
+
     }
 }
