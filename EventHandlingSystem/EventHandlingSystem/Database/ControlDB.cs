@@ -18,6 +18,11 @@ namespace EventHandlingSystem.Database
             return Context.controls.Where(c => !c.IsDeleted);
         }
 
+        public static List<controls>GetAllControls()
+        {
+            return GetAllNotDeletedControls().ToList();
+        }
+
         public static controls GetControlsById(int id)
         {
             return GetAllNotDeletedControls().SingleOrDefault(c => c.Id.Equals(id));

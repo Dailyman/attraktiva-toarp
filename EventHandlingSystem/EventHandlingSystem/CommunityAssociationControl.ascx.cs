@@ -227,6 +227,7 @@ namespace EventHandlingSystem
 
 
         // Visa ALLA föreningstyper i ddl
+
         public void PopulateAllAssociationCategoriesDropDownList()
         {
             DropDownListCategories.Items.Clear();
@@ -530,17 +531,17 @@ namespace EventHandlingSystem
                 communities commToUpdate = CommunityDB.GetCommunityById(commId);
                 commToUpdate.Name = TextBoxCommName.Text;
 
-                //Uppdatera det nya namnet i webpage också
-                webpages wpToUpdate = WebPageDB.GetWebPageByCommunityId(commId);
-                wpToUpdate.Title = TextBoxCommName.Text;
+                ////Uppdatera det nya namnet i webpage också
+                //webpages wpToUpdate = WebPageDB.GetWebPageByCommunityId(commId);
+                //wpToUpdate.Title = TextBoxCommName.Text;
 
                 //Uppdatera description från textboxen
                 commToUpdate.Description = TextBoxCommDescript.Text;
 
                 //Uppdatera logo-adressen från textboxen
-                commToUpdate.LogoUrl = TextBoxCommLogoImgUrl.Text; 
+                commToUpdate.LogoUrl = TextBoxCommLogoImgUrl.Text;
 
-                int affectedRows = CommunityDB.UpdateCommunity(commToUpdate) + WebPageDB.UpdateWebPage(wpToUpdate);
+                int affectedRows = CommunityDB.UpdateCommunity(commToUpdate); //+ WebPageDB.UpdateWebPage(wpToUpdate);
                 
                 if (affectedRows != 0)
                 {
@@ -881,13 +882,13 @@ namespace EventHandlingSystem
                 associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
                 assoToUpdate.Name = TextBoxAssoName.Text;
 
-                //Uppdatera det nya namnet i webpage också
-                webpages wpToUpdate = WebPageDB.GetWebPageByAssociationId(int.Parse(hdfAssoId.Value));
-                if (wpToUpdate != null)
-                {
-                    wpToUpdate.Title = TextBoxAssoName.Text;
-                    //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
-                }
+                ////Uppdatera det nya namnet i webpage också
+                //webpages wpToUpdate = WebPageDB.GetWebPageByAssociationId(int.Parse(hdfAssoId.Value));
+                //if (wpToUpdate != null)
+                //{
+                //    wpToUpdate.Title = TextBoxAssoName.Text;
+                //    //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
+                //}
 
                 PopulateAssociationListBox(assoId);
                 
@@ -1033,7 +1034,7 @@ namespace EventHandlingSystem
               
                 //Anropa Update-metoden
                 affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
-                affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
+                //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
                 PopulateAssociationListBox();
 
 

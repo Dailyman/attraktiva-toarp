@@ -16,6 +16,17 @@
         <EntityTypeShape EntityType="ATModel.subcategories" Width="1.5" PointX="5.2253799276544619" PointY="8.4429081717705863" />
         <EntityTypeShape EntityType="ATModel.users" Width="1.5" PointX="11.935486167639255" PointY="7.8210101313055542" />
         <EntityTypeShape EntityType="ATModel.webpages" Width="1.5" PointX="0.81907905862623775" PointY="17.659823887823066" />
+        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="5.6052922092402779" PointY="10.359560986216907" />
+        <EntityTypeShape EntityType="ATModel.categories" Width="1.5" PointX="8.9075089660042472" PointY="29.496017857220032" />
+        <EntityTypeShape EntityType="ATModel.communities" Width="1.5" PointX="5.24953623732996" PointY="25.588152718538488" />
+        <EntityTypeShape EntityType="ATModel.components" Width="1.5" PointX="6.2343883748326405" PointY="28.785110487036924" />
+        <EntityTypeShape EntityType="ATModel.controls" Width="1.5" PointX="10.596779090630253" PointY="5.5003444130999712" />
+        <EntityTypeShape EntityType="ATModel.events" Width="1.5" PointX="8.0942440256915251" PointY="8.1081496365871981" />
+        <EntityTypeShape EntityType="ATModel.filterdata" Width="1.5" PointX="2.1267590737560575" PointY="29.221937610405469" />
+        <EntityTypeShape EntityType="ATModel.members" Width="1.5" PointX="8.4298442920808885" PointY="3.5266151742667962" />
+        <EntityTypeShape EntityType="ATModel.subcategories" Width="1.5" PointX="3.9545514024582467" PointY="3.8125847893825662" />
+        <EntityTypeShape EntityType="ATModel.users" Width="1.5" PointX="3.4013822988613427" PointY="23.498646285151434" />
+        <EntityTypeShape EntityType="ATModel.webpages" Width="1.5" PointX="7.6494118811792742" PointY="11.104435434147918" />
         <AssociationConnector Association="ATModel.fk_Associations_Communities" />
         <AssociationConnector Association="ATModel.fk_Members_Associations1" />
         <AssociationConnector Association="ATModel.fk_subcategories_categories1" />
