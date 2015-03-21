@@ -33,7 +33,6 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedCategories().SingleOrDefault(c => c.Name.Equals(name));
         }
 
-
         //ADD
         public static bool AddCategory(categories c)
         {

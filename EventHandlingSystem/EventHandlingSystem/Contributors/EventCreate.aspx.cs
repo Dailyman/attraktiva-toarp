@@ -104,7 +104,7 @@ namespace EventHandlingSystem
                         CalendarEndDate.SelectedDate = @event.EndDate;
                         TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
-                        
+
                         foreach (var asso in @event.associations.OrderBy(a => a.Name))
                         {
                             ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));

@@ -29,9 +29,9 @@ namespace EventHandlingSystem
                         if (webPage.CommunityId != null)
                         {
                             LiteralDescription.Text =
-                                CommunityDB.GetCommunityById((int) webPage.CommunityId).Description ??
+                                CommunityDB.GetCommunityById(webPage.CommunityId.GetValueOrDefault()).Description ??
                                 "This is a Community with no description.";
-                            ImageLogo.ImageUrl = CommunityDB.GetCommunityById((int) webPage.CommunityId).LogoUrl;
+                            ImageLogo.ImageUrl = CommunityDB.GetCommunityById(webPage.CommunityId.GetValueOrDefault()).LogoUrl;
                         }
                     }
                     else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
@@ -39,13 +39,13 @@ namespace EventHandlingSystem
                         if (webPage.AssociationId != null)
                         {
                             LiteralDescription.Text =
-                                AssociationDB.GetAssociationById((int) webPage.AssociationId).Description ??
+                                AssociationDB.GetAssociationById(webPage.AssociationId.GetValueOrDefault()).Description ??
                                 "This is an Association with no description.";
-                            ImageLogo.ImageUrl = AssociationDB.GetAssociationById((int) webPage.AssociationId).LogoUrl;
+                            ImageLogo.ImageUrl = AssociationDB.GetAssociationById(webPage.AssociationId.GetValueOrDefault()).LogoUrl;
 
                             //Lägg till kontakter - lista
                             List<members> contactList =
-                                MemberDB.GetAllContactsInAssociationByAssoId((int) webPage.AssociationId)
+                                MemberDB.GetAllContactsInAssociationByAssoId(webPage.AssociationId.GetValueOrDefault())
                                     .OrderBy(i => i.SurName)
                                     .ToList();
 

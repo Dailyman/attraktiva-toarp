@@ -13,20 +13,20 @@
 
         .box-inline
         {
-            vertical-align: top;
             display: inline;
+            margin: 0 10px 0 0;
         }
 
             .box-inline select
             {
-                margin: 0;
-                display: inline;
-                vertical-align: middle;
+                margin: 0 5px 0 0;
+                vertical-align: top;
             }
 
             .box-inline input
             {
-                vertical-align: middle;
+                margin: 0 5px 0 0;
+                vertical-align: top;
             }
     </style>
 
@@ -113,7 +113,7 @@
         </Triggers>
     </asp:UpdatePanel>
     <br />
-    <h6>Caegories</h6>
+    <h6>Categories</h6>
     <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Always">
         <ContentTemplate>
             <div class="box-inline">

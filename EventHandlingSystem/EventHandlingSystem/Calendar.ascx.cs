@@ -149,7 +149,7 @@ namespace EventHandlingSystem
                 if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                 {
                     communities c = CommunityDB.GetCommunityByName(Page.Title);
-                    List<events> commEvents = new List<events>();
+                    var commEvents = new List<events>();
                     if (c != null)
                     {
                         foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))

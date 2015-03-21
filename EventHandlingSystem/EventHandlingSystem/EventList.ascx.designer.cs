@@ -49,6 +49,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.CustomValidator CustomValiEndDate;
         
         /// <summary>
+        /// DropDownListComm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListComm;
+        
+        /// <summary>
         /// DropDownListAsso control.
         /// </summary>
         /// <remarks>
@@ -56,6 +65,24 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList DropDownListAsso;
+        
+        /// <summary>
+        /// DropDownListCat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListCat;
+        
+        /// <summary>
+        /// DropDownListSubCat control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList DropDownListSubCat;
         
         /// <summary>
         /// TxtSearch control.
@@ -76,21 +103,21 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Button BtnFilter;
         
         /// <summary>
-        /// RepeaterEvents control.
+        /// ActionStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterEvents;
+        protected global::System.Web.UI.WebControls.Label ActionStatus;
         
         /// <summary>
-        /// LabelNoData control.
+        /// GridViewEventList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label LabelNoData;
+        protected global::System.Web.UI.WebControls.GridView GridViewEventList;
     }
 }

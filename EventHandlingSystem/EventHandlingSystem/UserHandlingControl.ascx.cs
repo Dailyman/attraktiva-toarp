@@ -93,7 +93,7 @@ namespace EventHandlingSystem
             if (Membership.GetUser(_username) == null)
             {
                 LabelDisplay.Text = string.Format("{0} was deleted Successfully", _username);
-                LabelDisplay.ForeColor = Color.Green;
+                LabelDisplay.ForeColor = Color.CornflowerBlue;
                 var userToDelete = UserDB.GetUsersByUsername(_username);
                 if (userToDelete != null)
                 {
@@ -129,7 +129,7 @@ namespace EventHandlingSystem
                 user.IsApproved = _isapproved;
                 Membership.UpdateUser(user);
                 LabelDisplay.Text = string.Format("{0} Details updated Successfully", _username);
-                LabelDisplay.ForeColor = Color.Green;
+                LabelDisplay.ForeColor = Color.CornflowerBlue;
             }
             GridViewUsers.EditIndex = -1;
             BuildGridView();
@@ -169,7 +169,7 @@ namespace EventHandlingSystem
                         }
 
                         LabelDisplay.Text = string.Format("{0} was created Successfully", username);
-                        LabelDisplay.ForeColor = Color.Green;
+                        LabelDisplay.ForeColor = Color.CornflowerBlue;
                     }
                     else
                     {
@@ -202,7 +202,7 @@ namespace EventHandlingSystem
                 string newstr = user.ResetPassword();
 
                 LabelDisplay.Text = "The password for user '" + user.UserName +"' has been changed to " + newstr;
-                    LabelDisplay.ForeColor = Color.Green;
+                LabelDisplay.ForeColor = Color.CornflowerBlue;
             }
             else
             {
