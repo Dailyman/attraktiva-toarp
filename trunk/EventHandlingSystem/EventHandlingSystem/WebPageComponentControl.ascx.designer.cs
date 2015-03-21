@@ -103,31 +103,31 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Label lbWebpageDetail;
         
         /// <summary>
-        /// lbWebPageTitle control.
+        /// tbWebpageTitle control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbWebPageTitle;
+        protected global::System.Web.UI.WebControls.TextBox tbWebpageTitle;
         
         /// <summary>
-        /// lbWebpageCommId control.
+        /// lbCommAssoName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbWebpageCommId;
+        protected global::System.Web.UI.WebControls.Label lbCommAssoName;
         
         /// <summary>
-        /// lbWebpageAssoId control.
+        /// hlnkCommAssoName control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lbWebpageAssoId;
+        protected global::System.Web.UI.WebControls.HyperLink hlnkCommAssoName;
         
         /// <summary>
         /// tbLayout control.
@@ -164,5 +164,59 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label lbWebPageUpdate;
+        
+        /// <summary>
+        /// lbComponentDetails control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lbComponentDetails;
+        
+        /// <summary>
+        /// RepeaterComponents control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Repeater RepeaterComponents;
+        
+        /// <summary>
+        /// ddlAddOrderingNO control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddOrderingNO;
+        
+        /// <summary>
+        /// tbAddOrderingNumber control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox tbAddOrderingNumber;
+        
+        /// <summary>
+        /// ddlAddComControls control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ddlAddComControls;
+        
+        /// <summary>
+        /// AddControl control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddControl;
     }
 }

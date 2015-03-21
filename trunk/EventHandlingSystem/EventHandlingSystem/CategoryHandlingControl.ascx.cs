@@ -524,7 +524,7 @@ namespace EventHandlingSystem
                 subcategories newSubCategory = new subcategories()
                 {
                     Name = TxtBoxNameCreateCategoryName.Text,
-                    categories_Id = 
+                    categories_Id =
                         (CategoryDB.GetCategoryById(int.Parse(DropDownListCreateParentCategory.SelectedValue)) != null
                             ? int.Parse(DropDownListCreateParentCategory.SelectedValue)
                             : 0)
