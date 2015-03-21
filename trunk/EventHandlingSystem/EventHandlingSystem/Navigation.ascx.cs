@@ -56,7 +56,7 @@ namespace EventHandlingSystem
                         webpages assoWebPage = WebPageDB.GetWebPageById(webPageId);
                         if (assoWebPage != null)
                         {
-                             Session["NavCommunityId"] = assoWebPage.AssociationId != null ? AssociationDB.GetAssociationById((int)assoWebPage.AssociationId).Communities_Id.ToString() : null;
+                             Session["NavCommunityId"] = assoWebPage.AssociationId != null ? AssociationDB.GetAssociationById(assoWebPage.AssociationId.GetValueOrDefault()).Communities_Id.ToString() : null;
                         }
                     }
                 }

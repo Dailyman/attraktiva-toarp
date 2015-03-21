@@ -44,7 +44,7 @@ namespace EventHandlingSystem.Database
 
         public static List<events> GetEventsFromSpecifiedStartDate(DateTime startDate)
         {
-            return GetAllNotDeletedEvents().Where(e => e.StartDate > startDate).ToList();
+            return GetAllNotDeletedEvents().Where(e => e.StartDate >= startDate).ToList();
         }
 
         public static List<events> GetEventsByRangeDate(DateTime startDate, DateTime endDate)
@@ -93,10 +93,104 @@ namespace EventHandlingSystem.Database
                     .ToList();
         }
 
+        public static List<events> GetEventsFromListBySearchWord(List<events> evList, string searchStr)
+        {
+            return
+                evList.Where(
+                    e =>
+                        (
+                            (!String.IsNullOrEmpty(e.Title)
+                                ? e.Title.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                    ? 0
+                                    : e.Title.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                : 0) +
+                            (!String.IsNullOrEmpty(e.Description)
+                                ? e.Description.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                    ? 0
+                                    : e.Description.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                : 0) +
+                            (!String.IsNullOrEmpty(e.Summary)
+                                ? e.Summary.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                    ? 0
+                                    : e.Summary.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                : 0) +
+                            (!String.IsNullOrEmpty(e.Other)
+                                ? e.Other.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                    ? 0
+                                    : e.Other.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                : 0) +
+                            (!String.IsNullOrEmpty(e.TargetGroup)
+                                ? e.TargetGroup.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                    ? 0
+                                    : e.TargetGroup.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                : 0) +
+                            (!String.IsNullOrEmpty(e.Location)
+                                ? e.Location.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) < 0
+                                    ? 0
+                                    : e.Location.IndexOf(searchStr, StringComparison.OrdinalIgnoreCase) >= 0 ? 1 : 0
+                                : 0)
+                            ) > 0)
+                    .ToList();
+        }
+        
+        public static List<events> GetEventsByCommunity(communities comm)
+        {
+            return comm.events.ToList();
+        }
+
         public static List<events> GetEventsByAssociation(associations asso)
         {
             return asso.events.ToList();
         }
+
+        public static List<events> FilterEvents(DateTime? sT, DateTime? eT, communities c, associations a, categories cat, subcategories subCat, string word)
+        {
+            List<events> resultList = GetAllEvents();
+
+            if (sT != null)
+            {
+                resultList = resultList.Where(e => e.StartDate >= sT).ToList();
+            }
+
+            if (eT != null)
+            {
+                resultList = resultList.Where(e => e.EndDate <= eT).ToList();
+            }
+
+            if (c != null)
+            {
+                resultList = resultList.Where(e => e.communities.Contains(c)).ToList();
+            }
+
+            if (a != null)
+            {
+                resultList = resultList.Where(e => e.associations.Contains(a)).ToList();
+            }
+
+            if (cat != null)
+            {
+                List<events> eventsInAsso = new List<events>();
+                foreach (var asso in cat.associations)
+                {
+                        eventsInAsso.AddRange(resultList.Where(e => e.associations.Contains(asso)));
+                }
+
+                resultList = eventsInAsso;
+
+            }
+
+            if (subCat != null)
+            {
+                resultList = resultList.Where(e => e.subcategories.Contains(subCat)).ToList();
+            }
+
+            if (!String.IsNullOrWhiteSpace(word))
+            {
+                resultList = GetEventsFromListBySearchWord(resultList, word);
+            }
+
+            return resultList;
+        } 
 
         public static events GetEventById(int id)
         {

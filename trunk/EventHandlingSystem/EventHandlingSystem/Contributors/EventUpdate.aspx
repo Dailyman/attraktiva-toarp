@@ -10,25 +10,31 @@
         {
             min-width: 100px;
         }
-         .box-inline {
-             vertical-align: top;
-             display: inline;
-         }
-        .box-inline select {
-            margin: 0;
+
+        .box-inline
+        {
             display: inline;
-            vertical-align: middle;
+            margin: 0 10px 0 0;
         }
-        .box-inline input {
-            vertical-align: middle;
-        }
+
+            .box-inline select
+            {
+                margin: 0 5px 0 0;
+                vertical-align: top;
+            }
+
+            .box-inline input
+            {
+                margin: 0 5px 0 0;
+                vertical-align: top;
+            }
     </style>
     <br />
     <div class="titlebox">
         <h1>Update event</h1>
     </div>
     <br />
-    
+
     <br />
     <h6>* = Required field.</h6>
     <br />
@@ -91,13 +97,13 @@
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
         <ContentTemplate>
             <div class="box-inline">
-            <asp:DropDownList ID="DropDownAssociation" runat="server" AutoPostBack="True"></asp:DropDownList>
-            <asp:Button ID="ButtonAddAssociation" runat="server" Text="Add Association" CssClass="btn-small" OnClick="ButtonAddAssociation_OnClick" />
+                <asp:DropDownList ID="DropDownAssociation" runat="server" AutoPostBack="True"></asp:DropDownList>
+                <asp:Button ID="ButtonAddAssociation" runat="server" Text="Add Association" CssClass="btn-small" OnClick="ButtonAddAssociation_OnClick" />
 
             </div>
-           <div class="box-inline">
-            <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="listbox" runat="server" SelectionMode="Multiple"></asp:ListBox>
-            <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
+            <div class="box-inline">
+                <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="listbox" runat="server" SelectionMode="Multiple"></asp:ListBox>
+                <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
             </div>
             <asp:Label ID="LabelErrorAsso" runat="server" Text=""></asp:Label>
         </ContentTemplate>
@@ -109,7 +115,7 @@
         </Triggers>
     </asp:UpdatePanel>
     <br />
-    <h6>Caegories</h6>
+    <h6>Categories</h6>
     <asp:UpdatePanel ID="UpdatePanel2" runat="server" UpdateMode="Always">
         <ContentTemplate>
             <div class="box-inline">
@@ -129,7 +135,7 @@
             <asp:AsyncPostBackTrigger ControlID="ListBoxSubCategories" EventName="SelectedIndexChanged" />
         </Triggers>
     </asp:UpdatePanel>
-    <br/>
+    <br />
     <br />
     <asp:Label ID="LabelMessage" runat="server" Text=""></asp:Label>
     <div class="btn-align-right">

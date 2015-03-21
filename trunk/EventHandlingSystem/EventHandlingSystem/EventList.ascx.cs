@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
@@ -10,11 +12,20 @@ namespace EventHandlingSystem
 {
     public partial class EventList : System.Web.UI.UserControl
     {
+        private int _id;
+        private string _title;
+        private string _location;
+
         protected void Page_Load(object sender, EventArgs e)
         {
+            ActionStatus.Text = string.Empty;
+
             if (!IsPostBack)
             {
+                PopulateDropDownComm();
                 PopulateDropDownAsso();
+                PopulateDropDownCat();
+                PopulateDropDownSubCat();
 
                 if (Request.QueryString["Type"] != null)
                 {
@@ -48,19 +59,19 @@ namespace EventHandlingSystem
                 {
                     if (webPage.CommunityId != null)
                     {
-                        //comm = CommunityDB.GetCommunityById(webPage.CommunityId);
-                        //if (comm != null)
-                        //{
-                        //    DropDownListComm.SelectedIndex =
-                        //        DropDownListComm.Items.IndexOf(
-                        //            DropDownListComm.Items.FindByValue(
-                        //                comm.Id.ToString()));
-                        //}
-                        //else
-                        //{
-                        //    DropDownListComm.SelectedIndex = DropDownListComm.Items.IndexOf(
-                        //        DropDownListComm.Items.FindByValue(""));
-                        //}
+                        comm = CommunityDB.GetCommunityById(webPage.CommunityId.GetValueOrDefault());
+                        if (comm != null)
+                        {
+                            DropDownListComm.SelectedIndex =
+                                DropDownListComm.Items.IndexOf(
+                                    DropDownListComm.Items.FindByValue(
+                                        comm.Id.ToString()));
+                        }
+                        else
+                        {
+                            DropDownListComm.SelectedIndex = DropDownListComm.Items.IndexOf(
+                                DropDownListComm.Items.FindByValue(""));
+                        }
                     }
                 }
             }
@@ -69,7 +80,7 @@ namespace EventHandlingSystem
 
         public associations GetAssociationFromQueryStringAndSelectInDropDown()
         {
-            associations asso = new associations();
+            var asso = new associations();
             //Hämtar WebPageId från URL.
             var stId = Request.QueryString["Id"];
             int id;
@@ -81,7 +92,7 @@ namespace EventHandlingSystem
                 {
                     if (webPage.AssociationId != null)
                     {
-                        asso = AssociationDB.GetAssociationById((int) webPage.AssociationId);
+                        asso = AssociationDB.GetAssociationById(webPage.AssociationId.GetValueOrDefault());
                         if (asso != null)
                         {
                             DropDownListAsso.SelectedIndex =
@@ -102,42 +113,39 @@ namespace EventHandlingSystem
 
         protected void Page_PreRender(object sender, EventArgs e)
         {
-            RepeaterEvents.Visible = RepeaterEvents.Items.Count != 0;
-            LabelNoData.Visible = RepeaterEvents.Items.Count == 0;
+            //GridViewEventList.Visible = GridViewEventList.Items.Count != 0;
+            //LabelNoData.Visible = GridViewEventList.Items.Count == 0;
         }
 
-        
+        // Old rendering methods.
         public List<events> RenderEventList()
         {
             List<events> eventList = EventDB.GetAllEvents();
 
-            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-            RepeaterEvents.DataBind();
+            GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+            GridViewEventList.DataBind();
             return eventList;
 
         }
-
         public List<events> RenderEventList(DateTime sDate)
         {
             List<events> eventList = EventDB.GetEventsFromSpecifiedStartDate(sDate.Date);
 
-            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-            RepeaterEvents.DataBind();
+            GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+            GridViewEventList.DataBind();
             return eventList;
 
         }
-
         public List<events> RenderEventList(DateTime sDate, DateTime eDate)
         {
             List<events> eventList = EventDB.GetEventsByRangeDate(sDate, eDate);
 
-            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-            RepeaterEvents.DataBind();
+            GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+            GridViewEventList.DataBind();
 
             return eventList;
 
         }
-
         public List<events> RenderEventList(DateTime sDate, DateTime eDate, associations asso)
         {
             List<events> eventList = new List<events>();
@@ -155,8 +163,8 @@ namespace EventHandlingSystem
                     }
                 }
 
-                RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-                RepeaterEvents.DataBind();
+                GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+                GridViewEventList.DataBind();
                 return eventList;
             }
             else
@@ -166,7 +174,6 @@ namespace EventHandlingSystem
 
 
         }
-
         public List<events> RenderEventList(DateTime sDate, DateTime eDate, associations asso, string searchStr)
         {
             List<events> eventList = new List<events>();
@@ -186,9 +193,9 @@ namespace EventHandlingSystem
                 }
 
 
-                RepeaterEvents.DataSource =
+                GridViewEventList.DataSource =
                     eventList.Where(e => e.StartDate > sDate && e.EndDate < eDate).OrderBy(e => e.StartDate);
-                RepeaterEvents.DataBind();
+                GridViewEventList.DataBind();
 
                 return eventList;
             }
@@ -197,7 +204,35 @@ namespace EventHandlingSystem
                 return RenderEventList();
             }
         }
+        public List<events> RenderEventList(string searchStr)
+        {
+            List<events> eventList = EventDB.GetEventsBySearchWord(searchStr);
 
+            GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+            GridViewEventList.DataBind();
+
+            return eventList;
+
+        }
+        // Still in use vvv (optimize/merge)
+        public List<events> RenderEventList(communities comm)
+        {
+            List<events> eventList = new List<events>();
+            if (comm != null)
+            {
+                eventList = EventDB.GetEventsByCommunity(comm);
+
+                GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+                GridViewEventList.DataBind();
+
+                return eventList;
+            }
+            else
+            {
+                return RenderEventList();
+            }
+
+        }
         public List<events> RenderEventList(associations asso)
         {
             List<events> eventList = new List<events>();
@@ -205,8 +240,8 @@ namespace EventHandlingSystem
             {
                 eventList = EventDB.GetEventsByAssociation(asso);
 
-                RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-                RepeaterEvents.DataBind();
+                GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+                GridViewEventList.DataBind();
 
                 return eventList;
             }
@@ -216,17 +251,8 @@ namespace EventHandlingSystem
             }
 
         }
-
-        public List<events> RenderEventList(string searchStr)
-        {
-            List<events> eventList = EventDB.GetEventsBySearchWord(searchStr);
-
-            RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-            RepeaterEvents.DataBind();
-
-            return eventList;
-
-        }
+        // Still in use ^^^
+       
 
         public List<events> RenderEventList(associations asso, string searchStr)
         {
@@ -246,8 +272,8 @@ namespace EventHandlingSystem
                     }
                 }
 
-                RepeaterEvents.DataSource = eventList.OrderBy(e => e.StartDate);
-                RepeaterEvents.DataBind();
+                GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+                GridViewEventList.DataBind();
 
                 return eventList;
             }
@@ -258,88 +284,109 @@ namespace EventHandlingSystem
         }
 
 
+        // This is the best method for filtering and rendering.
+        public List<events> FilterEventAndRender()
+        {
+
+            DateTime sDate;
+            DateTime eDate;
+            int cId;
+            int aId;
+            int catId;
+            int subCatId;
+
+            DateTime? sT = DateTime.TryParse(TxtStart.Text, out sDate) ? sDate : (DateTime?)null;
+            DateTime? eT = DateTime.TryParse(TxtEnd.Text, out eDate) ? eDate : (DateTime?)null;
+            communities c = int.TryParse(DropDownListComm.SelectedValue, out cId) ? CommunityDB.GetCommunityById(cId) : null;
+            associations a = int.TryParse(DropDownListAsso.SelectedValue, out aId) ? AssociationDB.GetAssociationById(aId) : null;
+            categories cat = int.TryParse(DropDownListCat.SelectedValue, out catId) ? CategoryDB.GetCategoryById(catId) : null;
+            subcategories subCat = int.TryParse(DropDownListSubCat.SelectedValue, out subCatId) ? SubCategoryDB.GetSubCategoryById(subCatId) : null;
+            string searchWord = !String.IsNullOrWhiteSpace(TxtSearch.Text) ? TxtSearch.Text : null;
+
+            List<events> eventList = EventDB.FilterEvents(sT, eT, c, a, cat, subCat, searchWord);
+
+            GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
+            GridViewEventList.DataBind();
+
+            return eventList;
+        }
 
         protected void BtnFilter_OnClick(object sender, EventArgs e)
         {
-            int aId;
-            DateTime sDate;
-            DateTime eDate;
-            if (!String.IsNullOrWhiteSpace(TxtSearch.Text))
-            {
-
-                if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
-                    int.TryParse(DropDownListAsso.SelectedValue, out aId) && !String.IsNullOrWhiteSpace(TxtStart.Text) &&
-                    !String.IsNullOrWhiteSpace(TxtEnd.Text) && DateTime.TryParse(TxtStart.Text, out sDate) &&
-                    DateTime.TryParse(TxtEnd.Text, out eDate))
-                {
-                    RenderEventList(sDate, eDate,
-                        AssociationDB.GetAssociationById(aId), TxtSearch.Text);
-                }
-                else if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
-                         int.TryParse(DropDownListAsso.SelectedValue, out aId))
-                {
-                    RenderEventList(AssociationDB.GetAssociationById(aId), TxtSearch.Text);
-                }
-                else
-                {
-                    RenderEventList(TxtSearch.Text);
-                    return;
-                }
-                return;
-            }
+            FilterEventAndRender();
+        }
 
 
 
+        public void PopulateDropDownComm(List<communities> cList = null)
+        {
+            List<communities> communitiesToAddInDropDown = cList ?? CommunityDB.GetAllCommunities();
 
-            if (!String.IsNullOrWhiteSpace(DropDownListAsso.SelectedValue) &&
-                int.TryParse(DropDownListAsso.SelectedValue, out aId))
+            //Lägger till alla communities i dropdownboxen.
+            DropDownListComm.Items.Clear();
+            DropDownListComm.Items.Add((communitiesToAddInDropDown.Count == 0 ? new ListItem("", "") : new ListItem("All", "")));
+            foreach (var community in communitiesToAddInDropDown.OrderBy(c => c.Name))
             {
-                if (!String.IsNullOrWhiteSpace(TxtStart.Text) && !String.IsNullOrWhiteSpace(TxtEnd.Text) &&
-                    DateTime.TryParse(TxtStart.Text, out sDate) && DateTime.TryParse(TxtEnd.Text, out eDate))
+                 DropDownListComm.Items.Add(new ListItem
                 {
-                    RenderEventList(sDate, eDate,
-                        AssociationDB.GetAssociationById(aId));
-                }
-                else
-                {
-                    RenderEventList(AssociationDB.GetAssociationById(aId));
-                }
-            }
-            else if (!String.IsNullOrWhiteSpace(TxtStart.Text) && !String.IsNullOrWhiteSpace(TxtEnd.Text) &&
-                     DateTime.TryParse(TxtStart.Text, out sDate) && DateTime.TryParse(TxtEnd.Text, out eDate))
-            {
-                RenderEventList(sDate, eDate);
-            }
-            else if (!String.IsNullOrWhiteSpace(TxtStart.Text) && DateTime.TryParse(TxtStart.Text, out sDate))
-            {
-                RenderEventList(Convert.ToDateTime(TxtStart.Text));
-            }
-            else
-            {
-                RenderEventList();
+                    Text = community.Name,
+                    Value = community.Id.ToString()
+                });
             }
         }
 
-        public void PopulateDropDownAsso()
+        public void PopulateDropDownAsso(List<associations> aList = null)
         {
-            //Skapar och lägger till alla associations i dropdownboxen.
-            List<ListItem> listItems = new List<ListItem>();
-            foreach (var association in AssociationDB.GetAllAssociations())
+            List<associations> associationsToAddInDropDown = aList ?? AssociationDB.GetAllAssociations();
+
+            //Lägger till alla communities i dropdownboxen.
+            DropDownListAsso.Items.Clear();
+            DropDownListAsso.Items.Add((associationsToAddInDropDown.Count == 0 ? new ListItem("", "") : new ListItem("All", "")));
+            foreach (var association in associationsToAddInDropDown.OrderBy(a => a.Name))
             {
-                listItems.Add(new ListItem
+                DropDownListAsso.Items.Add(new ListItem
                 {
                     Text = association.Name,
                     Value = association.Id.ToString()
                 });
             }
-            DropDownListAsso.Items.Add(new ListItem("All", ""));
-            //Sorterar ListItems i alfabetisk ordning i DropDownListan för Association
-            foreach (var item in listItems.OrderBy(item => item.Text))
-            {
-                DropDownListAsso.Items.Add(item);
-            }
-
         }
+
+        public void PopulateDropDownCat(List<categories> catList = null)
+        {
+            List<categories> categoriesToAddInDropDown = catList ?? CategoryDB.GetAllCategories();
+
+            //Lägger till alla categories i dropdownboxen.
+            DropDownListCat.Items.Clear();
+            DropDownListCat.Items.Add((categoriesToAddInDropDown.Count == 0 ? new ListItem("", "") : new ListItem("All", "")));
+            foreach (var category in categoriesToAddInDropDown.OrderBy(cat => cat.Name))
+            {
+                DropDownListCat.Items.Add(new ListItem
+                {
+                    Text = category.Name,
+                    Value = category.Id.ToString()
+                });
+            }
+        }
+
+        public void PopulateDropDownSubCat(List<subcategories> subCatList = null )
+        {
+            List<subcategories> subCategoriesToAddInDropDown = subCatList ?? SubCategoryDB.GetAllSubCategories();
+
+            //Lägger till alla subcategories i dropdownboxen.
+            DropDownListSubCat.Items.Clear();
+            DropDownListSubCat.Items.Add((subCategoriesToAddInDropDown.Count == 0 ? new ListItem("", "") : new ListItem("All", "")));
+            foreach (var subCategory in subCategoriesToAddInDropDown.OrderBy(subC => subC.Name))
+            {
+                DropDownListSubCat.Items.Add(new ListItem
+                {
+                    Text = subCategory.Name,
+                    Value = subCategory.Id.ToString()
+                });
+            }
+        }
+
+
 
         public string WriteAllAssociations(ICollection<associations> list)
         {
@@ -358,6 +405,8 @@ namespace EventHandlingSystem
             }
         }
 
+
+
         protected void CustomValiStartDate_OnServerValidate(object source, ServerValidateEventArgs args)
         {
             //Validerar om texten i StartDateTextBoxen är ett giltig datum. 
@@ -372,6 +421,153 @@ namespace EventHandlingSystem
             DateTime result;
             args.IsValid = !string.IsNullOrWhiteSpace(TxtEnd.Text) &&
                            DateTime.TryParse(TxtEnd.Text, out result);
+        }
+
+
+        //private List<communities> FilterDropDownCommItems(associations a)
+        //{
+
+        //}
+        private List<associations> FilterDropDownAssoItems(communities c)
+        {
+            PopulateDropDownAsso(AssociationDB.GetAllAssociationsInCommunity(c));
+            return AssociationDB.GetAllAssociationsInCommunity(c).ToList();
+        }
+        private List<categories> FilterDropDownCatItems(associations a)
+        {
+            PopulateDropDownCat(a.categories.ToList());
+            return a.categories.ToList();
+        }
+        private List<subcategories> FilterDropDownSubCatItems(categories cat)
+        {
+            PopulateDropDownSubCat(SubCategoryDB.GetAllSubCategoryByCategory(cat));
+            return SubCategoryDB.GetAllSubCategoryByCategory(cat).ToList();
+        }
+
+
+        protected void DropDownListComm_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Kanske vi inte ska filtrera?
+
+            int cId;
+            if (int.TryParse(DropDownListComm.SelectedValue, out cId) && CommunityDB.GetCommunityById(cId) != null)
+            {
+                FilterDropDownAssoItems(CommunityDB.GetCommunityById(cId));
+            }
+            else
+            {
+                PopulateDropDownAsso();
+            }
+        }
+
+        protected void DropDownListAsso_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Kanske vi inte ska filtrera?
+
+            //int aId;
+            //if (int.TryParse(DropDownListAsso.SelectedValue, out aId) && AssociationDB.GetAssociationById(aId) != null)
+            //{
+            //    FilterDropDownCatItems(AssociationDB.GetAssociationById(aId));
+            //}
+            //else
+            //{
+            //    PopulateDropDownCat();
+            //}
+        }
+
+        protected void DropDownListCat_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            // Kanske vi inte ska filtrera?
+
+            int catId;
+            if (int.TryParse(DropDownListCat.SelectedValue, out catId) && CategoryDB.GetCategoryById(catId) != null)
+            {
+                FilterDropDownSubCatItems(CategoryDB.GetCategoryById(catId));
+            }
+            else
+            {
+                PopulateDropDownSubCat();
+            }
+        }
+
+
+        protected void GridViewEventList_OnRowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridViewEventList.EditIndex = -1;
+            FilterEventAndRender();
+        }
+
+        protected void GridViewEventList_OnRowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridViewEventList.EditIndex = e.NewEditIndex;
+            FilterEventAndRender();
+        }
+
+        protected void GridViewEventList_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int.TryParse(GridViewEventList.Rows[e.RowIndex].Cells[0].Text, out _id);
+
+            events eventToDelete = EventDB.GetEventById(_id);
+            if (eventToDelete != null)
+            {
+                ActionStatus.Text = EventDB.DeleteEvent(eventToDelete)
+                    ? "Event was deleted successfully"
+                    : "Event could not be deleted";
+            }
+            else
+            {
+                ActionStatus.Text = "The selected event could not be found";
+            }
+            FilterEventAndRender();
+        }
+
+        protected void GridViewEventList_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int index = GridViewEventList.EditIndex;
+            GridViewRow gvrow = GridViewEventList.Rows[index];
+            // _id = vvv
+            int.TryParse(GridViewEventList.Rows[e.RowIndex].Cells[0].Text, out _id);
+            _title = ((TextBox)gvrow.Cells[3].Controls[0]).Text;
+            _location = ((TextBox)gvrow.Cells[4].Controls[0]).Text;
+
+            //_email = ((TextBox)gvrow.Cells[2].Controls[0]).Text.Trim();
+            //_comment = ((TextBox)gvrow.Cells[3].Controls[0]).Text;
+            //_isapproved = ((CheckBox)gvrow.Cells[4].Controls[0]).Checked;
+
+            events eventToUpdate = EventDB.GetEventById(_id);
+
+            if (eventToUpdate != null)
+            {
+                eventToUpdate.Title = _title;
+                eventToUpdate.Location = _location;
+
+                if (EventDB.UpdateEvent(eventToUpdate) > 0)
+                {
+                    ActionStatus.Text = "Event was updated Successfully";
+                    ActionStatus.ForeColor = Color.CornflowerBlue;
+                }
+                else
+                {
+                    ActionStatus.Text = "Event could not be updated Successfully";
+                        ActionStatus.ForeColor = Color.Red;
+                }
+            }
+            else
+            {
+                ActionStatus.Text = "Event could not be updated because it does not exist";
+                ActionStatus.ForeColor = Color.Red;
+            }
+            GridViewEventList.EditIndex = -1;
+            FilterEventAndRender();
+        }
+
+        protected void GridViewEventList_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
+        {
+            foreach (events ev in EventDB.GetAllEvents())
+            {
+                EventDB.UpdateEvent(ev);
+            }
+            FilterEventAndRender();
         }
     }
 }
