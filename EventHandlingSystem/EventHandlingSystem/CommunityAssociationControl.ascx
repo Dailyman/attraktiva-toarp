@@ -21,6 +21,7 @@
                         Text="Create New Community"
                          OnClick="ButtonCreateNewComm_OnClick" />
                 </div>
+                <asp:Label ID="lbCommSelect" runat="server" ></asp:Label>
             </div>
         </asp:View>
     </asp:MultiView>
@@ -52,7 +53,6 @@
             <div class="view-community-details">
                 <h3>Community Details</h3><br />
                     <asp:HyperLink ID="HyperLinkLogoCommunity" runat="server">
-                        <%--Just nu har alla communities samma bild--%>
                         <asp:Image ID="ImageLogoCommunity" 
                             ImageAlign="Right"
                             runat="server" />
@@ -73,7 +73,13 @@
                 <asp:Label ID="LabelCreatedBy" runat="server" Text=""></asp:Label><br />
                 <br />
                 <div class="btn-align-right">
-                    <asp:Button ID="ButtonCommSave" CssClass="btn-blue" runat="server" Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
+                    <asp:Button ID="ButtonDeleteComm" runat="server" CssClass="btn-blue"
+                        Text="Delete Community" 
+                        OnClientClick="return confirm('Are you sure you want to DELETE this Community?');"
+                        OnClick="ButtonDeleteComm_OnClick"/>
+                    <asp:Button ID="ButtonCommSave" 
+                        CssClass="btn-blue" runat="server" 
+                        Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
                 </div>
                 <asp:Label ID="LabelCommSave" runat="server" Text=""></asp:Label>
             </div><br />
@@ -150,7 +156,7 @@
                         OnClick="ButtonUpdateAsso_OnClick"/>
                     <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" 
                         Text="Delete this Association" 
-                        OnClientClick="if(!confirm('Are you sure you want to DELETE this Association?')) return false;" 
+                        OnClientClick="return confirm('Are you sure you want to DELETE this Association?');" 
                         OnClick="ButtonDeleteAsso_OnClick"/>
                 </div>
                 <asp:Label ID="LabelUpdateAsso" runat="server" Text=""></asp:Label>

@@ -59,7 +59,6 @@ namespace EventHandlingSystem.Database
             return affectedRows;
         }
 
-        //DELETE 
         public static int DeleteWebPageByAssoId(int id) 
         { 
             webpages webpageToDelete = GetWebPageByAssociationId(id); 
@@ -69,6 +68,17 @@ namespace EventHandlingSystem.Database
             
             int affectedRows = Context.SaveChanges(); return affectedRows; 
         }
+
+        public static int DeleteWebPageByCommId(int id)
+        {
+            webpages webpageToDelete = GetWebPageByCommunityId(id);
+
+            if (webpageToDelete != null)
+                webpageToDelete.IsDeleted = true;
+
+            int affectedRows = Context.SaveChanges(); return affectedRows;
+        }
+
 
         //ADD
         public static bool AddWebPage(webpages wp)

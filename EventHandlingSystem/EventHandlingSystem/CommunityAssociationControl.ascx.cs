@@ -25,6 +25,7 @@ namespace EventHandlingSystem
         public void PopulateCommunityDropDownList(DropDownList ddl)
         {
             ddl.Items.Clear();
+            //lbCommSelect.Text = string.Empty;
 
             List<ListItem> commList = new List<ListItem>();
 
@@ -458,6 +459,8 @@ namespace EventHandlingSystem
         {
             if (!string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
             {
+                lbCommSelect.Text = string.Empty;
+
                 //Visa community-dropdownlist
                 MultiViewSelectComm.ActiveViewIndex = 0;
 
@@ -519,7 +522,7 @@ namespace EventHandlingSystem
         }
 
         
-
+        // För att uppdatera en community
         protected void ButtonCommSave_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
@@ -562,8 +565,7 @@ namespace EventHandlingSystem
                 LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
-
-
+        
         // För att komma till "Create New Community" vy
         protected void ButtonCreateNewComm_OnClick(object sender, EventArgs e)
         {
@@ -616,6 +618,48 @@ namespace EventHandlingSystem
         {
             MultiViewCommCreate.ActiveViewIndex = -1;
         }
+
+
+        private int _commToDeleteId;
+
+        // För att ta bort en community
+        protected void ButtonDeleteComm_OnClick(object sender, EventArgs e)
+        {
+            _commToDeleteId = int.Parse(DropDownListCommunity.SelectedItem.Value);
+
+            webpages webpageToDelete = WebPageDB.GetWebPageByCommunityId(_commToDeleteId);
+            List<associations> assosToDeleteList =
+                AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(_commToDeleteId));
+
+            // Anropa Delete-metoderna
+            if (webpageToDelete != null)
+            {
+                int affectedRows =
+                    CommunityDB.DeleteCommunityById(_commToDeleteId) +
+                    WebPageDB.DeleteWebPageByCommId(_commToDeleteId);
+
+                foreach (associations assoToDelete in assosToDeleteList)
+                {
+                    AssociationDB.DeleteAssociationById(assoToDelete.Id);
+                    WebPageDB.DeleteWebPageByAssoId(assoToDelete.Id);
+                }
+
+                PopulateCommunityDropDownList(DropDownListCommunity);
+
+                if (affectedRows != 0)
+                {
+                    lbCommSelect.Text = TextBoxCommName.Text + " and all of its associations were successfully deleted. ";
+                    lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    MultiViewCommDetails.ActiveViewIndex = -1;
+                }
+                else
+                {
+                    lbCommSelect.Text = TextBoxCommName.Text + "could not be deleted. Please try again.";
+                    lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+            }
+        }
+
 
         // För att komma till "Create New Association" vy
         protected void ButtonCreateNewAsso_OnClick(object sender, EventArgs e)
