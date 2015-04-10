@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
 
@@ -14,7 +15,7 @@ namespace EventHandlingSystem
         {
             //Hämtar EventId från URL.
             var stId = Request.QueryString["Id"];
-
+            
             var stType = Request.QueryString["Type"];
 
             //Om Id värdet som tas från URLn är i giltigt format hämtas WebPage objektet och visas på sidan.
@@ -24,6 +25,12 @@ namespace EventHandlingSystem
                 webpages webPage = WebPageDB.GetWebPageById(id);
                 if (webPage != null)
                 {
+                    // Sets the webpage Id in the link to PageSettings
+                    EventsLink.HRef = EventsLink.HRef + "PageId="+stId;
+                    
+                    // Sets the webpage Id in the link to PageSettings
+                    SettingsLink.HRef = SettingsLink.HRef + "Id="+ stId;
+
                     if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                     {
                         if (webPage.CommunityId != null)

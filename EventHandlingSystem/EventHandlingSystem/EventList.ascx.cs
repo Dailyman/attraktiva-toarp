@@ -15,6 +15,9 @@ namespace EventHandlingSystem
         private int _id;
         private string _title;
         private string _location;
+        private DateTime _sDate;
+        private DateTime _eDate;
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
@@ -220,7 +223,7 @@ namespace EventHandlingSystem
             List<events> eventList = new List<events>();
             if (comm != null)
             {
-                eventList = EventDB.GetEventsByCommunity(comm);
+                eventList = EventDB.GetEventsByCommunity(comm).Where(e => !e.IsDeleted).ToList();
 
                 GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
                 GridViewEventList.DataBind();
@@ -238,7 +241,7 @@ namespace EventHandlingSystem
             List<events> eventList = new List<events>();
             if (asso != null)
             {
-                eventList = EventDB.GetEventsByAssociation(asso);
+                eventList = EventDB.GetEventsByAssociation(asso).Where(e => !e.IsDeleted).ToList();
 
                 GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
                 GridViewEventList.DataBind();
@@ -523,12 +526,24 @@ namespace EventHandlingSystem
 
         protected void GridViewEventList_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
+
+
             int index = GridViewEventList.EditIndex;
             GridViewRow gvrow = GridViewEventList.Rows[index];
             // _id = vvv
             int.TryParse(GridViewEventList.Rows[e.RowIndex].Cells[0].Text, out _id);
-            _title = ((TextBox)gvrow.Cells[3].Controls[0]).Text;
-            _location = ((TextBox)gvrow.Cells[4].Controls[0]).Text;
+            //StartDate
+            string sd = ((TextBox) gvrow.Cells[1].Controls[1]).Text;
+            _sDate = DateTime.Parse(sd,
+                System.Globalization.CultureInfo.CurrentCulture,
+                System.Globalization.DateTimeStyles.None);
+            //EndDate
+            string ed = ((TextBox) gvrow.Cells[2].Controls[1]).Text;
+            _eDate = DateTime.Parse(ed,
+                System.Globalization.CultureInfo.CurrentCulture,
+                System.Globalization.DateTimeStyles.None);
+            _title = ((TextBox) gvrow.Cells[3].Controls[0]).Text;
+            _location = ((TextBox) gvrow.Cells[4].Controls[0]).Text;
 
             //_email = ((TextBox)gvrow.Cells[2].Controls[0]).Text.Trim();
             //_comment = ((TextBox)gvrow.Cells[3].Controls[0]).Text;
@@ -540,7 +555,8 @@ namespace EventHandlingSystem
             {
                 eventToUpdate.Title = _title;
                 eventToUpdate.Location = _location;
-
+                eventToUpdate.StartDate = _sDate;
+                eventToUpdate.EndDate = ed.Length > 10 ? _eDate : _eDate.Add(new TimeSpan(23, 59, 59));
                 if (EventDB.UpdateEvent(eventToUpdate) > 0)
                 {
                     ActionStatus.Text = "Event was updated Successfully";
@@ -549,7 +565,7 @@ namespace EventHandlingSystem
                 else
                 {
                     ActionStatus.Text = "Event could not be updated Successfully";
-                        ActionStatus.ForeColor = Color.Red;
+                    ActionStatus.ForeColor = Color.Red;
                 }
             }
             else
@@ -563,11 +579,34 @@ namespace EventHandlingSystem
 
         protected void GridViewEventList_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
-            foreach (events ev in EventDB.GetAllEvents())
+           foreach (events ev in EventDB.GetAllEvents())
             {
                 EventDB.UpdateEvent(ev);
             }
             FilterEventAndRender();
+        }
+
+        protected void GridViewEventList_OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                if (GridViewEventList.EditIndex == e.Row.RowIndex)
+                {
+                    TextBox tStart = (TextBox)e.Row.FindControl("TextBoxStartDate");
+                    TextBox tEnd = (TextBox)e.Row.FindControl("TextBoxEndDate");
+                    DateTime dt1, dt2;
+                    if (DateTime.TryParse(tStart.Text, out dt1))
+                    {
+                        tStart.Text = dt1.ToString(tStart.Text.Length > 10 ? "yyyy-MM-dd'T'HH:mm:ss" : "yyyy-MM-dd");
+                    }
+                    if (DateTime.TryParse(tEnd.Text, out dt2))
+                    {
+                        tEnd.Text = dt2.ToString(tEnd.Text.Length > 10 ? "yyyy-MM-dd'T'HH:mm:ss" : "yyyy-MM-dd");
+
+                        //tEnd.Text = dt2.ToString("yyyy-MM-dd'T'HH:mm:ss");
+                    }
+                }
+            }
         }
     }
 }

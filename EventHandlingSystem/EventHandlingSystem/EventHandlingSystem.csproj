@@ -244,6 +244,8 @@
     <Content Include="Images\Community.jpg" />
     <Content Include="Images\folder_16x16.png" />
     <Content Include="Images\folder_25x25.png" />
+    <Content Include="Images\Gecko-logo.png" />
+    <Content Include="Images\Home-icon.svg" />
     <Content Include="Images\icon-arrow-down-b-16.png" />
     <Content Include="Images\icon-arrow-right-b-16.png" />
     <Content Include="Images\img-noise-361x370.png" />
@@ -255,6 +257,7 @@
     <Content Include="Images\Tag_30x30.png" />
     <Content Include="Images\warning-pattern-30x30.png" />
     <Content Include="Navigation.ascx" />
+    <Content Include="NavigationBar.ascx" />
     <Content Include="OldPages\About.aspx" />
     <Content Include="Account\Login.aspx" />
     <Content Include="Account\Manage.aspx" />
@@ -350,7 +353,7 @@
     <Content Include="Scripts\WebForms\WebParts.js" />
     <Content Include="Scripts\WebForms\WebUIValidation.js" />
     <Content Include="SitePage.aspx" />
-    <Content Include="SiteSettings.aspx" />
+    <Content Include="Admin\SiteSettings.aspx" />
     <Content Include="SQLDummy\AddDummyData.sql" />
     <Content Include="SQLDummy\AddDummyTaxonomy.sql" />
     <Content Include="Start.aspx" />
@@ -481,6 +484,13 @@
     <Compile Include="Navigation.ascx.designer.cs">
       <DependentUpon>Navigation.ascx</DependentUpon>
     </Compile>
+    <Compile Include="NavigationBar.ascx.cs">
+      <DependentUpon>NavigationBar.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="NavigationBar.ascx.designer.cs">
+      <DependentUpon>NavigationBar.ascx</DependentUpon>
+    </Compile>
     <Compile Include="OldPages\About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -606,11 +616,11 @@
     <Compile Include="SitePage.aspx.designer.cs">
       <DependentUpon>SitePage.aspx</DependentUpon>
     </Compile>
-    <Compile Include="SiteSettings.aspx.cs">
+    <Compile Include="Admin\SiteSettings.aspx.cs">
       <DependentUpon>SiteSettings.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="SiteSettings.aspx.designer.cs">
+    <Compile Include="Admin\SiteSettings.aspx.designer.cs">
       <DependentUpon>SiteSettings.aspx</DependentUpon>
     </Compile>
     <Compile Include="Start.aspx.cs">

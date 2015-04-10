@@ -64,7 +64,7 @@
     <br />
     <h6>Start date*</h6>
     <asp:TextBox ID="TxtBoxStartDate" runat="server" OnTextChanged="TxtBoxStartDate_OnTextChanged" Width="205px" AutoPostBack="True"></asp:TextBox>
-    <asp:TextBox ID="TxtBoxStartTime" runat="server" Width="50px"></asp:TextBox>
+    <asp:TextBox ID="TxtBoxStartTime" runat="server" Width="50px" MaxLength="5"></asp:TextBox>
     <asp:ImageButton ID="ImageButtonStartDate" runat="server" ImageUrl="~/Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonStartDate_OnClick" />
     <asp:RequiredFieldValidator ID="ReqFieldValiStartDate" runat="server" ControlToValidate="TxtBoxStartDate" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="ReqFieldValiStartTime" runat="server" ControlToValidate="TxtBoxStartTime" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
@@ -75,7 +75,7 @@
     <br />
     <h6>End date*</h6>
     <asp:TextBox ID="TxtBoxEndDate" runat="server" OnTextChanged="TxtBoxEndDate_OnTextChanged" Width="205px" AutoPostBack="True"></asp:TextBox>
-    <asp:TextBox ID="TxtBoxEndTime" runat="server" Width="50px"></asp:TextBox>
+    <asp:TextBox ID="TxtBoxEndTime" runat="server" Width="50px" MaxLength="5"></asp:TextBox>
     <asp:ImageButton ID="ImageButtonEndDate" runat="server" ImageUrl="~/Images/calendar-22x21.png" Height="22px" Width="21px" OnClick="ImageButtonEndDate_OnClick" />
     <asp:RequiredFieldValidator ID="ReqFieldValiEndDate" runat="server" ControlToValidate="TxtBoxEndDate" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="ReqFieldValiEndTime" runat="server" ControlToValidate="TxtBoxEndTime" ErrorMessage="* Required Field" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>
@@ -103,6 +103,7 @@
                 <asp:ListBox ID="ListBoxAssociations" AutoPostBack="True" CssClass="listbox" runat="server" SelectionMode="Multiple"></asp:ListBox>
                 <asp:Button ID="ButtonRemoveAssociation" runat="server" Text="Remove association" CssClass="btn-small" OnClick="ButtonRemoveAssociation_OnClick" />
             </div>
+            <br/>
             <asp:Label ID="LabelErrorAsso" runat="server" Text=""></asp:Label>
         </ContentTemplate>
         <Triggers>
@@ -124,6 +125,7 @@
                 <asp:ListBox ID="ListBoxSubCategories" AutoPostBack="True" CssClass="listbox" runat="server" SelectionMode="Multiple"></asp:ListBox>
                 <asp:Button ID="ButtonRemoveSubCat" runat="server" Text="Remove Category" CssClass="btn-small" OnClick="ButtonRemoveSubCat_OnClick" />
             </div>
+            <br/>
             <asp:Label ID="LabelErrorSubCat" runat="server" Text=""></asp:Label>
         </ContentTemplate>
         <Triggers>

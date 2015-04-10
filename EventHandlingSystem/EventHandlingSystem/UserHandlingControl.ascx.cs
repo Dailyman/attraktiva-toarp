@@ -76,14 +76,39 @@ namespace EventHandlingSystem
 
         protected void GridViewUsers_OnRowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
         {
+            
+
+            //int index = GridViewUsers.EditIndex;
+            //GridViewRow gvrow = GridViewUsers.Rows[index];
+
+            //LinkButton cancelEditBtn = (LinkButton)gvrow.FindControl("LinkButtonCancelEdit");
+
+            //cancelEditBtn.Visible = !cancelEditBtn.Visible;
+
             GridViewUsers.EditIndex = -1;
             BuildGridView();
+
+            
         }
 
         protected void GridViewUsers_OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridViewUsers.EditIndex = e.NewEditIndex;
             BuildGridView();
+
+            int index = GridViewUsers.EditIndex;
+            GridViewRow gvrow = GridViewUsers.Rows[index];
+
+            LinkButton editEventBtn = (LinkButton)gvrow.FindControl("LinkButtonEditEvent");
+            LinkButton cancelEditBtn = (LinkButton)gvrow.FindControl("LinkButtonCancelEdit");
+            LinkButton updateEventBtn = (LinkButton)gvrow.FindControl("LinkButtonUpdateEvent");
+
+            editEventBtn.Visible = !editEventBtn.Visible;
+            cancelEditBtn.Visible = !cancelEditBtn.Visible;
+            updateEventBtn.Visible = !updateEventBtn.Visible;
+
+            
+            
         }
 
         protected void GridViewUsers_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
@@ -97,16 +122,20 @@ namespace EventHandlingSystem
                 var userToDelete = UserDB.GetUsersByUsername(_username);
                 if (userToDelete != null)
                 {
-                if (UserDB.DeleteUserById(userToDelete.Id) > 0)
-                {
-                    LabelDisplay.Text = string.Format("{0} and all permissions associated to the user was deleted Successfully", _username);
-                }}
+                    if (UserDB.DeleteUserById(userToDelete.Id) > 0)
+                    {
+                        LabelDisplay.Text =
+                            string.Format("{0} and all permissions associated to the user was deleted Successfully",
+                                _username);
+                    }
+                }
             }
             else
             {
                 LabelDisplay.Text = string.Format("{0} could not be deleted", _username);
                 LabelDisplay.ForeColor = Color.Red;
             }
+            GridViewUsers.EditIndex = -1;
             BuildGridView();
         }
 
@@ -114,7 +143,7 @@ namespace EventHandlingSystem
         {
             int index = GridViewUsers.EditIndex;
             GridViewRow gvrow = GridViewUsers.Rows[index];
-            _isonline = ((CheckBox)gvrow.Cells[0].Controls[0]).Checked;
+            _isonline = ((CheckBox) gvrow.Cells[0].Controls[0]).Checked;
             _username = GridViewUsers.Rows[e.RowIndex].Cells[1].Text;
             _email = ((TextBox) gvrow.Cells[2].Controls[0]).Text.Trim();
             _comment = ((TextBox) gvrow.Cells[3].Controls[0]).Text;
@@ -134,7 +163,6 @@ namespace EventHandlingSystem
             GridViewUsers.EditIndex = -1;
             BuildGridView();
         }
-
 
         protected void GridViewUsers_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
@@ -162,14 +190,21 @@ namespace EventHandlingSystem
                     {
                         Membership.CreateUser(username, password, email);
                         Roles.AddUserToRole(username, "Members");
-                        //Copy the user to the second users table
+                        // Copy the user to the second users table
                         if (!String.IsNullOrWhiteSpace(username))
                         {
-                            UserDB.AddUser(new users() { Username = username });
+                            UserDB.AddUser(new users() {Username = username});
                         }
 
                         LabelDisplay.Text = string.Format("{0} was created Successfully", username);
                         LabelDisplay.ForeColor = Color.CornflowerBlue;
+
+                        // Clear the TextBoxes
+                        txtUserName.Text = string.Empty;
+                        txtEmail.Text = string.Empty;
+                        // Password fields will probably empty them self, but just in case they dont
+                        txtPassword.Text = string.Empty;
+                        txtConfirmPassword.Text = string.Empty;
                     }
                     else
                     {
@@ -185,7 +220,7 @@ namespace EventHandlingSystem
             }
             else
             {
-                LabelDisplay.Text = string.Format("The password is not the same");
+                LabelDisplay.Text = string.Format("The passwords are not the same");
                 LabelDisplay.ForeColor = Color.Red;
             }
 
@@ -193,28 +228,131 @@ namespace EventHandlingSystem
         }
 
 
-        public void ResetPassword(string email)
+        private void ChangePassword()
         {
-            MembershipUser user = Membership.GetUser(Membership.GetUserNameByEmail(email));
+            string username = TxtUserNameChangePassword.Text.Trim();
+            string password = TxtNewPassword.Text;
+            string confirmPassword = TxtNewPasswordConfirm.Text;
 
-            if (user != null)
+            if (string.IsNullOrWhiteSpace(username))
             {
-                string newstr = user.ResetPassword();
+                LabelDisplay.Text = string.Format("No username was specified.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
 
-                LabelDisplay.Text = "The password for user '" + user.UserName +"' has been changed to " + newstr;
+             MembershipUser user = Membership.GetUser(username);
+
+            if (user == null)
+            {
+                LabelDisplay.Text = string.Format("The user {0} does not exist in the system.", username);
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+
+            if (password != confirmPassword)
+            {
+                LabelDisplay.Text = string.Format("The passwords are not the same.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+           
+            if (password.Length < Membership.MinRequiredPasswordLength)
+            {
+                LabelDisplay.Text = string.Format("The password is to short or not vaild.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+
+            if (user.ChangePassword(user.ResetPassword(), password)) 
+            {
+                LabelDisplay.Text = string.Format("The password for user {0} has been changed!", username);
+                //LabelDisplay.Text = string.Format("The password for user {0} has been changed to <b>{1}</b>", username,
+                //password);
                 LabelDisplay.ForeColor = Color.CornflowerBlue;
+
+                // Clear the TextBoxes
+                TxtUserNameChangePassword.Text = string.Empty;
+                // Password fields will probably empty them self, but just in case they dont
+                TxtNewPassword.Text = string.Empty;
+                TxtNewPasswordConfirm.Text = string.Empty;
             }
             else
             {
-                LabelDisplay.Text = string.Format("The user did not exist");
+                LabelDisplay.Text =
+                    string.Format(
+                        "The password for user {0} was not changed! Weird... (o.O;)<br/>Try removing and recreate the user.",
+                        username);
                 LabelDisplay.ForeColor = Color.Red;
             }
             
         }
 
+
+        protected void BtnChangePassword_OnClick(object sender, EventArgs e)
+        {
+            ChangePassword();
+        }
+
+
+        private void ResetPassword(string email)
+        {
+            var usersByEmail = Membership.FindUsersByEmail(email.Trim());
+
+            if (usersByEmail.Count == 0)
+            {
+                LabelDisplay.Text = string.Format("There is no user with that email.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+
+            if (usersByEmail.Count > 1)
+            {
+                LabelDisplay.Text =
+                    string.Format("There is multiple users with that email. <br/> Change password by username instead.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+
+            string userName = Membership.GetUserNameByEmail(email.Trim());
+
+            if (string.IsNullOrWhiteSpace(userName))
+            {
+                LabelDisplay.Text = string.Format("There is no user with that email.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+
+            MembershipUser user = Membership.GetUser(userName);
+
+            if (user == null)
+            {
+                LabelDisplay.Text = string.Format("The user did not exist.");
+                LabelDisplay.ForeColor = Color.Red;
+                return;
+            }
+
+            string newstr = user.ResetPassword();
+
+            if (string.IsNullOrWhiteSpace(newstr))
+            {
+                LabelDisplay.Text =
+                    string.Format(
+                        "NO new password for user {0} was created! Weird... (o.O;)<br/>Try removing and recreate the user.",
+                        userName);
+                return;
+            }
+            LabelDisplay.Text = string.Format("The password for user {0} has been changed to <b>{1}</b>", userName,
+                newstr);
+            LabelDisplay.ForeColor = Color.CornflowerBlue;
+
+            // Clear the textbox
+            TxtEmailReset.Text = string.Empty;
+        }
+
         protected void BtnReset_OnClick(object sender, EventArgs e)
         {
-         ResetPassword(TxtEmailReset.Text);       
+            ResetPassword(TxtEmailReset.Text);
         }
     }
 }

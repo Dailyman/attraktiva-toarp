@@ -199,22 +199,40 @@ namespace EventHandlingSystem
             {
                 if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
                 {
+                    //htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\">" +
+                    //                    "<div id=\"" + ev.Id + "\" class=\"event-in-cell\" >" + ev.Title + "</div>" +
+                    //                  "</a>" +
+                    //                  "<div id=\"" + ev.Id +"\" class=\"event-pop-up\">" +
+                    //                    "<div class=\"arrow-up\"></div>" +
+                    //                    "<div class=\"pop-up-text\">" +
+                    //                    "<b>Title</b><br/> " + ev.Title + 
+                    //                    "<br/><b>Date</b><br/> " +
+                    //                    ev.StartDate.ToString("dddd, MMM d, HH:mm") +
+                    //                    (ev.StartDate.Date == ev.EndDate.Date
+                    //                        ? "-" + ev.EndDate.ToString("HH:mm")
+                    //                        : "-<br/>" + ev.EndDate.ToString("dddd, MMM d, HH:mm")) +
+                    //                    "<br/><b>Location</b><br/> " + ev.Location + 
+                    //                    "<br/><b>Summary</b><br/> " + ev.Summary + 
+                    //                    "<br/><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br/> " + WriteAllAssociations(ev.associations) + 
+                    //                    "</div>" +
+                    //                  "</div>";
                     htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\">" +
                                         "<div id=\"" + ev.Id + "\" class=\"event-in-cell\" >" + ev.Title + "</div>" +
                                       "</a>" +
-                                      "<div id=\"" + ev.Id +"\" class=\"event-pop-up\">" +
+                                      "<div id=\"" + ev.Id + "\" class=\"event-pop-up\">" +
                                         "<div class=\"arrow-up\"></div>" +
                                         "<div class=\"pop-up-text\">" +
-                                        "<b>Title</b><br/> " + ev.Title + 
-                                        "<br/><b>Date</b><br/> " +
+                                        "<p><b>" + 
+                                        ev.Title + "</b></p><br>"+
+                                        "<p><b>Date</b><br>" +
                                         ev.StartDate.ToString("dddd, MMM d, HH:mm") +
                                         (ev.StartDate.Date == ev.EndDate.Date
                                             ? "-" + ev.EndDate.ToString("HH:mm")
                                             : "-<br/>" + ev.EndDate.ToString("dddd, MMM d, HH:mm")) +
-                                        "<br/><b>Location</b><br/> " + ev.Location + 
-                                        "<br/><b>Summary</b><br/> " + ev.Summary + 
-                                        "<br/><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br/> " + WriteAllAssociations(ev.associations) + 
-                                        "</div>" +
+                                        "</p><p><b>Location</b><br>" + ev.Location +
+                                        "</p><p><b>Summary</b><br>" + ev.Summary +
+                                        "</p><p><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br>" + WriteAllAssociations(ev.associations) +
+                                        "</p></div>" +
                                       "</div>";
                 }
             }
@@ -224,7 +242,7 @@ namespace EventHandlingSystem
         public string WriteAllAssociations(ICollection<associations> list)
         {
             string result = "";
-            foreach (var association in list)
+            foreach (var association in list.OrderBy(a => a.Name))
             {
                 result += association.Name + ", ";
             }

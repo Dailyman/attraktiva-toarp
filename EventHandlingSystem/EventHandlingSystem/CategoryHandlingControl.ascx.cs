@@ -170,7 +170,7 @@ namespace EventHandlingSystem
 
                         DropDownListCategoryForSubCategory.Items.Clear();
                         //DropDownListCategoryForSubCategory.Items.Add(new ListItem(){Text = "", Value = ""});
-                        foreach (var category in CategoryDB.GetAllCategories())
+                        foreach (var category in CategoryDB.GetAllCategories().OrderBy(c => c.Name))
                         {
                             DropDownListCategoryForSubCategory.Items.Add(new ListItem
                             {
@@ -227,7 +227,7 @@ namespace EventHandlingSystem
 
             DropDownListCreateParentCategory.Items.Clear();
             DropDownListCreateParentCategory.Items.Add(new ListItem());
-            foreach (categories category in CategoryDB.GetAllCategories())
+            foreach (categories category in CategoryDB.GetAllCategories().OrderBy(c => c.Name))
             {
                 DropDownListCreateParentCategory.Items.Add(new ListItem(category.Name, category.Id.ToString()));
             }

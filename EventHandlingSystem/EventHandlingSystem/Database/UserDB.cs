@@ -40,7 +40,7 @@ namespace EventHandlingSystem.Database
         }
 
         // UPDATE
-        public static int UpdateMember(users user)
+        public static int UpdateUser(users user)
         {
             users userToUpdate = GetUsersById(user.Id);
 

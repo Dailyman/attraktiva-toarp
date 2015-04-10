@@ -1,5 +1,7 @@
 ﻿<%@ Page Title="Event details" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventDetails.aspx.cs" Inherits="EventHandlingSystem.EventDetails" %>
 
+<%@ Register tagPrefix="aspEventList" tagName="EventList" src="~/EventList.ascx" %>
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
@@ -103,12 +105,26 @@
             $('#EventImage').click(function () {
                 $(this).toggleClass("view-img");
             });
-        });
-    </script>
 
-    <br />
-    <asp:DropDownList ID="DropDownListEvents" runat="server"></asp:DropDownList><asp:Button ID="BtnSearch" runat="server" Text="Load event" OnClick="BtnSearch_OnClick" />
-    <br />
+            
+
+        });
+        //if (<%--<%= (!Page.IsPostBack).ToString().ToLower()%>--%>) 
+        //{
+        //$('#Event-list').css("display", "none" );
+
+        //if ($('#Toggle-list-btn').attr("value") === "-") {$('#Toggle-list-btn').attr("value", "+");} 
+        //else {$('#Toggle-list-btn').attr("value", "-");}
+        //} 
+
+    </script>
+    
+    <%--<aspEventList:EventList ID="EventList" runat="server" />--%>
+
+   <%-- <br />
+    <asp:DropDownList ID="DropDownListEvents" runat="server"></asp:DropDownList>
+    <asp:Button ID="BtnSearch" runat="server" Text="Load event" OnClick="BtnSearch_OnClick" />
+    <br />--%>
     
     <div id="Main" runat="server"></div>
     <asp:Panel ID="PanelMain" runat="server">

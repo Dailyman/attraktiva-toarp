@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="EventList.ascx.cs" Inherits="EventHandlingSystem.EventList" %>
+<%@ Import Namespace="System.Globalization" %>
 <%@ Import Namespace="EventHandlingSystem" %>
 <style type="text/css">
     
@@ -82,7 +83,9 @@
         /*height: 600px;*/
         /*min-width: 900px;*/
         height: 100%;
-        width: 100%;
+        /*width: 100%;*/
+        /*display: block;*/
+        overflow: auto;
     }
 
     .event-list-table th
@@ -90,25 +93,27 @@
         padding: 5px;
         /* border: 1px solid lightblue; */
         vertical-align: top;
-        max-width: 120px;
+        /*max-width: 120px;*/
         /* background-color: aliceblue; */
         overflow: hidden;
         /*word-break: normal;*/
         /*word-wrap: break-word;*/
     }
-     .event-list-table td
-    {
-        padding: 5px;
-        /* border: 1px solid lightblue; */
-        vertical-align: top;
-        max-width: 120px;
-        /* background-color: aliceblue; */
-        overflow: hidden;
-        /*word-break: normal;*/
-        /*word-wrap: break-word;*/
-    }
+        .event-list-table td {
+            padding: 5px;
+            /* border: 1px solid lightblue; */
+            vertical-align: top;
+            /*max-width: 120px;*/
+            /* background-color: aliceblue; */
+            overflow: hidden;
+            -ms-word-break: break-word;
+            -moz-word-break: break-word;
+            -o-word-break: break-word;
+            word-break: break-word;
+            /*word-wrap: break-word;*/
+        }
 
-    .input-date
+     .input-date
     {
         width: 150px;
         margin-right: 10px;
@@ -132,6 +137,9 @@
 </style>
 <script type="text/javascript">
     $(document).ready(function () {
+        $('table.event-list-table').closest("div").css("overflow", "auto");
+        $('table.event-list-table').closest("div").css("max-height", "500px");
+
         $('#Toggle-list-btn').click(function () {
             $('#Event-list').toggle("fast", function () {
                 if ($('#Toggle-list-btn').attr("value") === "-") {
@@ -146,6 +154,7 @@
             $('[type="date"]').datepicker({ dateFormat: 'yy-mm-dd' });
         }
     });
+
 </script>
 <br />
 <h1 style="display: inline; vertical-align: middle;">Event List</h1>
@@ -155,11 +164,11 @@
     <div class="filter-section">
         <div>
             <span>
-                <b>Start</b><br/>
+                <b>From</b><br/>
                 <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server"></asp:TextBox>
                 <asp:CustomValidator ID="CustomValiStartDate" runat="server" ControlToValidate="TxtStart" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiStartDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator></span>
             <span>
-                <b>End</b><br/>
+                <b>To</b><br/>
                 <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
                 <asp:CustomValidator ID="CustomValiEndDate" runat="server" ControlToValidate="TxtEnd" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiEndDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator></span>
             <span>
@@ -187,11 +196,13 @@
         </p>
     <asp:GridView ID="GridViewEventList" runat="server"
     AutoGenerateColumns="False"
+        EmptyDataText="No events was found."
     OnRowCancelingEdit="GridViewEventList_OnRowCancelingEdit"
         OnRowEditing="GridViewEventList_OnRowEditing"
         OnRowDeleting="GridViewEventList_OnRowDeleting"
         OnRowUpdating="GridViewEventList_OnRowUpdating"
         OnRowUpdated="GridViewEventList_OnRowUpdated"
+        OnRowDataBound="GridViewEventList_OnRowDataBound"
     CellPadding="4"
     ForeColor="#333333"
     GridLines="None"
@@ -208,9 +219,25 @@
     <SortedDescendingCellStyle BackColor="#E9EBEF" />
     <SortedDescendingHeaderStyle BackColor="#4870BE" />
     <Columns>
-        <asp:BoundField DataField="Id" HeaderText="Id" ReadOnly="true" />
-        <asp:BoundField DataField="StartDate" HeaderText="Start Date" DataFormatString="{0:yyyy-MM-dd HH:mm}" ReadOnly="true" />
-        <asp:BoundField DataField="EndDate" HeaderText="End Date" DataFormatString="{0:yyyy-MM-dd HH:mm}" ReadOnly="true" />
+        <%--<asp:BoundField DataField="Id" HeaderText="Id" ReadOnly="true" />--%>
+        <%--<asp:BoundField DataField="StartDate" HeaderText="Start Date" DataFormatString="{0:yyyy-MM-dd HH:mm}"  />--%>
+        <asp:TemplateField HeaderText="Start Date">
+            <ItemTemplate>
+                <%# ((bool)Eval("DayEvent") ? ((DateTime) Eval("StartDate")).ToString("yyyy-MM-dd"): ((DateTime) Eval("StartDate")).ToString("yyyy-MM-dd HH:mm")) %>
+            </ItemTemplate>
+            <EditItemTemplate>
+                <asp:TextBox ID="TextBoxStartDate" runat="server" Text='<%#(bool)Eval("DayEvent") ? ((DateTime) Eval("StartDate")).ToString("yyyy-MM-dd", new CultureInfo("sv-SE")) : ((DateTime) Eval("StartDate")).ToString("yyyy-MM-dd HH:mm", new CultureInfo("sv-SE"))%>' TextMode='<%#(bool)Eval("DayEvent") ? TextBoxMode.Date : TextBoxMode.DateTimeLocal%>'></asp:TextBox>
+            </EditItemTemplate>
+        </asp:TemplateField>
+        <asp:TemplateField HeaderText="End Date">
+            <ItemTemplate>
+                <%# ((bool)Eval("DayEvent") ? ((DateTime) Eval("EndDate")).ToString("yyyy-MM-dd"): ((DateTime) Eval("EndDate")).ToString("yyyy-MM-dd HH:mm")) %>
+            </ItemTemplate>
+            <EditItemTemplate>
+                <asp:TextBox ID="TextBoxEndDate" runat="server" Text='<%#(bool)Eval("DayEvent") ? ((DateTime) Eval("EndDate")).ToString("yyyy-MM-dd", new CultureInfo("sv-SE")) : ((DateTime) Eval("EndDate")).ToString("yyyy-MM-dd HH:mm", new CultureInfo("sv-SE"))%>' TextMode='<%#(bool)Eval("DayEvent") ? TextBoxMode.Date : TextBoxMode.DateTimeLocal%>'></asp:TextBox>
+            </EditItemTemplate>
+        </asp:TemplateField>
+        <%--<asp:BoundField DataField="EndDate" HeaderText="End Date" DataFormatString="{0:yyyy-MM-dd HH:mm}" />--%>
         <%--<asp:BoundField DataField="associations" HeaderText="Associations" />--%>
         <asp:BoundField DataField="Title" HeaderText="Title" />
         <asp:BoundField DataField="Location" HeaderText="Location" />
@@ -230,7 +257,23 @@
             HeaderText="View"
             DataNavigateUrlFields="Id" 
             DataNavigateUrlFormatString="EventDetails?id={0}" />
-        <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" />
+        <asp:HyperLinkField 
+            DataTextField="" 
+            Text='<img src="http://www.smallheathschool.org.uk/images/icons/button_icons/dark/btn_edit.png" border="0" />'
+            Target="_blank"
+            HeaderText="Edit"
+            DataNavigateUrlFields="Id" 
+            DataNavigateUrlFormatString="Contributors/EventUpdate?id={0}" />
+        <%--<asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" />--%>
+        <%--<asp:CommandField ButtonType="Image" ShowEditButton="true" EditImageUrl="http://www.smallheathschool.org.uk/images/icons/button_icons/dark/btn_edit.png"/>--%>
+        <asp:TemplateField HeaderText="Delete">
+            <ItemTemplate>
+                <%--<asp:HyperLink ID="HyperLinkViewEvent" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png" NavigateUrl='EventDetails?id=<%# Eval("Id") %>' Target="_blank" ToolTip="View details" runat="server">HyperLink</asp:HyperLink>--%>
+                <%--<asp:LinkButton ID="LinkButtonEditEvent" runat="server" CausesValidation="False" CommandName="Edit" Text='<img src="http://www.smallheathschool.org.uk/images/icons/button_icons/dark/btn_edit.png" border="0" />'></asp:LinkButton>
+                <br/>--%>
+                <asp:LinkButton ID="LinkButtonDeleteEvent" runat="server" CausesValidation="False" CommandName="Delete" Text='<img src="http://www.navicat.com/manual/online_manual/en/navicat/win_manual/img/icon_delete.png" border="0" />' OnClientClick="return confirm('Are you sure you want to delete?');"></asp:LinkButton>
+            </ItemTemplate>
+        </asp:TemplateField>
     </Columns>
 </asp:GridView>
     <%--<asp:Repeater ID="RepeaterEvents2" runat="server">

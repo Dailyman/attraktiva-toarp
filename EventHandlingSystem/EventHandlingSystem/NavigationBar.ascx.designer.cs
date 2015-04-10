@@ -10,24 +10,15 @@
 namespace EventHandlingSystem {
     
     
-    public partial class SiteSettings {
+    public partial class NavigationBar {
         
         /// <summary>
-        /// RolPerHandler1 control.
+        /// MenuBar control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::EventHandlingSystem.RolesPermissionsControl RolPerHandler1;
-        
-        /// <summary>
-        /// UserHandler control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::EventHandlingSystem.UserHandlingControl UserHandler;
+        protected global::System.Web.UI.WebControls.Menu MenuBar;
     }
 }

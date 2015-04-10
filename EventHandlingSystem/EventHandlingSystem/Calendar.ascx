@@ -26,6 +26,8 @@
         /*min-width: 900px;*/
         height: 100%;
         width: 100%;
+        /*I HATE TABLE CELLS!!!!! (vvv This is very important for the table cells to be the same witdh and make them into good cells! :3) */
+        table-layout: fixed;
     }
 
     html > body .table-cell {
@@ -63,6 +65,8 @@
         border: 1px solid lightblue;
         vertical-align: top;
         max-width: 150px;
+        /*I HATE TABLE CELLS!!!!! (vvv This witdh is very important!) */
+        width: 1000px;
         background-color: aliceblue;
     }
 
@@ -75,6 +79,11 @@
         /*background-color: aliceblue*/
     }
 
+    html > body th .cell-week-th 
+    {
+        width: 50px;
+    }
+
     html > body .cell-week
     {
         /*padding: 5px;*/
@@ -84,7 +93,7 @@
         top: 45%;*/
         font-style: italic;
         font-size: 14px;
-
+        width: 30px;
         display:block;
     /*height:50%;
     width: 50%;*/
@@ -102,18 +111,26 @@
         font-weight: bold;
     }
 
-    html > body .event-in-cell {
+    html > body .event-in-cell
+    {
         background-color: plum;
         text-align: center;
-        margin: 1px;
-        padding: 2px;
-        -ms-word-break: break-all;
+        margin-top: 1px;
+        /*margin: 1px;*/
+        /*padding: 2px;*/
+        /*-ms-word-break: break-all;
         -moz-word-break: break-all;
         -o-word-break: break-all;
-        word-break: break-all;
-overflow: hidden;
-height: 20px;
-font-size: 14px;
+        word-break: break-all;*/
+        line-height: 20px;
+        white-space: nowrap;
+        overflow: hidden !important;
+        -moz-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+        /*height: 20px;*/
+        font-size: 14px;
     }
 
     
@@ -123,6 +140,7 @@ font-size: 14px;
         z-index: 9999;
         position: absolute;
         width: 240px;
+
         
     }
 
@@ -142,6 +160,21 @@ font-size: 14px;
         -webkit-border-radius: 7px;
         -ms-border-radius: 7px;
         border-radius: 7px;
+
+       
+
+    }
+
+    html > body .pop-up-text p
+    {
+        margin: 0 auto;
+ white-space: nowrap;
+        overflow: hidden !important;
+        -moz-text-overflow: ellipsis;
+        -ms-text-overflow: ellipsis;
+        -o-text-overflow: ellipsis;
+        text-overflow: ellipsis;
+
     }
 
     html > body .table-cell a
@@ -184,10 +217,12 @@ font-size: 14px;
 
         //$('table.cal-table').closest("div").css("overflow", "hidden");
 
+        $('table.cal-table tbody th').first().css("width", "30px");
 
         $('div.table-small-cell').closest("td").css("vertical-align", "middle");
         $('div.table-small-cell').closest("td").css("border", "0");
         $('div.table-small-cell').closest("td").css("background-color", "transparent");
+        $('div.table-small-cell').closest("td").css("width", "30px");
         //$('.event-in-cell').width("200px");
         
 
