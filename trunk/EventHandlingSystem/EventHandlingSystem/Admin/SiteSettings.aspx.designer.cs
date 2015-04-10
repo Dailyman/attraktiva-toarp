@@ -10,42 +10,33 @@
 namespace EventHandlingSystem {
     
     
-    public partial class SiteMaster {
+    public partial class SiteSettings {
         
         /// <summary>
-        /// HeadContent control.
+        /// CommAssoHandler1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder HeadContent;
+        protected global::EventHandlingSystem.CommunityAssociationControl CommAssoHandler1;
         
         /// <summary>
-        /// SiteNavigationBar control.
+        /// UserHandler control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::EventHandlingSystem.NavigationBar SiteNavigationBar;
+        protected global::EventHandlingSystem.UserHandlingControl UserHandler;
         
         /// <summary>
-        /// FeaturedContent control.
+        /// RolPerHandler1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder FeaturedContent;
-        
-        /// <summary>
-        /// MainContent control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.ContentPlaceHolder MainContent;
+        protected global::EventHandlingSystem.RolesPermissionsControl RolPerHandler1;
     }
 }

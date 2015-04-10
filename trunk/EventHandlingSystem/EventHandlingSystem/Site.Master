@@ -1,6 +1,7 @@
 ﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="Site.master.cs" Inherits="EventHandlingSystem.SiteMaster" %>
 
 <%@ Register TagPrefix="aspNavigation" TagName="SiteNavigation" Src="Navigation.ascx" %>
+<%@ Register TagPrefix="aspNavigation" TagName="SiteNavigationBar" Src="NavigationBar.ascx" %>
 
 <%--<%@ Register TagPrefix="ajax" Namespace="AjaxControlToolkit" Assembly="AjaxControlToolkit" %>--%>
 
@@ -22,8 +23,8 @@
 </head>
 <body>
     <form runat="server">
-        
-            
+
+
         <asp:ScriptManager runat="server">
             <Scripts>
                 <%--To learn more about bundling scripts in ScriptManager see http://go.microsoft.com/fwlink/?LinkID=272931&clcid=0x409 
@@ -41,11 +42,10 @@
                 <asp:ScriptReference Name="WebParts.js" Assembly="System.Web" Path="~/Scripts/WebForms/WebParts.js" />
                 <asp:ScriptReference Name="Focus.js" Assembly="System.Web" Path="~/Scripts/WebForms/Focus.js" />
                 <asp:ScriptReference Name="WebFormsBundle" />
-               <%--Site Scripts--%>
-
+                <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-        
+
 
         <%--<ajaxToolkit:ToolkitScriptManager ID="ToolkitScriptManager1" runat="server">
             <Scripts>
@@ -68,10 +68,12 @@
 
         <header>
             <div class="content-wrapper">
-                <div class="float-left">
+                <div class="float-left"> <%--style="position: relative; margin-bottom: -50px; margin-left: -50px;"--%>
                     <p class="site-title">
-                        <a runat="server" href="~/">
-                            <img src="/Images/AT-logga.png" width="219px" height="109px" /></a>
+                        <a runat="server" href="~/Default.aspx">
+                            <%--<img src="/Images/AT-logga.png" width="219px" height="109px" />--%>
+                            <img src="/Images/Gecko-logo.png" />
+                        </a>
                     </p>
                 </div>
                 <div class="float-right">
@@ -80,7 +82,7 @@
                             <AnonymousTemplate>
                                 <ul>
                                     <li><a id="registerLink" runat="server" href="~/Account/Register">Register</a></li>
-                                    <li><a id="loginLink" runat="server" href="~/Account/Login">Log in</a></li>
+                                    <li><a id="loginLink" runat="server" href="~/Account/Login">Login</a></li>
                                 </ul>
                             </AnonymousTemplate>
                             <LoggedInTemplate>
@@ -88,13 +90,13 @@
                                     Hello, <a runat="server" class="username" href="~/Account/Manage" title="Manage your account">
                                         <asp:LoginName runat="server" CssClass="username" />
                                     </a>!
-                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Log off" LogoutPageUrl="~/" />
+                                <asp:LoginStatus runat="server" LogoutAction="Redirect" LogoutText="Logout" LogoutPageUrl="~/" />
                                 </p>
                             </LoggedInTemplate>
                         </asp:LoginView>
                     </section>
 
-                  <%--  <div class="navbar">
+                    <%--  <div class="navbar">
                         <div class="navbar-inner">
                             <div class="container">
                                 <ul id="nav">
@@ -111,26 +113,28 @@
                         </div>
                     </div>--%>
 
-                    <nav>
+                    <%--<nav>
                         <ul id="menu">
                             <li><a runat="server" href="~/">Home</a></li>
                             <li><a runat="server" href="~/Contributors/EventCreate">Create event</a></li>
                             <li><a runat="server" href="~/EventDetails">View events</a></li>
-                            <%--<li><a runat="server" href="~/SitePage">SitePage.aspx</a></li>--%>
-                            <%--<li><a runat="server" href="~/SiteSettings">Site settings</a></li>--%>
-                            <%--<li><a runat="server" href="~/About">About</a></li>
+                            <li><a runat="server" href="~/SitePage">SitePage.aspx</a></li>
+                            <li><a runat="server" href="~/SiteSettings">Site settings</a></li>
+                            <li><a runat="server" href="~/About">About</a></li>
                         <li><a runat="server" href="~/Contact">Contact</a></li>
-                        <li><a runat="server" href="~/Admin/PageSettings.aspx">Settings</a></li>--%>
+                        <li><a runat="server" href="~/Admin/PageSettings.aspx">Settings</a></li>
                         </ul>
-                    </nav>
+                    </nav>--%>
                 </div>
+                <aspNavigation:SiteNavigationBar ID="SiteNavigationBar" runat="server" />
             </div>
         </header>
 
         <div id="body">
-            <section id="Site-navigation-container">
+
+            <%--<section id="Site-navigation-container">
                 <aspNavigation:SiteNavigation runat="server" />
-            </section>
+            </section>--%>
             <asp:ContentPlaceHolder runat="server" ID="FeaturedContent" />
             <section class="content-wrapper main-content clear-fix content-box">
                 <asp:ContentPlaceHolder runat="server" ID="MainContent" />
@@ -139,7 +143,7 @@
         <footer>
             <div class="content-wrapper">
                 <div class="float-left">
-                    <p>&copy; <%: DateTime.Now.Year %> - Attraktiva Toarp</p>
+                    <p>&copy; <%: DateTime.Now.Year %> - The Lonely Gecko Team</p>
                 </div>
             </div>
         </footer>

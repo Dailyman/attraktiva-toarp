@@ -54,9 +54,9 @@
                 </div>
                 <h3>Shortcuts</h3>
                 <ul>
-                    <li><a id="A1" runat="server" href="~/">Home</a></li>
-                    <li><a id="A2" runat="server" href="~/EventDetails">Events</a></li>
-                    <li><a id="A3" runat="server" href="~/SiteSettings">Settings</a></li>
+                    <li><a id="HomeLink" runat="server" href="~/">Home</a></li>
+                    <li><a id="EventsLink" runat="server" href="~/EventDetails.aspx?">Events</a></li>
+                    <li><a id="SettingsLink" runat="server" href="~/Admin/PageSettings.aspx?">Page settings</a></li>
                 </ul>
             </div>
         </td>

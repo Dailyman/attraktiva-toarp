@@ -15,97 +15,116 @@ namespace EventHandlingSystem
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            LabelErrorAsso.Text = "";
-            LabelErrorSubCat.Text = "";
-            
-            //RegEx för att kontrollera att rätt tidsformat används i TimeTextboxarna.
-            RegExpValStartTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-            RegExpValEndTime.ValidationExpression = @"^([01]?[0-9]|2[0-3]):[0-5][0-9]$";
-
-            // Lägger kalender ikonen i våg med DateTextBoxarna.
-            ImageButtonStartDate.Style.Add("vertical-align", "top");
-            ImageButtonEndDate.Style.Add("vertical-align", "top");
-            
-            
             if (!IsPostBack)
             {
-                var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
-                if (currentUser != null)
+                if (CheckUsersPermissionForEvent())
                 {
-                    foreach (var association in currentUser.associations.OrderBy(a => a.Name))
-                    {
-                        DropDownAssociation.Items.Add(new ListItem
-                        {
-                            Text = association.Name,
-                            Value = association.Id.ToString()
-                        });
-                    }
-                    foreach (
-                        var subCat in
-                            SubCategoryDB.GetAllSubCategoriesByAssociations(currentUser.associations.ToArray())
-                                .OrderBy(s => s.Name))
-                    {
-                        DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
-                    }
-                }
-
-                //Gömmer kalendrarna från början.
-                CalendarEndDate.Visible = false;
-                CalendarStartDate.Visible = false;
-
-                //Fyller formuläret med evenemangets nuvarande information.
-                if (GetEventToUpdate() != null)
-                {
-                    events @event = GetEventToUpdate();
-
-                    TxtBoxTitle.Text = @event.Title;
-                    TxtBoxDescription.Text = @event.Description;
-                    TxtBoxSummary.Text = @event.Summary;
-                    TxtBoxOther.Text = @event.Other;
-                    TxtBoxLocation.Text = @event.Location;
-                    TxtBoxImageUrl.Text = @event.ImageUrl;
-                    TxtBoxEventUrl.Text = @event.EventUrl;
-                    ChkBoxDayEvent.Checked = @event.DayEvent;
-                    TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
-                    TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
-                    TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
-                    TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
-
-                    TxtBoxStartTime.Enabled = !@event.DayEvent;
-                    TxtBoxStartTime.Visible = !@event.DayEvent;
-                    TxtBoxEndTime.Enabled = !@event.DayEvent;
-                    TxtBoxEndTime.Visible = !@event.DayEvent;
-
-
-                    TxtBoxTargetGroup.Text = @event.TargetGroup;
-                    CalendarStartDate.SelectedDate = @event.StartDate;
-                    CalendarEndDate.SelectedDate = @event.EndDate;
-                    TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
-
-                    foreach (var asso in @event.associations.OrderBy(a => a.Name))
-                    {
-                        ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));
-                    }
-                    AddNoneToListBoxAssoIfListBoxIsEmpty();
-
-                    foreach (var subC in @event.subcategories.OrderBy(sC => sC.Name))
-                    {
-                        ListBoxSubCategories.Items.Add(new ListItem(subC.Name, subC.Id.ToString()));
-                    }
-                    AddNoneToListBoxSubCateIfListBoxIsEmpty();
+                    AddEventInControls();
                 }
                 else
-                {
-                    //Om man inte har ett evenemang att hämta information från 
-                    BtnUpdateEvent.Enabled = false;
-                    BtnUpdateEvent.Visible = false;
-                    BtnDeleteEvent.Enabled = false;
-                    BtnDeleteEvent.Visible = false;
+                { 
+                    // If the User does not have permission to edit the event show error message and hide controls
+                    ErrorMessage.Text = "You have no permission to edit this event! <br/> You must have contributor status and permission for any of the associations connected to this event to be able to make any changes.";
+                    PanelMain.Visible = false;
                 }
             }
         }
         #endregion
-        
+
+        #region Check if User have permission to edit the Event
+
+        private bool CheckUsersPermissionForEvent()
+        {
+            events eventToEdit = GetEventToUpdate();
+
+            var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+            if (currentUser != null)
+            {
+                return currentUser.associations.Any(permission => permission.events.Contains(eventToEdit));
+            }
+            return false;
+        }
+
+        #endregion
+
+        #region Add Event details in controls for editing
+
+        private void AddEventInControls()
+        {
+            var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+            if (currentUser != null)
+            {
+                foreach (var association in currentUser.associations.OrderBy(a => a.Name))
+                {
+                    DropDownAssociation.Items.Add(new ListItem
+                    {
+                        Text = association.Name,
+                        Value = association.Id.ToString()
+                    });
+                }
+                foreach (
+                    var subCat in
+                        SubCategoryDB.GetAllSubCategoriesByAssociations(currentUser.associations.ToArray())
+                            .OrderBy(s => s.Name))
+                {
+                    DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
+                }
+            }
+
+            //Gömmer kalendrarna från början.
+            CalendarEndDate.Visible = false;
+            CalendarStartDate.Visible = false;
+
+            //Fyller formuläret med evenemangets nuvarande information.
+            if (GetEventToUpdate() != null)
+            {
+                events @event = GetEventToUpdate();
+
+                TxtBoxTitle.Text = @event.Title;
+                TxtBoxDescription.Text = @event.Description;
+                TxtBoxSummary.Text = @event.Summary;
+                TxtBoxOther.Text = @event.Other;
+                TxtBoxLocation.Text = @event.Location;
+                TxtBoxImageUrl.Text = @event.ImageUrl;
+                TxtBoxEventUrl.Text = @event.EventUrl;
+                ChkBoxDayEvent.Checked = @event.DayEvent;
+                TxtBoxStartDate.Text = @event.StartDate.ToString("yyyy-MM-dd");
+                TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
+                TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
+                TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
+
+                ToggleCheckBoxesIfWholeDayEvent();
+
+                TxtBoxTargetGroup.Text = @event.TargetGroup;
+                CalendarStartDate.SelectedDate = @event.StartDate;
+                CalendarEndDate.SelectedDate = @event.EndDate;
+                TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
+
+                foreach (var asso in @event.associations.OrderBy(a => a.Name))
+                {
+                    ListBoxAssociations.Items.Add(new ListItem(asso.Name, asso.Id.ToString()));
+                }
+                AddNoneToListBoxAssoIfListBoxIsEmpty();
+
+                foreach (var subC in @event.subcategories.OrderBy(sC => sC.Name))
+                {
+                    ListBoxSubCategories.Items.Add(new ListItem(subC.Name, subC.Id.ToString()));
+                }
+                AddNoneToListBoxSubCateIfListBoxIsEmpty();
+            }
+            else
+            {
+                //Om man inte har ett evenemang att hämta information från 
+                ErrorMessage.Text = "The event was not found!";
+
+                //BtnUpdateEvent.Enabled = false;
+                //BtnUpdateEvent.Visible = false;
+                //BtnDeleteEvent.Enabled = false;
+                //BtnDeleteEvent.Visible = false;
+            }
+        }
+
+        #endregion
 
         private void AddNoneToListBoxAssoIfListBoxIsEmpty()
         {
@@ -164,13 +183,18 @@ namespace EventHandlingSystem
 
         #region ChkBoxDayEvent_OnCheckedChanged
 
-        protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
+        private void ToggleCheckBoxesIfWholeDayEvent()
         {
-            //Gömmer tidsTextboxarna om man checkar heldagscheckboxen.
+            //Gömmer tidsTextboxarna om man checkar heldags checkboxen.
             TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Visible = !ChkBoxDayEvent.Checked;
+        }
+
+        protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
+        {
+            ToggleCheckBoxesIfWholeDayEvent();
         }
 
         #endregion
@@ -264,8 +288,7 @@ namespace EventHandlingSystem
         }
 
         #endregion
-
-
+        
         #region Button UpdateEvent
         protected void BtnUpdateEvent_OnClick(object sender, EventArgs e)
         {
@@ -328,7 +351,7 @@ namespace EventHandlingSystem
                     StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
                     EndDate =
                         (ChkBoxDayEvent.Checked)
-                            ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0))
+                            ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 59))
                             : end,
                     TargetGroup = TxtBoxTargetGroup.Text,
                     ApproximateAttendees =

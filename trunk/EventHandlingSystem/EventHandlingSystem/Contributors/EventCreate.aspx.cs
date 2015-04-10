@@ -99,11 +99,15 @@ namespace EventHandlingSystem
                         TxtBoxStartTime.Text = @event.StartDate.ToString("HH:mm");
                         TxtBoxEndDate.Text = @event.EndDate.ToString("yyyy-MM-dd");
                         TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
+
+                        ToggleCheckBoxesIfWholeDayEvent();
+                        
                         TxtBoxTargetGroup.Text = @event.TargetGroup;
                         CalendarStartDate.SelectedDate = @event.StartDate;
                         CalendarEndDate.SelectedDate = @event.EndDate;
                         TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
 
+                        
 
                         foreach (var asso in @event.associations.OrderBy(a => a.Name))
                         {
@@ -160,13 +164,18 @@ namespace EventHandlingSystem
 
         #region ChkBoxDayEvent_OnCheckedChanged
 
-        protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
+        private void ToggleCheckBoxesIfWholeDayEvent()
         {
             //Gömmer tidsTexboxarna om man checkar heldags checkboxen.
             TxtBoxStartTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxStartTime.Visible = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Enabled = !ChkBoxDayEvent.Checked;
             TxtBoxEndTime.Visible = !ChkBoxDayEvent.Checked;
+        }
+
+        protected void ChkBoxDayEvent_OnCheckedChanged(object sender, EventArgs e)
+        {
+            ToggleCheckBoxesIfWholeDayEvent();
         }
 
         #endregion
@@ -317,7 +326,7 @@ namespace EventHandlingSystem
                 DayEvent = ChkBoxDayEvent.Checked,
                 StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
                 EndDate =
-                    (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 0)) : end,
+                    (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 59)) : end,
                 TargetGroup = TxtBoxTargetGroup.Text,
                 ApproximateAttendees =
                     !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)

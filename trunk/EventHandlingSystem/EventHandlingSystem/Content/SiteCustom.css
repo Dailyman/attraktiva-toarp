@@ -76,23 +76,24 @@ select
 /*-------Start Header Styles-------*/
 #login a
 {
-    color: #ffffff;
+    color: #000
     background-color: #007399;
     margin-left: 10px;
     margin-right: 3px;
-    padding: 3px 3px;
+    padding: 3px 6px;
     text-decoration: none;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    -webkit-box-shadow: #ffffff 0px 0px 5px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    /*-webkit-box-shadow: #ffffff 0px 0px 5px;
     -moz-box-shadow: #ffffff 0px 0px 5px;
-    box-shadow: #ffffff 0px 0px 5px;
+    box-shadow: #ffffff 0px 0px 5px;*/
 }
 
     #login a:hover
     {
         background-color: #00aacc;
+        color: #ffffff;
     }
 
 ul#menu li a
