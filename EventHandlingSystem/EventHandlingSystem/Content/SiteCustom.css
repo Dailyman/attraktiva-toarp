@@ -76,7 +76,7 @@ select
 /*-------Start Header Styles-------*/
 #login a
 {
-    color: #000
+    color: #000;
     background-color: #007399;
     margin-left: 10px;
     margin-right: 3px;
@@ -431,7 +431,7 @@ border-bottom-left-radius: 6px;*/
         border-radius: 2px;
         text-indent: 0px;
         border: 1px solid #4c4c4d;
-        display: inline-block;
+        display: inline;
         color: #050505;
         font-family: Arial;
         /* font-size: 15px; */

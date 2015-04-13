@@ -195,7 +195,7 @@ namespace EventHandlingSystem
         private string GetHtmlForEventCellsByEventList(IEnumerable<events> eList, DateTime date)
         {
             string htmlEventCells = "";
-            foreach (var ev in eList)
+            foreach (var ev in eList.OrderBy(e => e.DayEvent).ThenBy(e => e.StartDate))
             {
                 if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
                 {
@@ -216,8 +216,9 @@ namespace EventHandlingSystem
                     //                    "<br/><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br/> " + WriteAllAssociations(ev.associations) + 
                     //                    "</div>" +
                     //                  "</div>";
+                    
                     htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\">" +
-                                        "<div id=\"" + ev.Id + "\" class=\"event-in-cell\" >" + ev.Title + "</div>" +
+                                        "<div id=\"" + ev.Id + "\" class=\"event-in-cell "+(!ev.DayEvent ? "one-day" : "multiple-days")+"\" >" + ev.Title + "</div>" +
                                       "</a>" +
                                       "<div id=\"" + ev.Id + "\" class=\"event-pop-up\">" +
                                         "<div class=\"arrow-up\"></div>" +

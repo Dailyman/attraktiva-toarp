@@ -133,6 +133,19 @@
         font-size: 14px;
     }
 
+    .one-day {
+        color: royalblue !important;
+        background-color: transparent !important;
+    }
+
+    .multiple-days {
+        
+    }
+
+    .event-hover {
+        background-color: rgb(230, 230, 230) !important;
+    }
+
     
 
     html > body .event-pop-up {
@@ -231,9 +244,17 @@
         $(".event-in-cell").hover(function () {
             $("#" + $(this).attr("id") + ".event-pop-up:first").stop(true, true).fadeIn(200);
             //alert("over...");
+
+            //$("#" + $(this).attr("id")).toggleClass("event-hover");
+            $("[id=\"" + $(this).attr("id") + "\"]" + "[class~=\"event-in-cell\"]").toggleClass("event-hover");
+            //alert("[id=\"" + $(this).attr("id") + "\"]");
+
         }, function () {
             $("#" + $(this).attr("id") + ".event-pop-up:first").stop(true, true).fadeOut(100);
             //alert("...and out");
+
+            $("[id=\"" + $(this).attr("id") + "\"]" + "[class~=\"event-in-cell\"]").toggleClass("event-hover");
+
         });
 
     });
