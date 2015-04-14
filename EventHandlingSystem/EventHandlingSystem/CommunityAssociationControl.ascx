@@ -84,7 +84,7 @@
                 <asp:Label ID="LabelCommSave" runat="server" Text=""></asp:Label>
             </div><br />
 
-            <div class="view-community-details-association">
+            <div id="assoListboxView" class="view-community-details-association" runat="server">
                 <b><asp:Label ID="LabelAssoInComm" runat="server" Text=""></asp:Label></b>
                 <br /><br />
                 <asp:ListBox ID="ListBoxAsso" OnSelectedIndexChanged="ListBoxAsso_OnSelectedIndexChanged" 

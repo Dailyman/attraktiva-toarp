@@ -469,8 +469,12 @@ namespace EventHandlingSystem
                 ShowCommunityDetails();
 
                 //Visa lista med föreningar
+                assoListboxView.Visible = true;
                 PopulateAssociationListBox();
+
+                //Rensa överflödiga vyer
                 MultiViewAssoDetails.ActiveViewIndex = -1;
+                MultiViewManageMembers.ActiveViewIndex = -1;
             }
             else
             {
@@ -551,6 +555,10 @@ namespace EventHandlingSystem
                     LabelCommSave.Text = TextBoxCommName.Text + " has been updated.";
                     LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
                     PopulateCommunityDropDownList(DropDownListCommunity);
+                    //ListBoxAsso.Visible = false;
+                    //LabelAssoInComm.Visible = false;
+                    //ButtonCreateNewAsso.Visible = false;
+                    assoListboxView.Visible = false; 
                 }
                 else
                 {
@@ -570,6 +578,7 @@ namespace EventHandlingSystem
         protected void ButtonCreateNewComm_OnClick(object sender, EventArgs e)
         {
             MultiViewCommCreate.ActiveViewIndex = 0;
+            MultiViewCommDetails.ActiveViewIndex = -1;
         }
 
         // För att skapa en ny community
@@ -1086,6 +1095,7 @@ namespace EventHandlingSystem
                 {
                     LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated!";
                     LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    MultiViewManageMembers.ActiveViewIndex = -1;
                 }
                 else
                 {
