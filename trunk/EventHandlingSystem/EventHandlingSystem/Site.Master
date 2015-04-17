@@ -9,7 +9,7 @@
 <html lang="en">
 <head runat="server">
     <meta charset="utf-8" />
-    <title><%: Page.Title %> - Attraktiva Toarp</title>
+    <title><%: Page.Title %> - The Lonely Gecko Team</title>
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
         <%--<%: Scripts.Render("~/Scripts/bootstrap.js") %>--%>

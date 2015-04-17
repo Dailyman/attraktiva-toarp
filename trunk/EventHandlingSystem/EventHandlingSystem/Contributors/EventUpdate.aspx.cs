@@ -17,18 +17,30 @@ namespace EventHandlingSystem
         {
             if (!IsPostBack)
             {
-                if (CheckUsersPermissionForEvent())
+                if (TryStoringEventIdFromQueryString())
                 {
-                    AddEventInControls();
+                    if (CheckUsersPermissionForEvent())
+                    {
+                        AddEventInControls();
+                    }
+                    else
+                    {
+                        // If the User does not have permission to edit the event show error message and hide controls
+                        ErrorMessage.Text =
+                            "You have no permission to edit this event! <br/> You must have contributor status and permission for any of the associations connected to this event to be able to make any changes. <br/>";
+                        PanelMain.Visible = false;
+                    }
                 }
                 else
-                { 
-                    // If the User does not have permission to edit the event show error message and hide controls
-                    ErrorMessage.Text = "You have no permission to edit this event! <br/> You must have contributor status and permission for any of the associations connected to this event to be able to make any changes.";
+                {
+                    // If the EventId could not be stored, show error message and hide controls
+                    ErrorMessage.Text =
+                        "The event Id was not found! <br/>";
                     PanelMain.Visible = false;
                 }
             }
         }
+
         #endregion
 
         #region Check if User have permission to edit the Event
@@ -38,7 +50,7 @@ namespace EventHandlingSystem
             events eventToEdit = GetEventToUpdate();
 
             var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
-            if (currentUser != null)
+            if (currentUser != null && eventToEdit != null)
             {
                 return currentUser.associations.Any(permission => permission.events.Contains(eventToEdit));
             }
@@ -162,19 +174,35 @@ namespace EventHandlingSystem
         }
 
 
-        #region GetEventToUpdate
+        #region Set/Get Event(Id) To Update
 
-        //Hämtar värdet från Id i URL och hämtar sedan evenemanget med samma Id.
-        public events GetEventToUpdate()
+        private bool TryStoringEventIdFromQueryString()
         {
             int id;
             if (!string.IsNullOrWhiteSpace(Request.QueryString["Id"]) && int.TryParse(Request.QueryString["Id"], out id))
             {
-                //Om denna returneras...
-                return EventDB.GetEventById(id);
+                if (EventDB.GetEventById(id) != null)
+                {
+                    // Store the eventID so that only the event that was loaded with the page is the same event that is beeing updated
+                    CurrentEventId.Value = id.ToString();
+                    return true;
+                }
+
+                // Event with that Id was not found and will not be stored
+                return false;
             }
 
-            //...kommer denna ej returneras
+            // The EventId from querystring was not in the right format or was missing
+            return false;
+        }
+       
+        public events GetEventToUpdate()
+        {
+            int id;
+            if (!String.IsNullOrEmpty(CurrentEventId.Value ) && int.TryParse(CurrentEventId.Value, out id))
+            {
+                return EventDB.GetEventById(id);
+            }
             return null;
         }
 
@@ -292,95 +320,104 @@ namespace EventHandlingSystem
         #region Button UpdateEvent
         protected void BtnUpdateEvent_OnClick(object sender, EventArgs e)
         {
-            //Gör om texterna i textboxarna Start- och EndDate till typen DateTime, som används vid skapandet av evenemanget.
-            var start = Convert.ToDateTime(TxtBoxStartDate.Text)
-                .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
-                .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
-            var end = Convert.ToDateTime(TxtBoxEndDate.Text)
-                .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
-                .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
-
-            // Hämtar valda Associations i ListBox och lägger dem i en List<associations>.
-            var associationsList = new List<associations>();
-            foreach (ListItem item in ListBoxAssociations.Items)
+            if (CheckUsersPermissionForEvent())
             {
-                int aId;
-                if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out aId))
+                //Gör om texterna i textboxarna Start- och EndDate till typen DateTime, som används vid skapandet av evenemanget.
+                var start = Convert.ToDateTime(TxtBoxStartDate.Text)
+                    .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
+                    .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
+                var end = Convert.ToDateTime(TxtBoxEndDate.Text)
+                    .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
+                    .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
+
+                // Hämtar valda Associations i ListBox och lägger dem i en List<associations>.
+                var associationsList = new List<associations>();
+                foreach (ListItem item in ListBoxAssociations.Items)
                 {
-                    if (AssociationDB.GetAssociationById(aId) != null)
+                    int aId;
+                    if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out aId))
                     {
-                        associationsList.Add(AssociationDB.GetAssociationById(aId));
+                        if (AssociationDB.GetAssociationById(aId) != null)
+                        {
+                            associationsList.Add(AssociationDB.GetAssociationById(aId));
+                        }
+                    }
+                }
+
+                // Hämtar valda SubCategories i ListBox och lägger dem i en List<subcategories>.
+                var subCategoriesList = new List<subcategories>();
+                foreach (ListItem item in ListBoxSubCategories.Items)
+                {
+                    int subCatId;
+                    if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out subCatId))
+                    {
+                        if (SubCategoryDB.GetSubCategoryById(subCatId) != null)
+                        {
+                            subCategoriesList.Add(SubCategoryDB.GetSubCategoryById(subCatId));
+                        }
+                    }
+                }
+
+
+                //Hämtar evenemanget som ska uppdateras.
+                events ev = GetEventToUpdate();
+
+                if (ev != null)
+                {
+                    int assoId;
+
+                    //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet.
+                    var evToUpdate = new events
+                    {
+                        Id = ev.Id,
+                        Title = TxtBoxTitle.Text,
+                        Description = TxtBoxDescription.Text,
+                        Summary = TxtBoxSummary.Text,
+                        Other = TxtBoxOther.Text,
+                        Location = TxtBoxLocation.Text,
+                        ImageUrl = TxtBoxImageUrl.Text,
+                        EventUrl = TxtBoxEventUrl.Text,
+                        DayEvent = ChkBoxDayEvent.Checked,
+                        StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
+                        EndDate =
+                            (ChkBoxDayEvent.Checked)
+                                ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 59))
+                                : end,
+                        TargetGroup = TxtBoxTargetGroup.Text,
+                        ApproximateAttendees =
+                            !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
+                                ? int.Parse(TxtBoxApproximateAttendees.Text)
+                                : 0,
+                        associations = associationsList,
+                        subcategories = subCategoriesList,
+                        CreatedBy = HttpContext.Current.User.Identity.Name,
+                        UpdatedBy = HttpContext.Current.User.Identity.Name
+                    };
+
+
+                    //Ger LabelMessage en större font-storlek.
+                    LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+                    if (EventDB.UpdateEvent(evToUpdate) != 0)
+                    {
+                        //Response.Redirect(
+                        //    HttpContext.Current.Request.Url.AbsoluteUri.Replace(
+                        //        HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id,
+                        //    false);
+                        //Server.Transfer(Request.Url.AbsolutePath);
+                        LabelMessage.ForeColor = Color.CornflowerBlue;
+                        LabelMessage.Text = "Event was updated";
+                    }
+                    else
+                    {
+                        LabelMessage.ForeColor = Color.Red;
+                        LabelMessage.Text = "Event couldn't be updated";
                     }
                 }
             }
-
-            // Hämtar valda SubCategories i ListBox och lägger dem i en List<subcategories>.
-            var subCategoriesList = new List<subcategories>();
-            foreach (ListItem item in ListBoxSubCategories.Items)
+            else
             {
-                int subCatId;
-                if (!String.IsNullOrWhiteSpace(item.Value) && int.TryParse(item.Value, out subCatId))
-                {
-                    if (SubCategoryDB.GetSubCategoryById(subCatId) != null)
-                    {
-                        subCategoriesList.Add(SubCategoryDB.GetSubCategoryById(subCatId));
-                    }
-                }
-            }
-
-
-            //Hämtar evenemanget som ska uppdateras.
-            events ev = GetEventToUpdate();
-
-            if (ev != null)
-            {
-                int assoId;
-
-                //Nytt Event Objekt skapas och alla värdena från formuläret läggs in i objektet.
-                var evToUpdate = new events
-                {
-                    Id = ev.Id,
-                    Title = TxtBoxTitle.Text,
-                    Description = TxtBoxDescription.Text,
-                    Summary = TxtBoxSummary.Text,
-                    Other = TxtBoxOther.Text,
-                    Location = TxtBoxLocation.Text,
-                    ImageUrl = TxtBoxImageUrl.Text,
-                    EventUrl = TxtBoxEventUrl.Text,
-                    DayEvent = ChkBoxDayEvent.Checked,
-                    StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
-                    EndDate =
-                        (ChkBoxDayEvent.Checked)
-                            ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 59))
-                            : end,
-                    TargetGroup = TxtBoxTargetGroup.Text,
-                    ApproximateAttendees =
-                        !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
-                            ? int.Parse(TxtBoxApproximateAttendees.Text)
-                            : 0,
-                    associations = associationsList,
-                    subcategories = subCategoriesList,
-                    CreatedBy = HttpContext.Current.User.Identity.Name,
-                    UpdatedBy = HttpContext.Current.User.Identity.Name
-                };
-
-                //Ger LabelMessage en större font-storlek.
-                LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
-                if (EventDB.UpdateEvent(evToUpdate) != 0)
-                {
-                    //Response.Redirect(
-                    //    HttpContext.Current.Request.Url.AbsoluteUri.Replace(
-                    //        HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id,
-                    //    false);
-                    //Server.Transfer(Request.Url.AbsolutePath);
-                    LabelMessage.ForeColor = Color.CornflowerBlue;
-                    LabelMessage.Text = "Event was updated";
-                }
-                else
-                {
-                    LabelMessage.ForeColor = Color.Red;
-                    LabelMessage.Text = "Event couldn't be updated";
-                }
+                LabelMessage.ForeColor = Color.Red;
+                LabelMessage.Text = "You have no permission to edit this event!";
             }
         }
         #endregion
@@ -459,29 +496,37 @@ namespace EventHandlingSystem
         #region Button DeleteEvent
         protected void BtnDeleteEvent_OnClick(object sender, EventArgs e)
         {
-            //Hämtar evenemanget som ska uppdateras.
-            events ev = GetEventToUpdate();
-
-            if (ev != null)
+            if (CheckUsersPermissionForEvent())
             {
-                //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
-                //Onödig kod ta bort och ersätt med css class
-                LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+                //Hämtar evenemanget som ska uppdateras.
+                events ev = GetEventToUpdate();
 
-                if (EventDB.DeleteEvent(ev))
+                if (ev != null)
                 {
-                    LabelMessage.Text = "Event was deleted";
-                    LabelMessage.ForeColor = Color.Green;
-                    Response.Redirect(
-                        HttpContext.Current.Request.Url.AbsoluteUri.Replace(
-                            HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id,
-                        false);
+                    //Ger LabelMessage en större font-storlek som visar om eventet kunde uppdateras eller ej.
+                    //Onödig kod ta bort och ersätt med css class
+                    LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
+
+                    if (EventDB.DeleteEvent(ev))
+                    {
+                        LabelMessage.Text = "Event was deleted";
+                        LabelMessage.ForeColor = Color.Green;
+                        Response.Redirect(
+                            HttpContext.Current.Request.Url.AbsoluteUri.Replace(
+                                HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id,
+                            false);
+                    }
+                    else
+                    {
+                        LabelMessage.Text = "Event couldn't be updated";
+                        LabelMessage.ForeColor = Color.Red;
+                    }
                 }
-                else
-                {
-                    LabelMessage.Text = "Event couldn't be updated";
-                    LabelMessage.ForeColor = Color.Red;
-                }
+            }
+            else
+            {
+                LabelMessage.ForeColor = Color.Red;
+                LabelMessage.Text = "You have no permission to delete this event!";
             }
         }
         #endregion

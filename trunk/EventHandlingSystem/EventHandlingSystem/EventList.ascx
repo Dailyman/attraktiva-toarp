@@ -165,11 +165,11 @@
         <div>
             <span>
                 <b>From</b><br/>
-                <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server"></asp:TextBox>
+                <asp:TextBox CssClass="input-date" ID="TxtStart" TextMode="Date" runat="server" AutoPostBack="True"></asp:TextBox>
                 <asp:CustomValidator ID="CustomValiStartDate" runat="server" ControlToValidate="TxtStart" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiStartDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator></span>
             <span>
                 <b>To</b><br/>
-                <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server"></asp:TextBox>
+                <asp:TextBox CssClass="input-date" ID="TxtEnd" TextMode="Date" runat="server" AutoPostBack="True"></asp:TextBox>
                 <asp:CustomValidator ID="CustomValiEndDate" runat="server" ControlToValidate="TxtEnd" ErrorMessage="Use the right format! (e.g. 2005-06-21)" OnServerValidate="CustomValiEndDate_OnServerValidate" ValidationGroup="ValGroupFilter" Display="Dynamic" SetFocusOnError="True"></asp:CustomValidator></span>
             <span>
                 <b>Community</b><br/>
@@ -182,14 +182,14 @@
                 <asp:DropDownList ID="DropDownListCat" runat="server" OnSelectedIndexChanged="DropDownListCat_OnSelectedIndexChanged" AutoPostBack="True"></asp:DropDownList></span>
             <span>
                 <b>Event category</b><br/>
-                <asp:DropDownList ID="DropDownListSubCat" runat="server"></asp:DropDownList></span>
+                <asp:DropDownList ID="DropDownListSubCat" runat="server" AutoPostBack="True"></asp:DropDownList></span>
             <span>
                 <b>Search</b><br/>
-                <asp:TextBox ID="TxtSearch" runat="server" TextMode="Search" CssClass="search-box"></asp:TextBox></span>
+                <asp:TextBox ID="TxtSearch" runat="server" TextMode="Search" CssClass="search-box" AutoPostBack="True"></asp:TextBox></span>
         </div>
-        <span>
+        <%--<span>
             <asp:Button ID="BtnFilter" runat="server" Text="Filter" OnClick="BtnFilter_OnClick" ValidationGroup="ValGroupFilter" />
-        </span>
+        </span>--%>
     </div>
     <p align="center">
             <asp:Label ID="ActionStatus" runat="server" CssClass="Important"></asp:Label>
@@ -266,14 +266,14 @@
             DataNavigateUrlFormatString="Contributors/EventUpdate?id={0}" />
         <%--<asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" />--%>
         <%--<asp:CommandField ButtonType="Image" ShowEditButton="true" EditImageUrl="http://www.smallheathschool.org.uk/images/icons/button_icons/dark/btn_edit.png"/>--%>
-        <asp:TemplateField HeaderText="Delete">
+        <%--<asp:TemplateField HeaderText="Delete">
             <ItemTemplate>
-                <%--<asp:HyperLink ID="HyperLinkViewEvent" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png" NavigateUrl='EventDetails?id=<%# Eval("Id") %>' Target="_blank" ToolTip="View details" runat="server">HyperLink</asp:HyperLink>--%>
-                <%--<asp:LinkButton ID="LinkButtonEditEvent" runat="server" CausesValidation="False" CommandName="Edit" Text='<img src="http://www.smallheathschool.org.uk/images/icons/button_icons/dark/btn_edit.png" border="0" />'></asp:LinkButton>
-                <br/>--%>
-                <asp:LinkButton ID="LinkButtonDeleteEvent" runat="server" CausesValidation="False" CommandName="Delete" Text='<img src="http://www.navicat.com/manual/online_manual/en/navicat/win_manual/img/icon_delete.png" border="0" />' OnClientClick="return confirm('Are you sure you want to delete?');"></asp:LinkButton>
+                <asp:HyperLink ID="HyperLinkViewEvent" ImageUrl="http://www.ric.edu/images/icons/icon_new-tab.png" NavigateUrl='EventDetails?id=<%# Eval("Id") %>' Target="_blank" ToolTip="View details" runat="server">HyperLink</asp:HyperLink>
+                <asp:LinkButton ID="LinkButtonEditEvent" runat="server" CausesValidation="False" CommandName="Edit" Text='<img src="http://www.smallheathschool.org.uk/images/icons/button_icons/dark/btn_edit.png" border="0" />'></asp:LinkButton>
+                <br/>
+                <asp:LinkButton ID="LinkButtonDeleteEvent" runat="server" CausesValidation="False" CommandName="Delete" Text='<img src="http://www.navicat.com/manual/online_manual/en/navicat/win_manual/img/icon_delete.png" border="0" />' OnClientClick="return (confirm('Are you sure you want to DELETE this event?') === confirm('Are you sure that you want to PERMANENTLY delete this event?'));"></asp:LinkButton>
             </ItemTemplate>
-        </asp:TemplateField>
+        </asp:TemplateField>--%>
     </Columns>
 </asp:GridView>
     <%--<asp:Repeater ID="RepeaterEvents2" runat="server">
