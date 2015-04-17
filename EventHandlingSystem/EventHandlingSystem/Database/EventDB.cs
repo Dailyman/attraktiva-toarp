@@ -159,7 +159,18 @@ namespace EventHandlingSystem.Database
 
             if (c != null)
             {
-                resultList = resultList.Where(e => e.communities.Contains(c)).ToList();
+
+                var preResultList = new List<events>(); 
+
+                preResultList.AddRange(resultList.Where(e => e.communities.Contains(c)).ToList());
+
+                List<events> list = resultList;
+                foreach (var ev in c.associations.SelectMany(asso => list.Where(e => e.associations.Contains(asso)).Where(ev => !preResultList.Contains(ev))))
+                {
+                    preResultList.Add(ev);
+                }
+
+                resultList = preResultList;
             }
 
             if (a != null)

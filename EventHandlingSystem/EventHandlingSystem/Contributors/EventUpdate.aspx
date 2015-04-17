@@ -45,6 +45,7 @@
     <br />
     <asp:Label ID="ErrorMessage" runat="server" Text=""></asp:Label>
     <br />
+    <asp:HiddenField ID="CurrentEventId" runat="server" />
     <asp:Panel ID="PanelMain" runat="server">
 
         <h6>* = Required field.</h6>

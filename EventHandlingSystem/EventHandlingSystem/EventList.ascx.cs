@@ -46,6 +46,8 @@ namespace EventHandlingSystem
                     RenderEventList();
                 }
             }
+
+            FilterEventAndRender();
         }
 
         public communities GetCommunityFromQueryStringsAndSelectInDropDown()
@@ -114,12 +116,6 @@ namespace EventHandlingSystem
             return asso;
         }
 
-        protected void Page_PreRender(object sender, EventArgs e)
-        {
-            //GridViewEventList.Visible = GridViewEventList.Items.Count != 0;
-            //LabelNoData.Visible = GridViewEventList.Items.Count == 0;
-        }
-
         // Old rendering methods.
         public List<events> RenderEventList()
         {
@@ -128,7 +124,6 @@ namespace EventHandlingSystem
             GridViewEventList.DataSource = eventList.OrderBy(e => e.StartDate);
             GridViewEventList.DataBind();
             return eventList;
-
         }
         public List<events> RenderEventList(DateTime sDate)
         {
@@ -230,10 +225,7 @@ namespace EventHandlingSystem
 
                 return eventList;
             }
-            else
-            {
                 return RenderEventList();
-            }
 
         }
         public List<events> RenderEventList(associations asso)
@@ -248,11 +240,7 @@ namespace EventHandlingSystem
 
                 return eventList;
             }
-            else
-            {
-                return RenderEventList();
-            }
-
+            return RenderEventList();
         }
         // Still in use ^^^
        
@@ -508,8 +496,9 @@ namespace EventHandlingSystem
 
         protected void GridViewEventList_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
         {
+            // BUG WHEN UPDATING PAGE (F5) AFTER DELETING SOMETHING, WILL DELETE THE NEXT EVENT IN THE LIST WITHOUT WARNING!!!
             int.TryParse(GridViewEventList.Rows[e.RowIndex].Cells[0].Text, out _id);
-
+            
             events eventToDelete = EventDB.GetEventById(_id);
             if (eventToDelete != null)
             {
@@ -522,6 +511,7 @@ namespace EventHandlingSystem
                 ActionStatus.Text = "The selected event could not be found";
             }
             FilterEventAndRender();
+
         }
 
         protected void GridViewEventList_OnRowUpdating(object sender, GridViewUpdateEventArgs e)

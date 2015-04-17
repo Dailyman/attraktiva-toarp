@@ -295,6 +295,7 @@
     <Content Include="Images\top_back_1.jpg" />
     <Content Include="packages.config" />
     <Content Include="Admin\Web.config" />
+    <Content Include="PageSettingsControls\PageManager.ascx" />
     <Content Include="RolesPermissionsControl.ascx" />
     <Content Include="WebPageComponentControl.ascx" />
     <EntityDeploy Include="EHSModel.edmx">
@@ -586,6 +587,13 @@
     </Compile>
     <Compile Include="Admin\PageSettings.aspx.designer.cs">
       <DependentUpon>PageSettings.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="PageSettingsControls\PageManager.ascx.cs">
+      <DependentUpon>PageManager.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="PageSettingsControls\PageManager.ascx.designer.cs">
+      <DependentUpon>PageManager.ascx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RolesPermissionsControl.ascx.cs">
