@@ -118,7 +118,10 @@
                 <span><b>Description: </b><br />
                     <asp:TextBox ID="TextBoxAssoDescript" TextMode="MultiLine" runat="server"></asp:TextBox></span><br /><br />
                 <span><b>Community: </b>
-                    <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"></asp:DropDownList></span><br /><br />
+                    <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"
+                        OnSelectedIndexChanged="DropDownListCommunityInAsso_OnSelectedIndexChanged"
+                    EnableViewState="True"
+                    AutoPostBack="True"></asp:DropDownList></span><br /><br />
                 <span><b>Parent Association: </b>
                     <asp:DropDownList ID="DropDownListParentAsso" runat="server"></asp:DropDownList></span><br /><br />
                 

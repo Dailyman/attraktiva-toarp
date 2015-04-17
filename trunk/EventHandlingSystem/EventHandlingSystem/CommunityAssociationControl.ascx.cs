@@ -207,8 +207,6 @@ namespace EventHandlingSystem
             {
                 ddl.SelectedValue = AssociationDB.GetAssociationById(aId).ParentAssociationId.ToString();
             }
-            
-
         }
 
         //ROBINvvv
@@ -394,8 +392,7 @@ namespace EventHandlingSystem
                     : "") + "&type=A";
             
             HyperLinkLogoAssociation.Target = "_blank";
-            HyperLinkLogoAssociation.ToolTip = "This link goes to the web page of " + a.Name +
-                                               "! o(^O^)o ";
+            HyperLinkLogoAssociation.ToolTip = "This link goes to the web page of " + a.Name + "! o(^O^)o ";
 
             // Visa Community-dropdownlista
             PopulateCommunityDropDownList(DropDownListCommunityInAsso);
@@ -405,6 +402,16 @@ namespace EventHandlingSystem
 
             // Visa ParentAssociation-dropdownlista
             PopulateAssociationInCommunityDropDownList(asso.Id, DropDownListParentAsso);
+
+            ////Om community stämmer överens ska PA inte visa AssoId och subAssos
+            //if((int.Parse(DropDownListCommunityInAsso.SelectedItem.Value) == asso.Communities_Id))
+            //{
+            //    PopulateAssociationInCommunityDropDownList(asso.Id, DropDownListParentAsso);
+            //}
+            //else
+            //{
+            //    PopulateAssociationInCommunityDropDownList(DropDownListParentAsso, DropDownListCommunityInAsso);
+            //}
 
             if (asso.ParentAssociationId == null)
             {
@@ -455,6 +462,7 @@ namespace EventHandlingSystem
 
         #region DropDownLists OnSelectedIndexChanged
 
+        // ddl visar community details för aktuell community
         protected void DropDownListCommunity_OnSelectedIndexChanged(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
@@ -490,6 +498,21 @@ namespace EventHandlingSystem
             LabelCommSave.Text = string.Empty;
         }
 
+        // Valt item i ddl gör en filtrering, PA-ddl visar endast associations i vald (aktuell) community
+        protected void DropDownListCommunityInAsso_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            associations asso = AssociationDB.GetAssociationById(int.Parse(hdfAssoId.Value));
+
+            //Om community stämmer överens ska PA inte visa AssoId och subAssos
+            if ((int.Parse(DropDownListCommunityInAsso.SelectedItem.Value) == asso.Communities_Id))
+            {
+                PopulateAssociationInCommunityDropDownList(asso.Id, DropDownListParentAsso);
+            }
+            else
+            {
+                PopulateAssociationInCommunityDropDownList(DropDownListParentAsso, DropDownListCommunityInAsso);
+            }
+        }
 
         //Associationslistbox för en viss Community - när ett item klickas visas föreningsdetaljerna
         protected void ListBoxAsso_OnSelectedIndexChanged(object sender, EventArgs e)
