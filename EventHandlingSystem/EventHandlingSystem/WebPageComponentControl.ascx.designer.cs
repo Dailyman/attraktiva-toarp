@@ -175,22 +175,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Label lbComponentDetails;
         
         /// <summary>
-        /// RepeaterComponents control.
+        /// LabelActionStatus control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater RepeaterComponents;
+        protected global::System.Web.UI.WebControls.Label LabelActionStatus;
         
         /// <summary>
-        /// ddlAddOrderingNO control.
+        /// GridViewComponentList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList ddlAddOrderingNO;
+        protected global::System.Web.UI.WebControls.GridView GridViewComponentList;
         
         /// <summary>
         /// tbAddOrderingNumber control.
@@ -200,6 +200,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox tbAddOrderingNumber;
+        
+        /// <summary>
+        /// RegularExpressionValidator1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator RegularExpressionValidator1;
         
         /// <summary>
         /// ddlAddComControls control.
