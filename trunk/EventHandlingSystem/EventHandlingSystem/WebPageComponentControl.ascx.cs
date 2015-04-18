@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Web;
 using System.Web.Configuration;
@@ -101,6 +102,14 @@ namespace EventHandlingSystem
             }
         }
 
+        public List<ListItem> GetAllControlsListItems()
+        {
+            return ControlDB.GetAllControls().Select(c => new ListItem
+            {
+                Text = c.Name,
+                Value = c.Id.ToString()
+            }).OrderBy(i => i.Text).ToList();
+        }
 
         #endregion
 
@@ -108,12 +117,40 @@ namespace EventHandlingSystem
         #region Show Methods
 
         // För att visa komponenter
-        protected void ShowComponentsInWebPage(List<components> componentList)
+        protected void ShowComponentsInWebPage()
         {
-            lbComponentDetails.Text = componentList.Count != 0 ? "Components" : "No components in webpage";
+            List<Tuple<int,string, string, int>> componentDataList = new List<Tuple<int,string, string,int>>();
+            int webPageId;
 
-            RepeaterComponents.DataSource = componentList;
-            RepeaterComponents.DataBind();
+            if (int.TryParse(hdnfWebpageId.Value, out webPageId))
+            {
+               List<components> componentList = ComponentDB.GetComponentsByWebPageId(webPageId).
+                OrderBy(c => c.OrderingNumber)
+                    .ThenBy(c => c.controls.Name)
+                    .ToList();
+
+                if (componentList == null || componentList.Count == 0)
+                {
+                    lbComponentDetails.Text = "No components in webpage";
+                }
+                else
+                {
+                    lbComponentDetails.Text = "Components";
+
+                    foreach (var comp in componentList)
+                    {
+                        var tupdata = new Tuple<int,string, string, int>
+                            (comp.Id,comp.OrderingNumber.ToString(), comp.controls.Name, comp.controls_Id);
+                        componentDataList.Add(tupdata);
+                    }
+                }
+            }
+
+            GridViewComponentList.DataSource = componentDataList;
+            GridViewComponentList.DataBind();
+
+            //RepeaterComponents.DataSource = componentList;
+            //RepeaterComponents.DataBind();
         }
 
         #endregion
@@ -156,11 +193,7 @@ namespace EventHandlingSystem
             hdnfWebpageId.Value = currentWp.Id.ToString();
 
             // Visa komponenter i en webpage
-            ShowComponentsInWebPage(
-                ComponentDB.GetComponentsByWebPageId(currentWp.Id)
-                    .OrderBy(c => c.OrderingNumber)
-                    .ThenBy(c => c.controls.Name)
-                    .ToList());
+            ShowComponentsInWebPage();
 
             PopulateDropDownListControls();
         }
@@ -199,11 +232,7 @@ namespace EventHandlingSystem
             hdnfWebpageId.Value = currentWp.Id.ToString();
 
             // Visa komponenter i en webpage
-            ShowComponentsInWebPage(
-                ComponentDB.GetComponentsByWebPageId(currentWp.Id)
-                    .OrderBy(c => c.OrderingNumber)
-                    .ThenBy(c => c.controls.Name)
-                    .ToList());
+            ShowComponentsInWebPage();
 
             PopulateDropDownListControls();
         }
@@ -232,9 +261,25 @@ namespace EventHandlingSystem
         // För att lägga till nya komponenter
         protected void AddControl_OnClick(object sender, EventArgs e)
         {
+            components newComponent = new components();
+            
+            int oNo;
+            newComponent.webpages_Id = int.Parse(hdnfWebpageId.Value);
+            newComponent.OrderingNumber = int.TryParse(tbAddOrderingNumber.Text, out oNo) ? oNo : 1;
+            newComponent.controls_Id = int.Parse(ddlAddComControls.SelectedValue);
 
+            if (ComponentDB.AddComponent(newComponent))
+            {
+                LabelActionStatus.Text = "New component has successfully been added!";
+                LabelActionStatus.ForeColor = Color.CornflowerBlue;
+            }
+            else
+            {
+                LabelActionStatus.Text = "Sorry! New component was not added.";
+                LabelActionStatus.ForeColor = Color.Red;
+            }
+            ShowComponentsInWebPage();
         }
-
 
         #endregion
 
@@ -242,54 +287,133 @@ namespace EventHandlingSystem
         #region Repeater
 
         // För att populera Dropdownlistorna för komponenter
-        protected void RepeaterComponents_OnItemCreated(object sender, RepeaterItemEventArgs e)
-        {
-            // Lägg in databunden lista som redan finns i Repeater
-            List<components> compList = (List<components>) RepeaterComponents.DataSource;
+        //protected void RepeaterComponents_OnItemCreated(object sender, RepeaterItemEventArgs e)
+        //{
+        //    // Lägg in databunden lista som redan finns i Repeater
+        //    List<components> compList = (List<components>) RepeaterComponents.DataSource;
             
-            DropDownList ddlOrderingNo = e.Item.FindControl("ddlOrderingNO") as DropDownList;
-            DropDownList ddlComControl = e.Item.FindControl("ddlComControls") as DropDownList;
+        //    DropDownList ddlOrderingNo = e.Item.FindControl("ddlOrderingNO") as DropDownList;
+        //    DropDownList ddlComControl = e.Item.FindControl("ddlComControls") as DropDownList;
             
-            List<ListItem> orderNo = new List<ListItem>();
-            List<ListItem> controlName = new List<ListItem>();
+        //    List<ListItem> orderNo = new List<ListItem>();
+        //    List<ListItem> controlName = new List<ListItem>();
 
-            if (compList != null)
-            {
-                // Omvandla till listItem för dropdownlist
-                foreach (components comp in compList)
-                {
-                    orderNo.Add(new ListItem
-                    {
-                        Text = comp.OrderingNumber.ToString(),
-                        Value = comp.Id.ToString()
-                    });
+        //    if (compList != null)
+        //    {
+        //        // Omvandla till listItem för dropdownlist
+        //        foreach (components comp in compList)
+        //        {
+        //            orderNo.Add(new ListItem
+        //            {
+        //                Text = comp.OrderingNumber.ToString(),
+        //                Value = comp.Id.ToString()
+        //            });
 
-                    controlName.Add(new ListItem
-                    {
-                        Text = comp.controls.Name,
-                        Value = comp.Id.ToString()
-                    });
-                }
+        //            controlName.Add(new ListItem
+        //            {
+        //                Text = comp.controls.Name,
+        //                Value = comp.Id.ToString()
+        //            });
+        //        }
 
-                // Lägg in item i dropdownlist
-                if (ddlOrderingNo != null && ddlComControl != null)
-                {
-                    foreach (ListItem item in orderNo)
-                    {
-                        ddlOrderingNo.Items.Add(item);
-                    }
+        //        // Lägg in item i dropdownlist
+        //        if (ddlOrderingNo != null && ddlComControl != null)
+        //        {
+        //            foreach (ListItem item in orderNo)
+        //            {
+        //                ddlOrderingNo.Items.Add(item);
+        //            }
 
-                    foreach (ListItem item in controlName)
-                    {
-                        ddlComControl.Items.Add(item);
-                    }
-                }
-            }
-        }
+        //            foreach (ListItem item in controlName)
+        //            {
+        //                ddlComControl.Items.Add(item);
+        //            }
+        //        }
+        //    }
+        //}
 
         #endregion
 
+        protected void GridViewComponentList_OnRowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridViewComponentList.EditIndex = -1;
+            ShowComponentsInWebPage();
+        }
 
-        
+        protected void GridViewComponentList_OnRowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridViewComponentList.EditIndex = e.NewEditIndex;
+            ShowComponentsInWebPage();
+
+            int index = GridViewComponentList.EditIndex;
+            GridViewRow gvrow = GridViewComponentList.Rows[index];
+
+            LinkButton editEventBtn = (LinkButton)gvrow.FindControl("LinkButtonEditEvent");
+            LinkButton cancelEditBtn = (LinkButton)gvrow.FindControl("LinkButtonCancelEdit");
+            LinkButton updateEventBtn = (LinkButton)gvrow.FindControl("LinkButtonUpdateEvent");
+
+            editEventBtn.Visible = !editEventBtn.Visible;
+            cancelEditBtn.Visible = !cancelEditBtn.Visible;
+            updateEventBtn.Visible = !updateEventBtn.Visible;
+        }
+
+        protected void GridViewComponentList_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            int index = GridViewComponentList.EditIndex;
+
+            GridViewRow gvrow = GridViewComponentList.Rows[index];
+
+            int id = int.Parse(GridViewComponentList.Rows[e.RowIndex].Cells[0].Text);
+            int oNo = int.Parse(((TextBox)gvrow.Cells[1].Controls[1]).Text);
+            int controlId = int.Parse(((DropDownList)gvrow.Cells[2].Controls[1]).SelectedValue);
+
+            components compToUpdate = ComponentDB.GetComponentById(id);
+            compToUpdate.OrderingNumber = oNo;
+            compToUpdate.controls_Id = controlId;
+
+            if (ComponentDB.UpdateComponent(compToUpdate) > 0)
+            {
+                LabelActionStatus.Text = string.Format("The {0} component was updated SUCCESSFULLY!!!! v~(^3^)V",
+                    compToUpdate.controls.Name);
+                LabelActionStatus.ForeColor = Color.CornflowerBlue;
+                LabelActionStatus.BackColor = ColorTranslator.FromHtml("#217ebb");
+            }
+            else
+            {
+                LabelActionStatus.Text = string.Format("The {0} component was not updated. q(>3<)p",
+                    compToUpdate.controls.Name);
+                LabelActionStatus.ForeColor = Color.Red;
+            }
+
+            GridViewComponentList.EditIndex = -1;
+            ShowComponentsInWebPage();
+        }
+
+        protected void GridViewComponentList_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
+        {
+            
+        }
+
+        protected void GridViewComponentList_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int id = int.Parse(GridViewComponentList.Rows[e.RowIndex].Cells[0].Text);
+
+            if (ComponentDB.GetComponentById(id) != null )
+            {
+                if (ComponentDB.DeleteComponent(ComponentDB.GetComponentById(id)))
+                {
+                    LabelActionStatus.Text = string.Format("Congrats! The component was deleted successfully.");
+                    LabelActionStatus.ForeColor = Color.CornflowerBlue;
+                }
+                else
+                {
+                    LabelActionStatus.Text = string.Format("Component could not be deleted. Please try again.");
+                    LabelActionStatus.ForeColor = Color.Red;
+                }
+            }
+            GridViewComponentList.EditIndex = -1;
+            ShowComponentsInWebPage();
+
+        }
     }
 }
