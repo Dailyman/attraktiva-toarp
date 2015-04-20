@@ -28,17 +28,29 @@
         {
             width: auto;
         }
-        .delete-mode-link{
-            color: #000 !important;
-        }
-        .delete-mode-link:hover{
+        .edit-link {
+    color: #000 !important;
+}
+.edit-link:hover {
+    color: cornflowerblue !important;
+}
+    .delete-mode-link
+    {
+        color: #000 !important;
+    }
+
+        .delete-mode-link:hover
+        {
             color: #FF0000 !important;
         }
 
-        .edit-mode-link {
-            color: #FFF !important;
-        }
-        .edit-mode-link:hover {
+    .edit-mode-link
+    {
+        color: #FFF !important;
+    }
+
+        .edit-mode-link:hover
+        {
             color: #000 !important;
         }
 
@@ -103,7 +115,7 @@
         <asp:BoundField DataField="LastPasswordChangedDate" HeaderText="LastPasswordChangedDate" ReadOnly="true" />--%>
         <asp:TemplateField>
             <ItemTemplate>
-                <asp:LinkButton ID="LinkButtonEditEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit"></asp:LinkButton>
+                <asp:LinkButton ID="LinkButtonEditEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="edit-link"></asp:LinkButton>
                 <asp:LinkButton ID="LinkButtonUpdateEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Update" Text="Update" Visible="False" CssClass="edit-mode-link" />
                 <asp:LinkButton ID="LinkButtonCancelEdit" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" Visible="False" CssClass="edit-mode-link" />
                 <asp:LinkButton ID="LinkButtonDeleteEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure you want to delete this user?');" CssClass="delete-mode-link"></asp:LinkButton>

@@ -82,7 +82,7 @@ namespace EventHandlingSystem.Database
 
 
         // UPDATE
-        public static int UpdateComponent(controls c)
+        public static int UpdateControl(controls c)
         {
             controls controlsToUpdate = GetControlsById(c.Id);
 
@@ -131,6 +131,7 @@ namespace EventHandlingSystem.Database
                 }
                 return affectedRows = 0;
             }
+            Context.Entry(controlsToUpdate).Reload();
             return affectedRows;
         }
 

@@ -13,14 +13,43 @@ namespace EventHandlingSystem
 {
     public partial class Calendar : System.Web.UI.UserControl
     {
+        public string CommunityId { get; set; }
+        public string AssociationId { get; set; }
+        public string DisplayDate { get; set; }
+
+        public Calendar()
+        {
+            this.CommunityId = "";
+            this.AssociationId = "";
+            this.DisplayDate = "";
+        }
+
+        public Calendar(string comm,  string asso, string showDate)
+        {
+            this.CommunityId = comm;
+            this.AssociationId = asso;
+            this.DisplayDate = showDate;
+        }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                hdnDate.Value = DateTime.Now.ToString(); //("yyyy-MM");
-                RenderCalendar(DateTime.Now);
+                DateTime monthToDisplay;
+                if (DateTime.TryParse(DisplayDate, out monthToDisplay))
+                {
+                    hdnDate.Value = monthToDisplay.ToString();
+                    RenderCalendar(monthToDisplay);
+                }
+                else
+                {
+                    hdnDate.Value = DateTime.Now.ToString();
+                    RenderCalendar(DateTime.Now);
+                }
             }
+
+
         }
         
         public void RenderCalendar(DateTime date)
@@ -138,7 +167,7 @@ namespace EventHandlingSystem
             return "";
         }
         
-        //Metod som bygger upp en div, kollar först datumet har några events
+        // Filtrerar events om Kalendern finns på en Comm eller Asso sida.
         public string BuildEventInCalendarCell(DateTime date)
         {
             string divs = ""; 
@@ -192,6 +221,7 @@ namespace EventHandlingSystem
             return divs;
         }
 
+        // Metod som bygger upp html-kod, kollar först om datumet har några events
         private string GetHtmlForEventCellsByEventList(IEnumerable<events> eList, DateTime date)
         {
             string htmlEventCells = "";

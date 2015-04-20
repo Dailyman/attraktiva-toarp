@@ -264,6 +264,7 @@
     <h1 style="display: inline; vertical-align: middle;">Calendar</h1>
     <input type="button" id="Toggle-calendar-btn" class="toggle-btn" value="-" />
     <br />
+    <asp:Label ID="LabelActionStatus" runat="server" Text=""></asp:Label>
     <div id="Calendar">
         <asp:HiddenField ID="hdnDate" runat="server"></asp:HiddenField>
         <asp:Button ID="btnBackArrow" runat="server" Text=" < " OnClick="btnBackArrow_OnClick" />

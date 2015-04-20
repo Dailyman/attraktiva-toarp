@@ -102,13 +102,14 @@ namespace EventHandlingSystem
             LinkButton editEventBtn = (LinkButton)gvrow.FindControl("LinkButtonEditEvent");
             LinkButton cancelEditBtn = (LinkButton)gvrow.FindControl("LinkButtonCancelEdit");
             LinkButton updateEventBtn = (LinkButton)gvrow.FindControl("LinkButtonUpdateEvent");
+            LinkButton deleteEventBtn = (LinkButton)gvrow.FindControl("LinkButtonDeleteEvent");
+            
 
             editEventBtn.Visible = !editEventBtn.Visible;
             cancelEditBtn.Visible = !cancelEditBtn.Visible;
             updateEventBtn.Visible = !updateEventBtn.Visible;
+            deleteEventBtn.Visible = !deleteEventBtn.Visible;
 
-            
-            
         }
 
         protected void GridViewUsers_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
