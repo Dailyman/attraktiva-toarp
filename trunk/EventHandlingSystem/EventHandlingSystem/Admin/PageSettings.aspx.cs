@@ -11,7 +11,7 @@ namespace EventHandlingSystem.Admin
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            LabelUserName.Text = "Username: " + HttpContext.Current.User.Identity.Name;
+            //LabelUserName.Text = "Username: " + HttpContext.Current.User.Identity.Name;
         }
     }
 }

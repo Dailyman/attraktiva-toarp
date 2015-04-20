@@ -136,8 +136,7 @@ namespace EventHandlingSystem.Database
 
                 return affectedRows = 0;
             }
-
-
+            Context.Entry(categoryToUpdate).Reload();
             return affectedRows;
         }
 

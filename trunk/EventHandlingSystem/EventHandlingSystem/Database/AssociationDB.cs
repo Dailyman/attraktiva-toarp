@@ -111,7 +111,7 @@ namespace EventHandlingSystem.Database
                             break;
                     }
                 }
-
+                Context.Entry(assoToUpdate).Reload();
                 return affectedRows = 0;
             }
             

@@ -88,6 +88,7 @@ namespace EventHandlingSystem.Database
                 }
                 return affectedRows = 0;
             }
+            Context.Entry(userToUpdate).Reload();
             return affectedRows;
         }
 

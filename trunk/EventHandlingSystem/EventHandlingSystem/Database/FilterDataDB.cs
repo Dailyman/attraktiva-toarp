@@ -8,88 +8,32 @@ using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    public class CommunityDB
+    public class FilterDataDB
     {
         private static readonly ATEntities Context = Database.Context;
 
         // GET
-        private static IEnumerable<communities> GetAllNotDeletedCommunities()
+        private static IEnumerable<filterdata> GetAllNotDeletedFilterData()
         {
-            return Context.communities.Where(c => !c.IsDeleted);
+            return Context.filterdata.Where(f => !f.IsDeleted);
         }
 
-        public static communities GetCommunityById(int id)
+        //public static List<filterdata> GetAllFilterFata()
+        //{
+        //    return GetAllNotDeletedFilterData().ToList();
+        //}
+
+        public static filterdata GetFilterDataById(int id)
         {
-            return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Id.Equals(id));
+            return GetAllNotDeletedFilterData().SingleOrDefault(f => f.Id.Equals(id));
         }
 
-        public static communities GetCommunityByName(string name)
+
+        // ADD
+        public static bool AddFilterData(filterdata f)
         {
-            return GetAllNotDeletedCommunities().SingleOrDefault(c => c.Name.Equals(name));
-        }
 
-        public static List<communities> GetAllCommunities()
-        {
-            return GetAllNotDeletedCommunities().ToList();
-        }
-
-        // UPDATE
-        public static int UpdateCommunity(communities comm)
-        {
-            communities commToUpdate = GetCommunityById(comm.Id);
-
-            commToUpdate.Name = comm.Name;
-            commToUpdate.Description = comm.Description;
-            int affectedRows;
-
-            try
-            {
-                affectedRows = Context.SaveChanges();
-            }
-            catch (DbEntityValidationException ex)
-            {
-                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
-                {
-                    // Get entry
-
-                    DbEntityEntry entry = item.Entry;
-                    string entityTypeName = entry.Entity.GetType().Name;
-
-                    // Display or log error messages
-
-                    foreach (DbValidationError subItem in item.ValidationErrors)
-                    {
-                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
-                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
-                        Console.WriteLine(message);
-                    }
-                    // Rollback changes
-
-                    switch (entry.State)
-                    {
-                        case EntityState.Added:
-                            entry.State = EntityState.Detached;
-                            break;
-                        case EntityState.Modified:
-                            entry.CurrentValues.SetValues(entry.OriginalValues);
-                            entry.State = EntityState.Unchanged;
-                            break;
-                        case EntityState.Deleted:
-                            entry.State = EntityState.Unchanged;
-                            break;
-                    }
-                }
-
-                return affectedRows = 0;
-            }
-            Context.Entry(commToUpdate).Reload();
-            return affectedRows;
-        }
-
-        //ADD
-        public static bool AddCommunity(communities comm)
-        {
-            Context.communities.Add(comm);
+            Context.filterdata.Add(f);
             try
             {
                 Context.SaveChanges();
@@ -131,20 +75,20 @@ namespace EventHandlingSystem.Database
                             break;
                     }
                 }
-
                 return false;
             }
             return true;
         }
 
 
-        // DELETE
-        public static int DeleteCommunityById(int id)
+        // UPDATE
+        public static int UpdateFilterData(filterdata f)
         {
-            communities commToDelete = GetCommunityById(id);
+            filterdata filterDataToUpdate = GetFilterDataById(f.Id);
 
-            if (commToDelete != null)
-                commToDelete.IsDeleted = true;
+            filterDataToUpdate.Type = f.Type;
+            filterDataToUpdate.Data = f.Data;
+            filterDataToUpdate.Components_Id = f.Components_Id;
 
             int affectedRows;
 
@@ -157,18 +101,20 @@ namespace EventHandlingSystem.Database
                 foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
                 {
                     // Get entry
+
                     DbEntityEntry entry = item.Entry;
                     string entityTypeName = entry.Entity.GetType().Name;
 
                     // Display or log error messages
+
                     foreach (DbValidationError subItem in item.ValidationErrors)
                     {
                         string message = string.Format("Error '{0}' occurred in {1} at {2}",
                                  subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
                         Console.WriteLine(message);
                     }
-
                     // Rollback changes
+
                     switch (entry.State)
                     {
                         case EntityState.Added:
@@ -185,7 +131,60 @@ namespace EventHandlingSystem.Database
                 }
                 return affectedRows = 0;
             }
+            Context.Entry(filterDataToUpdate).Reload();
             return affectedRows;
+        }
+
+
+
+        // DELETE
+        public static bool DeleteFilterData(filterdata f)
+        {
+            filterdata filterDataToDelete = GetFilterDataById(f.Id);
+
+            filterDataToDelete.IsDeleted = true;
+
+            int affectedRows;
+            try
+            {
+                affectedRows = Context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                foreach (DbEntityValidationResult item in ex.EntityValidationErrors)
+                {
+                    // Get entry
+
+                    DbEntityEntry entry = item.Entry;
+                    string entityTypeName = entry.Entity.GetType().Name;
+
+                    // Display or log error messages
+
+                    foreach (DbValidationError subItem in item.ValidationErrors)
+                    {
+                        string message = string.Format("Error '{0}' occurred in {1} at {2}",
+                                 subItem.ErrorMessage, entityTypeName, subItem.PropertyName);
+                        Console.WriteLine(message);
+                    }
+                    // Rollback changes
+
+                    switch (entry.State)
+                    {
+                        case EntityState.Added:
+                            entry.State = EntityState.Detached;
+                            break;
+                        case EntityState.Modified:
+                            entry.CurrentValues.SetValues(entry.OriginalValues);
+                            entry.State = EntityState.Unchanged;
+                            break;
+                        case EntityState.Deleted:
+                            entry.State = EntityState.Unchanged;
+                            break;
+                    }
+                }
+                return false;
+            }
+            return affectedRows > 0;
         }
     }
 }

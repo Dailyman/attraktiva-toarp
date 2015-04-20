@@ -87,7 +87,6 @@ namespace EventHandlingSystem.Database
 
             
             componentToUpdate.OrderingNumber = c.OrderingNumber;
-            componentToUpdate.webpages = c.webpages;
             componentToUpdate.filterdata = c.filterdata;
             componentToUpdate.controls_Id = c.controls_Id;
             componentToUpdate.webpages_Id = c.webpages_Id;
@@ -134,6 +133,7 @@ namespace EventHandlingSystem.Database
                 }
                 return affectedRows = 0;
             }
+            Context.Entry(componentToUpdate).Reload();
             return affectedRows;
         }
 

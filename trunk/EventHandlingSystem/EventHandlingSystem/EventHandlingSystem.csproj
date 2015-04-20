@@ -421,6 +421,7 @@
     <Compile Include="components.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Components\Calendar.cs" />
     <Compile Include="controls.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
@@ -436,6 +437,7 @@
     <Compile Include="Database\CommunityDB.cs" />
     <Compile Include="Database\ComponentDB.cs" />
     <Compile Include="Database\ControlDB.cs" />
+    <Compile Include="Database\FilterDataDB.cs" />
     <Compile Include="Database\MemberDB.cs" />
     <Compile Include="Database\SubCategoryDB.cs" />
     <Compile Include="Database\UserDB.cs" />
@@ -677,7 +679,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Components\" />
     <Folder Include="DatabaseMySQL\" />
   </ItemGroup>
   <ItemGroup>
