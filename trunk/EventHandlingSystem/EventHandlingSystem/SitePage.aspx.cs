@@ -107,7 +107,7 @@ namespace EventHandlingSystem
                                     //    cls.GetConstructor(new Type[] { typeof(string), typeof(string), typeof(string) });
                                 if (filterDataList.Any())
                                 {
-                                    string filepath = "~/" + ControlDB.GetControlsById(component.controls_Id).FilePath;v
+                                    string filepath = "~/" + ControlDB.GetControlsById(component.controls_Id).FilePath;
                                     if (File.Exists(Server.MapPath(filepath)))
                                     {
                                         UserControl loadControl = LoadControl(filepath,filterDataList);

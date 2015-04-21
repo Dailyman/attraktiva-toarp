@@ -59,14 +59,14 @@ namespace EventHandlingSystem
             }
             
 
-            foreach (var community in CommunityDB.GetAllCommunities())
+            foreach (var community in CommunityDB.GetAllCommunities().OrderBy(c => c.Name))
             {
                 string webPageId = WebPageDB.GetWebPageByCommunityId(community.Id) != null ? WebPageDB.GetWebPageByCommunityId(community.Id).Id.ToString() : community.Name;
                 MenuItem communityItem = new MenuItem(community.Name, community.Id.ToString(), null, "/SitePage.aspx?Id="+webPageId+"&Type=C" );
                 communityListItem.ChildItems.Add(communityItem);
                 //m.Items.Add(communityItem);
 
-                foreach (var association in AssociationDB.GetAllParentAssociationsByCommunityId(community.Id))
+                foreach (var association in AssociationDB.GetAllParentAssociationsByCommunityId(community.Id).OrderBy(a => a.Name))
                 {
                     webPageId = WebPageDB.GetWebPageByAssociationId(association.Id) != null ? WebPageDB.GetWebPageByAssociationId(association.Id).Id.ToString() : association.Name;
                     MenuItem associationItem = new MenuItem(association.Name, association.Id.ToString(), null, "/SitePage.aspx?Id=" + webPageId + "&Type=A");
@@ -79,7 +79,7 @@ namespace EventHandlingSystem
 
         private void AddChildAssociations(MenuItem parentItem, int parentAssoId)
         {
-            foreach (var a in AssociationDB.GetAllSubAssociationsByParentAssociationId(parentAssoId))
+            foreach (var a in AssociationDB.GetAllSubAssociationsByParentAssociationId(parentAssoId).OrderBy(a => a.Name))
             {
                 string webPageId = WebPageDB.GetWebPageByAssociationId(a.Id) != null ? WebPageDB.GetWebPageByAssociationId(a.Id).Id.ToString() : a.Name;
                 MenuItem childAssociation = new MenuItem(a.Name, a.Id.ToString(), null,
