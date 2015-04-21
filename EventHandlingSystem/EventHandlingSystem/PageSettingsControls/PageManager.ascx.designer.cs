@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace EventHandlingSystem.PageSettingsControlls {
+namespace EventHandlingSystem.PageSettingsControls {
     
     
     public partial class PageManager {
@@ -218,5 +218,23 @@ namespace EventHandlingSystem.PageSettingsControlls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button AddControl;
+        
+        /// <summary>
+        /// ActionStatusFilterDataList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ActionStatusFilterDataList;
+        
+        /// <summary>
+        /// GridViewFilterData control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridViewFilterData;
     }
 }

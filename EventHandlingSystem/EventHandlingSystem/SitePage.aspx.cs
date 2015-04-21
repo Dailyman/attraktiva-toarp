@@ -107,12 +107,13 @@ namespace EventHandlingSystem
                                     //    cls.GetConstructor(new Type[] { typeof(string), typeof(string), typeof(string) });
                                 if (filterDataList.Any())
                                 {
-                                    
-                                
-                                    UserControl loadControl = LoadControl(("~/" + ControlDB.GetControlsById(component.controls_Id).FilePath),
-                                        filterDataList);
-                                    ControlHolder.Controls.Add(loadControl);
-}
+                                    string filepath = "~/" + ControlDB.GetControlsById(component.controls_Id).FilePath;v
+                                    if (File.Exists(Server.MapPath(filepath)))
+                                    {
+                                        UserControl loadControl = LoadControl(filepath,filterDataList);
+                                        ControlHolder.Controls.Add(loadControl);
+                                    }
+                                }
                                 else
                                 {
                                     string filepath = "~/" + ControlDB.GetControlsById(component.controls_Id).FilePath;

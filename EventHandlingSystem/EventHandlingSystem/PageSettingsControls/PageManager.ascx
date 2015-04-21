@@ -1,5 +1,35 @@
-﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PageManager.ascx.cs" Inherits="EventHandlingSystem.PageSettingsControlls.PageManager" %>
+﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="PageManager.ascx.cs" Inherits="EventHandlingSystem.PageSettingsControls.PageManager" %>
 <style type="text/css">
+    
+    .list-table
+    {
+        /*background-color: aliceblue;*/
+        margin: 1px auto;
+        /*height: 600px;*/
+        /*min-width: 900px;*/
+        height: 100%;
+        width: 100%;
+    }
+
+        .list-table td
+        {
+            padding: 3px;
+            /* border: 1px solid lightblue; */
+            /*vertical-align: top;*/
+            max-width: 350px;
+            /* background-color: aliceblue; */
+            overflow: auto;
+            /*word-break: normal;*/
+            /*word-wrap: break-word;*/
+        }
+
+        .list-table input
+        {
+            width: auto;
+            font-size: 14px;
+        }
+    
+    
     .bigger-link
     {
         font-family: Symbola;
@@ -110,10 +140,12 @@
         OnRowUpdating="GridViewComponentList_OnRowUpdating"
         OnRowUpdated="GridViewComponentList_OnRowUpdated"
         OnRowDeleting="GridViewComponentList_OnRowDeleting"
+        OnSelectedIndexChanged="GridViewComponentList_OnSelectedIndexChanged"
+        OnSelectedIndexChanging="GridViewComponentList_OnSelectedIndexChanging"
         CellPadding="4"
         ForeColor="#333333"
         GridLines="None"
-        CssClass="user-list-table"
+        CssClass="list-table"
         EmptyDataText="No Componets">
         <AlternatingRowStyle BackColor="White" />
         <EditRowStyle BackColor="#2461BF" />
@@ -154,16 +186,17 @@
                         ID="DataSource"
                         SelectMethod="GetAllControlsListItems"
                         DataObjectTypeName="System.Web.UI.WebControls.ListItem"
-                        TypeName="EventHandlingSystem.PageSettingsControlls.PageManager"></asp:ObjectDataSource>
+                        TypeName="EventHandlingSystem.PageSettingsControls.PageManager"></asp:ObjectDataSource>
                 </EditItemTemplate>
             </asp:TemplateField>
 
             <asp:TemplateField>
                 <ItemTemplate>
-                    <asp:LinkButton ID="LinkButtonEditEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="edit-link"></asp:LinkButton>
-                    <asp:LinkButton ID="LinkButtonUpdateEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Update" Text="Update" Visible="False" CssClass="edit-mode-link" />
+                    <asp:LinkButton ID="LinkButtonSelectComponent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Select" Text="Select" CssClass="edit-link"></asp:LinkButton>
+                    <asp:LinkButton ID="LinkButtonEditComponent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="edit-link"></asp:LinkButton>
+                    <asp:LinkButton ID="LinkButtonUpdateComponent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Update" Text="Update" Visible="False" CssClass="edit-mode-link" />
                     <asp:LinkButton ID="LinkButtonCancelEdit" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" Visible="False" CssClass="edit-mode-link" />
-                    <asp:LinkButton ID="LinkButtonDeleteEvent" ClientIDMode="Static" runat="server" CausesValidation="False"
+                    <asp:LinkButton ID="LinkButtonDeleteComponent" ClientIDMode="Static" runat="server" CausesValidation="False"
                         CommandName="Delete" Text="Remove"
                         OnClientClick="return confirm('Are you sure you want to remove this component?');"
                         CssClass="delete-mode-link"></asp:LinkButton>
@@ -181,8 +214,7 @@
         <asp:BoundField DataField="LastPasswordChangedDate" HeaderText="LastPasswordChangedDate" ReadOnly="true" />--%>
         </Columns>
     </asp:GridView>
-
-
+    
     <asp:TextBox ID="tbAddOrderingNumber" runat="server"
         TextMode="Number"
         CssClass="tb-small"
@@ -200,4 +232,64 @@
         Text="Add Component"
         CssClass="btn-small"
         OnClick="AddControl_OnClick" />
+
+    <br/>
+
+    <p align="center">
+        <asp:Label ID="ActionStatusFilterDataList" runat="server"></asp:Label>
+    </p>
+    <asp:GridView ID="GridViewFilterData" runat="server"
+        AutoGenerateColumns="False"
+        OnRowCancelingEdit="GridViewFilterData_OnRowCancelingEdit"
+        OnRowEditing="GridViewFilterData_OnRowEditing"
+        OnRowUpdating="GridViewFilterData_OnRowUpdating"
+        OnRowUpdated="GridViewFilterData_OnRowUpdated"
+        OnRowDeleting="GridViewFilterData_OnRowDeleting"
+        CellPadding="4"
+        ForeColor="#333333"
+        GridLines="None"
+        CssClass="list-table"
+        EmptyDataText="No filterdata">
+        <AlternatingRowStyle BackColor="White" />
+        <EditRowStyle BackColor="#2461BF" />
+        <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />
+        <HeaderStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" CssClass="header-cell-style" />
+        <PagerStyle BackColor="#2461BF" ForeColor="White" HorizontalAlign="Center" />
+        <RowStyle BackColor="#EFF3FB" />
+        <SelectedRowStyle BackColor="#D1DDF1" Font-Bold="True" ForeColor="#333333" />
+        <SortedAscendingCellStyle BackColor="#F5F7FB" />
+        <SortedAscendingHeaderStyle BackColor="#6D95E1" />
+        <SortedDescendingCellStyle BackColor="#E9EBEF" />
+        <SortedDescendingHeaderStyle BackColor="#4870BE" />
+        <Columns>
+            <asp:BoundField DataField="Id" HeaderText="Id" ReadOnly="True" />
+            <asp:BoundField DataField="Type" HeaderText="Type" ReadOnly="True" />
+            <asp:TemplateField HeaderText="Data">
+                <ItemTemplate>
+                    <%# (String.IsNullOrWhiteSpace(Eval("Data") as string) ? "No Data" : Eval("Data")) %>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:TextBox ID="TextBoxData" runat="server"
+                        Text='<%#Eval("Data") %>'></asp:TextBox>
+                </EditItemTemplate>
+            </asp:TemplateField>
+            
+            <asp:TemplateField>
+                <ItemTemplate>
+                    <asp:LinkButton ID="LinkButtonEditFilterData" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="edit-link"></asp:LinkButton>
+                    <asp:LinkButton ID="LinkButtonUpdateFilterData" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Update" Text="Update" Visible="False" CssClass="edit-mode-link" />
+                    <asp:LinkButton ID="LinkButtonCancelEdit" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" Visible="False" CssClass="edit-mode-link" />
+                    <%--<asp:LinkButton ID="LinkButtonDeleteEvent" ClientIDMode="Static" runat="server" CausesValidation="False"
+                        CommandName="Delete" Text="Remove"
+                        OnClientClick="return confirm('Are you sure you want to remove this component?');"
+                        CssClass="delete-mode-link"></asp:LinkButton>--%>
+                </ItemTemplate>
+            </asp:TemplateField>
+        </Columns>
+    </asp:GridView>
+    
+    
+    <br/>
+
+    
 </asp:Panel>
