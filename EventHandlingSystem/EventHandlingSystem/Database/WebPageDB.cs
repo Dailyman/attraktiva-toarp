@@ -127,6 +127,7 @@ namespace EventHandlingSystem.Database
                 }
                 return false;
             }
+            Context.Entry(wp).Reload();
             return true;
         }
 

@@ -77,6 +77,7 @@ namespace EventHandlingSystem.Database
                 }
                 return false;
             }
+            Context.Entry(f).Reload();
             return true;
         }
 

@@ -65,6 +65,7 @@ namespace EventHandlingSystem.Database
             {
                 return false;
             }
+            Context.Entry(sC).Reload();
             return true;
         }
 

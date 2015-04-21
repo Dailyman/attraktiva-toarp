@@ -277,6 +277,7 @@ namespace EventHandlingSystem.Database
                 }
                 return false;
             }
+            Context.Entry(ev).Reload();
             return true;
         }
 
