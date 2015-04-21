@@ -517,6 +517,11 @@ namespace EventHandlingSystem
         //Associationslistbox för en viss Community - när ett item klickas visas föreningsdetaljerna
         protected void ListBoxAsso_OnSelectedIndexChanged(object sender, EventArgs e)
         {
+            //Återställa text och rensa labels
+            LabelAssoInComm.Text = "Associations in " + DropDownListCommunity.SelectedItem.Text;
+            LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "black");
+            LabelErrorMessage.Text = string.Empty;
+
             //Lägg in värdet av AssoId i hiddenfield
             hdfAssoId.Value = ListBoxAsso.SelectedItem.Value;
 
@@ -602,12 +607,16 @@ namespace EventHandlingSystem
         {
             MultiViewCommCreate.ActiveViewIndex = 0;
             MultiViewCommDetails.ActiveViewIndex = -1;
+
+            TextBoxCommNameCreate.Text = string.Empty;
+            TextBoxCommLogoUrl.Text = string.Empty;
+            LabelCreateComm.Text = string.Empty;
         }
 
         // För att skapa en ny community
         protected void ButtonCreateComm_OnClick(object sender, EventArgs e)
         {
-            communities comm = new communities
+            var comm = new communities
             {
                 Name = TextBoxCommNameCreate.Text,
                 LogoUrl = TextBoxCommLogoUrl.Text,
@@ -628,9 +637,30 @@ namespace EventHandlingSystem
 
                 if (WebPageDB.AddWebPage(wp))
                 {
-                    MultiViewCommDetails.ActiveViewIndex = 0;
-                    MultiViewCommCreate.ActiveViewIndex = -1;
-                    ShowCommunityDetails(CommunityDB.GetCommunityByName(comm.Name));
+                    components compCal = new components
+                    {
+                        webpages_Id = wp.Id,
+                        OrderingNumber = 1,
+                        controls_Id = 3 //Calendar
+                    };
+
+                    components compAbout = new components
+                    {
+                        webpages_Id = wp.Id,
+                        OrderingNumber = 2,
+                        controls_Id = 1 //About
+                    };
+
+                    if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
+                    {
+                        MultiViewCommDetails.ActiveViewIndex = 0;
+                        MultiViewCommCreate.ActiveViewIndex = -1;
+                        ShowCommunityDetails(CommunityDB.GetCommunityByName(comm.Name));
+                    }
+                    else
+                    {
+                        LabelCreateComm.Text = "Components could not be created. Please try again!";
+                    }
                 }
                 else
                 {
@@ -643,6 +673,7 @@ namespace EventHandlingSystem
                 LabelCreateComm.Text = "Community could not be created. Try again!";
                 LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
+            PopulateCommunityDropDownList(DropDownListCommunity);
         }
 
         // För att gå ur "Create New Community" vyn
@@ -698,6 +729,10 @@ namespace EventHandlingSystem
         {
             MultiViewAssoDetails.ActiveViewIndex = -1;
             MultiViewAssoCreate.ActiveViewIndex = 0;
+            TextBoxCreateAssoName.Text = string.Empty;
+            TextBoxAssoImgUrl.Text = string.Empty;
+            LabelErrorMessage.Text = string.Empty;
+            PopulateAssociationListBox();
 
             //Hämta aktuell CommunityId
             int commId = int.Parse(DropDownListCommunity.SelectedItem.Value);
@@ -759,10 +794,31 @@ namespace EventHandlingSystem
 
                 if (WebPageDB.AddWebPage(wp))
                 {
-                    MultiViewAssoCreate.ActiveViewIndex = -1;
-                    PopulateAssociationListBox();
-                    LabelErrorMessage.Text = asso.Name + " has been successfully created! (^o^)/";
-                    LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    components compCal = new components
+                    {
+                        webpages_Id = wp.Id,
+                        OrderingNumber = 1,
+                        controls_Id = 3 //Calendar
+                    };
+
+                    components compAbout = new components
+                    {
+                        webpages_Id = wp.Id,
+                        OrderingNumber = 2,
+                        controls_Id = 1 //About
+                    };
+
+                    if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
+                    {
+                        MultiViewAssoCreate.ActiveViewIndex = -1;
+                        PopulateAssociationListBox();
+                        LabelErrorMessage.Text = asso.Name + " has been successfully created! (^o^)/";
+                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    }
+                    else
+                    {
+                        LabelCreateComm.Text = "Components could not be created. Please try again!";
+                    }
                 }
                 else
                 {
@@ -775,6 +831,7 @@ namespace EventHandlingSystem
                 LabelErrorMessage.Text = "Association could not be created. Try again!";
                 LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
+            PopulateAssociationListBox();
         }
         
         // För att lägga till kategori(er) i listboxen

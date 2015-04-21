@@ -134,6 +134,7 @@ namespace EventHandlingSystem.Database
 
                 return false;
             }
+            Context.Entry(comm).Reload();
             return true;
         }
 

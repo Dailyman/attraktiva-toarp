@@ -163,6 +163,7 @@ namespace EventHandlingSystem
         protected void bullListCommWebpages_OnClick(object sender, BulletedListEventArgs e)
         {
             lbWebPageUpdate.Text = string.Empty;
+            LabelActionStatus.Text = string.Empty;
 
             //Markera valt item
             bullListCommWebpages.Items[e.Index].Attributes.CssStyle.Add(HtmlTextWriterStyle.FontWeight, "Bold");
@@ -203,6 +204,7 @@ namespace EventHandlingSystem
         protected void bullListAssoWebpages_OnClick(object sender, BulletedListEventArgs e)
         {
             lbWebPageUpdate.Text = string.Empty;
+            LabelActionStatus.Text = string.Empty;
 
             //Visa Association Webpage-lista
             lbAssoWebPage.Visible = true;
@@ -241,6 +243,8 @@ namespace EventHandlingSystem
         //För att uppdatera Webpage
         protected void btnWebpageUpdate_OnClick(object sender, EventArgs e)
         {
+            LabelActionStatus.Text = string.Empty;
+
             //Använd hiddenfield för att hitta rätt webpage Id
             webpages wpToUpdate = WebPageDB.GetWebPageById(int.Parse(hdnfWebpageId.Value));
             wpToUpdate.Title = tbWebpageTitle.Text;
@@ -261,6 +265,8 @@ namespace EventHandlingSystem
         // För att lägga till nya komponenter
         protected void AddControl_OnClick(object sender, EventArgs e)
         {
+            lbWebPageUpdate.Text = string.Empty;
+
             components newComponent = new components();
             
             int oNo;
@@ -402,7 +408,7 @@ namespace EventHandlingSystem
             {
                 if (ComponentDB.DeleteComponent(ComponentDB.GetComponentById(id)))
                 {
-                    LabelActionStatus.Text = string.Format("Congrats! The component was deleted successfully.");
+                    LabelActionStatus.Text = string.Format("Congrats! The component was successfully deleted.");
                     LabelActionStatus.ForeColor = Color.CornflowerBlue;
                 }
                 else

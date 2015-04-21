@@ -224,6 +224,7 @@ namespace EventHandlingSystem.Database
 
                 return false;
             }
+            Context.Entry(asso).Reload();
             return true;
         }
 

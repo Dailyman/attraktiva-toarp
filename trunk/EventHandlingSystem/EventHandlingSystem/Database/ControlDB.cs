@@ -93,6 +93,7 @@ namespace EventHandlingSystem.Database
                 }
                 return false;
             }
+            Context.Entry(c).Reload();
             return true;
         }
 
