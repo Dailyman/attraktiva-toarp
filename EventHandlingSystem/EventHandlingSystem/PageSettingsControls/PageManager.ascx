@@ -248,8 +248,7 @@
         CellPadding="4"
         ForeColor="#333333"
         GridLines="None"
-        CssClass="list-table"
-        EmptyDataText="No filterdata">
+        CssClass="list-table">
         <AlternatingRowStyle BackColor="White" />
         <EditRowStyle BackColor="#2461BF" />
         <FooterStyle BackColor="#507CD1" Font-Bold="True" ForeColor="White" />

@@ -18,13 +18,14 @@ namespace EventHandlingSystem.PageSettingsControls
         {
             // Reset ActionLabels
             ActionStatus.Text = "";
+            ActionStatus.ForeColor = Color.Black;
             ActionStatusComponentsList.Text = "";
+            ActionStatusComponentsList.ForeColor = Color.Black;
             ActionStatusFilterDataList.Text = "";
+            ActionStatusFilterDataList.ForeColor = Color.Black;
 
             if (!IsPostBack)
             { 
-                PopulateDropDownListControls();
-
                 // Gets the ID from the QueryString
                 var stId = Request.QueryString["Id"];
 
@@ -42,6 +43,7 @@ namespace EventHandlingSystem.PageSettingsControls
 
                 if (WebPageDB.GetWebPageById(_wpId) != null)
                 {
+                    PopulateDropDownListControls();
                     DisplayCurrentWebPageProperties();
                     DisplayComponentsForWebPage();
                 }
@@ -55,8 +57,13 @@ namespace EventHandlingSystem.PageSettingsControls
 
             if (!int.TryParse(HiddenFieldWebPageId.Value, out _wpId))
             {
+
                 ActionStatus.Text = string.Format("The webpage Id could not be loaded");
                 PanelContent.Visible = false;
+            }
+            else
+            {
+                PopulateDropDownListControls();
             }
 
         }
@@ -151,16 +158,20 @@ namespace EventHandlingSystem.PageSettingsControls
         {
             ddlAddComControls.Items.Clear();
 
-            List<ListItem> controlList = ControlDB.GetAllControls().Select(c => new ListItem
-            {
-                Text = c.Name,
-                Value = c.Id.ToString()
-            }).ToList();
+            var controlList =
+                ControlDB.GetAllControlsNotInWebpage(WebPageDB.GetWebPageById(int.Parse(HiddenFieldWebPageId.Value)))
+                    .Select(c => new ListItem
+                    {
+                        Text = c.Name,
+                        Value = c.Id.ToString()
+                    }).ToList();
 
             foreach (ListItem item in controlList.OrderBy(i => i.Text))
             {
                 ddlAddComControls.Items.Add(item);
             }
+
+            AddControl.Enabled = ddlAddComControls.Items.Count != 0;
         }
 
         public List<ListItem> GetAllControlsListItems()
@@ -220,6 +231,7 @@ namespace EventHandlingSystem.PageSettingsControls
         protected void GridViewComponentList_OnRowEditing(object sender, GridViewEditEventArgs e)
         {
             GridViewComponentList.EditIndex = e.NewEditIndex;
+            GridViewComponentList.SelectedIndex = -1; 
             DisplayComponentsForWebPage();
 
             int index = GridViewComponentList.EditIndex;
@@ -252,6 +264,13 @@ namespace EventHandlingSystem.PageSettingsControls
             compToUpdate.OrderingNumber = oNo;
             if (ControlDB.GetControlsById(controlId) != null)
             {
+                //foreach (var com in WebPageDB.GetWebPageById(int.Parse(HiddenFieldWebPageId.Value)).components)
+                //{
+                //    if (com.controls.Id == controlId)
+                //    {
+                        
+                //    }
+                //}
                  compToUpdate.controls_Id = controlId;
             }
             else
@@ -262,6 +281,8 @@ namespace EventHandlingSystem.PageSettingsControls
                 return;
             }
 
+            int affectedRows = ComponentDB.UpdateComponent(compToUpdate);
+
             foreach (var fd in compToUpdate.filterdata.Where(fd => !fd.IsDeleted))
             {
                 if (FilterDataDB.DeleteFilterData(fd))
@@ -269,9 +290,34 @@ namespace EventHandlingSystem.PageSettingsControls
                     ActionStatus.Text = " " + fd.Type + "=deleted";
                 }
             }
+
+            controls c = ControlDB.GetControlsById(compToUpdate.controls_Id);
+            var filterTypeNameList = new List<string>();
+            if (c != null)
+            {
+                //EventHandlingSystem.Components.
+                Type cls = Type.GetType("EventHandlingSystem.Components." + c.Name);
+                if (cls != null)
+                {
+                    foreach (var prop in cls.GetProperties())
+                    {
+                        filterTypeNameList.Add(prop.Name);
+                    }
+                }
+            }
+            ActionStatusComponentsList.Text += "<br/>FilterData added:";
+            foreach (var type in filterTypeNameList)
+            {
+
+                filterdata newFilterData = new filterdata { Type = type, Components_Id = compToUpdate.Id, Data = "" };
+                if (FilterDataDB.AddFilterData(newFilterData))
+                {
+                    ActionStatusComponentsList.Text += " " + newFilterData.Type + "=\"" + newFilterData.Data + "\"";
+                }
+            }
                 
 
-            int affectedRows = ComponentDB.UpdateComponent(compToUpdate);
+            
 
             if (affectedRows > 0)
             {
@@ -289,6 +335,7 @@ namespace EventHandlingSystem.PageSettingsControls
 
             GridViewComponentList.EditIndex = -1;
             DisplayComponentsForWebPage();
+            PopulateDropDownListControls();
         }
 
         protected void GridViewComponentList_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
@@ -315,10 +362,12 @@ namespace EventHandlingSystem.PageSettingsControls
             }
             GridViewComponentList.EditIndex = -1;
             DisplayComponentsForWebPage();
+            PopulateDropDownListControls();
         }
 
         protected void GridViewComponentList_OnSelectedIndexChanging(object sender, GridViewSelectEventArgs e)
         {
+            GridViewComponentList.EditIndex = -1;
             DisplayComponentsForWebPage();
             DisplayFilterDataForComponent();
 
@@ -382,15 +431,13 @@ namespace EventHandlingSystem.PageSettingsControls
                         ActionStatusComponentsList.Text += " " + newFilterData.Type + "=\""+ newFilterData.Data+"\"";
                     }
                 }
-
-
             }
             else
             {
                 ActionStatusComponentsList.Text = "Sorry! New component was not added.";
                 ActionStatusComponentsList.ForeColor = Color.Red;
             }
-            
+            PopulateDropDownListControls();
             DisplayComponentsForWebPage();
         } 
         
@@ -440,9 +487,11 @@ namespace EventHandlingSystem.PageSettingsControls
 
                 if (currentComp != null)
                 {
-                    GridViewFilterData.DataSource = currentComp.filterdata.Where(fd => !fd.IsDeleted);
-                    GridViewFilterData.DataBind();
-                }
+                    
+                        GridViewFilterData.DataSource = currentComp.filterdata.Where(fd => !fd.IsDeleted);
+                        GridViewFilterData.DataBind();
+                        ActionStatusFilterDataList.Text = (currentComp.filterdata.Any(fd => !fd.IsDeleted) ? "FilterData for " + currentComp.controls.Name : "No FilterData");
+                   }
             }
             else
             {
@@ -480,12 +529,49 @@ namespace EventHandlingSystem.PageSettingsControls
 
         protected void GridViewFilterData_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
         {
-                
+            int index = GridViewFilterData.EditIndex;
+
+            GridViewRow gvrow = GridViewFilterData.Rows[index];
+
+            int id = int.Parse(GridViewFilterData.Rows[e.RowIndex].Cells[0].Text);
+            string data = ((TextBox)gvrow.Cells[2].Controls[1]).Text;
+
+            filterdata fdToUpdate = FilterDataDB.GetFilterDataById(id);
+
+            if (fdToUpdate != null)
+            {
+                fdToUpdate.Data = data;
+            }
+            else
+            {
+                ActionStatusFilterDataList.Text = "No FilterData By that Id was found";
+                ActionStatusFilterDataList.ForeColor = Color.Red;
+                DisplayFilterDataForComponent();
+                return;
+            }
+
+            int affectedRows = FilterDataDB.UpdateFilterData(fdToUpdate);
+
+            if (affectedRows > 0)
+            {
+                ActionStatusFilterDataList.Text =
+                    string.Format("FilterData with by type {0} was updated successfully.",
+                        fdToUpdate.Type);
+                ActionStatusFilterDataList.ForeColor = Color.CornflowerBlue;
+            }
+            else
+            {
+                ActionStatusFilterDataList.Text = string.Format("FilterData with by type {0} was not updated.",
+                    fdToUpdate.Type);
+                ActionStatusFilterDataList.ForeColor = Color.Red;
+            }
+            GridViewFilterData.EditIndex = -1;
+            DisplayFilterDataForComponent();
         }
 
         protected void GridViewFilterData_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
         {
-                
+            DisplayFilterDataForComponent();
         }
 
         protected void GridViewFilterData_OnRowDeleting(object sender, GridViewDeleteEventArgs e)

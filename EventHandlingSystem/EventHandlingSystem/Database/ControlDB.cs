@@ -23,6 +23,22 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedControls().ToList();
         }
 
+        public static List<controls> GetAllControlsNotInWebpage(webpages wP)
+        {
+            var controlsNotInWebPage = GetAllControls();
+
+            foreach (var c in wP.components.Where(c => !c.IsDeleted))
+            {
+                if (GetAllControls().Contains(c.controls))
+                {
+                    controlsNotInWebPage.Remove(c.controls);
+                }
+            }
+
+            return controlsNotInWebPage;
+        }
+
+
         public static controls GetControlsById(int id)
         {
             return GetAllNotDeletedControls().SingleOrDefault(c => c.Id.Equals(id));
