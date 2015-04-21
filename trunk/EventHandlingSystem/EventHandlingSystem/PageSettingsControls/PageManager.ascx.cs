@@ -8,7 +8,7 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
 
-namespace EventHandlingSystem.PageSettingsControlls
+namespace EventHandlingSystem.PageSettingsControls
 {
     public partial class PageManager : System.Web.UI.UserControl
     {
@@ -16,8 +16,10 @@ namespace EventHandlingSystem.PageSettingsControlls
 
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Reset ActionLabel
+            // Reset ActionLabels
             ActionStatus.Text = "";
+            ActionStatusComponentsList.Text = "";
+            ActionStatusFilterDataList.Text = "";
 
             if (!IsPostBack)
             { 
@@ -49,6 +51,7 @@ namespace EventHandlingSystem.PageSettingsControlls
                     PanelContent.Visible = false;
                 }
             }
+            
 
             if (!int.TryParse(HiddenFieldWebPageId.Value, out _wpId))
             {
@@ -202,6 +205,8 @@ namespace EventHandlingSystem.PageSettingsControlls
 
             GridViewComponentList.DataSource = componentDataList;
             GridViewComponentList.DataBind();
+
+            DisplayFilterDataForComponent();
         }
 
 
@@ -220,15 +225,17 @@ namespace EventHandlingSystem.PageSettingsControlls
             int index = GridViewComponentList.EditIndex;
             GridViewRow gvrow = GridViewComponentList.Rows[index];
 
-            LinkButton editEventBtn = (LinkButton)gvrow.FindControl("LinkButtonEditEvent");
+            LinkButton selectComponentBtn = (LinkButton)gvrow.FindControl("LinkButtonSelectComponent");
+            LinkButton editComponentBtn = (LinkButton)gvrow.FindControl("LinkButtonEditComponent");
             LinkButton cancelEditBtn = (LinkButton)gvrow.FindControl("LinkButtonCancelEdit");
-            LinkButton updateEventBtn = (LinkButton)gvrow.FindControl("LinkButtonUpdateEvent");
-            LinkButton deleteEventBtn = (LinkButton)gvrow.FindControl("LinkButtonDeleteEvent");
+            LinkButton updateComponentBtn = (LinkButton)gvrow.FindControl("LinkButtonUpdateComponent");
+            LinkButton deleteComponentBtn = (LinkButton)gvrow.FindControl("LinkButtonDeleteComponent");
 
-            editEventBtn.Visible = !editEventBtn.Visible;
+            selectComponentBtn.Visible = !selectComponentBtn.Visible;
+            editComponentBtn.Visible = !editComponentBtn.Visible;
             cancelEditBtn.Visible = !cancelEditBtn.Visible;
-            updateEventBtn.Visible = !updateEventBtn.Visible;
-            deleteEventBtn.Visible = !deleteEventBtn.Visible;
+            updateComponentBtn.Visible = !updateComponentBtn.Visible;
+            deleteComponentBtn.Visible = !deleteComponentBtn.Visible;
         }
 
         protected void GridViewComponentList_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
@@ -254,6 +261,15 @@ namespace EventHandlingSystem.PageSettingsControlls
                 DisplayComponentsForWebPage();
                 return;
             }
+
+            foreach (var fd in compToUpdate.filterdata.Where(fd => !fd.IsDeleted))
+            {
+                if (FilterDataDB.DeleteFilterData(fd))
+                {
+                    ActionStatus.Text = " " + fd.Type + "=deleted";
+                }
+            }
+                
 
             int affectedRows = ComponentDB.UpdateComponent(compToUpdate);
 
@@ -301,7 +317,31 @@ namespace EventHandlingSystem.PageSettingsControlls
             DisplayComponentsForWebPage();
         }
 
-       
+        protected void GridViewComponentList_OnSelectedIndexChanging(object sender, GridViewSelectEventArgs e)
+        {
+            DisplayComponentsForWebPage();
+            DisplayFilterDataForComponent();
+
+            if (GridViewComponentList.SelectedRow != null)
+            {
+                if (GridViewComponentList.SelectedIndex == e.NewSelectedIndex)
+                {
+                    e.Cancel = true;
+                    GridViewComponentList.SelectedIndex = -1;
+                    DisplayFilterDataForComponent();
+                }
+            }
+
+        }
+
+        protected void GridViewComponentList_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            //DisplayComponentsForWebPage();
+            DisplayFilterDataForComponent();
+
+            //GridViewComponentList.SelectedIndex = -1;
+
+        }
 
         protected void AddControl_OnClick(object sender, EventArgs e)
         {
@@ -354,6 +394,110 @@ namespace EventHandlingSystem.PageSettingsControlls
             DisplayComponentsForWebPage();
         } 
         
+        #endregion
+
+
+
+
+
+
+
+
+        #region GridViewFilterData
+
+        private GridViewRow GetCurrentRowOfComponentSelectedOrEditing()
+        {
+            GridViewRow gvRow;
+
+            int editIndex = GridViewComponentList.EditIndex;
+            int selectIndex = GridViewComponentList.SelectedIndex;
+
+            if (editIndex > -1)
+            {
+                gvRow = GridViewComponentList.Rows[editIndex];
+            }
+            else if (selectIndex > -1)
+            {
+                gvRow = GridViewComponentList.Rows[selectIndex];
+            }
+            else
+            {
+                gvRow = null;
+            }
+            return gvRow;
+        }
+
+        protected void DisplayFilterDataForComponent()
+        {
+            GridViewRow gvRow = GetCurrentRowOfComponentSelectedOrEditing();
+
+            if (gvRow != null)
+            {
+                int id = int.TryParse(gvRow.Cells[0].Text, out id) ? id : -1;
+                //int controlId = int.Parse(((DropDownList)gvRow.Cells[2].Controls[1]).SelectedValue);
+
+                components currentComp = ComponentDB.GetComponentById(id);
+
+                if (currentComp != null)
+                {
+                    GridViewFilterData.DataSource = currentComp.filterdata.Where(fd => !fd.IsDeleted);
+                    GridViewFilterData.DataBind();
+                }
+            }
+            else
+            {
+                GridViewFilterData.DataSource = null;
+                GridViewFilterData.DataBind();
+                ActionStatusFilterDataList.Text = "No Component is selected";
+            }
+        }
+
+        protected void GridViewFilterData_OnRowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
+        {
+            GridViewFilterData.EditIndex = -1;
+            DisplayFilterDataForComponent();
+        }
+
+        protected void GridViewFilterData_OnRowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridViewFilterData.EditIndex = e.NewEditIndex;
+            DisplayFilterDataForComponent();
+
+            GridViewRow gvRow = GridViewFilterData.Rows[e.NewEditIndex];
+
+            if (gvRow != null)
+            {
+                LinkButton editFilterDataBtn = (LinkButton) gvRow.FindControl("LinkButtonEditFilterData");
+                LinkButton updateFilterDataBtn = (LinkButton) gvRow.FindControl("LinkButtonUpdateFilterData");
+                LinkButton cancelEditBtn = (LinkButton) gvRow.FindControl("LinkButtonCancelEdit");
+                //LinkButton deleteEventBtn = (LinkButton)gvRow.FindControl("LinkButtonDeleteFilterData");
+
+                editFilterDataBtn.Visible = !editFilterDataBtn.Visible;
+                updateFilterDataBtn.Visible = !updateFilterDataBtn.Visible;
+                cancelEditBtn.Visible = !cancelEditBtn.Visible;
+            }
+        }
+
+        protected void GridViewFilterData_OnRowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+                
+        }
+
+        protected void GridViewFilterData_OnRowUpdated(object sender, GridViewUpdatedEventArgs e)
+        {
+                
+        }
+
+        protected void GridViewFilterData_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            // YOU SHOULD NOT BE ABLE TO DELETE FILTERDATA! >:O Just change it <3
+        }
+        
+        protected void GridViewFilterData_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+                
+        }
+
         #endregion
 
         

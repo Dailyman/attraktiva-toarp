@@ -18,6 +18,5 @@
 
 
     <asp:PlaceHolder ID="ControlHolder" runat="server">
-        <h2>This is where stuff will be placed</h2>
     </asp:PlaceHolder>
 </asp:Content>
