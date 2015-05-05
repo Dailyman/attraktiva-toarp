@@ -105,6 +105,10 @@
         <%--<asp:RequiredFieldValidator ID="ReqFieldValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" ErrorMessage="* Required Field" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True"></asp:RequiredFieldValidator>--%>
         <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupUpdateEvent" Display="Dynamic" SetFocusOnError="True" />
         <br />
+    <h6>Do you want to show this event in Communities for the seleted Associations</h6>
+    <asp:CheckBox ID="ChkBoxDisplayInCommunity" runat="server" OnCheckedChanged="ChkBoxDisplayInCommunity_OnCheckedChanged" />
+        <br />
+        <br />
         <h6>Association</h6>
         <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
             <ContentTemplate>

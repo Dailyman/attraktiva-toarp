@@ -388,6 +388,7 @@ namespace EventHandlingSystem
                             !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
                                 ? int.Parse(TxtBoxApproximateAttendees.Text)
                                 : 0,
+                                DisplayInCommunity = ChkBoxDisplayInCommunity.Checked,
                         associations = associationsList,
                         subcategories = subCategoriesList,
                         CreatedBy = HttpContext.Current.User.Identity.Name,
@@ -530,6 +531,11 @@ namespace EventHandlingSystem
             }
         }
         #endregion
+
+        protected void ChkBoxDisplayInCommunity_OnCheckedChanged(object sender, EventArgs e)
+        {
+
+        }
 
     }
 }

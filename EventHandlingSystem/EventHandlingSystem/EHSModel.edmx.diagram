@@ -5,17 +5,17 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="0cb4e480261e4d0c878f9c8f5f7763f5" Name="Diagram1" ZoomLevel="56">
-        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="1.3358903496227648" PointY="24.871498819846426" />
-        <EntityTypeShape EntityType="ATModel.categories" Width="1.5" PointX="4.6581163688833431" PointY="23.519357245191632" />
-        <EntityTypeShape EntityType="ATModel.communities" Width="1.5" PointX="2.3154103003048387" PointY="20.319927001520956" />
-        <EntityTypeShape EntityType="ATModel.components" Width="1.5" PointX="10.165112837294634" PointY="10.573590819991003" />
-        <EntityTypeShape EntityType="ATModel.controls" Width="1.5" PointX="3.359475040510052" PointY="31.189530834178221" />
-        <EntityTypeShape EntityType="ATModel.events" Width="1.5" PointX="0.753463084229018" PointY="20.782814333579882" />
-        <EntityTypeShape EntityType="ATModel.filterdata" Width="1.5" PointX="8.3319807948227869" PointY="12.179378977128947" />
-        <EntityTypeShape EntityType="ATModel.members" Width="1.5" PointX="8.42540629786691" PointY="19.212637254601642" />
-        <EntityTypeShape EntityType="ATModel.subcategories" Width="1.5" PointX="11.082977335473046" PointY="14.911581895738646" />
-        <EntityTypeShape EntityType="ATModel.users" Width="1.5" PointX="2.5418432962809892" PointY="19.69796583973708" />
-        <EntityTypeShape EntityType="ATModel.webpages" Width="1.5" PointX="0.791062318156968" PointY="26.287463543139147" />
+        <EntityTypeShape EntityType="ATModel.associations" Width="1.5" PointX="10.821694733026295" PointY="7.3125276003556916" />
+        <EntityTypeShape EntityType="ATModel.categories" Width="1.5" PointX="8.2182033603164371" PointY="24.236711677274066" />
+        <EntityTypeShape EntityType="ATModel.communities" Width="1.5" PointX="0.68709463285612626" PointY="31.3621911403547" />
+        <EntityTypeShape EntityType="ATModel.components" Width="1.5" PointX="8.2272055019751225" PointY="3.216638015218376" />
+        <EntityTypeShape EntityType="ATModel.controls" Width="1.5" PointX="11.268214657561952" PointY="15.638843856583742" />
+        <EntityTypeShape EntityType="ATModel.events" Width="1.5" PointX="5.5599099088273523" PointY="14.45910128134261" />
+        <EntityTypeShape EntityType="ATModel.filterdata" Width="1.5" PointX="4.9432004415165638" PointY="20.921273300853219" />
+        <EntityTypeShape EntityType="ATModel.members" Width="1.5" PointX="1.1193400812891032" PointY="9.97235273289138" />
+        <EntityTypeShape EntityType="ATModel.subcategories" Width="1.5" PointX="1.6820170402908776" PointY="1.1662952160305786" />
+        <EntityTypeShape EntityType="ATModel.users" Width="1.5" PointX="8.9326753900072884" PointY="25.295563992716168" />
+        <EntityTypeShape EntityType="ATModel.webpages" Width="1.5" PointX="9.5238899744692684" PointY="23.699043597885893" />
         <AssociationConnector Association="ATModel.fk_Associations_Communities" />
         <AssociationConnector Association="ATModel.fk_Members_Associations1" />
         <AssociationConnector Association="ATModel.fk_subcategories_categories1" />

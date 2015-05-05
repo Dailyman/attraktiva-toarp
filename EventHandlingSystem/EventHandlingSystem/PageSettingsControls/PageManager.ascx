@@ -89,7 +89,7 @@
                 <h2 align="center">Page details</h2>
                 <br />
                 <h5>Title</h5>
-                <asp:Label ID="LabelWepPageTitle" runat="server"></asp:Label>
+                <asp:HyperLink ID="WebPageLink" runat="server"><asp:Label ID="LabelWepPageTitle" runat="server"></asp:Label></asp:HyperLink>
                 <h5>Layout</h5>
                 <asp:Label ID="LabelWepPageLayout" runat="server"></asp:Label>
                 <h5>Style</h5>
@@ -171,7 +171,8 @@
                         TextMode="Number"></asp:TextBox>
                 </EditItemTemplate>
             </asp:TemplateField>
-            <asp:TemplateField HeaderText="Control Name">
+            <asp:BoundField DataField="Item3" HeaderText="Control Name" ReadOnly="True" />
+            <%--<asp:TemplateField HeaderText="Control Name">
                 <ItemTemplate>
                     <%# Eval("Item3")  %>
                 </ItemTemplate>
@@ -188,7 +189,7 @@
                         DataObjectTypeName="System.Web.UI.WebControls.ListItem"
                         TypeName="EventHandlingSystem.PageSettingsControls.PageManager"></asp:ObjectDataSource>
                 </EditItemTemplate>
-            </asp:TemplateField>
+            </asp:TemplateField>--%>
 
             <asp:TemplateField>
                 <ItemTemplate>

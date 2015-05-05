@@ -93,6 +93,7 @@ namespace EventHandlingSystem
 
         protected void GridViewUsers_OnRowEditing(object sender, GridViewEditEventArgs e)
         {
+            LabelDisplay.Text = "";
             GridViewUsers.EditIndex = e.NewEditIndex;
             BuildGridView();
 
@@ -146,7 +147,13 @@ namespace EventHandlingSystem
             GridViewRow gvrow = GridViewUsers.Rows[index];
             _isonline = ((CheckBox) gvrow.Cells[0].Controls[0]).Checked;
             _username = GridViewUsers.Rows[e.RowIndex].Cells[1].Text;
-            _email = ((TextBox) gvrow.Cells[2].Controls[0]).Text.Trim();
+
+            // Use this if when using boundfield
+            //_email = ((TextBox) gvrow.Cells[2].Controls[0]).Text.Trim();
+
+            // Use this when using the templatefield
+            _email = ((TextBox)gvrow.Cells[2].Controls[1]).Text.Trim();
+
             _comment = ((TextBox) gvrow.Cells[3].Controls[0]).Text;
             _isapproved = ((CheckBox) gvrow.Cells[4].Controls[0]).Checked;
 

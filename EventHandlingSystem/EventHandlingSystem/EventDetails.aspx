@@ -237,6 +237,14 @@
                 <asp:Label ID="EventApproxAttend" runat="server" Text="No approximate attendees"></asp:Label>
             </td>
         </tr>
+         <tr>
+            <td>
+                <span class="bold-text">Display in Communities</span>
+            </td>
+            <td>
+                <asp:CheckBox ID="DisplayInComm" Enabled="False" runat="server" />
+            </td>
+        </tr>
         <tr>
             <td>
                 <span class="bold-text">Published in Associations</span>

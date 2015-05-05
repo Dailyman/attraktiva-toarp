@@ -170,16 +170,14 @@ namespace EventHandlingSystem
         // Filtrerar events om Kalendern finns på en Comm eller Asso sida.
         public string BuildEventInCalendarCell(DateTime date)
         {
-            string divs = ""; 
-            var stType = Request.QueryString["Type"];
+            string divs = "";
 
-            if (!string.IsNullOrWhiteSpace(stType))
+            int id;
+            if (!String.IsNullOrEmpty(CommunityId) && int.TryParse(CommunityId, out id))
             {
-                if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
-                {
-                    communities c = CommunityDB.GetCommunityByName(Page.Title);
-                    var commEvents = new List<events>();
-                    if (c != null)
+                communities c = CommunityDB.GetCommunityById(id);
+                var commEvents = new List<events>();
+                if (c != null)
                     {
                         foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
                         {
@@ -193,31 +191,78 @@ namespace EventHandlingSystem
                         }
                         divs = GetHtmlForEventCellsByEventList(commEvents, date);
                     }
-                }
-                else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
+            }
+            else if (!String.IsNullOrEmpty(AssociationId) && int.TryParse(AssociationId, out id))
+            {
+                associations a = AssociationDB.GetAssociationById(id);
+                var assoEvents = new List<events>();
+                if (a != null)
                 {
-                    associations a = AssociationDB.GetAssociationByName(Page.Title);
-                    List<events> assoEvents = new List<events>();
-                    if (a != null)
+                    foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
                     {
-                        foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
+                        foreach (associations association in eventInMonth.associations)
                         {
-                            foreach (associations association in eventInMonth.associations)
+                            if (association.Id == a.Id)
                             {
-                                if (association.Id == a.Id)
-                                {
-                                    assoEvents.Add(eventInMonth);
-                                }
+                                assoEvents.Add(eventInMonth);
                             }
                         }
-                        divs = GetHtmlForEventCellsByEventList(assoEvents, date);
                     }
+                    divs = GetHtmlForEventCellsByEventList(assoEvents, date);
                 }
             }
             else
             {
                 divs = GetHtmlForEventCellsByEventList(EventDB.GetAllEventsInMonth(date), date);
             }
+
+            //var stType = Request.QueryString["Type"];
+
+            //if (!string.IsNullOrWhiteSpace(stType))
+            //{
+            //    if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        communities c = CommunityDB.GetCommunityByName(Page.Title);
+            //        var commEvents = new List<events>();
+            //        if (c != null)
+            //        {
+            //            foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
+            //            {
+            //                foreach (communities community in eventInMonth.communities)
+            //                {
+            //                    if (community.Id == c.Id)
+            //                    {
+            //                        commEvents.Add(eventInMonth);
+            //                    }
+            //                }
+            //            }
+            //            divs = GetHtmlForEventCellsByEventList(commEvents, date);
+            //        }
+            //    }
+            //    else if (String.Equals(stType, "a", StringComparison.OrdinalIgnoreCase))
+            //    {
+            //        associations a = AssociationDB.GetAssociationByName(Page.Title);
+            //        List<events> assoEvents = new List<events>();
+            //        if (a != null)
+            //        {
+            //            foreach (var eventInMonth in EventDB.GetAllEventsInMonth(date))
+            //            {
+            //                foreach (associations association in eventInMonth.associations)
+            //                {
+            //                    if (association.Id == a.Id)
+            //                    {
+            //                        assoEvents.Add(eventInMonth);
+            //                    }
+            //                }
+            //            }
+            //            divs = GetHtmlForEventCellsByEventList(assoEvents, date);
+            //        }
+            //    }
+            //}
+            //else
+            //{
+            //    divs = GetHtmlForEventCellsByEventList(EventDB.GetAllEventsInMonth(date), date);
+            //}
             return divs;
         }
 
@@ -225,6 +270,7 @@ namespace EventHandlingSystem
         private string GetHtmlForEventCellsByEventList(IEnumerable<events> eList, DateTime date)
         {
             string htmlEventCells = "";
+
             foreach (var ev in eList.OrderBy(e => e.DayEvent).ThenBy(e => e.StartDate))
             {
                 if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)

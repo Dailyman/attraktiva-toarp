@@ -26,14 +26,17 @@ namespace EventHandlingSystem.Database
         public static List<controls> GetAllControlsNotInWebpage(webpages wP)
         {
             var controlsNotInWebPage = GetAllControls();
-
-            foreach (var c in wP.components.Where(c => !c.IsDeleted))
+            if (wP != null)
+            {
+               foreach (var c in wP.components.Where(c => !c.IsDeleted))
             {
                 if (GetAllControls().Contains(c.controls))
                 {
                     controlsNotInWebPage.Remove(c.controls);
                 }
+            } 
             }
+            
 
             return controlsNotInWebPage;
         }

@@ -106,8 +106,9 @@ namespace EventHandlingSystem
                         CalendarStartDate.SelectedDate = @event.StartDate;
                         CalendarEndDate.SelectedDate = @event.EndDate;
                         TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
-
+                        ChkBoxDisplayInCommunity.Checked = @event.DisplayInCommunity;
                         
+
 
                         foreach (var asso in @event.associations.OrderBy(a => a.Name))
                         {
@@ -332,6 +333,7 @@ namespace EventHandlingSystem
                     !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
                         ? int.Parse(TxtBoxApproximateAttendees.Text)
                         : 0,
+                DisplayInCommunity = ChkBoxDisplayInCommunity.Checked,
                 associations = associationsList,
                 subcategories = subCategoriesList,
                 //subcategories = (from ListItem item in ListBoxSubCategories.Items select SubCategoryDB.GetSubCategoryById(int.Parse(item.Value))).ToList(),
@@ -430,6 +432,10 @@ namespace EventHandlingSystem
             AddNoneToListBoxSubCateIfListBoxIsEmpty();
         }
         #endregion
-        
+
+        protected void ChkBoxDisplayInCommunity_OnCheckedChanged(object sender, EventArgs e)
+        {
+                
+        }
     }
 }

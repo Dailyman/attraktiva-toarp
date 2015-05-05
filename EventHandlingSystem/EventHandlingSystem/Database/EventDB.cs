@@ -299,6 +299,7 @@ namespace EventHandlingSystem.Database
             eventToUpdate.EndDate = ev.EndDate;
             eventToUpdate.TargetGroup = ev.TargetGroup;
             eventToUpdate.ApproximateAttendees = ev.ApproximateAttendees;
+            eventToUpdate.DisplayInCommunity = ev.DisplayInCommunity;
             eventToUpdate.subcategories = ev.subcategories;
             //if (eventToUpdate.associationsinevents.Count() != 0)
             //{

@@ -18,6 +18,21 @@ namespace EventHandlingSystem
         private DateTime _sDate;
         private DateTime _eDate;
 
+        public string AssociationId { get; set; }
+        public string CommunityId { get; set; }
+
+        public EventList()
+        {
+            this.AssociationId = "";
+            this.CommunityId = "";
+        }
+
+        public EventList(string aId, string cId)
+        {
+            this.AssociationId = aId;
+            this.CommunityId = cId;
+        }
+
 
         protected void Page_Load(object sender, EventArgs e)
         {

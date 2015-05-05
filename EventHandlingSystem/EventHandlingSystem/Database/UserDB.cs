@@ -19,15 +19,15 @@ namespace EventHandlingSystem.Database
             return Context.users.Where(u => !u.IsDeleted);
         }
 
-        //public static List<users> GetAllUsersByAssociationId(int id)
-        //{
-        //    List<users> usersInAsso = new List<users>();
-        //    foreach (var notDeletedUser in GetAllNotDeletedUsers())
-        //    {
-        //        usersInAsso.AddRange(from association in notDeletedUser.associations where association.Id == id select notDeletedUser);
-        //    }
-        //    return usersInAsso;
-        //}
+        public static List<users> GetAllUsersByAssociationId(int id)
+        {
+            List<users> usersInAsso = new List<users>();
+            foreach (var notDeletedUser in GetAllNotDeletedUsers())
+            {
+                usersInAsso.AddRange(from association in notDeletedUser.associations where association.Id == id select notDeletedUser);
+            }
+            return usersInAsso;
+        }
 
         public static users GetUsersById(int id)
         {
