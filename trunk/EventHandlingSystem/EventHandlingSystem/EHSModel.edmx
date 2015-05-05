@@ -93,15 +93,15 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="ParentAssociationId" Type="int" />
           <Property Name="LogoUrl" Type="varchar" MaxLength="255" />
-          <Property Name="Description" Type="varchar" MaxLength="255" />
+          <Property Name="Description" Type="varchar" />
           <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Communities_Id" Type="int" Nullable="false" />
+          <Property Name="ParentAssociationId" Type="int" />
         </EntityType>
         <EntityType Name="associations_in_events">
           <Key>
@@ -134,8 +134,8 @@
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="LogoUrl" Type="varchar" MaxLength="255" />
-          <Property Name="Description" Type="varchar" MaxLength="255" />
-          <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="varchar" />
+          <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
@@ -185,6 +185,7 @@
           <Property Name="EndDate" Type="datetime" Nullable="false" />
           <Property Name="TargetGroup" Type="varchar" MaxLength="255" />
           <Property Name="ApproximateAttendees" Type="int" />
+          <Property Name="DisplayInCommunity" Type="bool" Nullable="false" />
           <Property Name="Created" Type="datetime" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="CreatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="LatestUpdate" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
@@ -523,15 +524,15 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ParentAssociationId" />
           <Property Type="String" Name="LogoUrl" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Communities_Id" Nullable="false" />
+          <Property Type="Int32" Name="ParentAssociationId" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_Associations_Communities" FromRole="associations" ToRole="communities" />
           <NavigationProperty Name="members" Relationship="ATModel.fk_Members_Associations1" FromRole="associations" ToRole="members" />
           <NavigationProperty Name="events" Relationship="ATModel.associations_in_events" FromRole="associations" ToRole="events" />
@@ -555,7 +556,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="LogoUrl" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="String" Name="Description" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="String" Name="Description" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
@@ -604,6 +605,7 @@
           <Property Type="DateTime" Name="EndDate" Nullable="false" />
           <Property Type="String" Name="TargetGroup" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Int32" Name="ApproximateAttendees" />
+          <Property Type="Boolean" Name="DisplayInCommunity" Nullable="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="CreatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="LatestUpdate" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
@@ -777,6 +779,7 @@
           <EntitySetMapping Name="associations">
             <EntityTypeMapping TypeName="ATModel.associations">
               <MappingFragment StoreEntitySet="associations">
+                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
                 <ScalarProperty Name="Communities_Id" ColumnName="Communities_Id" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -785,7 +788,6 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
-                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -844,6 +846,7 @@
                 <ScalarProperty Name="LatestUpdate" ColumnName="LatestUpdate" />
                 <ScalarProperty Name="CreatedBy" ColumnName="CreatedBy" />
                 <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="DisplayInCommunity" ColumnName="DisplayInCommunity" />
                 <ScalarProperty Name="ApproximateAttendees" ColumnName="ApproximateAttendees" />
                 <ScalarProperty Name="TargetGroup" ColumnName="TargetGroup" />
                 <ScalarProperty Name="EndDate" ColumnName="EndDate" />

@@ -61,7 +61,7 @@ namespace EventHandlingSystem
                             : ev.EndDate.ToString("yyyy MMMM d ") + "<img src=\"http://icons.iconarchive.com/icons/glyphish/glyphish/16/11-clock-icon.png\" style=\"vertical-align: middle; margin: 0 3px 0 5px;\">" + ev.EndDate.ToString("HH:mm");
                         EventTargetGroup.Text = ev.TargetGroup;
                         EventApproxAttend.Text = ev.ApproximateAttendees.ToString();
-
+                        DisplayInComm.Checked = ev.DisplayInCommunity;
 
                         EventCreated.Text = ev.Created.ToString("yyyy-MM-dd HH:mm:ss");
                         EventCreatedBy.Text = ev.CreatedBy;

@@ -82,7 +82,20 @@ namespace EventHandlingSystem.PageSettingsControls
         private void DisplayCurrentWebPageProperties()
         {
             ActivateDisplayView();
+
+            string type = "";
             webpages currentWebPage = WebPageDB.GetWebPageById(_wpId);
+            if (currentWebPage.AssociationId != null)
+            {
+                type = "A";
+            }
+            else if (currentWebPage.CommunityId != null)
+            {
+                type = "C";
+            }
+
+
+            WebPageLink.NavigateUrl = "~/SitePage?Id=" + _wpId + "&Type=" + type;
             LabelWepPageTitle.Text = String.IsNullOrEmpty(currentWebPage.Title) ? "-" : string.Format("{0}",currentWebPage.Title);
             LabelWepPageLayout.Text = String.IsNullOrEmpty(currentWebPage.Layout) ? "-" : string.Format("{0}", currentWebPage.Layout);
             LabelWepPageStyle.Text = String.IsNullOrEmpty(currentWebPage.Style) ? "-" : string.Format("{0}", currentWebPage.Style);
@@ -258,28 +271,29 @@ namespace EventHandlingSystem.PageSettingsControls
 
             int id = int.Parse(GridViewComponentList.Rows[e.RowIndex].Cells[0].Text);
             int oNo = int.Parse(((TextBox)gvrow.Cells[1].Controls[1]).Text);
-            int controlId = int.Parse(((DropDownList)gvrow.Cells[2].Controls[1]).SelectedValue);
+            //int controlId = int.Parse(((DropDownList)gvrow.Cells[2].Controls[1]).SelectedValue);
 
             components compToUpdate = ComponentDB.GetComponentById(id);
             compToUpdate.OrderingNumber = oNo;
-            if (ControlDB.GetControlsById(controlId) != null)
-            {
-                //foreach (var com in WebPageDB.GetWebPageById(int.Parse(HiddenFieldWebPageId.Value)).components)
-                //{
-                //    if (com.controls.Id == controlId)
-                //    {
+
+            //if (ControlDB.GetControlsById(controlId) != null)
+            //{
+            //    //foreach (var com in WebPageDB.GetWebPageById(int.Parse(HiddenFieldWebPageId.Value)).components)
+            //    //{
+            //    //    if (com.controls.Id == controlId)
+            //    //    {
                         
-                //    }
-                //}
-                 compToUpdate.controls_Id = controlId;
-            }
-            else
-            {
-                ActionStatusComponentsList.Text = "No Control By that Id was found";
-                ActionStatusComponentsList.ForeColor = Color.Red;
-                DisplayComponentsForWebPage();
-                return;
-            }
+            //    //    }
+            //    //}
+            //     compToUpdate.controls_Id = controlId;
+            //}
+            //else
+            //{
+            //    ActionStatusComponentsList.Text = "No Control By that Id was found";
+            //    ActionStatusComponentsList.ForeColor = Color.Red;
+            //    DisplayComponentsForWebPage();
+            //    return;
+            //}
 
             int affectedRows = ComponentDB.UpdateComponent(compToUpdate);
 
@@ -443,11 +457,7 @@ namespace EventHandlingSystem.PageSettingsControls
         
         #endregion
 
-
-
-
-
-
+        
 
 
         #region GridViewFilterData
@@ -487,7 +497,6 @@ namespace EventHandlingSystem.PageSettingsControls
 
                 if (currentComp != null)
                 {
-                    
                         GridViewFilterData.DataSource = currentComp.filterdata.Where(fd => !fd.IsDeleted);
                         GridViewFilterData.DataBind();
                         ActionStatusFilterDataList.Text = (currentComp.filterdata.Any(fd => !fd.IsDeleted) ? "FilterData for " + currentComp.controls.Name : "No FilterData");

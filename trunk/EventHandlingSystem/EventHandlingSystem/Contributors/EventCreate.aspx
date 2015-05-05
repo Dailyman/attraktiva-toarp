@@ -90,6 +90,10 @@
     <h6>Approximate attendees</h6>
     <asp:TextBox ID="TxtBoxApproximateAttendees" runat="server"></asp:TextBox>
     <asp:CompareValidator ID="CompValiApproxAttend" runat="server" ControlToValidate="TxtBoxApproximateAttendees" Type="Integer" Operator="DataTypeCheck" ErrorMessage="Value must be an integer!" ValidationGroup="ValGroupCreateEvent" Display="Dynamic" SetFocusOnError="True" />
+     <br />
+    <h6>Do you want to show this event in Communities for the seleted Associations</h6>
+    <asp:CheckBox ID="ChkBoxDisplayInCommunity" runat="server" OnCheckedChanged="ChkBoxDisplayInCommunity_OnCheckedChanged" />
+    <br />
     <br />
     <h6>Associations</h6>
     <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">

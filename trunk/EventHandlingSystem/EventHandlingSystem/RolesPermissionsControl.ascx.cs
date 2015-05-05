@@ -44,7 +44,7 @@ namespace EventHandlingSystem
         private void BindUsersToUserList1()
         {
             // Get all of the user accounts 
-            MembershipUserCollection users = Membership.GetAllUsers();
+            var users = Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
             UserList1.DataSource = users;
             UserList1.DataBind();
         }
@@ -221,7 +221,7 @@ namespace EventHandlingSystem
         private void BindUsersToUserList2()
         {
             // Get all of the user accounts 
-            MembershipUserCollection users = Membership.GetAllUsers();
+            var users = Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
             UserList2.DataSource = users;
             UserList2.DataBind();
         }

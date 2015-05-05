@@ -103,7 +103,22 @@
     <Columns>
         <asp:CheckBoxField DataField="IsOnline" HeaderText="IsOnline" ReadOnly="true" />
         <asp:BoundField DataField="UserName" HeaderText="Username" ReadOnly="true" />
-        <asp:BoundField DataField="Email" HeaderText="Email" />
+        <%--<asp:BoundField DataField="Email" HeaderText="Email" />--%>
+        <asp:TemplateField HeaderText="Email">
+                <ItemTemplate>
+                    <%# Eval("Email")  %>
+                </ItemTemplate>
+                <EditItemTemplate>
+                    <asp:TextBox ID="txtEmail" runat="server"
+                        Text='<%#Eval("Email") %>'
+                        TextMode="Email" CausesValidation="True" ValidationGroup="UserVali"></asp:TextBox>
+                    <br/>
+                    <asp:RegularExpressionValidator ID="RegularExpressionValidatorForEmail" runat="server" ErrorMessage="Enter a valid email!"
+                            ValidationExpression="\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*" ControlToValidate="txtEmail"  Display="Dynamic" ValidationGroup="UserVali"/>
+                    <asp:RequiredFieldValidator ID="RequiredFieldValidatorForEmail" runat="server" ErrorMessage="Required"
+                            ControlToValidate="txtEmail" Display="Dynamic" ValidationGroup="UserVali" />
+                </EditItemTemplate>
+            </asp:TemplateField>
         <asp:BoundField DataField="Comment" HeaderText="Comment" />
         <asp:CheckBoxField DataField="IsApproved" HeaderText="IsApproved" />
         <%--<asp:BoundField DataField="PasswordQuestion" HeaderText="PasswordQuestion" ReadOnly="True"/>
@@ -116,7 +131,7 @@
         <asp:TemplateField>
             <ItemTemplate>
                 <asp:LinkButton ID="LinkButtonEditEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Edit" Text="Edit" CssClass="edit-link"></asp:LinkButton>
-                <asp:LinkButton ID="LinkButtonUpdateEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Update" Text="Update" Visible="False" CssClass="edit-mode-link" />
+                <asp:LinkButton ID="LinkButtonUpdateEvent" ClientIDMode="Static" runat="server" CausesValidation="True" CommandName="Update" Text="Update" Visible="False" CssClass="edit-mode-link" ValidationGroup="UserVali"/>
                 <asp:LinkButton ID="LinkButtonCancelEdit" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Cancel" Text="Cancel" Visible="False" CssClass="edit-mode-link" />
                 <asp:LinkButton ID="LinkButtonDeleteEvent" ClientIDMode="Static" runat="server" CausesValidation="False" CommandName="Delete" Text="Delete" OnClientClick="return confirm('Are you sure you want to delete this user?');" CssClass="delete-mode-link"></asp:LinkButton>
             </ItemTemplate>

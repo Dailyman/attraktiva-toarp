@@ -47,6 +47,16 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedWebPages().SingleOrDefault(wP => wP.AssociationId.Equals(id));
         }
 
+        public static bool IsWebPageForAssociation(webpages wP)
+        {
+            return wP.AssociationId != null;
+        }
+
+        public static bool IsWebPageForCommunity(webpages wP)
+        {
+            return wP.CommunityId != null;
+        }
+
         // DELETE
         public static int DeleteWebPageById(int id)
         {
