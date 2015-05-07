@@ -175,6 +175,15 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.TextBox TextBoxCommDescript;
         
         /// <summary>
+        /// revCommDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revCommDescription;
+        
+        /// <summary>
         /// TextBoxCommLogoImgUrl control.
         /// </summary>
         /// <remarks>
@@ -335,6 +344,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox TextBoxAssoDescript;
+        
+        /// <summary>
+        /// revAssoDescription control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RegularExpressionValidator revAssoDescription;
         
         /// <summary>
         /// DropDownListCommunityInAsso control.

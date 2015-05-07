@@ -93,7 +93,7 @@
             <PropertyRef Name="users_Id" />
             <PropertyRef Name="associations_Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="Id" Type="int" Nullable="false" />
           <Property Name="users_Id" Type="int" Nullable="false" />
           <Property Name="associations_Id" Type="int" Nullable="false" />
           <Property Name="Role" Type="varchar" Nullable="false" MaxLength="255" />
@@ -105,6 +105,7 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="ParentAssociationId" Type="int" />
           <Property Name="LogoUrl" Type="varchar" MaxLength="255" />
           <Property Name="Description" Type="varchar" />
           <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
@@ -113,7 +114,6 @@
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Communities_Id" Type="int" Nullable="false" />
-          <Property Name="ParentAssociationId" Type="int" />
         </EntityType>
         <EntityType Name="associations_in_events">
           <Key>
@@ -533,7 +533,7 @@
             <PropertyRef Name="users_Id" />
             <PropertyRef Name="associations_Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="Id" Nullable="false" />
           <Property Type="Int32" Name="users_Id" Nullable="false" />
           <Property Type="Int32" Name="associations_Id" Nullable="false" />
           <Property Type="String" Name="Role" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -547,6 +547,7 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Int32" Name="ParentAssociationId" />
           <Property Type="String" Name="LogoUrl" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Description" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
@@ -555,7 +556,6 @@
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Communities_Id" Nullable="false" />
-          <Property Type="Int32" Name="ParentAssociationId" />
           <NavigationProperty Name="association_permissions" Relationship="ATModel.fk_association_permissions_associations1" FromRole="associations" ToRole="association_permissions" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_Associations_Communities" FromRole="associations" ToRole="communities" />
           <NavigationProperty Name="members" Relationship="ATModel.fk_Members_Associations1" FromRole="associations" ToRole="members" />
@@ -833,7 +833,6 @@
           <EntitySetMapping Name="associations">
             <EntityTypeMapping TypeName="ATModel.associations">
               <MappingFragment StoreEntitySet="associations">
-                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
                 <ScalarProperty Name="Communities_Id" ColumnName="Communities_Id" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -842,6 +841,7 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
+                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>

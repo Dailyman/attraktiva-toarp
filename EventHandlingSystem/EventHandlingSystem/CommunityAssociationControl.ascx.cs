@@ -1006,6 +1006,8 @@ namespace EventHandlingSystem
         // För att spara ändringar i Association details - UPDATE-knappen
         protected void ButtonUpdateAsso_OnClick(object sender, EventArgs e)
         {
+            bool isUniqueName = true;
+
             if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
             {
                 //Hitta Association-Id i listboxen - value
@@ -1013,7 +1015,23 @@ namespace EventHandlingSystem
                 
                 // UPPDATERA det nya namnet från textboxen
                 associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
-                assoToUpdate.Name = TextBoxAssoName.Text;
+
+                //Kontrollera så att det inte blir namnduplikationer 
+                foreach (associations assoChecking in AssociationDB.GetAllAssociations())
+                {
+                    if (TextBoxAssoName.Text == assoChecking.Name)
+                    {
+                        isUniqueName = false;
+                    }
+                }
+                if (isUniqueName)
+                {
+                    assoToUpdate.Name = TextBoxAssoName.Text;
+                }
+                else
+                {
+                    LabelUpdateAsso.Text = "Association name was not updated, specified name already exists. ";
+                }
 
                 ////Uppdatera det nya namnet i webpage också
                 //webpages wpToUpdate = WebPageDB.GetWebPageByAssociationId(int.Parse(hdfAssoId.Value));
@@ -1173,13 +1191,13 @@ namespace EventHandlingSystem
 
                 if (affectedRows != 0)
                 {
-                    LabelUpdateAsso.Text = TextBoxAssoName.Text + " has been updated!";
+                    LabelUpdateAsso.Text = assoToUpdate.Name + " has been updated!";
                     LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
                     MultiViewManageMembers.ActiveViewIndex = -1;
                 }
                 else
                 {
-                    LabelUpdateAsso.Text += "Error: Changes might not have been made in " + TextBoxAssoName.Text +
+                    LabelUpdateAsso.Text += "Error: Changes might not have been made in " + assoToUpdate.Name +
                                             "... Make sure to set the update information.";
                     LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
