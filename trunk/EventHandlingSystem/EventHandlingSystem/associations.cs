@@ -24,6 +24,7 @@ namespace EventHandlingSystem
     
         public int Id { get; set; }
         public string Name { get; set; }
+        public Nullable<int> ParentAssociationId { get; set; }
         public string LogoUrl { get; set; }
         public string Description { get; set; }
         public System.DateTime Created { get; set; }
@@ -32,7 +33,6 @@ namespace EventHandlingSystem
         public string UpdatedBy { get; set; }
         public bool IsDeleted { get; set; }
         public int Communities_Id { get; set; }
-        public Nullable<int> ParentAssociationId { get; set; }
     
         public virtual ICollection<association_permissions> association_permissions { get; set; }
         public virtual communities communities { get; set; }

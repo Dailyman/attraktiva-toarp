@@ -59,11 +59,19 @@
                     </asp:HyperLink>
                 <span><b>Name: </b>
                     <asp:TextBox ID="TextBoxCommName" Text="" runat="server"></asp:TextBox></span><br />
-                <span><b>Description: </b><br />
+                <span><b>Description: (max characters: 1000) </b><br />
                     <asp:TextBox ID="TextBoxCommDescript" 
-                        TextMode="MultiLine" 
-                        runat="server"></asp:TextBox>
+                        TextMode="MultiLine" runat="server"
+                        MaxLength="1000"></asp:TextBox>
                 </span><br />
+                <asp:RegularExpressionValidator ID="revCommDescription" runat="server" 
+                    ErrorMessage="Maximum characters: 1000! "
+                    ForeColor="Red"
+                    ControlToValidate="TextBoxCommDescript"
+                    ValidationExpression="^[\s\S]{0,1000}$">
+                </asp:RegularExpressionValidator>
+                <br /><br />
+
                 <span><b>Logo URL: </b>
                     <asp:TextBox ID="TextBoxCommLogoImgUrl" runat="server" ></asp:TextBox>
                 </span>
@@ -114,9 +122,17 @@
                             runat="server" />
                     </asp:HyperLink>
                 <span><b>Name: </b>
-                    <asp:TextBox ID="TextBoxAssoName" Text="" runat="server"></asp:TextBox></span><br /><br />
-                <span><b>Description: </b><br />
-                    <asp:TextBox ID="TextBoxAssoDescript" TextMode="MultiLine" runat="server"></asp:TextBox></span><br /><br />
+                    <asp:TextBox ID="TextBoxAssoName" Text="" runat="server" ></asp:TextBox></span><br /><br />
+                <span><b>Description: (max characters: 1000) </b><br />
+                    <asp:TextBox ID="TextBoxAssoDescript" TextMode="MultiLine" runat="server" MaxLength="1000">
+                    </asp:TextBox></span><br />
+                <asp:RegularExpressionValidator ID="revAssoDescription" runat="server"
+                        ErrorMessage="Maximum characters: 1000!"
+                        ForeColor="Red"
+                        ControlToValidate="TextBoxAssoDescript"
+                        ValidationExpression="^[\s\S]{0,1000}$">
+                    </asp:RegularExpressionValidator><br /><br />
+
                 <span><b>Community: </b>
                     <asp:DropDownList ID="DropDownListCommunityInAsso" runat="server"
                         OnSelectedIndexChanged="DropDownListCommunityInAsso_OnSelectedIndexChanged"
@@ -154,8 +170,10 @@
                     DisplayMode="LinkButton"></asp:BulletedList>
                 <br/>
                 <asp:LinkButton ID="lnkbtnAddNewMember" runat="server" OnClick="lnkbtnAddNewMember_OnClick" >Add New Member</asp:LinkButton>
+                
                 <div class="btn-align-right">
-                    <asp:Button ID="ButtonUpdateAsso" CssClass="btn-blue" runat="server" Text="Update" 
+                    <asp:Button ID="ButtonUpdateAsso" 
+                        CssClass="btn-blue" runat="server" Text="Update" 
                         OnClick="ButtonUpdateAsso_OnClick"/>
                     <asp:Button ID="ButtonDeleteAsso" CssClass="btn-blue" runat="server" 
                         Text="Delete this Association" 
