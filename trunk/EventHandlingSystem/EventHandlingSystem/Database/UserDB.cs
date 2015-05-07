@@ -24,17 +24,17 @@ namespace EventHandlingSystem.Database
             List<users> usersInAsso = new List<users>();
             foreach (var notDeletedUser in GetAllNotDeletedUsers())
             {
-                usersInAsso.AddRange(from association in notDeletedUser.associations where association.Id == id select notDeletedUser);
+                usersInAsso.AddRange(from permission in notDeletedUser.association_permissions where permission.associations.Id == id select notDeletedUser);
             }
             return usersInAsso;
         }
 
-        public static users GetUsersById(int id)
+        public static users GetUserById(int id)
         {
             return GetAllNotDeletedUsers().SingleOrDefault(u => u.Id.Equals(id));
         }
 
-        public static users GetUsersByUsername(string username)
+        public static users GetUserByUsername(string username)
         {
             return GetAllNotDeletedUsers().SingleOrDefault(u => u.Username.Equals(username));
         }
@@ -42,7 +42,7 @@ namespace EventHandlingSystem.Database
         // UPDATE
         public static int UpdateUser(users user)
         {
-            users userToUpdate = GetUsersById(user.Id);
+            users userToUpdate = GetUserById(user.Id);
 
             userToUpdate.Username = user.Username;
             
@@ -144,7 +144,7 @@ namespace EventHandlingSystem.Database
         // DELETE
         public static int DeleteUserById(int id)
         {
-            users userToDelete = GetUsersById(id);
+            users userToDelete = GetUserById(id);
 
             if (userToDelete != null)
                 userToDelete.IsDeleted = true;

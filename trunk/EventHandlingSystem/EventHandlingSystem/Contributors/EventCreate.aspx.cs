@@ -29,10 +29,10 @@ namespace EventHandlingSystem
 
             if (!IsPostBack)
             {
-                var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+                var currentUser = UserDB.GetUserByUsername(HttpContext.Current.User.Identity.Name);
                 if (currentUser != null)
                 {
-                    foreach (var association in currentUser.associations.OrderBy(a => a.Name))
+                    foreach (var association in (from permission in currentUser.association_permissions where !permission.associations.IsDeleted select permission.associations).OrderBy(a => a.Name))
                     {
                         DropDownAssociation.Items.Add(new ListItem
                         {
@@ -44,7 +44,7 @@ namespace EventHandlingSystem
                     
                     foreach (
                         var subCat in
-                            SubCategoryDB.GetAllSubCategoriesByAssociations(currentUser.associations.ToArray()).OrderBy(s => s.Name))
+                            SubCategoryDB.GetAllSubCategoriesByAssociations((from permission in currentUser.association_permissions where !permission.associations.IsDeleted select permission.associations).ToArray()).OrderBy(s => s.Name))
                     {
                         DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
                     }

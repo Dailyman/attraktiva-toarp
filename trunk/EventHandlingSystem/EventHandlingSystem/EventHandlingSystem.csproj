@@ -392,6 +392,9 @@
     <Compile Include="associations.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="association_permissions.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Calendar.ascx.cs">
       <DependentUpon>Calendar.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -435,6 +438,7 @@
       <DependentUpon>CustomSite.Master</DependentUpon>
     </Compile>
     <Compile Include="Database\AssociationDB.cs" />
+    <Compile Include="Database\AssociationPermissionsDB.cs" />
     <Compile Include="Database\CategoryDB.cs" />
     <Compile Include="Database\CommunityDB.cs" />
     <Compile Include="Database\ComponentDB.cs" />

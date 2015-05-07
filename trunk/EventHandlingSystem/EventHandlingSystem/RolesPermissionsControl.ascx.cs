@@ -252,10 +252,11 @@ namespace EventHandlingSystem
             string selectedUserName = UserList2.SelectedValue;
 
             associations[] selectedUsersAssociations =
-                UserDB.GetUsersByUsername(selectedUserName).associations.ToArray();
+                (from permission in UserDB.GetUserByUsername(selectedUserName).association_permissions where !permission.associations.IsDeleted && !permission.IsDeleted select permission.associations).ToArray();
 
             string[] selectedUsersAssociationsNames =
-                UserDB.GetUsersByUsername(selectedUserName).associations.Select(a => a.Name).ToArray();
+                (from association in selectedUsersAssociations where !association.IsDeleted select association.Name)
+                    .ToArray();
 
 
             SelectedAssociationsListBox.DataSource = selectedUsersAssociations.OrderBy(a => a.Name);
@@ -287,12 +288,12 @@ namespace EventHandlingSystem
             SelectAssociationsForSelectedUser();
         }
 
-        private void UpdateUsersAssociationsPermissions()
+        private void UpdateUsersAssociationsPermissions(IEnumerable<ListItem> items, bool isAdding)
         {
             // Get the selected user
             string selectedUserName = UserList2.SelectedValue;
 
-            users user = UserDB.GetUsersByUsername(selectedUserName);
+            users user = UserDB.GetUserByUsername(selectedUserName);
 
             // Make sure the user exists
             if (user == null)
@@ -304,12 +305,104 @@ namespace EventHandlingSystem
                 return;
             }
 
-            // Get Associations by items in SelectedAssociationsListbox and gives them to the selected user
-            user.associations =
-                (from ListItem item in SelectedAssociationsListBox.Items
-                    select AssociationDB.GetAssociationById(int.Parse(item.Value))).ToList();
 
-            if (UserDB.UpdateUser(user) > 0)
+            // Get Associations by items in SelectedAssociationsListbox
+            var associationsByListItems = new List<associations>();
+            foreach (ListItem item in items)
+            {
+                int id;
+                if (int.TryParse(item.Value, out id))
+                {
+                    associationsByListItems.Add(AssociationDB.GetAssociationById(id));
+                }
+            }
+            
+
+            int permissionsRowsChanged = 0;
+
+            if (isAdding)
+            {
+                
+                    foreach (var association in associationsByListItems)
+                    {
+                        if (!AssociationPermissionsDB.HasUserPermissionForAssociation(user, association))
+                        {
+                            permissionsRowsChanged +=
+                                (AssociationPermissionsDB.AddAssociationPermissions(new association_permissions()
+                                {
+                                    users_Id = user.Id,
+                                    associations_Id = association.Id,
+                                    users = user,
+                                    associations = association,
+                                    Role = "Contributors"
+                                }))
+                                    ? 1
+                                    : 0;
+                        }
+                    }
+                
+            }
+            else
+            {
+                foreach (var association in associationsByListItems)
+                {
+                    if (AssociationPermissionsDB.HasUserPermissionForAssociation(user, association))
+                    {
+
+                        //int test = (from permission in user.association_permissions
+                        //            where !permission.IsDeleted && permission.associations_Id == association.Id
+                        //            select permission.Id).SingleOrDefault();
+
+                        association_permissions aP =
+                            user.association_permissions.SingleOrDefault(
+                                p => !p.IsDeleted && p.associations == association);
+                        int permId = -1;
+                        if (aP != null)
+                        {
+                         permId = aP.Id;
+                        }
+
+                        if (permId != -1)
+                        {
+                            permissionsRowsChanged += (AssociationPermissionsDB.DeleteAssociationPermissionsById(permId) > 0)
+                            ? 1
+                            : 0;
+                        }
+                        
+                    }
+                }
+
+
+                //foreach (var item in associationsByListItems)
+                //{
+                //    // Loop through users association permissions 
+                //    foreach (var uPermission in user.association_permissions)
+                //    {
+                //        if (associationsByListItems.Select(a => a.Id).All(id => id != uPermission.associations_Id))
+                //        {
+                //            isPermissionsChanged = AssociationPermissionsDB.DeleteAssociationPermissionsById(uPermission.Id) > 0;
+                //        }
+                //    }
+                //}
+
+            }
+
+
+
+            
+
+            //// Get association permissions by associations in the list of SelcetedAssociations In Listbox
+            //var aPermission = new List<association_permissions>();
+            //foreach (var association in associationsInAssociationListbox)
+            //{
+            //    aPermission.AddRange(association.association_permissions);
+            //}
+
+            
+
+            
+
+            if (permissionsRowsChanged > 0)
             {
                 ActionStatusPermissions.Text = string.Format("User {0}'s Permissions was Updated.", selectedUserName);
             }
@@ -328,6 +421,8 @@ namespace EventHandlingSystem
             int[] selectedIndices = AssociationsListBox.GetSelectedIndices();
 
             ListItem[] selectedItems = selectedIndices.Select(index => AssociationsListBox.Items[index]).ToArray();
+            
+            UpdateUsersAssociationsPermissions(selectedItems, true);
 
             SelectedAssociationsListBox.Items.AddRange(selectedItems);
 
@@ -336,7 +431,7 @@ namespace EventHandlingSystem
                 AssociationsListBox.Items.Remove(item);
             }
 
-            UpdateUsersAssociationsPermissions();
+            
         }
 
         protected void RemoveAssociation_OnClick(object sender, EventArgs e)
@@ -346,6 +441,8 @@ namespace EventHandlingSystem
             ListItem[] selectedItems =
                 selectedIndices.Select(index => SelectedAssociationsListBox.Items[index]).ToArray();
 
+            UpdateUsersAssociationsPermissions(selectedItems, false);
+
             AssociationsListBox.Items.AddRange(selectedItems);
 
             foreach (var item in selectedItems)
@@ -353,7 +450,7 @@ namespace EventHandlingSystem
                 SelectedAssociationsListBox.Items.Remove(item);
             }
 
-            UpdateUsersAssociationsPermissions();
+            
         }
 
 
@@ -363,7 +460,15 @@ namespace EventHandlingSystem
             associations selectedAssociation = AssociationDB.GetAssociationById(int.Parse(AssociationList.SelectedValue));
 
             // Get the list of usernames that belong to the association 
-            string[] usersPermissionToAssociation = selectedAssociation.users.Where(u => !u.IsDeleted).Select(u => u.Username).ToArray();
+            List<string> userNames = new List<string>();
+            foreach (var permission in selectedAssociation.association_permissions)
+            {
+                if (!permission.users.IsDeleted)
+                {
+                    userNames.Add(permission.users.Username);
+                }  
+            }
+            string[] usersPermissionToAssociation = userNames.ToArray();
 
             // Bind the list of users to the GridView 
             AssociationUserList.DataSource = usersPermissionToAssociation;
@@ -383,7 +488,7 @@ namespace EventHandlingSystem
             // Reference the UserNameLabel 
             Label UserNameLabel = AssociationUserList.Rows[e.RowIndex].FindControl("UserNameLabelInAssociation") as Label;
 
-            users userToRemove = UserDB.GetUsersByUsername(UserNameLabel.Text);
+            users userToRemove = UserDB.GetUserByUsername(UserNameLabel.Text);
 
             // Make sure the association exists
             if (selectedAssociation == null)
@@ -410,11 +515,24 @@ namespace EventHandlingSystem
             }
 
             // Remove the user from the selected associations permission 
-            selectedAssociation.users.Remove(userToRemove);
+            List<int> permissionIdToDelete = new List<int>();
+            foreach (var permission in AssociationPermissionsDB.GetAllAssociationPermissionsByAssociation(selectedAssociation))
+            {
+                if (permission.users == userToRemove)
+                {
+                    permissionIdToDelete.Add(permission.Id);
+                }   
+            }
+
+            int affectedRows = 0;
+            foreach (var id in permissionIdToDelete)
+            {
+                affectedRows = AssociationPermissionsDB.DeleteAssociationPermissionsById(id);
+            }
 
 
             // Update and display a status message 
-            if (AssociationDB.UpdateAssociation(selectedAssociation) > 0)
+            if (affectedRows > 0)
             {
                 
             ActionStatusPermissions.Text = string.Format("User {0} was removed from association {1}.",
@@ -447,7 +565,7 @@ namespace EventHandlingSystem
                 return;
             }
 
-            users userToAdd = UserDB.GetUsersByUsername(UserNameToAddToAssociation.Text);
+            users userToAdd = UserDB.GetUserByUsername(UserNameToAddToAssociation.Text);
 
             // Make sure the user exists
             if (userToAdd == null)
@@ -457,17 +575,18 @@ namespace EventHandlingSystem
             }
 
             // Make sure that the user doesn't already has permission to this association 
-            if (userToAdd.associations.Contains(selectedAssociation))
+            foreach (var associationPermission in userToAdd.association_permissions)
             {
-                ActionStatusPermissions.Text = string.Format("The user {0} already has permissions to association {1}.", userNameToAdd, selectedAssociation.Name);
-                return;
+                if (associationPermission.associations.Id == selectedAssociation.Id)
+                {
+                    ActionStatusPermissions.Text = string.Format("The user {0} already has permissions to association {1}.", userNameToAdd, selectedAssociation.Name);
+                    return;
+                }
             }
+           
 
-            //Add the association to the user
-            userToAdd.associations.Add(selectedAssociation);
-
-            // Update the user and make sure the user was updated
-            if (UserDB.UpdateUser(userToAdd) > 0)
+            // Add the permission to the user and make sure it was successfully added
+            if (AssociationPermissionsDB.AddAssociationPermissions(new association_permissions() { users_Id = userToAdd.Id, associations_Id = selectedAssociation.Id,users = userToAdd, associations = selectedAssociation, Role = "Contributors"}))
             {
                 ActionStatusPermissions.Text = string.Format("User {0} was added to role {1}.", userNameToAdd, selectedAssociation.Name);
             }

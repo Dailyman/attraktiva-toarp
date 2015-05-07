@@ -25,6 +25,7 @@ namespace EventHandlingSystem
             throw new UnintentionalCodeFirstException();
         }
     
+        public DbSet<association_permissions> association_permissions { get; set; }
         public DbSet<associations> associations { get; set; }
         public DbSet<categories> categories { get; set; }
         public DbSet<communities> communities { get; set; }
