@@ -70,7 +70,7 @@ namespace EventHandlingSystem.Database
             assoToUpdate.ParentAssociationId = assoc.ParentAssociationId;
             assoToUpdate.Description = assoc.Description;
             assoToUpdate.categories = assoc.categories;
-            assoToUpdate.users = assoc.users;
+            assoToUpdate.association_permissions = assoc.association_permissions;
 
             int affectedRows;
 

@@ -6,6 +6,7 @@
     <edmx:StorageModels>
     <Schema Namespace="ATModel.Store" Alias="Self" Provider="MySql.Data.MySqlClient" ProviderManifestToken="5.6" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityContainer Name="ATModelStoreContainer">
+          <EntitySet Name="association_permissions" EntityType="ATModel.Store.association_permissions" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="associations" EntityType="ATModel.Store.associations" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="associations_in_events" EntityType="ATModel.Store.associations_in_events" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="categories" EntityType="ATModel.Store.categories" store:Type="Tables" Schema="attraktiva_toarp" />
@@ -17,11 +18,18 @@
           <EntitySet Name="events" EntityType="ATModel.Store.events" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="filterdata" EntityType="ATModel.Store.filterdata" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="members" EntityType="ATModel.Store.members" store:Type="Tables" Schema="attraktiva_toarp" />
-          <EntitySet Name="permissions" EntityType="ATModel.Store.permissions" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="subcategories" EntityType="ATModel.Store.subcategories" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="subcategories_in_events" EntityType="ATModel.Store.subcategories_in_events" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="users" EntityType="ATModel.Store.users" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="webpages" EntityType="ATModel.Store.webpages" store:Type="Tables" Schema="attraktiva_toarp" />
+          <AssociationSet Name="fk_association_permissions_associations1" Association="ATModel.Store.fk_association_permissions_associations1">
+            <End Role="associations" EntitySet="associations" />
+            <End Role="association_permissions" EntitySet="association_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_association_permissions_users1" Association="ATModel.Store.fk_association_permissions_users1">
+            <End Role="users" EntitySet="users" />
+            <End Role="association_permissions" EntitySet="association_permissions" />
+          </AssociationSet>
           <AssociationSet Name="fk_Associations_Communities" Association="ATModel.Store.fk_Associations_Communities">
             <End Role="communities" EntitySet="communities" />
             <End Role="associations" EntitySet="associations" />
@@ -33,14 +41,6 @@
           <AssociationSet Name="fk_associations_has_events_events1" Association="ATModel.Store.fk_associations_has_events_events1">
             <End Role="events" EntitySet="events" />
             <End Role="associations_in_events" EntitySet="associations_in_events" />
-          </AssociationSet>
-          <AssociationSet Name="fk_associations_has_users_associations1" Association="ATModel.Store.fk_associations_has_users_associations1">
-            <End Role="associations" EntitySet="associations" />
-            <End Role="permissions" EntitySet="permissions" />
-          </AssociationSet>
-          <AssociationSet Name="fk_associations_has_users_users1" Association="ATModel.Store.fk_associations_has_users_users1">
-            <End Role="users" EntitySet="users" />
-            <End Role="permissions" EntitySet="permissions" />
           </AssociationSet>
           <AssociationSet Name="fk_categories_has_associations_associations1" Association="ATModel.Store.fk_categories_has_associations_associations1">
             <End Role="associations" EntitySet="associations" />
@@ -87,6 +87,18 @@
             <End Role="subcategories_in_events" EntitySet="subcategories_in_events" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="association_permissions">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="users_Id" />
+            <PropertyRef Name="associations_Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="users_Id" Type="int" Nullable="false" />
+          <Property Name="associations_Id" Type="int" Nullable="false" />
+          <Property Name="Role" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="IsDeleted" Type="bool" Nullable="false" />
+        </EntityType>
         <EntityType Name="associations">
           <Key>
             <PropertyRef Name="Id" />
@@ -216,14 +228,6 @@
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Associations_Id" Type="int" Nullable="false" />
         </EntityType>
-        <EntityType Name="permissions">
-          <Key>
-            <PropertyRef Name="associations_Id" />
-            <PropertyRef Name="users_Id" />
-          </Key>
-          <Property Name="associations_Id" Type="int" Nullable="false" />
-          <Property Name="users_Id" Type="int" Nullable="false" />
-        </EntityType>
         <EntityType Name="subcategories">
           <Key>
             <PropertyRef Name="Id" />
@@ -265,6 +269,30 @@
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
+        <Association Name="fk_association_permissions_associations1">
+          <End Role="associations" Type="ATModel.Store.associations" Multiplicity="1" />
+          <End Role="association_permissions" Type="ATModel.Store.association_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="associations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="association_permissions">
+              <PropertyRef Name="associations_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_association_permissions_users1">
+          <End Role="users" Type="ATModel.Store.users" Multiplicity="1" />
+          <End Role="association_permissions" Type="ATModel.Store.association_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="association_permissions">
+              <PropertyRef Name="users_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Associations_Communities">
           <End Role="communities" Type="ATModel.Store.communities" Multiplicity="1" />
           <End Role="associations" Type="ATModel.Store.associations" Multiplicity="*" />
@@ -298,30 +326,6 @@
             </Principal>
             <Dependent Role="associations_in_events">
               <PropertyRef Name="events_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_associations_has_users_associations1">
-          <End Role="associations" Type="ATModel.Store.associations" Multiplicity="1" />
-          <End Role="permissions" Type="ATModel.Store.permissions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="associations">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="permissions">
-              <PropertyRef Name="associations_Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="fk_associations_has_users_users1">
-          <End Role="users" Type="ATModel.Store.users" Multiplicity="1" />
-          <End Role="permissions" Type="ATModel.Store.permissions" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="users">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="permissions">
-              <PropertyRef Name="users_Id" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -462,6 +466,7 @@
     <edmx:ConceptualModels>
       <Schema Namespace="ATModel" Alias="Self" p1:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:p1="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
         <EntityContainer Name="ATEntities" p1:LazyLoadingEnabled="true">
+          <EntitySet Name="association_permissions" EntityType="ATModel.association_permissions" />
           <EntitySet Name="associations" EntityType="ATModel.associations" />
           <EntitySet Name="categories" EntityType="ATModel.categories" />
           <EntitySet Name="communities" EntityType="ATModel.communities" />
@@ -473,6 +478,14 @@
           <EntitySet Name="subcategories" EntityType="ATModel.subcategories" />
           <EntitySet Name="users" EntityType="ATModel.users" />
           <EntitySet Name="webpages" EntityType="ATModel.webpages" />
+          <AssociationSet Name="fk_association_permissions_associations1" Association="ATModel.fk_association_permissions_associations1">
+            <End Role="associations" EntitySet="associations" />
+            <End Role="association_permissions" EntitySet="association_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_association_permissions_users1" Association="ATModel.fk_association_permissions_users1">
+            <End Role="users" EntitySet="users" />
+            <End Role="association_permissions" EntitySet="association_permissions" />
+          </AssociationSet>
           <AssociationSet Name="fk_Associations_Communities" Association="ATModel.fk_Associations_Communities">
             <End Role="communities" EntitySet="communities" />
             <End Role="associations" EntitySet="associations" />
@@ -509,15 +522,25 @@
             <End Role="communities" EntitySet="communities" />
             <End Role="events" EntitySet="events" />
           </AssociationSet>
-          <AssociationSet Name="permissions" Association="ATModel.permissions">
-            <End Role="associations" EntitySet="associations" />
-            <End Role="users" EntitySet="users" />
-          </AssociationSet>
           <AssociationSet Name="subcategories_in_events" Association="ATModel.subcategories_in_events">
             <End Role="events" EntitySet="events" />
             <End Role="subcategories" EntitySet="subcategories" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="association_permissions">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="users_Id" />
+            <PropertyRef Name="associations_Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="users_Id" Nullable="false" />
+          <Property Type="Int32" Name="associations_Id" Nullable="false" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="associations" Relationship="ATModel.fk_association_permissions_associations1" FromRole="association_permissions" ToRole="associations" />
+          <NavigationProperty Name="users" Relationship="ATModel.fk_association_permissions_users1" FromRole="association_permissions" ToRole="users" />
+        </EntityType>
         <EntityType Name="associations">
           <Key>
             <PropertyRef Name="Id" />
@@ -533,11 +556,11 @@
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Communities_Id" Nullable="false" />
           <Property Type="Int32" Name="ParentAssociationId" />
+          <NavigationProperty Name="association_permissions" Relationship="ATModel.fk_association_permissions_associations1" FromRole="associations" ToRole="association_permissions" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_Associations_Communities" FromRole="associations" ToRole="communities" />
           <NavigationProperty Name="members" Relationship="ATModel.fk_Members_Associations1" FromRole="associations" ToRole="members" />
           <NavigationProperty Name="events" Relationship="ATModel.associations_in_events" FromRole="associations" ToRole="events" />
           <NavigationProperty Name="categories" Relationship="ATModel.categories_in_associations" FromRole="associations" ToRole="categories" />
-          <NavigationProperty Name="users" Relationship="ATModel.permissions" FromRole="associations" ToRole="users" />
         </EntityType>
         <EntityType Name="categories">
           <Key>
@@ -659,7 +682,7 @@
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Username" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
-          <NavigationProperty Name="associations" Relationship="ATModel.permissions" FromRole="users" ToRole="associations" />
+          <NavigationProperty Name="association_permissions" Relationship="ATModel.fk_association_permissions_users1" FromRole="users" ToRole="association_permissions" />
         </EntityType>
         <EntityType Name="webpages">
           <Key>
@@ -678,6 +701,30 @@
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="components" Relationship="ATModel.fk_components_webpages1" FromRole="webpages" ToRole="components" />
         </EntityType>
+        <Association Name="fk_association_permissions_associations1">
+          <End Type="ATModel.associations" Role="associations" Multiplicity="1" />
+          <End Type="ATModel.association_permissions" Role="association_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="associations">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="association_permissions">
+              <PropertyRef Name="associations_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_association_permissions_users1">
+          <End Type="ATModel.users" Role="users" Multiplicity="1" />
+          <End Type="ATModel.association_permissions" Role="association_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="association_permissions">
+              <PropertyRef Name="users_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_Associations_Communities">
           <End Type="ATModel.communities" Role="communities" Multiplicity="1" />
           <End Type="ATModel.associations" Role="associations" Multiplicity="*" />
@@ -762,10 +809,6 @@
           <End Type="ATModel.communities" Role="communities" Multiplicity="*" />
           <End Type="ATModel.events" Role="events" Multiplicity="*" />
         </Association>
-        <Association Name="permissions">
-          <End Type="ATModel.associations" Role="associations" Multiplicity="*" />
-          <End Type="ATModel.users" Role="users" Multiplicity="*" />
-        </Association>
         <Association Name="subcategories_in_events">
           <End Type="ATModel.events" Role="events" Multiplicity="*" />
           <End Type="ATModel.subcategories" Role="subcategories" Multiplicity="*" />
@@ -776,6 +819,17 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="ATModelStoreContainer" CdmEntityContainer="ATEntities">
+          <EntitySetMapping Name="association_permissions">
+            <EntityTypeMapping TypeName="ATModel.association_permissions">
+              <MappingFragment StoreEntitySet="association_permissions">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="associations_Id" ColumnName="associations_Id" />
+                <ScalarProperty Name="users_Id" ColumnName="users_Id" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="associations">
             <EntityTypeMapping TypeName="ATModel.associations">
               <MappingFragment StoreEntitySet="associations">
@@ -947,14 +1001,6 @@
             </EndProperty>
             <EndProperty Name="communities">
               <ScalarProperty Name="Id" ColumnName="communities_Id" />
-            </EndProperty>
-          </AssociationSetMapping>
-          <AssociationSetMapping Name="permissions" TypeName="ATModel.permissions" StoreEntitySet="permissions">
-            <EndProperty Name="users">
-              <ScalarProperty Name="Id" ColumnName="users_Id" />
-            </EndProperty>
-            <EndProperty Name="associations">
-              <ScalarProperty Name="Id" ColumnName="associations_Id" />
             </EndProperty>
           </AssociationSetMapping>
           <AssociationSetMapping Name="subcategories_in_events" TypeName="ATModel.subcategories_in_events" StoreEntitySet="subcategories_in_events">

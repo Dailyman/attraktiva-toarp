@@ -72,6 +72,8 @@ namespace EventHandlingSystem
                         //Sätter rätt pagetitel på sidan
                         LiteralDescription.Text = "Unknown type";
                     }
+
+                    LiteralDescription.Text = LiteralDescription.Text.Replace(Environment.NewLine, "<br>");
                 }
             }
         }

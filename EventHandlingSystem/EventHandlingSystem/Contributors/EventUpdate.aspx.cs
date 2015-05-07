@@ -49,10 +49,16 @@ namespace EventHandlingSystem
         {
             events eventToEdit = GetEventToUpdate();
 
-            var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+            var currentUser = UserDB.GetUserByUsername(HttpContext.Current.User.Identity.Name);
             if (currentUser != null && eventToEdit != null)
             {
-                return currentUser.associations.Any(permission => permission.events.Contains(eventToEdit));
+                foreach (var permission in currentUser.association_permissions)
+                {
+                    foreach (var e in permission.associations.events)
+                    {
+                        return e.Id == eventToEdit.Id;
+                    }
+                }
             }
             return false;
         }
@@ -63,24 +69,28 @@ namespace EventHandlingSystem
 
         private void AddEventInControls()
         {
-            var currentUser = UserDB.GetUsersByUsername(HttpContext.Current.User.Identity.Name);
+            var currentUser = UserDB.GetUserByUsername(HttpContext.Current.User.Identity.Name);
             if (currentUser != null)
             {
-                foreach (var association in currentUser.associations.OrderBy(a => a.Name))
+                foreach (var permission in currentUser.association_permissions)
                 {
                     DropDownAssociation.Items.Add(new ListItem
                     {
-                        Text = association.Name,
-                        Value = association.Id.ToString()
+                        Text = permission.associations.Name,
+                        Value = permission.associations.Id.ToString()
                     });
                 }
-                foreach (
-                    var subCat in
-                        SubCategoryDB.GetAllSubCategoriesByAssociations(currentUser.associations.ToArray())
-                            .OrderBy(s => s.Name))
+                foreach (var permission in currentUser.association_permissions)
                 {
-                    DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
+                    foreach (
+                    var subCat in
+                        SubCategoryDB.GetAllSubCategoriesByAssociations(new[] { permission.associations })
+                            .OrderBy(s => s.Name))
+                    {
+                        DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
+                    }
                 }
+                
             }
 
             //Gömmer kalendrarna från början.

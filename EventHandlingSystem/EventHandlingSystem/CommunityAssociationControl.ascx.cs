@@ -874,7 +874,7 @@ namespace EventHandlingSystem
                                       AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)).Name;
             bullListMemberList.Items.Clear();
 
-            List<ListItem> memberList = MemberDB.GetAllMembersByAssociationId
+            List<ListItem> memberList = MemberDB.GetAllMembersByAssociation
                 (AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)))
                 .OrderBy(m => m.SurName)
                 .ThenBy(m => m.FirstName)

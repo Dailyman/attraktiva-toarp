@@ -16,10 +16,10 @@ namespace EventHandlingSystem
     {
         public associations()
         {
+            this.association_permissions = new HashSet<association_permissions>();
             this.members = new HashSet<members>();
             this.events = new HashSet<events>();
             this.categories = new HashSet<categories>();
-            this.users = new HashSet<users>();
         }
     
         public int Id { get; set; }
@@ -34,10 +34,10 @@ namespace EventHandlingSystem
         public int Communities_Id { get; set; }
         public Nullable<int> ParentAssociationId { get; set; }
     
+        public virtual ICollection<association_permissions> association_permissions { get; set; }
         public virtual communities communities { get; set; }
         public virtual ICollection<members> members { get; set; }
         public virtual ICollection<events> events { get; set; }
         public virtual ICollection<categories> categories { get; set; }
-        public virtual ICollection<users> users { get; set; }
     }
 }

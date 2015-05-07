@@ -1,49 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Data.Entity;
 using System.Data.Entity.Infrastructure;
 using System.Data.Entity.Validation;
-
+using System.Linq;
+using System.Web;
 
 namespace EventHandlingSystem.Database
 {
-    public class MemberDB
+    public class AssociationPermissionsDB
     {
         private static readonly ATEntities Context = Database.Context;
 
         // GET
-        private static IEnumerable<members> GetAllNotDeletedMembers()
+        private static IEnumerable<association_permissions> GetAllNotDeletedAssociationPermissions()
         {
-            return Context.members.Where(e => !e.IsDeleted);
+            return Context.association_permissions.Where(e => !e.IsDeleted);
         }
 
-        public static List<members> GetAllMembersByAssociation(associations asso)
+        // This might not be working correctly!
+        // This might not be working correctly!
+        // This might not be working correctly!
+        public static List<association_permissions> GetAllAssociationPermissionsByAssociation(associations asso)
         {
-            return GetAllNotDeletedMembers().Where(m => m.Associations_Id.Equals(asso.Id)).ToList();
+            return GetAllNotDeletedAssociationPermissions().Where(p => p.associations_Id.Equals(asso.Id)).ToList();
         }
 
-        public static members GetMemberById(int id)
+        public static association_permissions GetAssociationPermissionsById(int id)
         {
-            return GetAllNotDeletedMembers().SingleOrDefault(m => m.Id.Equals(id));
+            return GetAllNotDeletedAssociationPermissions().SingleOrDefault(p => p.Id.Equals(id));
         }
 
-        public static List<members> GetAllContactsInAssociationByAssoId(int id)
+        public static bool HasUserPermissionForAssociation(users u, associations a)
         {
-            return GetAllNotDeletedMembers().Where(m => m.Associations_Id.Equals(id) && m.IsContact).ToList();
+            return GetAllAssociationPermissionsByAssociation(a).Any(associationPermission => associationPermission.users.Id == u.Id);
         }
 
         // UPDATE
-        public static int UpdateMember(members member)
+        public static int UpdateAssociationPermissions(association_permissions aP)
         {
-            members memberToUpdate = GetMemberById(member.Id);
+            association_permissions aPToUpdate = GetAssociationPermissionsById(aP.Id);
 
-            memberToUpdate.FirstName = member.FirstName;
-            memberToUpdate.SurName = member.SurName;
-            memberToUpdate.Email = member.Email;
-            memberToUpdate.Phone = member.Phone;
-            memberToUpdate.IsContact = member.IsContact;
-            memberToUpdate.Associations_Id = member.Associations_Id;
+            aPToUpdate.users = aP.users;
+            aPToUpdate.associations = aP.associations;
+            aPToUpdate.Role = aP.Role;
+            
 
             int affectedRows;
 
@@ -86,14 +87,14 @@ namespace EventHandlingSystem.Database
                 }
                 return affectedRows = 0;
             }
-            Context.Entry(memberToUpdate).Reload();
+            Context.Entry(aPToUpdate).Reload();
             return affectedRows;
         }
 
         //ADD
-        public static bool Addmember(members member)
+        public static bool AddAssociationPermissions(association_permissions aP)
         {
-            Context.members.Add(member);
+            Context.association_permissions.Add(aP);
             try
             {
                 Context.SaveChanges();
@@ -135,17 +136,17 @@ namespace EventHandlingSystem.Database
                 }
                 return false;
             }
-            Context.Entry(member).Reload();
+            Context.Entry(aP).Reload();
             return true;
         }
 
         // DELETE
-        public static int DeleteMemberById(int id)
+        public static int DeleteAssociationPermissionsById(int id)
         {
-            members memberToDelete = GetMemberById(id);
+            association_permissions aPToDelete = GetAssociationPermissionsById(id);
 
-            if (memberToDelete != null)
-                memberToDelete.IsDeleted = true;
+            if (aPToDelete != null)
+                aPToDelete.IsDeleted = true;
 
             int affectedRows;
 

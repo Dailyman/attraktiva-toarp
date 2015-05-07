@@ -121,7 +121,7 @@ namespace EventHandlingSystem
             {
                 LabelDisplay.Text = string.Format("{0} was deleted Successfully", _username);
                 LabelDisplay.ForeColor = Color.CornflowerBlue;
-                var userToDelete = UserDB.GetUsersByUsername(_username);
+                var userToDelete = UserDB.GetUserByUsername(_username);
                 if (userToDelete != null)
                 {
                     if (UserDB.DeleteUserById(userToDelete.Id) > 0)
