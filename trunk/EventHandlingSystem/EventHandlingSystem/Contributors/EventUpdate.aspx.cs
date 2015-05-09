@@ -52,11 +52,14 @@ namespace EventHandlingSystem
             var currentUser = UserDB.GetUserByUsername(HttpContext.Current.User.Identity.Name);
             if (currentUser != null && eventToEdit != null)
             {
-                foreach (var permission in currentUser.association_permissions)
+                foreach (var permission in currentUser.association_permissions.Where(aP => !aP.IsDeleted))
                 {
                     foreach (var e in permission.associations.events)
                     {
-                        return e.Id == eventToEdit.Id;
+                        if (e.Id == eventToEdit.Id)
+                        {
+                            return true;
+                        }
                     }
                 }
             }
