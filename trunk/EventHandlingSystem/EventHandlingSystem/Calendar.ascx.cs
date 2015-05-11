@@ -8,6 +8,7 @@ using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using System.Data;
 using EventHandlingSystem.Database;
+using Microsoft.Ajax.Utilities;
 
 namespace EventHandlingSystem
 {
@@ -16,6 +17,8 @@ namespace EventHandlingSystem
         public string CommunityId { get; set; }
         public string AssociationId { get; set; }
         public string DisplayDate { get; set; }
+
+        public bool OpenEventInSameWindow { get; set; }
 
         public Calendar()
         {
@@ -292,8 +295,8 @@ namespace EventHandlingSystem
                     //                    "<br/><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br/> " + WriteAllAssociations(ev.associations) + 
                     //                    "</div>" +
                     //                  "</div>";
-                    
-                    htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\">" +
+
+                    htmlEventCells += "<a target=\"" + (OpenEventInSameWindow ? "_self" : "_blank") + "\" href=\"/EventDetails?id=" + ev.Id + "\">" +
                                         "<div id=\"" + ev.Id + "\" class=\"event-in-cell "+(!ev.DayEvent ? "one-day" : "multiple-days")+"\" >" + ev.Title + "</div>" +
                                       "</a>" +
                                       "<div id=\"" + ev.Id + "\" class=\"event-pop-up\">" +

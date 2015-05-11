@@ -1,6 +1,7 @@
 ﻿<%@ Page Title="Event details" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="EventDetails.aspx.cs" Inherits="EventHandlingSystem.EventDetails" %>
 
-<%@ Register tagPrefix="aspEventList" tagName="EventList" src="~/EventList.ascx" %>
+<%@ Register TagPrefix="aspEventList" TagName="EventList" Src="~/EventList.ascx" %>
+<%@ Register TagPrefix="aspCal" TagName="CalendarTable" Src="Calendar.ascx" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
@@ -84,7 +85,8 @@
                 padding: 5px;
             }
 
-        .view-img {
+        .view-img
+        {
             display: inline-block;
             position: fixed;
             top: 0;
@@ -106,7 +108,7 @@
                 $(this).toggleClass("view-img");
             });
 
-            
+
 
         });
         //if (<%--<%= (!Page.IsPostBack).ToString().ToLower()%>--%>) 
@@ -118,185 +120,187 @@
         //} 
 
     </script>
-    
+
     <%--<aspEventList:EventList ID="EventList" runat="server" />--%>
 
-   <%-- <br />
+    <%-- <br />
     <asp:DropDownList ID="DropDownListEvents" runat="server"></asp:DropDownList>
     <asp:Button ID="BtnSearch" runat="server" Text="Load event" OnClick="BtnSearch_OnClick" />
     <br />--%>
+
     
+    <aspCal:CalendarTable ID="CalendarTable" runat="server" OpenEventInSameWindow="True" />
+    <br />
     <div id="Main" runat="server"></div>
     <asp:Panel ID="PanelMain" runat="server">
-    <br />
+        <br />
+        <table class="content-table">
+            <tr>
+                <td colspan="2">
+                    <asp:HyperLink ID="LinkCopy" ImageUrl="http://static.iconsplace.com/icons/preview/black/copy-32.png" runat="server" CssClass="img-link"></asp:HyperLink>
+                    <asp:HyperLink ID="LinkUpdate" ImageUrl="http://static.iconsplace.com/icons/preview/black/edit-32.png" runat="server" CssClass="img-link"></asp:HyperLink>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <h1>
+                        <asp:Literal ID="EventTitle" runat="server" Text="No title"></asp:Literal>
+                    </h1>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td rowspan="50">
+                    <div class="image-box">
+                        <asp:Image ID="EventImage" ClientIDMode="Static" runat="server" AlternateText="No image" ToolTip="Click to enlarge/scale down" />
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Start</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventStartDate" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">End</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventEndDate" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Description</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventDescription" runat="server" Text="No description"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Summary</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventSummary" runat="server" Text="No summary"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Other</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventOther" runat="server" Text="No other information"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Location</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventLocation" runat="server" Text="No location"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Link</span>
+                </td>
+                <td>
+                    <asp:HyperLink ID="EventLink" runat="server" Target="_blank"></asp:HyperLink>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Day event</span>
+                </td>
+                <td>
+                    <asp:CheckBox ID="DayEvent" Enabled="False" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Target group</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventTargetGroup" runat="server" Text="No targetgroup"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Approximate attendees</span>
+                </td>
+                <td>
+                    <asp:Label ID="EventApproxAttend" runat="server" Text="No approximate attendees"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Display in Communities</span>
+                </td>
+                <td>
+                    <asp:CheckBox ID="DisplayInComm" Enabled="False" runat="server" />
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <span class="bold-text">Published in Associations</span>
+                </td>
+                <td>
+                    <asp:ListBox ID="ListBoxAssociations" runat="server" OnSelectedIndexChanged="ListBoxAssociations_OnSelectedIndexChanged" AutoPostBack="True"></asp:ListBox>
+                    <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
+                        <ContentTemplate>
+                            <asp:Panel ID="PanelAsso" runat="server">
+                                <asp:Label ID="AssoName" runat="server" CssClass="bold-text"></asp:Label>
+                                <asp:HyperLink ID="AssoLink" runat="server" Target="_blank"></asp:HyperLink>
+                            </asp:Panel>
+                        </ContentTemplate>
+                        <Triggers>
+                            <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
+                        </Triggers>
+                    </asp:UpdatePanel>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
 
-    <table class="content-table">
-        <tr>
-            <td colspan="2">
-                <asp:HyperLink ID="LinkCopy" ImageUrl="http://static.iconsplace.com/icons/preview/black/copy-32.png" runat="server" CssClass="img-link"></asp:HyperLink>
-                <asp:HyperLink ID="LinkUpdate" ImageUrl="http://static.iconsplace.com/icons/preview/black/edit-32.png" runat="server" CssClass="img-link"></asp:HyperLink>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">
-                <h1>
-                    <asp:Literal ID="EventTitle" runat="server" Text="No title"></asp:Literal>
-                </h1>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-            <td rowspan="50">
-                <div class="image-box">
-                    <asp:Image ID="EventImage" ClientIDMode="Static" runat="server" AlternateText="No image" ToolTip="Click to enlarge/scale down" />
-                </div>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Start</span>
-            </td>
-            <td>
-                <asp:Label ID="EventStartDate" runat="server"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">End</span>
-            </td>
-            <td>
-                <asp:Label ID="EventEndDate" runat="server"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Description</span>
-            </td>
-            <td>
-                <asp:Label ID="EventDescription" runat="server" Text="No description"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Summary</span>
-            </td>
-            <td>
-                <asp:Label ID="EventSummary" runat="server" Text="No summary"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Other</span>
-            </td>
-            <td>
-                <asp:Label ID="EventOther" runat="server" Text="No other information"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Location</span>
-            </td>
-            <td>
-                <asp:Label ID="EventLocation" runat="server" Text="No location"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Link</span>
-            </td>
-            <td>
-                <asp:HyperLink ID="EventLink" runat="server" Target="_blank"></asp:HyperLink>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Day event</span>
-            </td>
-            <td>
-                <asp:CheckBox ID="DayEvent" Enabled="False" runat="server" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Target group</span>
-            </td>
-            <td>
-                <asp:Label ID="EventTargetGroup" runat="server" Text="No targetgroup"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Approximate attendees</span>
-            </td>
-            <td>
-                <asp:Label ID="EventApproxAttend" runat="server" Text="No approximate attendees"></asp:Label>
-            </td>
-        </tr>
-         <tr>
-            <td>
-                <span class="bold-text">Display in Communities</span>
-            </td>
-            <td>
-                <asp:CheckBox ID="DisplayInComm" Enabled="False" runat="server" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <span class="bold-text">Published in Associations</span>
-            </td>
-            <td>
-                <asp:ListBox ID="ListBoxAssociations" runat="server" OnSelectedIndexChanged="ListBoxAssociations_OnSelectedIndexChanged" AutoPostBack="True"></asp:ListBox>
-                <asp:UpdatePanel ID="UpdatePanel1" runat="server" UpdateMode="Always">
-                    <ContentTemplate>
-                        <asp:Panel ID="PanelAsso" runat="server">
-                            <asp:Label ID="AssoName" runat="server" CssClass="bold-text"></asp:Label>
-                            <asp:HyperLink ID="AssoLink" runat="server" Target="_blank"></asp:HyperLink>
-                        </asp:Panel>
-                    </ContentTemplate>
-                    <Triggers>
-                        <asp:AsyncPostBackTrigger ControlID="ListBoxAssociations" EventName="SelectedIndexChanged" />
-                    </Triggers>
-                </asp:UpdatePanel>
-            </td>
-        </tr>
-        <tr>
-            <td></td>
-            <td></td>
-        </tr>
-    </table>
-
-    <br />
-    <table class="small-text-14">
-        <tr>
-            <td><span class="bold-text">Created: </span></td>
-            <td>
-                <asp:Label ID="EventCreated" runat="server"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td><span class="bold-text">Created by: </span></td>
-            <td>
-                <asp:Label ID="EventCreatedBy" runat="server"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td><span class="bold-text">Latest update: </span></td>
-            <td>
-                <asp:Label ID="EventLatestUpdate" runat="server"></asp:Label>
-            </td>
-        </tr>
-        <tr>
-            <td><span class="bold-text">Updated by: </span></td>
-            <td>
-                <asp:Label ID="EventUpdatedBy" runat="server"></asp:Label>
-            </td>
-        </tr>
-    </table>
-        </asp:Panel>
+        <br />
+        <table class="small-text-14">
+            <tr>
+                <td><span class="bold-text">Created: </span></td>
+                <td>
+                    <asp:Label ID="EventCreated" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="bold-text">Created by: </span></td>
+                <td>
+                    <asp:Label ID="EventCreatedBy" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="bold-text">Latest update: </span></td>
+                <td>
+                    <asp:Label ID="EventLatestUpdate" runat="server"></asp:Label>
+                </td>
+            </tr>
+            <tr>
+                <td><span class="bold-text">Updated by: </span></td>
+                <td>
+                    <asp:Label ID="EventUpdatedBy" runat="server"></asp:Label>
+                </td>
+            </tr>
+        </table>
+    </asp:Panel>
 
 </asp:Content>
