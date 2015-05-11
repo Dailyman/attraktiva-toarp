@@ -18,6 +18,7 @@ namespace EventHandlingSystem
     public partial class EventCreate : Page
     {
         #region Page_Load
+
         protected void Page_Load(object sender, EventArgs e)
         {
             LabelErrorAsso.Text = "";
@@ -32,7 +33,9 @@ namespace EventHandlingSystem
                 var currentUser = UserDB.GetUserByUsername(HttpContext.Current.User.Identity.Name);
                 if (currentUser != null)
                 {
-                    foreach (var association in (from permission in currentUser.association_permissions where !permission.associations.IsDeleted select permission.associations).OrderBy(a => a.Name))
+                    foreach (var association in (from permission in currentUser.association_permissions
+                        where !permission.associations.IsDeleted
+                        select permission.associations).OrderBy(a => a.Name))
                     {
                         DropDownAssociation.Items.Add(new ListItem
                         {
@@ -41,10 +44,13 @@ namespace EventHandlingSystem
                         });
                     }
                     AddNoneToListBoxAssoIfListBoxIsEmpty();
-                    
+
                     foreach (
                         var subCat in
-                            SubCategoryDB.GetAllSubCategoriesByAssociations((from permission in currentUser.association_permissions where !permission.associations.IsDeleted select permission.associations).ToArray()).OrderBy(s => s.Name))
+                            SubCategoryDB.GetAllSubCategoriesByAssociations(
+                                (from permission in currentUser.association_permissions
+                                    where !permission.associations.IsDeleted
+                                    select permission.associations).ToArray()).OrderBy(s => s.Name))
                     {
                         DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
                     }
@@ -101,13 +107,13 @@ namespace EventHandlingSystem
                         TxtBoxEndTime.Text = @event.EndDate.ToString("HH:mm");
 
                         ToggleCheckBoxesIfWholeDayEvent();
-                        
+
                         TxtBoxTargetGroup.Text = @event.TargetGroup;
                         CalendarStartDate.SelectedDate = @event.StartDate;
                         CalendarEndDate.SelectedDate = @event.EndDate;
                         TxtBoxApproximateAttendees.Text = @event.ApproximateAttendees.ToString();
                         ChkBoxDisplayInCommunity.Checked = @event.DisplayInCommunity;
-                        
+
 
 
                         foreach (var asso in @event.associations.OrderBy(a => a.Name))
@@ -141,10 +147,11 @@ namespace EventHandlingSystem
                 if (ListBoxAssociations.Items.FindByValue(String.Empty) != null && ListBoxAssociations.Items.Count >= 2)
                 {
                     ListBoxAssociations.Items.RemoveAt(ListBoxAssociations.Items.IndexOf(
-                    ListBoxAssociations.Items.FindByValue(String.Empty)));
+                        ListBoxAssociations.Items.FindByValue(String.Empty)));
                 }
             }
         }
+
         private void AddNoneToListBoxSubCateIfListBoxIsEmpty()
         {
             // Lägger in ett "None" ListItem om inga subcategories är valda.
@@ -155,10 +162,11 @@ namespace EventHandlingSystem
             }
             else
             {
-                if (ListBoxSubCategories.Items.FindByValue(String.Empty) != null && ListBoxSubCategories.Items.Count >= 2)
+                if (ListBoxSubCategories.Items.FindByValue(String.Empty) != null &&
+                    ListBoxSubCategories.Items.Count >= 2)
                 {
                     ListBoxSubCategories.Items.RemoveAt(ListBoxSubCategories.Items.IndexOf(
-                    ListBoxSubCategories.Items.FindByValue(String.Empty)));
+                        ListBoxSubCategories.Items.FindByValue(String.Empty)));
                 }
             }
         }
@@ -277,14 +285,30 @@ namespace EventHandlingSystem
 
         protected void BtnCreateEvent_OnClick(object sender, EventArgs e)
         {
-            //Gör om texterna i textboxarna Start- och EndDate till typen DateTime, som används vid skapandet av evenemanget.
-            var start = Convert.ToDateTime(TxtBoxStartDate.Text)
-                .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
-                .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
-            var end = Convert.ToDateTime(TxtBoxEndDate.Text)
-                .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
-                .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
+            DateTime start;
+            DateTime end;
+            if (!ChkBoxDayEvent.Checked)
+            {
+                //Gör om texterna i textboxarna Start- och EndDate till typen DateTime, som används vid skapandet av evenemanget.
+                start = Convert.ToDateTime(TxtBoxStartDate.Text)
+                    .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxStartTime.Text).Hour))
+                    .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxStartTime.Text).Minute));
+                end = Convert.ToDateTime(TxtBoxEndDate.Text)
+                    .Add(TimeSpan.FromHours(Convert.ToDateTime(TxtBoxEndTime.Text).Hour))
+                    .Add(TimeSpan.FromMinutes(Convert.ToDateTime(TxtBoxEndTime.Text).Minute));
+            }
+            else
+            {
+                start = Convert.ToDateTime(TxtBoxStartDate.Text);
+                end = Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 59));
+            }
 
+            Int32 approxAttend = 0;
+            if (!string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text) &&
+                Int32.TryParse(TxtBoxApproximateAttendees.Text, out approxAttend))
+            {
+                approxAttend = int.Parse(TxtBoxApproximateAttendees.Text);
+            }
 
             List<associations> associationsList = new List<associations>();
             foreach (ListItem item in ListBoxAssociations.Items)
@@ -325,21 +349,18 @@ namespace EventHandlingSystem
                 ImageUrl = TxtBoxImageUrl.Text,
                 EventUrl = TxtBoxEventUrl.Text,
                 DayEvent = ChkBoxDayEvent.Checked,
-                StartDate = (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxStartDate.Text) : start,
-                EndDate =
-                    (ChkBoxDayEvent.Checked) ? Convert.ToDateTime(TxtBoxEndDate.Text).Add(new TimeSpan(23, 59, 59)) : end,
+                StartDate = start,
+                EndDate = end,
                 TargetGroup = TxtBoxTargetGroup.Text,
-                ApproximateAttendees =
-                    !string.IsNullOrEmpty(TxtBoxApproximateAttendees.Text)
-                        ? int.Parse(TxtBoxApproximateAttendees.Text)
-                        : 0,
+                ApproximateAttendees = approxAttend
+                ,
                 DisplayInCommunity = ChkBoxDisplayInCommunity.Checked,
                 associations = associationsList,
                 subcategories = subCategoriesList,
                 //subcategories = (from ListItem item in ListBoxSubCategories.Items select SubCategoryDB.GetSubCategoryById(int.Parse(item.Value))).ToList(),
                 CreatedBy = HttpContext.Current.User.Identity.Name,
                 UpdatedBy = HttpContext.Current.User.Identity.Name
-                
+
 
             };
 
@@ -347,10 +368,10 @@ namespace EventHandlingSystem
             LabelMessage.Style.Add(HtmlTextWriterStyle.FontSize, "25px");
             if (EventDB.AddEvent(ev))
             {
-               Response.Redirect(
-                        HttpContext.Current.Request.Url.AbsoluteUri.Replace(
-                            HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id, false);
-               
+                Response.Redirect(
+                    HttpContext.Current.Request.Url.AbsoluteUri.Replace(
+                        HttpContext.Current.Request.Url.PathAndQuery, "/") + "EventDetails.aspx?Id=" + ev.Id, false);
+
                 //LabelMessage.Text = "Event was created";
             }
             else
@@ -365,6 +386,7 @@ namespace EventHandlingSystem
 
 
         #region Buttons Add/Remove Association
+
         protected void ButtonAddAssociation_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(DropDownAssociation.SelectedValue))
@@ -386,9 +408,11 @@ namespace EventHandlingSystem
             }
             AddNoneToListBoxAssoIfListBoxIsEmpty();
         }
+
         protected void ButtonRemoveAssociation_OnClick(object sender, EventArgs e)
         {
-            List<ListItem> itemsToRemove = ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
+            List<ListItem> itemsToRemove =
+                ListBoxAssociations.GetSelectedIndices().Select(index => (ListBoxAssociations.Items[index])).ToList();
 
             foreach (ListItem itemToRemove in itemsToRemove)
             {
@@ -396,10 +420,12 @@ namespace EventHandlingSystem
             }
             AddNoneToListBoxAssoIfListBoxIsEmpty();
         }
+
         #endregion
 
 
         #region Buttons Add/Remove SubCategory
+
         protected void ButtonAddSubCat_OnClick(object sender, EventArgs e)
         {
             if (!string.IsNullOrWhiteSpace(DropDownSubCategories.SelectedValue))
@@ -421,9 +447,11 @@ namespace EventHandlingSystem
             }
             AddNoneToListBoxSubCateIfListBoxIsEmpty();
         }
+
         protected void ButtonRemoveSubCat_OnClick(object sender, EventArgs e)
         {
-            List<ListItem> itemsToRemove = ListBoxSubCategories.GetSelectedIndices().Select(index => (ListBoxSubCategories.Items[index])).ToList();
+            List<ListItem> itemsToRemove =
+                ListBoxSubCategories.GetSelectedIndices().Select(index => (ListBoxSubCategories.Items[index])).ToList();
 
             foreach (ListItem itemToRemove in itemsToRemove)
             {
@@ -431,11 +459,12 @@ namespace EventHandlingSystem
             }
             AddNoneToListBoxSubCateIfListBoxIsEmpty();
         }
+
         #endregion
 
         protected void ChkBoxDisplayInCommunity_OnCheckedChanged(object sender, EventArgs e)
         {
-                
+
         }
     }
 }

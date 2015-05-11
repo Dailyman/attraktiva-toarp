@@ -13,6 +13,15 @@ namespace EventHandlingSystem {
     public partial class EventDetails {
         
         /// <summary>
+        /// CalendarTable control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::EventHandlingSystem.Calendar CalendarTable;
+        
+        /// <summary>
         /// Main control.
         /// </summary>
         /// <remarks>
