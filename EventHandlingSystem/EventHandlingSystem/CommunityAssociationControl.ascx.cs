@@ -483,6 +483,7 @@ namespace EventHandlingSystem
                 //Rensa överflödiga vyer
                 MultiViewAssoDetails.ActiveViewIndex = -1;
                 MultiViewManageMembers.ActiveViewIndex = -1;
+                MultiViewCommCreate.ActiveViewIndex = -1;
             }
             else
             {
@@ -557,6 +558,8 @@ namespace EventHandlingSystem
         // För att uppdatera en community
         protected void ButtonCommSave_OnClick(object sender, EventArgs e)
         {
+            bool isUniqueName = true;
+
             if (!string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
             {
                 //Hitta community Id i dropdownlista - value
@@ -564,8 +567,25 @@ namespace EventHandlingSystem
 
                 //Uppdatera det nya namnet från textboxen
                 communities commToUpdate = CommunityDB.GetCommunityById(commId);
-                commToUpdate.Name = TextBoxCommName.Text;
 
+                //Kontrollera så att det inte blir dubbletter av namnet
+                foreach (communities commChecking in CommunityDB.GetAllCommunities())
+                {
+                    if (TextBoxCommName.Text == commChecking.Name)
+                    {
+                        isUniqueName = false;
+                    }
+                }
+                if (isUniqueName)
+                {
+                    commToUpdate.Name = TextBoxCommName.Text;
+                }
+                else
+                {
+                    LabelCommSave.Text = "Community was not updated: name already exists. ";
+                    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+            
                 ////Uppdatera det nya namnet i webpage också
                 //webpages wpToUpdate = WebPageDB.GetWebPageByCommunityId(commId);
                 //wpToUpdate.Title = TextBoxCommName.Text;
@@ -616,61 +636,81 @@ namespace EventHandlingSystem
         // För att skapa en ny community
         protected void ButtonCreateComm_OnClick(object sender, EventArgs e)
         {
-            var comm = new communities
+            bool isUniqueName = true;
+
+            //Kontrollera att namnet inte redan finns
+            foreach (communities commChecking in CommunityDB.GetAllCommunities())
             {
-                Name = TextBoxCommNameCreate.Text,
-                LogoUrl = TextBoxCommLogoUrl.Text,
-                CreatedBy = HttpContext.Current.User.Identity.Name,
-                UpdatedBy = HttpContext.Current.User.Identity.Name
+                if (commChecking.Name == TextBoxCommNameCreate.Text)
+                {
+                    isUniqueName = false;
+                }
             };
 
-            if (CommunityDB.AddCommunity(comm))
+            if (isUniqueName)
             {
-                webpages wp = new webpages
+                var comm = new communities
                 {
-                    Title = TextBoxCommNameCreate.Text,
-                    CommunityId = CommunityDB.GetCommunityByName(comm.Name).Id,
-                    //Layout och style - fixa dropdownlistor senare!
+                    Name = TextBoxCommNameCreate.Text,
+                    LogoUrl = TextBoxCommLogoUrl.Text,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
                     UpdatedBy = HttpContext.Current.User.Identity.Name
                 };
 
-                if (WebPageDB.AddWebPage(wp))
+                if (CommunityDB.AddCommunity(comm))
                 {
-                    components compCal = new components
+                    webpages wp = new webpages
                     {
-                        webpages_Id = wp.Id,
-                        OrderingNumber = 1,
-                        controls_Id = 3 //Calendar
+                        Title = TextBoxCommNameCreate.Text,
+                        CommunityId = CommunityDB.GetCommunityByName(comm.Name).Id,
+                        //Layout och style - fixa dropdownlistor senare!
+                        CreatedBy = HttpContext.Current.User.Identity.Name,
+                        UpdatedBy = HttpContext.Current.User.Identity.Name
                     };
 
-                    components compAbout = new components
+                    if (WebPageDB.AddWebPage(wp))
                     {
-                        webpages_Id = wp.Id,
-                        OrderingNumber = 2,
-                        controls_Id = 1 //About
-                    };
+                        components compCal = new components
+                        {
+                            webpages_Id = wp.Id,
+                            OrderingNumber = 1,
+                            controls_Id = 3 //Calendar
+                        };
 
-                    if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
-                    {
-                        MultiViewCommDetails.ActiveViewIndex = 0;
-                        MultiViewCommCreate.ActiveViewIndex = -1;
-                        ShowCommunityDetails(CommunityDB.GetCommunityByName(comm.Name));
+                        components compAbout = new components
+                        {
+                            webpages_Id = wp.Id,
+                            OrderingNumber = 2,
+                            controls_Id = 1 //About
+                        };
+
+                        if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
+                        {
+                            MultiViewCommDetails.ActiveViewIndex = 0;
+                            MultiViewCommCreate.ActiveViewIndex = -1;
+                            ShowCommunityDetails(CommunityDB.GetCommunityByName(comm.Name));
+                        }
+                        else
+                        {
+                            LabelCreateComm.Text = "Components could not be created. Please try again!";
+                            LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
+                        }
                     }
                     else
                     {
-                        LabelCreateComm.Text = "Components could not be created. Please try again!";
+                        LabelCreateComm.Text = "Webpage could not be created. Try again!";
+                        LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
                     }
                 }
                 else
                 {
-                    LabelCreateComm.Text = "Webpage could not be created. Try again!";
+                    LabelCreateComm.Text = "Community could not be created. Try again!";
                     LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
             }
             else
             {
-                LabelCreateComm.Text = "Community could not be created. Try again!";
+                LabelCreateComm.Text = "Community was not created. A community with the same name already exists. ";
                 LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
             PopulateCommunityDropDownList(DropDownListCommunity);
@@ -770,65 +810,85 @@ namespace EventHandlingSystem
         // För att SKAPA en ny förening
         protected void ButtonCreateAsso_OnClick(object sender, EventArgs e)
         {
-            associations asso = new associations
-            {
-                Name = TextBoxCreateAssoName.Text,
-                ParentAssociationId = string.IsNullOrWhiteSpace(DropDownListCreateParAsso.SelectedValue) ?
-                (int?)null : int.Parse(DropDownListCreateParAsso.SelectedItem.Value),
-                LogoUrl = TextBoxAssoImgUrl.Text,
-                CreatedBy = HttpContext.Current.User.Identity.Name,
-                UpdatedBy = HttpContext.Current.User.Identity.Name,
-                Communities_Id = int.Parse(DropDownListCommunity.SelectedItem.Value)
-            };
+            bool isUniqueName = true;
 
-            if (AssociationDB.AddAssociation(asso))
+            //Kontrollera att förening inte redan finns
+            foreach (associations assoChecking in AssociationDB.GetAllAssociations())
             {
-                webpages wp = new webpages
+                if (assoChecking.Name == TextBoxCreateAssoName.Text)
                 {
-                    Title = TextBoxCreateAssoName.Text,
-                    AssociationId = AssociationDB.GetAssociationByName(asso.Name).Id,
-                    //Layout och style - fixa dropdownlistor senare!
+                    isUniqueName = false;
+                }
+            }
+
+            if (isUniqueName)
+            {
+                associations asso = new associations
+                {
+                    Name = TextBoxCreateAssoName.Text,
+                    ParentAssociationId = string.IsNullOrWhiteSpace(DropDownListCreateParAsso.SelectedValue)
+                        ? (int?) null
+                        : int.Parse(DropDownListCreateParAsso.SelectedItem.Value),
+                    LogoUrl = TextBoxAssoImgUrl.Text,
                     CreatedBy = HttpContext.Current.User.Identity.Name,
-                    UpdatedBy = HttpContext.Current.User.Identity.Name
+                    UpdatedBy = HttpContext.Current.User.Identity.Name,
+                    Communities_Id = int.Parse(DropDownListCommunity.SelectedItem.Value)
                 };
 
-                if (WebPageDB.AddWebPage(wp))
+                if (AssociationDB.AddAssociation(asso))
                 {
-                    components compCal = new components
+                    webpages wp = new webpages
                     {
-                        webpages_Id = wp.Id,
-                        OrderingNumber = 1,
-                        controls_Id = 3 //Calendar
+                        Title = TextBoxCreateAssoName.Text,
+                        AssociationId = AssociationDB.GetAssociationByName(asso.Name).Id,
+                        //Layout och style - fixa dropdownlistor senare!
+                        CreatedBy = HttpContext.Current.User.Identity.Name,
+                        UpdatedBy = HttpContext.Current.User.Identity.Name
                     };
 
-                    components compAbout = new components
+                    if (WebPageDB.AddWebPage(wp))
                     {
-                        webpages_Id = wp.Id,
-                        OrderingNumber = 2,
-                        controls_Id = 1 //About
-                    };
+                        components compCal = new components
+                        {
+                            webpages_Id = wp.Id,
+                            OrderingNumber = 1,
+                            controls_Id = 3 //Calendar
+                        };
 
-                    if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
-                    {
-                        MultiViewAssoCreate.ActiveViewIndex = -1;
-                        PopulateAssociationListBox();
-                        LabelErrorMessage.Text = asso.Name + " has been successfully created! (^o^)/";
-                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                        components compAbout = new components
+                        {
+                            webpages_Id = wp.Id,
+                            OrderingNumber = 2,
+                            controls_Id = 1 //About
+                        };
+
+                        if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
+                        {
+                            MultiViewAssoCreate.ActiveViewIndex = -1;
+                            PopulateAssociationListBox();
+                            LabelErrorMessage.Text = asso.Name + " has been successfully created! (^o^)/";
+                            LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                        }
+                        else
+                        {
+                            LabelCreateComm.Text = "Components could not be created. Please try again!";
+                        }
                     }
                     else
                     {
-                        LabelCreateComm.Text = "Components could not be created. Please try again!";
+                        LabelErrorMessage.Text = "Webpage could not be created. Try again!";
+                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
                     }
                 }
                 else
                 {
-                    LabelErrorMessage.Text = "Webpage could not be created. Try again!";
+                    LabelErrorMessage.Text = "Association could not be created. Try again!";
                     LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
             }
             else
             {
-                LabelErrorMessage.Text = "Association could not be created. Try again!";
+                LabelErrorMessage.Text = "Association was not created. Name already exists. ";
                 LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
             PopulateAssociationListBox();
