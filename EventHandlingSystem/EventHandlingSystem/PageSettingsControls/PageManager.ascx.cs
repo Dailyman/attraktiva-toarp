@@ -169,6 +169,7 @@ namespace EventHandlingSystem.PageSettingsControls
         // Add Controls in the Dropdownlist
         public void PopulateDropDownListControls()
         {
+            var selectedItem = ddlAddComControls.SelectedItem;
             ddlAddComControls.Items.Clear();
 
             var controlList =
@@ -182,6 +183,12 @@ namespace EventHandlingSystem.PageSettingsControls
             foreach (ListItem item in controlList.OrderBy(i => i.Text))
             {
                 ddlAddComControls.Items.Add(item);
+            }
+
+            int selectedItemIndex = ddlAddComControls.Items.IndexOf(selectedItem);
+            if (selectedItemIndex > -1)
+            {
+                ddlAddComControls.SelectedIndex = selectedItemIndex;
             }
 
             AddControl.Enabled = ddlAddComControls.Items.Count != 0;
@@ -469,11 +476,11 @@ namespace EventHandlingSystem.PageSettingsControls
             int editIndex = GridViewComponentList.EditIndex;
             int selectIndex = GridViewComponentList.SelectedIndex;
 
-            if (editIndex > -1)
+            if (editIndex > -1 && GridViewComponentList.Rows.Count > 0)
             {
                 gvRow = GridViewComponentList.Rows[editIndex];
             }
-            else if (selectIndex > -1)
+            else if (selectIndex > -1 && GridViewComponentList.Rows.Count > 0)
             {
                 gvRow = GridViewComponentList.Rows[selectIndex];
             }

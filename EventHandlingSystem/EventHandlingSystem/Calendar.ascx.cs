@@ -186,11 +186,24 @@ namespace EventHandlingSystem
                         {
                             foreach (communities community in eventInMonth.communities)
                             {
-                                if (community.Id == c.Id)
+                                if (community.Id == c.Id && !commEvents.Contains(eventInMonth))
                                 {
                                     commEvents.Add(eventInMonth);
                                 }
                             }
+                            // Add if the event is set to be displayed in the community of the association
+                            if (eventInMonth.DisplayInCommunity)
+                            {
+                                foreach (var assoInComm in c.associations)
+                                {
+                                    // Add the event if any association connected to the event is also an association in the community
+                                    if (eventInMonth.associations.Contains(assoInComm) && !commEvents.Contains(eventInMonth))
+                                    {
+                                        commEvents.Add(eventInMonth);
+                                    }
+                                }
+                            }
+
                         }
                         divs = GetHtmlForEventCellsByEventList(commEvents, date);
                     }
@@ -278,6 +291,7 @@ namespace EventHandlingSystem
             {
                 if (date.Date >= ev.StartDate.Date && date.Date <= ev.EndDate.Date)
                 {
+
                     //htmlEventCells += "<a target=\"_blank\" href=\"/EventDetails?id=" + ev.Id + "\">" +
                     //                    "<div id=\"" + ev.Id + "\" class=\"event-in-cell\" >" + ev.Title + "</div>" +
                     //                  "</a>" +
@@ -296,23 +310,26 @@ namespace EventHandlingSystem
                     //                    "</div>" +
                     //                  "</div>";
 
-                    htmlEventCells += "<a target=\"" + (OpenEventInSameWindow ? "_self" : "_blank") + "\" href=\"/EventDetails?id=" + ev.Id + "\">" +
-                                        "<div id=\"" + ev.Id + "\" class=\"event-in-cell "+(!ev.DayEvent ? "one-day" : "multiple-days")+"\" >" + ev.Title + "</div>" +
+                    htmlEventCells += "<a target=\"" + (OpenEventInSameWindow ? "_self" : "_blank") +
+                                      "\" href=\"/EventDetails?id=" + ev.Id + "\">" +
+                                      "<div id=\"" + ev.Id + "\" class=\"event-in-cell " +
+                                      (!ev.DayEvent ? "one-day" : "multiple-days") + "\" >" + ev.Title + "</div>" +
                                       "</a>" +
                                       "<div id=\"" + ev.Id + "\" class=\"event-pop-up\">" +
-                                        "<div class=\"arrow-up\"></div>" +
-                                        "<div class=\"pop-up-text\">" +
-                                        "<p><b>" + 
-                                        ev.Title + "</b></p><br>"+
-                                        "<p><b>Date</b><br>" +
-                                        ev.StartDate.ToString("dddd, MMM d, HH:mm") +
-                                        (ev.StartDate.Date == ev.EndDate.Date
-                                            ? "-" + ev.EndDate.ToString("HH:mm")
-                                            : "-<br/>" + ev.EndDate.ToString("dddd, MMM d, HH:mm")) +
-                                        "</p><p><b>Location</b><br>" + ev.Location +
-                                        "</p><p><b>Summary</b><br>" + ev.Summary +
-                                        "</p><p><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br>" + WriteAllAssociations(ev.associations) +
-                                        "</p></div>" +
+                                      "<div class=\"arrow-up\"></div>" +
+                                      "<div class=\"pop-up-text\">" +
+                                      "<p><b>" +
+                                      ev.Title + "</b></p><br>" +
+                                      "<p><b>Date</b><br>" +
+                                      ev.StartDate.ToString("dddd, MMM d, HH:mm") +
+                                      (ev.StartDate.Date == ev.EndDate.Date
+                                          ? "-" + ev.EndDate.ToString("HH:mm")
+                                          : "-<br/>" + ev.EndDate.ToString("dddd, MMM d, HH:mm")) +
+                                      "</p><p><b>Location</b><br>" + ev.Location +
+                                      "</p><p><b>Summary</b><br>" + ev.Summary +
+                                      "</p><p><b>Association" + (ev.associations.Count > 1 ? "s" : "") + "</b><br>" +
+                                      WriteAllAssociations(ev.associations) +
+                                      "</p></div>" +
                                       "</div>";
                 }
             }
