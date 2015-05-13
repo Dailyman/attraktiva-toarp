@@ -25,11 +25,15 @@ namespace EventHandlingSystem
                 webpages webPage = WebPageDB.GetWebPageById(id);
                 if (webPage != null)
                 {
-                    // Sets the webpage Id in the link to PageSettings
-                    EventsLink.HRef = EventsLink.HRef + "PageId="+stId;
-                    
-                    // Sets the webpage Id in the link to PageSettings
-                    SettingsLink.HRef = SettingsLink.HRef + "Id="+ stId;
+                    // Making sure not to add the href more than once
+                    if (!IsPostBack)
+                    {
+                        // Sets the webpage Id in the link to PageSettings
+                        EventsLink.HRef = EventsLink.HRef + "PageId=" + stId;
+
+                        // Sets the webpage Id in the link to PageSettings
+                        SettingsLink.HRef = SettingsLink.HRef + "Id=" + stId;
+                    }
 
                     if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))
                     {
