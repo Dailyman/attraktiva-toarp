@@ -32,7 +32,7 @@ namespace EventHandlingSystem
                         EventsLink.HRef = EventsLink.HRef + "PageId=" + stId;
 
                         // Sets the webpage Id in the link to PageSettings
-                        SettingsLink.HRef = SettingsLink.HRef + "Id=" + stId;
+                        SettingsLink.HRef = SettingsLink.HRef + "Id=" + stId +"&Type="+ stType;
                     }
 
                     if (String.Equals(stType, "c", StringComparison.OrdinalIgnoreCase))

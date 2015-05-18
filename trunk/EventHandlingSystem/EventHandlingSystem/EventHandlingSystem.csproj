@@ -422,6 +422,9 @@
     <Compile Include="CommunityAssociationControl.ascx.designer.cs">
       <DependentUpon>CommunityAssociationControl.ascx</DependentUpon>
     </Compile>
+    <Compile Include="community_permissions.cs">
+      <DependentUpon>EHSModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="components.cs">
       <DependentUpon>EHSModel.tt</DependentUpon>
     </Compile>
@@ -441,6 +444,7 @@
     <Compile Include="Database\AssociationPermissionsDB.cs" />
     <Compile Include="Database\CategoryDB.cs" />
     <Compile Include="Database\CommunityDB.cs" />
+    <Compile Include="Database\CommunityPermissionsDB.cs" />
     <Compile Include="Database\ComponentDB.cs" />
     <Compile Include="Database\ControlDB.cs" />
     <Compile Include="Database\FilterDataDB.cs" />

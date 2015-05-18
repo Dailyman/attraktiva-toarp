@@ -31,6 +31,33 @@ namespace EventHandlingSystem.PageSettingsControls {
         protected global::System.Web.UI.WebControls.HiddenField HiddenFieldWebPageType;
         
         /// <summary>
+        /// HiddenFieldAssociationId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenFieldAssociationId;
+        
+        /// <summary>
+        /// HiddenFieldCommunityId control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenFieldCommunityId;
+        
+        /// <summary>
+        /// ActionStatus control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ActionStatus;
+        
+        /// <summary>
         /// UserList control.
         /// </summary>
         /// <remarks>
@@ -38,6 +65,15 @@ namespace EventHandlingSystem.PageSettingsControls {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList UserList;
+        
+        /// <summary>
+        /// RoleList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleList;
         
         /// <summary>
         /// BtnAddUser control.

@@ -12,19 +12,15 @@ namespace EventHandlingSystem
     using System;
     using System.Collections.Generic;
     
-    public partial class users
+    public partial class community_permissions
     {
-        public users()
-        {
-            this.association_permissions = new HashSet<association_permissions>();
-            this.community_permissions = new HashSet<community_permissions>();
-        }
-    
         public int Id { get; set; }
-        public string Username { get; set; }
+        public int users_Id { get; set; }
+        public int communities_Id { get; set; }
+        public string Role { get; set; }
         public bool IsDeleted { get; set; }
     
-        public virtual ICollection<association_permissions> association_permissions { get; set; }
-        public virtual ICollection<community_permissions> community_permissions { get; set; }
+        public virtual communities communities { get; set; }
+        public virtual users users { get; set; }
     }
 }

@@ -26,14 +26,30 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedAssociationPermissions().Where(p => p.associations_Id.Equals(asso.Id)).ToList();
         }
 
+        public static List<association_permissions> GetAllAssociationPermissionsByUser(users user)
+        {
+            return GetAllNotDeletedAssociationPermissions().Where(p => p.users_Id.Equals(user.Id)).ToList();
+        }
+
         public static association_permissions GetAssociationPermissionsById(int id)
         {
             return GetAllNotDeletedAssociationPermissions().SingleOrDefault(p => p.Id.Equals(id));
         }
 
+
         public static bool HasUserPermissionForAssociation(users u, associations a)
         {
             return GetAllAssociationPermissionsByAssociation(a).Any(associationPermission => associationPermission.users.Id == u.Id);
+        }
+
+        public static bool HasUserPermissionForAssociationWithRole(users u, associations a, string r)
+        {
+            return GetAllAssociationPermissionsByAssociation(a).Any(associationPermission => associationPermission.users.Id == u.Id && associationPermission.Role.Equals(r));
+        }
+
+        public static bool HasUserPermissionWithRole(users u, string r)
+        {
+            return GetAllAssociationPermissionsByUser(u).Any(aP => aP.Role.Equals(r));
         }
 
         // UPDATE
