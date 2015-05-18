@@ -17,6 +17,7 @@ namespace EventHandlingSystem
         public communities()
         {
             this.associations = new HashSet<associations>();
+            this.community_permissions = new HashSet<community_permissions>();
             this.events = new HashSet<events>();
         }
     
@@ -31,6 +32,7 @@ namespace EventHandlingSystem
         public bool IsDeleted { get; set; }
     
         public virtual ICollection<associations> associations { get; set; }
+        public virtual ICollection<community_permissions> community_permissions { get; set; }
         public virtual ICollection<events> events { get; set; }
     }
 }

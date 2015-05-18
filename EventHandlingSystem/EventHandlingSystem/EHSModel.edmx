@@ -13,6 +13,7 @@
           <EntitySet Name="categories_in_associations" EntityType="ATModel.Store.categories_in_associations" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="communities" EntityType="ATModel.Store.communities" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="communities_in_events" EntityType="ATModel.Store.communities_in_events" store:Type="Tables" Schema="attraktiva_toarp" />
+          <EntitySet Name="community_permissions" EntityType="ATModel.Store.community_permissions" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="components" EntityType="ATModel.Store.components" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="controls" EntityType="ATModel.Store.controls" store:Type="Tables" Schema="attraktiva_toarp" />
           <EntitySet Name="events" EntityType="ATModel.Store.events" store:Type="Tables" Schema="attraktiva_toarp" />
@@ -58,6 +59,14 @@
             <End Role="events" EntitySet="events" />
             <End Role="communities_in_events" EntitySet="communities_in_events" />
           </AssociationSet>
+          <AssociationSet Name="fk_community_permissions_communities1" Association="ATModel.Store.fk_community_permissions_communities1">
+            <End Role="communities" EntitySet="communities" />
+            <End Role="community_permissions" EntitySet="community_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_community_permissions_users1" Association="ATModel.Store.fk_community_permissions_users1">
+            <End Role="users" EntitySet="users" />
+            <End Role="community_permissions" EntitySet="community_permissions" />
+          </AssociationSet>
           <AssociationSet Name="fk_components_controls1" Association="ATModel.Store.fk_components_controls1">
             <End Role="controls" EntitySet="controls" />
             <End Role="components" EntitySet="components" />
@@ -93,7 +102,7 @@
             <PropertyRef Name="users_Id" />
             <PropertyRef Name="associations_Id" />
           </Key>
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="users_Id" Type="int" Nullable="false" />
           <Property Name="associations_Id" Type="int" Nullable="false" />
           <Property Name="Role" Type="varchar" Nullable="false" MaxLength="255" />
@@ -105,7 +114,6 @@
           </Key>
           <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="varchar" Nullable="false" MaxLength="255" />
-          <Property Name="ParentAssociationId" Type="int" />
           <Property Name="LogoUrl" Type="varchar" MaxLength="255" />
           <Property Name="Description" Type="varchar" />
           <Property Name="Created" Type="timestamp" Nullable="false" StoreGeneratedPattern="Identity" />
@@ -114,6 +122,7 @@
           <Property Name="UpdatedBy" Type="varchar" Nullable="false" MaxLength="255" />
           <Property Name="IsDeleted" Type="bool" Nullable="false" />
           <Property Name="Communities_Id" Type="int" Nullable="false" />
+          <Property Name="ParentAssociationId" Type="int" />
         </EntityType>
         <EntityType Name="associations_in_events">
           <Key>
@@ -160,6 +169,18 @@
           </Key>
           <Property Name="communities_Id" Type="int" Nullable="false" />
           <Property Name="events_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="community_permissions">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="users_Id" />
+            <PropertyRef Name="communities_Id" />
+          </Key>
+          <Property Name="Id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="users_Id" Type="int" Nullable="false" />
+          <Property Name="communities_Id" Type="int" Nullable="false" />
+          <Property Name="Role" Type="varchar" Nullable="false" MaxLength="255" />
+          <Property Name="IsDeleted" Type="bool" Nullable="false" />
         </EntityType>
         <EntityType Name="components">
           <Key>
@@ -377,6 +398,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_community_permissions_communities1">
+          <End Role="communities" Type="ATModel.Store.communities" Multiplicity="1" />
+          <End Role="community_permissions" Type="ATModel.Store.community_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="communities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="community_permissions">
+              <PropertyRef Name="communities_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_community_permissions_users1">
+          <End Role="users" Type="ATModel.Store.users" Multiplicity="1" />
+          <End Role="community_permissions" Type="ATModel.Store.community_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="community_permissions">
+              <PropertyRef Name="users_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_components_controls1">
           <End Role="controls" Type="ATModel.Store.controls" Multiplicity="1" />
           <End Role="components" Type="ATModel.Store.components" Multiplicity="*" />
@@ -470,6 +515,7 @@
           <EntitySet Name="associations" EntityType="ATModel.associations" />
           <EntitySet Name="categories" EntityType="ATModel.categories" />
           <EntitySet Name="communities" EntityType="ATModel.communities" />
+          <EntitySet Name="community_permissions" EntityType="ATModel.community_permissions" />
           <EntitySet Name="components" EntityType="ATModel.components" />
           <EntitySet Name="controls" EntityType="ATModel.controls" />
           <EntitySet Name="events" EntityType="ATModel.events" />
@@ -497,6 +543,14 @@
           <AssociationSet Name="fk_subcategories_categories1" Association="ATModel.fk_subcategories_categories1">
             <End Role="categories" EntitySet="categories" />
             <End Role="subcategories" EntitySet="subcategories" />
+          </AssociationSet>
+          <AssociationSet Name="fk_community_permissions_communities1" Association="ATModel.fk_community_permissions_communities1">
+            <End Role="communities" EntitySet="communities" />
+            <End Role="community_permissions" EntitySet="community_permissions" />
+          </AssociationSet>
+          <AssociationSet Name="fk_community_permissions_users1" Association="ATModel.fk_community_permissions_users1">
+            <End Role="users" EntitySet="users" />
+            <End Role="community_permissions" EntitySet="community_permissions" />
           </AssociationSet>
           <AssociationSet Name="fk_components_controls1" Association="ATModel.fk_components_controls1">
             <End Role="controls" EntitySet="controls" />
@@ -533,7 +587,7 @@
             <PropertyRef Name="users_Id" />
             <PropertyRef Name="associations_Id" />
           </Key>
-          <Property Type="Int32" Name="Id" Nullable="false" />
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="Int32" Name="users_Id" Nullable="false" />
           <Property Type="Int32" Name="associations_Id" Nullable="false" />
           <Property Type="String" Name="Role" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
@@ -547,7 +601,6 @@
           </Key>
           <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Type="String" Name="Name" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
-          <Property Type="Int32" Name="ParentAssociationId" />
           <Property Type="String" Name="LogoUrl" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="String" Name="Description" MaxLength="1000" FixedLength="false" Unicode="false" />
           <Property Type="DateTime" Name="Created" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
@@ -556,6 +609,7 @@
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <Property Type="Int32" Name="Communities_Id" Nullable="false" />
+          <Property Type="Int32" Name="ParentAssociationId" />
           <NavigationProperty Name="association_permissions" Relationship="ATModel.fk_association_permissions_associations1" FromRole="associations" ToRole="association_permissions" />
           <NavigationProperty Name="communities" Relationship="ATModel.fk_Associations_Communities" FromRole="associations" ToRole="communities" />
           <NavigationProperty Name="members" Relationship="ATModel.fk_Members_Associations1" FromRole="associations" ToRole="members" />
@@ -586,7 +640,22 @@
           <Property Type="String" Name="UpdatedBy" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="associations" Relationship="ATModel.fk_Associations_Communities" FromRole="communities" ToRole="associations" />
+          <NavigationProperty Name="community_permissions" Relationship="ATModel.fk_community_permissions_communities1" FromRole="communities" ToRole="community_permissions" />
           <NavigationProperty Name="events" Relationship="ATModel.communities_in_events" FromRole="communities" ToRole="events" />
+        </EntityType>
+        <EntityType Name="community_permissions">
+          <Key>
+            <PropertyRef Name="Id" />
+            <PropertyRef Name="users_Id" />
+            <PropertyRef Name="communities_Id" />
+          </Key>
+          <Property Type="Int32" Name="Id" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Type="Int32" Name="users_Id" Nullable="false" />
+          <Property Type="Int32" Name="communities_Id" Nullable="false" />
+          <Property Type="String" Name="Role" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+          <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
+          <NavigationProperty Name="communities" Relationship="ATModel.fk_community_permissions_communities1" FromRole="community_permissions" ToRole="communities" />
+          <NavigationProperty Name="users" Relationship="ATModel.fk_community_permissions_users1" FromRole="community_permissions" ToRole="users" />
         </EntityType>
         <EntityType Name="components">
           <Key>
@@ -683,6 +752,7 @@
           <Property Type="String" Name="Username" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
           <Property Type="Boolean" Name="IsDeleted" Nullable="false" />
           <NavigationProperty Name="association_permissions" Relationship="ATModel.fk_association_permissions_users1" FromRole="users" ToRole="association_permissions" />
+          <NavigationProperty Name="community_permissions" Relationship="ATModel.fk_community_permissions_users1" FromRole="users" ToRole="community_permissions" />
         </EntityType>
         <EntityType Name="webpages">
           <Key>
@@ -761,6 +831,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="fk_community_permissions_communities1">
+          <End Type="ATModel.communities" Role="communities" Multiplicity="1" />
+          <End Type="ATModel.community_permissions" Role="community_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="communities">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="community_permissions">
+              <PropertyRef Name="communities_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="fk_community_permissions_users1">
+          <End Type="ATModel.users" Role="users" Multiplicity="1" />
+          <End Type="ATModel.community_permissions" Role="community_permissions" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="users">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="community_permissions">
+              <PropertyRef Name="users_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="fk_components_controls1">
           <End Type="ATModel.controls" Role="controls" Multiplicity="1" />
           <End Type="ATModel.components" Role="components" Multiplicity="*" />
@@ -833,6 +927,7 @@
           <EntitySetMapping Name="associations">
             <EntityTypeMapping TypeName="ATModel.associations">
               <MappingFragment StoreEntitySet="associations">
+                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
                 <ScalarProperty Name="Communities_Id" ColumnName="Communities_Id" />
                 <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
                 <ScalarProperty Name="UpdatedBy" ColumnName="UpdatedBy" />
@@ -841,7 +936,6 @@
                 <ScalarProperty Name="Created" ColumnName="Created" />
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
-                <ScalarProperty Name="ParentAssociationId" ColumnName="ParentAssociationId" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
@@ -867,6 +961,17 @@
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="LogoUrl" ColumnName="LogoUrl" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="community_permissions">
+            <EntityTypeMapping TypeName="ATModel.community_permissions">
+              <MappingFragment StoreEntitySet="community_permissions">
+                <ScalarProperty Name="IsDeleted" ColumnName="IsDeleted" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="communities_Id" ColumnName="communities_Id" />
+                <ScalarProperty Name="users_Id" ColumnName="users_Id" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

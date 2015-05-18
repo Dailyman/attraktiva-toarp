@@ -19,14 +19,32 @@ namespace EventHandlingSystem.Database
             return Context.users.Where(u => !u.IsDeleted);
         }
 
-        public static List<users> GetAllUsersByAssociationId(int id)
+        public static List<users> GetAllUsersByAssociation(associations a)
         {
-            List<users> usersInAsso = new List<users>();
-            foreach (var notDeletedUser in GetAllNotDeletedUsers())
+            var usersInAssociation = new List<users>();
+            foreach (
+                var user in
+                    AssociationPermissionsDB.GetAllAssociationPermissionsByAssociation(a)
+                        .Select(aP => aP.users)
+                        .Where(user => !usersInAssociation.Contains(user)))
             {
-                usersInAsso.AddRange(from permission in notDeletedUser.association_permissions where permission.associations.Id == id select notDeletedUser);
+                usersInAssociation.Add(user);
             }
-            return usersInAsso;
+            return usersInAssociation;
+        }
+
+        public static List<users> GetAllUsersByCommunityId(communities c)
+        {
+            var usersInCommunity = new List<users>();
+            foreach (
+                var user in
+                    CommunityPermissionsDB.GetAllCommunityPermissionsByCommunity(c)
+                        .Select(aP => aP.users)
+                        .Where(user => !usersInCommunity.Contains(user)))
+            {
+                usersInCommunity.Add(user);
+            }
+            return usersInCommunity;
         }
 
         public static users GetUserById(int id)

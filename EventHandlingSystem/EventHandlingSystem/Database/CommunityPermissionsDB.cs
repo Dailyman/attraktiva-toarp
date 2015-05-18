@@ -23,6 +23,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedCommunityPermissions().Where(p => p.communities_Id.Equals(comm.Id)).ToList();
         }
 
+        public static List<community_permissions> GetAllCommunityPermissionsByUser(users user)
+        {
+            return GetAllNotDeletedCommunityPermissions().Where(p => p.users_Id.Equals(user.Id)).ToList();
+        }
+
         public static community_permissions GetCommunityPermissionsById(int id)
         {
             return GetAllNotDeletedCommunityPermissions().SingleOrDefault(p => p.Id.Equals(id));
@@ -31,6 +36,16 @@ namespace EventHandlingSystem.Database
         public static bool HasUserPermissionForCommunity(users u, communities c)
         {
             return GetAllCommunityPermissionsByCommunity(c).Any(cP => cP.users.Id == u.Id);
+        }
+
+        public static bool HasUserPermissionForCommunityWithRole(users u, communities c, string r)
+        {
+            return GetAllCommunityPermissionsByCommunity(c).Any(cP => cP.users.Id == u.Id && cP.Role.Equals(r));
+        }
+
+        public static bool HasUserPermissionWithRole(users u, string r)
+        {
+            return GetAllCommunityPermissionsByUser(u).Any(cP => cP.Role.Equals(r));
         }
 
         // UPDATE

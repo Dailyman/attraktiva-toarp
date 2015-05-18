@@ -167,7 +167,7 @@ vertical-align: middle;
                                     <tr>
                                         <th>Associations</th>
                                         <th></th>
-                                        <th>Associations user has permission to use</th>
+                                        <th>Associations user has permission to</th>
                                     </tr>
                                 </thead>
                                 <tbody>

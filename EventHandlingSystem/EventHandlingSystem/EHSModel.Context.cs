@@ -29,6 +29,7 @@ namespace EventHandlingSystem
         public DbSet<associations> associations { get; set; }
         public DbSet<categories> categories { get; set; }
         public DbSet<communities> communities { get; set; }
+        public DbSet<community_permissions> community_permissions { get; set; }
         public DbSet<components> components { get; set; }
         public DbSet<controls> controls { get; set; }
         public DbSet<events> events { get; set; }

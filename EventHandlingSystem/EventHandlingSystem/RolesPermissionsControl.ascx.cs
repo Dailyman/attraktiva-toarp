@@ -251,35 +251,53 @@ namespace EventHandlingSystem
             // Get the selected user
             string selectedUserName = UserList2.SelectedValue;
 
-            associations[] selectedUsersAssociations =
-                (from permission in UserDB.GetUserByUsername(selectedUserName).association_permissions where !permission.associations.IsDeleted && !permission.IsDeleted select permission.associations).ToArray();
-
-            string[] selectedUsersAssociationsNames =
-                (from association in selectedUsersAssociations where !association.IsDeleted select association.Name)
-                    .ToArray();
-
-
-            SelectedAssociationsListBox.DataSource = selectedUsersAssociations.OrderBy(a => a.Name);
-            SelectedAssociationsListBox.DataTextField = "Name";
-            SelectedAssociationsListBox.DataValueField = "Id";
-            SelectedAssociationsListBox.DataBind();
-
-
-            var itemsToRemove = new List<ListItem>();
-
-            // Loop through the ListBox's Items and Find items to Remove/Add 
-            foreach (ListItem li in AssociationsListBox.Items)
+            if (UserDB.GetUserByUsername(selectedUserName) == null)
             {
-                if (selectedUsersAssociationsNames.Any(assoName => li.Text.Equals(assoName)))
-                {
-                    itemsToRemove.Add(li);
-                    //SelectedAssociationsListBox.Items.Add(li);
-                }
+                ActionStatusPermissions.Text = "User does not exist. Try refreshing the page.";
             }
-
-            foreach (var listItem in itemsToRemove)
+            else
             {
-                AssociationsListBox.Items.Remove(listItem);
+                var selectedUsersAssociationsList = new List<associations>();
+                foreach (var asso in  (from permission in UserDB.GetUserByUsername(selectedUserName).association_permissions
+                        where !permission.associations.IsDeleted && !permission.IsDeleted
+                        select permission.associations).Where(a => !selectedUsersAssociationsList.Contains(a)))
+                {
+                    selectedUsersAssociationsList.Add(asso);
+                }
+
+                associations[] selectedUsersAssociations = selectedUsersAssociationsList.ToArray();
+
+
+                var selectedUsersAssociationsNamesList = new List<string>();
+                foreach (var assoName in (from association in selectedUsersAssociations where !association.IsDeleted select association.Name).Where(name => !selectedUsersAssociationsNamesList.Contains(name)))
+                {
+                    selectedUsersAssociationsNamesList.Add(assoName);
+                }
+                   
+                string[] selectedUsersAssociationsNames =selectedUsersAssociationsNamesList.ToArray();
+
+                SelectedAssociationsListBox.DataSource = selectedUsersAssociations.OrderBy(a => a.Name);
+                SelectedAssociationsListBox.DataTextField = "Name";
+                SelectedAssociationsListBox.DataValueField = "Id";
+                SelectedAssociationsListBox.DataBind();
+
+
+                var itemsToRemove = new List<ListItem>();
+
+                // Loop through the ListBox's Items and Find items to Remove/Add 
+                foreach (ListItem li in AssociationsListBox.Items)
+                {
+                    if (selectedUsersAssociationsNames.Any(assoName => li.Text.Equals(assoName)))
+                    {
+                        itemsToRemove.Add(li);
+                        //SelectedAssociationsListBox.Items.Add(li);
+                    }
+                }
+
+                foreach (var listItem in itemsToRemove)
+                {
+                    AssociationsListBox.Items.Remove(listItem);
+                }
             }
         }
 
@@ -355,7 +373,7 @@ namespace EventHandlingSystem
 
                         association_permissions aP =
                             user.association_permissions.SingleOrDefault(
-                                p => !p.IsDeleted && p.associations == association);
+                                p => !p.IsDeleted && p.associations == association && p.Role.Equals("Contributors"));
                         int permId = -1;
                         if (aP != null)
                         {
