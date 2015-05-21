@@ -38,11 +38,13 @@
                     <asp:TextBox ID="TextBoxCommLogoUrl" runat="server"></asp:TextBox>
                 </span><br />
                 <br />
-                <asp:Label ID="LabelCreateComm" runat="server" Text=""></asp:Label>
+                <asp:Label ID="LabelCreateComm" runat="server" Text=""></asp:Label><br />
+                <asp:DropDownList ID="ddlAdminUser" runat="server"></asp:DropDownList>
                 <div class="btn-align-right">
                     <asp:Button ID="ButtonCreateCommCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonCreateCommCancel_OnClick" />
                     <asp:Button ID="ButtonCreateComm" CssClass="btn-blue" runat="server" Text="Create" OnClick="ButtonCreateComm_OnClick" />
                 </div>
+                
             </div>
         </asp:View>
     </asp:MultiView>
@@ -59,6 +61,12 @@
                     </asp:HyperLink>
                 <span><b>Name: </b>
                     <asp:TextBox ID="TextBoxCommName" Text="" runat="server"></asp:TextBox></span><br />
+                <%--<asp:CustomValidator ID="CustomValidator1" runat="server" 
+                    ValidationGroup="TestValidator"
+                    ErrorMessage="HTML is not allowed. Duh!"
+                    ForeColor="Red"
+                    OnServerValidate="ValidateMethod"
+                    ControlToValidate="TextBoxCommName"></asp:CustomValidator>--%>
                 <span><b>Description: (max characters: 1000) </b><br />
                     <asp:TextBox ID="TextBoxCommDescript" 
                         TextMode="MultiLine" runat="server"

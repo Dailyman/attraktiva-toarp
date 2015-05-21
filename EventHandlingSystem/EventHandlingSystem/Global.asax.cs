@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Optimization;
@@ -25,10 +26,21 @@ namespace EventHandlingSystem
 
         }
 
-        void Application_Error(object sender, EventArgs e)
+        private void Application_Error(object sender, EventArgs e)
         {
-            // Code that runs when an unhandled error occurs
+            string filePath = Server.MapPath("ErrorPage.html");
+            Exception exception = Server.GetLastError();
+            string errorPage = 
+                System.IO.File.ReadAllText
+                (filePath);
 
+            if (exception is HttpRequestValidationException)
+            {
+                Response.Clear();
+                Response.StatusCode = 200;
+                Response.Write(errorPage);
+                Response.End();
+            }
         }
     }
 }

@@ -163,7 +163,7 @@ vertical-align: middle;
                             <b>and a Role:</b>
                             <asp:DropDownList ID="RoleToAddList1" runat="server"></asp:DropDownList>
                             <br />
-                            <asp:Button ID="AddUserToAssociation" runat="server" Text="Add user to community" OnClick="AddUserToAssociation_OnClick" />
+                            <asp:Button ID="AddUserToAssociation" runat="server" Text="Add user to association" OnClick="AddUserToAssociation_OnClick" />
                         </p>
                     </div>
 
