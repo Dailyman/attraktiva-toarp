@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Security;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using EventHandlingSystem.Database;
@@ -41,6 +42,7 @@ namespace EventHandlingSystem
 
             ListItem emptyItem = new ListItem("", " ");
             emptyItem.Attributes.Add("disabled", "disabled");
+            //emptyItem.Enabled = false;
             ddl.Items.Add(emptyItem);
 
             //Sorterar commList i alfabetisk ordning i dropdownlistan för Communities
@@ -82,8 +84,38 @@ namespace EventHandlingSystem
                 ddl.Items.Add(item);
             }
         }
-        
 
+        public void PopulateUserDropDownList(DropDownList ddl)
+        {
+            ddl.Items.Clear();
+
+            //Lägg in alla användare i dropdownlista
+            var userList =
+                Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
+            ddl.DataSource = userList;
+            ddl.DataBind();
+
+
+            //// ALTERNATIV med foreach
+            //foreach (var asso in AssociationDB.GetAllAssociations())
+            //{
+            //    assoList.Add(new ListItem
+            //    {
+            //        Text = asso.Name,
+            //        Value = asso.Id.ToString()
+            //    });
+            //}
+
+            //ListItem emptyItem = new ListItem("", " ");
+            //ddl.Items.Add(emptyItem); //index 0
+
+            ////Sorterar assoList i alfabetisk ordning i dropdownlistan för Associations
+            //foreach (var item in assoList.OrderBy(item => item.Text))
+            //{
+            //    ddl.Items.Add(item);
+            //}
+        }
+        
         public void PopulateAssociationListBox()
         {
             ListBoxAsso.Items.Clear();
@@ -315,7 +347,7 @@ namespace EventHandlingSystem
 
             communities comm = CommunityDB.GetCommunityById(int.Parse(DropDownListCommunity.SelectedItem.Value));
 
-            TextBoxCommDescript.Text = comm.Description ?? "This is a very friendly community...";
+            TextBoxCommDescript.Text = comm.Description ?? "";
             TextBoxCommLogoImgUrl.Text = comm.LogoUrl ?? "~/Images/Community.jpg";
 
             LabelAssoInComm.Text = "Associations in " + DropDownListCommunity.SelectedItem.Text;
@@ -346,7 +378,7 @@ namespace EventHandlingSystem
         {
             // Visa Community Name i textboxen och i rubrik över föreningslista
             TextBoxCommName.Text = comm.Name;
-            TextBoxCommDescript.Text = comm.Description ?? "This is a very friendly community...";
+            TextBoxCommDescript.Text = comm.Description ?? "";
             TextBoxCommLogoImgUrl.Text = comm.LogoUrl ?? "~/Images/Community.jpg";
             LabelAssoInComm.Text = "Associations in " + comm.Name;
             LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "black");
@@ -381,7 +413,7 @@ namespace EventHandlingSystem
             TextBoxAssoName.Text = a.Name;
 
             //Visa Description i multitextbox
-            TextBoxAssoDescript.Text = a.Description ?? "There is no one more friendly than us. ^^";
+            TextBoxAssoDescript.Text = a.Description ?? "";
 
             //Visa Association logga plus web page link
             ImageLogoAssociation.ImageUrl = a.LogoUrl ?? "~/Images/Association.jpg";
@@ -568,6 +600,13 @@ namespace EventHandlingSystem
                 //Uppdatera det nya namnet från textboxen
                 communities commToUpdate = CommunityDB.GetCommunityById(commId);
 
+                //if (TextBoxCommName.Text.Contains("<") || TextBoxCommName.Text.Contains(">"))
+                //{
+                //    LabelCommSave.Text = "HTML error!";
+                //    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+                //    return;
+                //}
+
                 //Kontrollera så att det inte blir dubbletter av namnet
                 foreach (communities commChecking in CommunityDB.GetAllCommunities())
                 {
@@ -576,8 +615,9 @@ namespace EventHandlingSystem
                         isUniqueName = false;
                     }
                 }
+                
                 if (isUniqueName)
-                {
+                {   
                     commToUpdate.Name = TextBoxCommName.Text;
                 }
                 else
@@ -631,6 +671,8 @@ namespace EventHandlingSystem
             TextBoxCommNameCreate.Text = string.Empty;
             TextBoxCommLogoUrl.Text = string.Empty;
             LabelCreateComm.Text = string.Empty;
+
+            PopulateUserDropDownList(ddlAdminUser);
         }
 
         // För att skapa en ny community
@@ -714,6 +756,7 @@ namespace EventHandlingSystem
                 LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
             PopulateCommunityDropDownList(DropDownListCommunity);
+            ListBoxAsso.Items.Clear();
         }
 
         // För att gå ur "Create New Community" vyn
@@ -1379,6 +1422,10 @@ namespace EventHandlingSystem
 
         #endregion
 
-        
+        protected void ValidateMethod(object source, ServerValidateEventArgs args)
+        {
+            //args.IsValid = !args.Value.Contains("<");
+            args.IsValid = (args.Value.Length >= 8);
+        }
     }
 }
