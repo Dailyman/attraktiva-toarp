@@ -76,13 +76,13 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Repeater UsersRoleList;
         
         /// <summary>
-        /// ActionStatusPermissions control.
+        /// ActionStatusPermissions1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ActionStatusPermissions;
+        protected global::System.Web.UI.WebControls.Label ActionStatusPermissions1;
         
         /// <summary>
         /// AssociationList control.
@@ -103,13 +103,22 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.GridView AssociationUserList;
         
         /// <summary>
-        /// UserNameToAddToAssociation control.
+        /// UserToAddList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox UserNameToAddToAssociation;
+        protected global::System.Web.UI.WebControls.DropDownList UserToAddList1;
+        
+        /// <summary>
+        /// RoleToAddList1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleToAddList1;
         
         /// <summary>
         /// AddUserToAssociation control.
@@ -128,6 +137,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList UserList2;
+        
+        /// <summary>
+        /// RoleList2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleList2;
         
         /// <summary>
         /// AssociationsListBox control.
@@ -164,5 +182,113 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ListBox SelectedAssociationsListBox;
+        
+        /// <summary>
+        /// ActionStatusPermissions2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label ActionStatusPermissions2;
+        
+        /// <summary>
+        /// CommunityList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList CommunityList;
+        
+        /// <summary>
+        /// CommunityUserList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView CommunityUserList;
+        
+        /// <summary>
+        /// UserToAddList2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList UserToAddList2;
+        
+        /// <summary>
+        /// RoleToAddList2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleToAddList2;
+        
+        /// <summary>
+        /// AddUserToCommunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddUserToCommunity;
+        
+        /// <summary>
+        /// UserList3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList UserList3;
+        
+        /// <summary>
+        /// RoleList3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RoleList3;
+        
+        /// <summary>
+        /// CommunitiesListBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox CommunitiesListBox;
+        
+        /// <summary>
+        /// AddCommunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button AddCommunity;
+        
+        /// <summary>
+        /// RemoveCommunity control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button RemoveCommunity;
+        
+        /// <summary>
+        /// SelectedCommunitiesListBox control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.ListBox SelectedCommunitiesListBox;
     }
 }

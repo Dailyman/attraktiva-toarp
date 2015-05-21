@@ -1,4 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="RolesPermissionsControl.ascx.cs" Inherits="EventHandlingSystem.RolesPermissionsControl" %>
+<%@ Import Namespace="EventHandlingSystem.Database" %>
 
 <style type="text/css">
     .content-block
@@ -111,7 +112,7 @@ vertical-align: middle;
                     <hr />
                     <br />
                     <p align="center">
-                        <asp:Label ID="ActionStatusPermissions" runat="server" CssClass="Important"></asp:Label>
+                        <asp:Label ID="ActionStatusPermissions1" runat="server" CssClass="Important"></asp:Label>
                     </p>
                 </td>
             </tr>
@@ -130,23 +131,39 @@ vertical-align: middle;
                             <asp:DropDownList ID="AssociationList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="AssociationList_OnSelectedIndexChanged"></asp:DropDownList>
                         </p>
                         <p>
-                            <asp:GridView ID="AssociationUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users belong to this association." OnRowDeleting="AssociationUserList_OnRowDeleting">
+                            <asp:GridView ID="AssociationUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users has permissin to this association." OnRowDeleting="AssociationUserList_OnRowDeleting">
                                 <Columns>
+                                    <asp:TemplateField HeaderText="Perm.Id">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="IdLabel"
+                                                Text='<%# Eval("Id")%>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
                                     <asp:TemplateField HeaderText="Users">
                                         <ItemTemplate>
-                                            <asp:Label runat="server" ID="UserNameLabelInAssociation"
-                                                Text='<%# Container.DataItem %>'></asp:Label>
+                                            <asp:Label runat="server" ID="UserNameLabel"
+                                                Text='<%# UserDB.GetUserById((int)Eval("users_Id")).Username%>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Role">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="RoleLabel"
+                                                Text='<%# Eval("Role") %>'></asp:Label>
                                         </ItemTemplate>
                                     </asp:TemplateField>
                                     <asp:CommandField DeleteText="Remove" ShowDeleteButton="True" />
                                 </Columns>
                             </asp:GridView>
                         </p>
+                        <br/>
                         <p>
-                            <b>UserName:</b>
-                            <asp:TextBox ID="UserNameToAddToAssociation" runat="server"></asp:TextBox>
+                            <b>Select a User:</b>
+                            <asp:DropDownList ID="UserToAddList1" runat="server" DataTextField="UserName" DataValueField="UserName"></asp:DropDownList>
+                            <br/>
+                            <b>and a Role:</b>
+                            <asp:DropDownList ID="RoleToAddList1" runat="server"></asp:DropDownList>
                             <br />
-                            <asp:Button ID="AddUserToAssociation" runat="server" Text="Add User to association" OnClick="AddUserToAssociation_OnClick" />
+                            <asp:Button ID="AddUserToAssociation" runat="server" Text="Add user to community" OnClick="AddUserToAssociation_OnClick" />
                         </p>
                     </div>
 
@@ -159,6 +176,9 @@ vertical-align: middle;
                             <b>Select a User:</b>
                             <asp:DropDownList ID="UserList2" runat="server" AutoPostBack="True"
                                 DataTextField="UserName" DataValueField="UserName" OnSelectedIndexChanged="UserList2_OnSelectedIndexChanged">
+                            </asp:DropDownList>
+                            <b>and a Role:</b>
+                            <asp:DropDownList ID="RoleList2" runat="server" AutoPostBack="True" OnSelectedIndexChanged="RoleList2_OnSelectedIndexChanged">
                             </asp:DropDownList>
                         </p>
                         <p>
@@ -183,6 +203,122 @@ vertical-align: middle;
                                         </td>
                                         <td>
                                             <asp:ListBox ID="SelectedAssociationsListBox" runat="server" SelectionMode="Multiple" CssClass="bigger-listbox"></asp:ListBox></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </p>
+                    </div>
+                </td>
+            </tr>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+
+            <tr>
+                <td colspan="3">
+                    <hr />
+                    <br />
+                    <p align="center">
+                        <asp:Label ID="ActionStatusPermissions2" runat="server" CssClass="Important"></asp:Label>
+                    </p>
+                </td>
+            </tr>
+
+
+
+
+
+            <tr>
+                <td>
+                    <div class="content-block">
+                        <h3>Manage Users By Community</h3>
+                        <p>
+                            <b>Select a Community:</b>
+
+                            <asp:DropDownList ID="CommunityList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="CommunityList_OnSelectedIndexChanged"></asp:DropDownList>
+                        </p>
+                        <p>
+                            <asp:GridView ID="CommunityUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users has permissin to this community." OnRowDeleting="CommunityUserList_OnRowDeleting">
+                                <Columns>
+                                    <asp:TemplateField HeaderText="Perm.Id">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="IdLabel"
+                                                Text='<%# Eval("Id")%>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Users">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="UserNameLabel"
+                                                Text='<%# UserDB.GetUserById((int)Eval("users_Id")).Username%>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:TemplateField HeaderText="Role">
+                                        <ItemTemplate>
+                                            <asp:Label runat="server" ID="RoleLabel"
+                                                Text='<%# Eval("Role") %>'></asp:Label>
+                                        </ItemTemplate>
+                                    </asp:TemplateField>
+                                    <asp:CommandField DeleteText="Remove" ShowDeleteButton="True" />
+                                </Columns>
+                            </asp:GridView>
+                        </p>
+                        <br/>
+                        <p>
+                            <b>Select a User:</b>
+                            <asp:DropDownList ID="UserToAddList2" runat="server" DataTextField="UserName" DataValueField="UserName"></asp:DropDownList>
+                            <br/>
+                            <b>and a Role:</b>
+                            <asp:DropDownList ID="RoleToAddList2" runat="server"></asp:DropDownList>
+                            <br />
+                            <asp:Button ID="AddUserToCommunity" runat="server" Text="Add user to community" OnClick="AddUserToCommunity_OnClick" />
+                        </p>
+                    </div>
+
+                </td>
+                <td>
+                    <div class="content-block">
+                        <h3>Manage Community Permissions By User</h3>
+
+                        <p>
+                            <b>Select a User:</b>
+                            <asp:DropDownList ID="UserList3" runat="server" AutoPostBack="True"
+                                DataTextField="UserName" DataValueField="UserName" OnSelectedIndexChanged="UserList3_OnSelectedIndexChanged">
+                            </asp:DropDownList>
+                            <b>and a Role:</b>
+                            <asp:DropDownList ID="RoleList3" runat="server" AutoPostBack="True" OnSelectedIndexChanged="RoleList3_OnSelectedIndexChanged">
+                            </asp:DropDownList>
+                        </p>
+                        <p>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Communities</th>
+                                        <th></th>
+                                        <th>Communities the user has permission to</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <asp:ListBox ID="CommunitiesListBox" runat="server" SelectionMode="Multiple" CssClass="bigger-listbox"></asp:ListBox>
+                                        </td>
+                                        <td>
+                                            <p align="center">
+                                                <asp:Button ID="AddCommunity" runat="server" Text="> Add >" OnClick="AddCommunity_OnClick" />
+                                                <asp:Button ID="RemoveCommunity" runat="server" Text="< Remove <" OnClick="RemoveCommunity_OnClick" />
+                                            </p>
+                                        </td>
+                                        <td>
+                                            <asp:ListBox ID="SelectedCommunitiesListBox" runat="server" SelectionMode="Multiple" CssClass="bigger-listbox"></asp:ListBox></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -14,6 +14,10 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            ActionStatus.Text = "";
+            ActionStatusPermissions1.Text = "";
+            ActionStatusPermissions2.Text = "";
+
             if (!IsPostBack)
             {
                 // Bind the users and roles 
@@ -29,17 +33,49 @@ namespace EventHandlingSystem
 
 
                 // Bind users and associations
-                BindUsersToUserList2();
-                BindAssociationsToListBox();
+                // Bindings for Manage Users By Association
                 BindAssociationsToList();
+                BindUsersToUserToAddList1();
+                BindRolesToRoleToAddList1();
 
-                // Add the selected user's associations in the SelectedAssociationsListBox
-                SelectAssociationsForSelectedUser();
+                // Bindings for Manage Association Permissions By User
+                BindAssociationsToListBox();
+                BindUsersToUserList2();
+                BindRolesToRoleList2();
+
 
                 // Display those users belonging to the currently selected association 
-                DisplayUsersBelongingToAssociation();
+                BindPermissionsToAssociationUserList();
+
+                // Add the selected user's associations in the SelectedAssociationsListBox
+                SelectAssociationsForSelectedUserAndRole();
+
+
+                // Bind users and communities
+                // Bindings for Manage Users By Community
+                // Bind communities to dropdown
+                BindCommunitiesToCommunityList();
+                BindUsersToUserToAddList2();
+                BindRolesToRoleToAddList2();
+
+                // Bindings for Manage Community Permissions By User
+                // Bind users to dropdown for community permission manangement
+                BindUsersToUserList3();
+                // Bind roles to dropdown for community permission manangement
+                BindRolesToRoleList3();
+                // Bind all communities to the listbox
+                BindCommuntiesToListBox();
+
+                // Display those users permissions to the currently selected community 
+                BindPermissionsToCommunityUserList();
+
+                // Add the selected user's communities in the SelectedCommunitiesListBox
+                SelectCommunitiesForSelectedUserAndRole();
+                
             }
         }
+
+        #region RoleManager
 
         private void BindUsersToUserList1()
         {
@@ -69,7 +105,7 @@ namespace EventHandlingSystem
             // Make sure the user exists
             if (Membership.GetUser(selectedUserName) == null)
             {
-                ActionStatusPermissions.Text = string.Format("The user {0} does not exist in the system.", selectedUserName);
+                ActionStatusPermissions1.Text = string.Format("The user {0} does not exist in the system.", selectedUserName);
 
                 // Refresh the UserList because it was probably not updated
                 BindUsersToUserList1();
@@ -215,15 +251,24 @@ namespace EventHandlingSystem
             CheckRolesForSelectedUser();
         }
 
+        #endregion 
 
 
+        #region AssociationPermissionManager
 
+        #region BindData with IsNotPostBack
         private void BindUsersToUserList2()
         {
             // Get all of the user accounts 
             var users = Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
             UserList2.DataSource = users;
             UserList2.DataBind();
+        }
+
+        private void BindRolesToRoleList2()
+        {
+            RoleList2.DataSource = new object[] { "Contributors", "Administrators" };
+            RoleList2.DataBind();
         }
 
         private void BindAssociationsToListBox()
@@ -242,8 +287,198 @@ namespace EventHandlingSystem
             AssociationList.DataBind();
         }
 
+        private void BindUsersToUserToAddList1()
+        {
+            // Get all of the user accounts 
+            var users = Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
+            UserToAddList1.DataSource = users;
+            UserToAddList1.DataBind();
+        }
 
-        private void SelectAssociationsForSelectedUser()
+        private void BindRolesToRoleToAddList1()
+        {
+            RoleToAddList1.DataSource = new object[] { "Contributors", "Administrators" };
+            RoleToAddList1.DataBind();
+        }
+
+        #endregion
+
+
+        private void BindPermissionsToAssociationUserList()
+        {
+            var permissionsForAssociation = new List<association_permissions>();
+            int currentAssoId;
+
+            // Get the currentAssociationId
+            if (int.TryParse(AssociationList.SelectedValue, out currentAssoId))
+            {
+                var usersWithPermissionsToCurrentAssociation = UserDB.GetAllUsersByAssociation(AssociationDB.GetAssociationById(currentAssoId));
+
+                foreach (var user in usersWithPermissionsToCurrentAssociation)
+                {
+                    foreach (
+                        var associationPermission in
+                            user.association_permissions.Where(p => !p.IsDeleted && p.associations_Id == currentAssoId))
+                    {
+                        permissionsForAssociation.Add(associationPermission);
+                    }
+
+                }
+
+                // Bind the list of Permissions to the GridView 
+                AssociationUserList.DataSource = permissionsForAssociation.OrderBy(p => p.Role).ThenBy(p => p.users.Username);
+                AssociationUserList.DataBind();
+            }
+        }
+
+        protected void AssociationList_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindPermissionsToAssociationUserList();
+        }
+
+        protected void AssociationUserList_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            // Reference the UserNameLabel 
+            Label IdLabel = AssociationUserList.Rows[e.RowIndex].FindControl("IdLabel") as Label;
+            Label UserNameLabel = AssociationUserList.Rows[e.RowIndex].FindControl("UserNameLabel") as Label;
+            Label RoleLabel = AssociationUserList.Rows[e.RowIndex].FindControl("RoleLabel") as Label;
+
+            if (IdLabel == null)
+            {
+                ActionStatusPermissions1.Text = "Permission was not removed! Error: LabelId is null";
+                return;
+            }
+            if (UserNameLabel == null)
+            {
+                ActionStatusPermissions1.Text = "Permission was not removed! Error: UserNameLabel is null";
+                return;
+            }
+            if (RoleLabel == null)
+            {
+                ActionStatusPermissions1.Text = "Permission was not removed! Error: RoleLabel is null";
+                return;
+            }
+
+            int permissionId;
+            if (!int.TryParse(IdLabel.Text, out permissionId))
+            {
+                ActionStatusPermissions1.Text = "Permission was not removed! Error: PermissionId could not be translated into a number.";
+                return;
+            }
+            if (UserDB.GetUserByUsername(UserNameLabel.Text) == null)
+            {
+                ActionStatusPermissions1.Text = "Permission was not removed! Error: User by that username could not be found.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(RoleLabel.Text))
+            {
+                ActionStatusPermissions1.Text = "Permission was not removed! Error: Role is null or empty.";
+                return;
+            }
+
+            users user = UserDB.GetUserByUsername(UserNameLabel.Text);
+            string role = RoleLabel.Text;
+
+
+            int assoId;
+            if (!string.IsNullOrWhiteSpace(AssociationList.SelectedValue) && int.TryParse(AssociationList.SelectedValue, out assoId))
+            {
+                if (AssociationPermissionsDB.GetAssociationPermissionsById(permissionId) == null)
+                {
+                    ActionStatusPermissions1.Text = "The permission was not found!";
+                    return;
+                }
+
+                if (AssociationPermissionsDB.DeleteAssociationPermissionsById(permissionId) > 0)
+                {
+                    ActionStatusPermissions1.Text = string.Format("{0}'s permission for {1} was successfully removed!", user.Username, AssociationDB.GetAssociationById(assoId).Name);
+
+                    if (!CommunityPermissionsDB.HasUserPermissionWithRole(user, role) && !AssociationPermissionsDB.HasUserPermissionWithRole(user, role))
+                    {
+                        Roles.RemoveUserFromRole(user.Username, role);
+                        ActionStatusPermissions1.Text += string.Format("<br/>The Role {0} was completely removed from {1}.", role, user.Username);
+                    }
+                }
+
+                // Refresh the GridView 
+                BindPermissionsToAssociationUserList();
+
+                // Refresh the "by user" interface 
+                SelectAssociationsForSelectedUserAndRole();
+                return;
+            }
+
+            ActionStatusPermissions1.Text = "Permission was not removed! Refresh page and try again.";
+        }
+
+        protected void AddUserToAssociation_OnClick(object sender, EventArgs e)
+        {
+            int assoId;
+            int.TryParse(AssociationList.SelectedValue, out assoId);
+            var currentAssociation = AssociationDB.GetAssociationById(assoId);
+            var selectedUser = UserDB.GetUserByUsername(UserToAddList1.SelectedValue);
+            var selectedRole = RoleToAddList1.SelectedValue;
+
+            if (selectedUser == null)
+            {
+                ActionStatusPermissions1.Text = "Selected user does not exist!";
+                return;
+            }
+            if (Membership.GetUser(selectedUser.Username) == null)
+            {
+                ActionStatusPermissions1.Text = "Selected user does not exist in the membership database!";
+                return;
+            }
+            if (String.IsNullOrWhiteSpace(selectedRole))
+            {
+                ActionStatusPermissions1.Text = "Selected role value is empty!";
+                return;
+            }
+            if (!Roles.RoleExists(selectedRole))
+            {
+                ActionStatusPermissions1.Text = "Selected role does not exist!";
+                return;
+            }
+
+            var newAssoPermission = new association_permissions
+            {
+                associations = currentAssociation,
+                associations_Id = currentAssociation.Id,
+                users = selectedUser,
+                users_Id = selectedUser.Id,
+                Role = selectedRole
+
+            };
+
+            if (!Roles.IsUserInRole(selectedUser.Username, selectedRole))
+            {
+                Roles.AddUserToRole(selectedUser.Username, selectedRole);
+            }
+
+            if (
+                !AssociationPermissionsDB.HasUserPermissionForAssociationWithRole(selectedUser,
+                    currentAssociation,
+                    selectedRole))
+            {
+                if (AssociationPermissionsDB.AddAssociationPermissions(newAssoPermission))
+                {
+                    ActionStatusPermissions1.Text = "New permission for " + currentAssociation.Name +
+                                        " was successfully added!";
+                }
+                else
+                {
+                    ActionStatusPermissions1.Text = "New permission for " + currentAssociation.Name + " could not be added!";
+                }
+            }
+
+            // Refresh the GridView
+            BindPermissionsToAssociationUserList();
+
+            // Refresh the "by user" interface
+            SelectAssociationsForSelectedUserAndRole();
+        }
+
+        private void SelectAssociationsForSelectedUserAndRole()
         {
             // Reset the ListBoxes
             BindAssociationsToListBox();
@@ -251,80 +486,110 @@ namespace EventHandlingSystem
             // Get the selected user
             string selectedUserName = UserList2.SelectedValue;
 
+            string selectedRole = RoleList2.SelectedValue;
+
             if (UserDB.GetUserByUsername(selectedUserName) == null)
             {
-                ActionStatusPermissions.Text = "User does not exist. Try refreshing the page.";
+                ActionStatusPermissions1.Text = "Selected user does not exist! Try refreshing the page.";
+                return;
             }
-            else
+
+            if (String.IsNullOrWhiteSpace(selectedRole))
             {
-                var selectedUsersAssociationsList = new List<associations>();
-                foreach (var asso in  (from permission in UserDB.GetUserByUsername(selectedUserName).association_permissions
-                        where !permission.associations.IsDeleted && !permission.IsDeleted
-                        select permission.associations).Where(a => !selectedUsersAssociationsList.Contains(a)))
+                ActionStatusPermissions1.Text = "No role was selected! Try refreshing the page.";
+                return;
+            }
+
+            if (!Roles.RoleExists(selectedRole))
+            {
+                ActionStatusPermissions1.Text = "Selected role does not exist!";
+                return;
+            }
+
+            var selectedUsersAssociationsList = new List<associations>();
+            foreach (var asso in (from permission in UserDB.GetUserByUsername(selectedUserName).association_permissions
+                                  where
+                                      !permission.associations.IsDeleted && !permission.IsDeleted && permission.Role.Equals(selectedRole)
+                                  select permission.associations).Where(a => !selectedUsersAssociationsList.Contains(a)))
+            {
+                selectedUsersAssociationsList.Add(asso);
+            }
+
+            associations[] selectedUsersAssociations = selectedUsersAssociationsList.ToArray();
+
+
+            var selectedUsersAssociationsNamesList = new List<string>();
+            foreach (
+                var AssoName in
+                    (from association in selectedUsersAssociations where !association.IsDeleted select association.Name)
+                        .Where(name => !selectedUsersAssociationsNamesList.Contains(name)))
+            {
+                selectedUsersAssociationsNamesList.Add(AssoName);
+            }
+
+            string[] selectedUsersAssociationsNames = selectedUsersAssociationsNamesList.ToArray();
+
+            SelectedAssociationsListBox.DataSource = selectedUsersAssociations.OrderBy(a => a.Name);
+            SelectedAssociationsListBox.DataTextField = "Name";
+            SelectedAssociationsListBox.DataValueField = "Id";
+            SelectedAssociationsListBox.DataBind();
+
+            var itemsToRemove = new List<ListItem>();
+
+            // Loop through the ListBox's Items and Find items to Remove/Add 
+            foreach (ListItem li in AssociationsListBox.Items)
+            {
+                if (selectedUsersAssociationsNames.Any(assoName => li.Text.Equals(assoName)))
                 {
-                    selectedUsersAssociationsList.Add(asso);
+                    itemsToRemove.Add(li);
+                    //SelectedAssociationsListBox.Items.Add(li);
                 }
+            }
 
-                associations[] selectedUsersAssociations = selectedUsersAssociationsList.ToArray();
-
-
-                var selectedUsersAssociationsNamesList = new List<string>();
-                foreach (var assoName in (from association in selectedUsersAssociations where !association.IsDeleted select association.Name).Where(name => !selectedUsersAssociationsNamesList.Contains(name)))
-                {
-                    selectedUsersAssociationsNamesList.Add(assoName);
-                }
-                   
-                string[] selectedUsersAssociationsNames =selectedUsersAssociationsNamesList.ToArray();
-
-                SelectedAssociationsListBox.DataSource = selectedUsersAssociations.OrderBy(a => a.Name);
-                SelectedAssociationsListBox.DataTextField = "Name";
-                SelectedAssociationsListBox.DataValueField = "Id";
-                SelectedAssociationsListBox.DataBind();
-
-
-                var itemsToRemove = new List<ListItem>();
-
-                // Loop through the ListBox's Items and Find items to Remove/Add 
-                foreach (ListItem li in AssociationsListBox.Items)
-                {
-                    if (selectedUsersAssociationsNames.Any(assoName => li.Text.Equals(assoName)))
-                    {
-                        itemsToRemove.Add(li);
-                        //SelectedAssociationsListBox.Items.Add(li);
-                    }
-                }
-
-                foreach (var listItem in itemsToRemove)
-                {
-                    AssociationsListBox.Items.Remove(listItem);
-                }
+            foreach (var listItem in itemsToRemove)
+            {
+                AssociationsListBox.Items.Remove(listItem);
             }
         }
+
 
         protected void UserList2_OnSelectedIndexChanged(object sender, EventArgs e)
         {
-            SelectAssociationsForSelectedUser();
+            SelectAssociationsForSelectedUserAndRole();
         }
 
-        private void UpdateUsersAssociationsPermissions(IEnumerable<ListItem> items, bool isAdding)
+        protected void RoleList2_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectAssociationsForSelectedUserAndRole();
+        }
+
+        private bool UpdateUsersAssociationsPermissions(IEnumerable<ListItem> items, bool isAdding)
         {
             // Get the selected user
             string selectedUserName = UserList2.SelectedValue;
+
+            // Get the selected role
+            string selectedRole = RoleList2.SelectedValue;
 
             users user = UserDB.GetUserByUsername(selectedUserName);
 
             // Make sure the user exists
             if (user == null)
             {
-                ActionStatusPermissions.Text = string.Format("The user {0} does not exist in the system.", selectedUserName);
+                ActionStatusPermissions1.Text = string.Format("The user {0} does not exist in the system.", selectedUserName);
 
                 // Refresh the UserList because it was probably not updated
                 BindUsersToUserList2();
-                return;
+                return false;
+            }
+            if (!Roles.RoleExists(selectedRole))
+            {
+                ActionStatusPermissions1.Text = "Selected role does not exist!";
+                return false;
             }
 
 
-            // Get Associations by items in SelectedAssociationsListbox
+            // Get Communities by items in SelectedCommunitiesListbox
             var associationsByListItems = new List<associations>();
             foreach (ListItem item in items)
             {
@@ -334,50 +599,45 @@ namespace EventHandlingSystem
                     associationsByListItems.Add(AssociationDB.GetAssociationById(id));
                 }
             }
-            
+
 
             int permissionsRowsChanged = 0;
 
             if (isAdding)
             {
-                
-                    foreach (var association in associationsByListItems)
+
+                foreach (var asso in associationsByListItems)
+                {
+                    if (!AssociationPermissionsDB.HasUserPermissionForAssociationWithRole(user, asso, selectedRole))
                     {
-                        if (!AssociationPermissionsDB.HasUserPermissionForAssociation(user, association))
-                        {
-                            permissionsRowsChanged +=
-                                (AssociationPermissionsDB.AddAssociationPermissions(new association_permissions()
-                                {
-                                    users_Id = user.Id,
-                                    associations_Id = association.Id,
-                                    users = user,
-                                    associations = association,
-                                    Role = "Contributors"
-                                }))
-                                    ? 1
-                                    : 0;
-                        }
+                        permissionsRowsChanged +=
+                            (AssociationPermissionsDB.AddAssociationPermissions(new association_permissions
+                            {
+                                users_Id = user.Id,
+                                associations_Id = asso.Id,
+                                users = user,
+                                associations = asso,
+                                Role = selectedRole
+                            }))
+                                ? 1
+                                : 0;
                     }
-                
+                }
+
             }
             else
             {
-                foreach (var association in associationsByListItems)
+                foreach (var asso in associationsByListItems)
                 {
-                    if (AssociationPermissionsDB.HasUserPermissionForAssociation(user, association))
+                    if (AssociationPermissionsDB.HasUserPermissionForAssociationWithRole(user, asso, selectedRole))
                     {
-
-                        //int test = (from permission in user.association_permissions
-                        //            where !permission.IsDeleted && permission.associations_Id == association.Id
-                        //            select permission.Id).SingleOrDefault();
-
                         association_permissions aP =
                             user.association_permissions.SingleOrDefault(
-                                p => !p.IsDeleted && p.associations == association && p.Role.Equals("Contributors"));
+                                p => !p.IsDeleted && p.associations == asso && p.Role.Equals(selectedRole));
                         int permId = -1;
                         if (aP != null)
                         {
-                         permId = aP.Id;
+                            permId = aP.Id;
                         }
 
                         if (permId != -1)
@@ -386,52 +646,27 @@ namespace EventHandlingSystem
                             ? 1
                             : 0;
                         }
-                        
+
                     }
                 }
-
-
-                //foreach (var item in associationsByListItems)
-                //{
-                //    // Loop through users association permissions 
-                //    foreach (var uPermission in user.association_permissions)
-                //    {
-                //        if (associationsByListItems.Select(a => a.Id).All(id => id != uPermission.associations_Id))
-                //        {
-                //            isPermissionsChanged = AssociationPermissionsDB.DeleteAssociationPermissionsById(uPermission.Id) > 0;
-                //        }
-                //    }
-                //}
-
             }
-
-
-
-            
-
-            //// Get association permissions by associations in the list of SelcetedAssociations In Listbox
-            //var aPermission = new List<association_permissions>();
-            //foreach (var association in associationsInAssociationListbox)
-            //{
-            //    aPermission.AddRange(association.association_permissions);
-            //}
-
-            
-
-            
 
             if (permissionsRowsChanged > 0)
             {
-                ActionStatusPermissions.Text = string.Format("User {0}'s Permissions was Updated.", selectedUserName);
+                // Refresh the GridView 
+                BindPermissionsToAssociationUserList();
+
+                ActionStatusPermissions1.Text = string.Format("User {0}'s Permissions was Updated.", selectedUserName);
+                return true;
             }
             else
             {
-                ActionStatusPermissions.Text = string.Format("User {0}'s Permissions Could Not be Updated!",
+                ActionStatusPermissions1.Text = string.Format("User {0}'s Permissions Could Not be Updated!",
                     selectedUserName);
+                return false;
             }
 
-            // Refresh the GridView 
-            DisplayUsersBelongingToAssociation();
+           
         }
 
         protected void AddAssociation_OnClick(object sender, EventArgs e)
@@ -439,17 +674,16 @@ namespace EventHandlingSystem
             int[] selectedIndices = AssociationsListBox.GetSelectedIndices();
 
             ListItem[] selectedItems = selectedIndices.Select(index => AssociationsListBox.Items[index]).ToArray();
-            
-            UpdateUsersAssociationsPermissions(selectedItems, true);
 
-            SelectedAssociationsListBox.Items.AddRange(selectedItems);
-
-            foreach (var item in selectedItems)
+            if (UpdateUsersAssociationsPermissions(selectedItems, true))
             {
-                AssociationsListBox.Items.Remove(item);
-            }
+                SelectedAssociationsListBox.Items.AddRange(selectedItems);
 
-            
+                foreach (var item in selectedItems)
+                {
+                    AssociationsListBox.Items.Remove(item);
+                } 
+            }
         }
 
         protected void RemoveAssociation_OnClick(object sender, EventArgs e)
@@ -459,164 +693,472 @@ namespace EventHandlingSystem
             ListItem[] selectedItems =
                 selectedIndices.Select(index => SelectedAssociationsListBox.Items[index]).ToArray();
 
-            UpdateUsersAssociationsPermissions(selectedItems, false);
-
-            AssociationsListBox.Items.AddRange(selectedItems);
-
-            foreach (var item in selectedItems)
+            if (UpdateUsersAssociationsPermissions(selectedItems, false))
             {
-                SelectedAssociationsListBox.Items.Remove(item);
-            }
+                AssociationsListBox.Items.AddRange(selectedItems);
 
+                foreach (var item in selectedItems)
+                {
+                    SelectedAssociationsListBox.Items.Remove(item);
+                } 
+            }
+        }
+
+        #endregion
+
+
+        #region CommunityPermissionsManger
+
+        private void BindCommunitiesToCommunityList()
+        {
+            CommunityList.DataSource = CommunityDB.GetAllCommunities().OrderBy(c => c.Name);
+            CommunityList.DataTextField = "Name";
+            CommunityList.DataValueField = "Id";
+            CommunityList.DataBind();
             
         }
 
-
-        private void DisplayUsersBelongingToAssociation()
+        private void BindPermissionsToCommunityUserList()
         {
-            // Get the selected association 
-            associations selectedAssociation = AssociationDB.GetAssociationById(int.Parse(AssociationList.SelectedValue));
+           var permissionsForCommunity = new List<community_permissions>();
+            int currentCommId;
 
-            // Get the list of usernames that belong to the association 
-            List<string> userNames = new List<string>();
-            foreach (var permission in selectedAssociation.association_permissions)
+            // Get the currentCommunityId
+            if (int.TryParse(CommunityList.SelectedValue, out currentCommId))
             {
-                if (!permission.users.IsDeleted)
+                var usersWithPermissionsToCurrentCommunity = UserDB.GetAllUsersByCommunity(CommunityDB.GetCommunityById(currentCommId));
+
+                foreach (var user in usersWithPermissionsToCurrentCommunity)
                 {
-                    userNames.Add(permission.users.Username);
-                }  
+                    foreach (
+                        var communityPermission in
+                            user.community_permissions.Where(p => !p.IsDeleted && p.communities_Id == currentCommId))
+                    {
+                        permissionsForCommunity.Add(communityPermission);
+                    }
+
+                }
+
+                // Bind the list of Permissions to the GridView 
+                CommunityUserList.DataSource = permissionsForCommunity.OrderBy(p => p.Role).ThenBy(p => p.users.Username);
+                CommunityUserList.DataBind();
             }
-            string[] usersPermissionToAssociation = userNames.ToArray();
-
-            // Bind the list of users to the GridView 
-            AssociationUserList.DataSource = usersPermissionToAssociation;
-            AssociationUserList.DataBind();
         }
 
-        protected void AssociationList_OnSelectedIndexChanged(object sender, EventArgs e)
+        private void BindUsersToUserToAddList2()
         {
-            DisplayUsersBelongingToAssociation();
+            // Get all of the user accounts 
+            var users = Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
+            UserToAddList2.DataSource = users;
+            UserToAddList2.DataBind();
+        }
+        
+        private void BindRolesToRoleToAddList2()
+        {
+            RoleToAddList2.DataSource = new object[] { "Contributors", "Administrators" };
+            RoleToAddList2.DataBind();
         }
 
-        protected void AssociationUserList_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        private void BindCommuntiesToListBox()
         {
-            // Get the selected association 
-            associations selectedAssociation = AssociationDB.GetAssociationById(int.Parse(AssociationList.SelectedValue));
+            CommunitiesListBox.DataSource = CommunityDB.GetAllCommunities().OrderBy(a => a.Name);
+            CommunitiesListBox.DataTextField = "Name";
+            CommunitiesListBox.DataValueField = "Id";
+            CommunitiesListBox.DataBind();
+        }
 
+
+        protected void CommunityList_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            BindPermissionsToCommunityUserList();
+            SelectCommunitiesForSelectedUserAndRole();
+        }
+
+        protected void CommunityUserList_OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
             // Reference the UserNameLabel 
-            Label UserNameLabel = AssociationUserList.Rows[e.RowIndex].FindControl("UserNameLabelInAssociation") as Label;
+            Label IdLabel = CommunityUserList.Rows[e.RowIndex].FindControl("IdLabel") as Label;
+            Label UserNameLabel = CommunityUserList.Rows[e.RowIndex].FindControl("UserNameLabel") as Label;
+            Label RoleLabel = CommunityUserList.Rows[e.RowIndex].FindControl("RoleLabel") as Label;
 
-            users userToRemove = UserDB.GetUserByUsername(UserNameLabel.Text);
-
-            // Make sure the association exists
-            if (selectedAssociation == null)
+            if (IdLabel == null)
             {
-                ActionStatusPermissions.Text = string.Format("The user {0} does not exist in the system.",
-                   UserNameLabel.Text);
-
-                // Refresh the AssociationList because it was probably not updated
-                BindAssociationsToList();
-                // Refresh the GridView because it was probably not updated, and bacause the AssociationList is being updated
-                DisplayUsersBelongingToAssociation();
+                ActionStatusPermissions2.Text = "Permission was not removed! Error: LabelId is null";
                 return;
             }
+            if (UserNameLabel == null)
+            {
+                ActionStatusPermissions2.Text = "Permission was not removed! Error: UserNameLabel is null";
+                return;
+            }
+            if (RoleLabel == null)
+            {
+                ActionStatusPermissions2.Text = "Permission was not removed! Error: RoleLabel is null";
+                return;
+            }
+
+            int permissionId;
+            if (!int.TryParse(IdLabel.Text, out permissionId))
+            {
+                ActionStatusPermissions2.Text = "Permission was not removed! Error: PermissionId could not be translated into a number.";
+                return;
+            }
+            if (UserDB.GetUserByUsername(UserNameLabel.Text) == null)
+            {
+                ActionStatusPermissions2.Text = "Permission was not removed! Error: User by that username could not be found.";
+                return;
+            }
+            if (string.IsNullOrWhiteSpace(RoleLabel.Text))
+            {
+                ActionStatusPermissions2.Text = "Permission was not removed! Error: Role is null or empty.";
+                return;
+            }
+
+            users user = UserDB.GetUserByUsername(UserNameLabel.Text);
+            string role = RoleLabel.Text;
+
+
+            int commId;
+            if (!string.IsNullOrWhiteSpace(CommunityList.SelectedValue) && int.TryParse(CommunityList.SelectedValue, out commId))
+            {
+                if (CommunityPermissionsDB.GetCommunityPermissionsById(permissionId) == null)
+                {
+                    ActionStatusPermissions2.Text = "The permission was not found!";
+                    return;
+                }
+
+                if (CommunityPermissionsDB.DeleteCommunityPermissionsById(permissionId) > 0)
+                {
+                    ActionStatusPermissions2.Text = string.Format("{0}'s permission for {1} was successfully removed!", user.Username, CommunityDB.GetCommunityById(commId).Name);
+
+                    if (!CommunityPermissionsDB.HasUserPermissionWithRole(user, role) && !AssociationPermissionsDB.HasUserPermissionWithRole(user,role))
+                    {
+                        Roles.RemoveUserFromRole(user.Username, role);
+                        ActionStatusPermissions2.Text += string.Format("<br/>The Role {0} was completely removed from {1}.", role, user.Username);
+                    }
+                }
+                
+                // Refresh the gridview
+                BindPermissionsToCommunityUserList();
+
+                // Refresh the listboxes for managing Community Permissions By User
+                SelectCommunitiesForSelectedUserAndRole();
+                return;
+            }
+
+            ActionStatusPermissions2.Text = "Permission was not removed! Refresh page and try again.";
+        }
+
+        protected void AddUserToCommunity_OnClick(object sender, EventArgs e)
+        {
+            int commId;
+            int.TryParse(CommunityList.SelectedValue, out commId);
+            var currentCommunity = CommunityDB.GetCommunityById(commId);
+            var selectedUser = UserDB.GetUserByUsername(UserToAddList2.SelectedValue);
+            var selectedRole = RoleToAddList2.SelectedValue;
+
+            if (selectedUser == null)
+            {
+                ActionStatusPermissions2.Text = "Selected user does not exist!";
+                return;
+            }
+            if (Membership.GetUser(selectedUser.Username) == null)
+            {
+                ActionStatusPermissions2.Text = "Selected user does not exist in the membership database!";
+                return;
+            }
+            if (String.IsNullOrWhiteSpace(selectedRole))
+            {
+                ActionStatusPermissions2.Text = "Selected role value is empty!";
+                return;
+            }
+            if (!Roles.RoleExists(selectedRole))
+            {
+                ActionStatusPermissions2.Text = "Selected role does not exist!";
+                return;
+            }
+
+            var newCommPermission = new community_permissions
+            {
+                communities = currentCommunity,
+                communities_Id = currentCommunity.Id,
+                users = selectedUser,
+                users_Id = selectedUser.Id,
+                Role = selectedRole
+
+            };
+
+            if (!Roles.IsUserInRole(selectedUser.Username, selectedRole))
+            {
+                Roles.AddUserToRole(selectedUser.Username, selectedRole);
+            }
+
+            if (
+                !CommunityPermissionsDB.HasUserPermissionForCommunityWithRole(selectedUser,
+                    currentCommunity,
+                    selectedRole))
+            {
+                if (CommunityPermissionsDB.AddCommunityPermissions(newCommPermission))
+                {
+                    ActionStatusPermissions2.Text = "New permission for " + currentCommunity.Name +
+                                        " was successfully added!";
+                }
+                else
+                {
+                    ActionStatusPermissions2.Text = "New permission for " + currentCommunity.Name + " could not be added!";
+                }
+            }
+            BindPermissionsToCommunityUserList();
+            SelectCommunitiesForSelectedUserAndRole();
+        }
+
+        
+
+        private void BindUsersToUserList3()
+        {
+            // Get all of the user accounts 
+            var users = Membership.GetAllUsers().Cast<MembershipUser>().OrderBy(user => user.UserName).ToList();
+            UserList3.DataSource = users;
+            UserList3.DataBind();
+        }
+
+        private void BindRolesToRoleList3()
+        {
+            RoleList3.DataSource = new object[] { "Contributors", "Administrators" };
+            RoleList3.DataBind();
+        }
+
+
+        private void SelectCommunitiesForSelectedUserAndRole()
+        {
+            // Reset the ListBoxes
+            BindCommuntiesToListBox();
+
+            // Get the selected user
+            string selectedUserName = UserList3.SelectedValue;
+
+            string selectedRole = RoleList3.SelectedValue;
+
+            if (UserDB.GetUserByUsername(selectedUserName) == null)
+            {
+                ActionStatusPermissions2.Text = "Selected user does not exist! Try refreshing the page.";
+                return;
+            }
+
+            if (String.IsNullOrWhiteSpace(selectedRole))
+            {
+                ActionStatusPermissions2.Text = "No role was selected! Try refreshing the page.";
+                return;
+            }
+
+            if (!Roles.RoleExists(selectedRole))
+            {
+                ActionStatusPermissions2.Text = "Selected role does not exist!";
+                return;
+            }
+
+            var selectedUsersCommunitiesList = new List<communities>();
+            foreach (var comm in (from permission in UserDB.GetUserByUsername(selectedUserName).community_permissions
+                where
+                    !permission.communities.IsDeleted && !permission.IsDeleted && permission.Role.Equals(selectedRole)
+                select permission.communities).Where(a => !selectedUsersCommunitiesList.Contains(a)))
+            {
+                selectedUsersCommunitiesList.Add(comm);
+            }
+
+            communities[] selectedUsersCommunities = selectedUsersCommunitiesList.ToArray();
+
+
+            var selectedUsersCommunitiesNamesList = new List<string>();
+            foreach (
+                var commName in
+                    (from community in selectedUsersCommunities where !community.IsDeleted select community.Name)
+                        .Where(name => !selectedUsersCommunitiesNamesList.Contains(name)))
+            {
+                selectedUsersCommunitiesNamesList.Add(commName);
+            }
+
+            string[] selectedUsersAssociationsNames = selectedUsersCommunitiesNamesList.ToArray();
+
+            SelectedCommunitiesListBox.DataSource = selectedUsersCommunities.OrderBy(a => a.Name);
+            SelectedCommunitiesListBox.DataTextField = "Name";
+            SelectedCommunitiesListBox.DataValueField = "Id";
+            SelectedCommunitiesListBox.DataBind();
+
+            var itemsToRemove = new List<ListItem>();
+
+            // Loop through the ListBox's Items and Find items to Remove/Add 
+            foreach (ListItem li in CommunitiesListBox.Items)
+            {
+                if (selectedUsersAssociationsNames.Any(assoName => li.Text.Equals(assoName)))
+                {
+                    itemsToRemove.Add(li);
+                    //SelectedAssociationsListBox.Items.Add(li);
+                }
+            }
+
+            foreach (var listItem in itemsToRemove)
+            {
+                CommunitiesListBox.Items.Remove(listItem);
+            }
+
+        }
+
+        protected void UserList3_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectCommunitiesForSelectedUserAndRole();
+        }
+
+        protected void RoleList3_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            SelectCommunitiesForSelectedUserAndRole();
+        }
+
+
+        private bool UpdateUsersCommunitiesPermissions(IEnumerable<ListItem> items, bool isAdding)
+        {
+            // Get the selected user
+            string selectedUserName = UserList2.SelectedValue;
+
+            // Get the selected role
+            string selectedRole = RoleList3.SelectedValue;
+
+            users user = UserDB.GetUserByUsername(selectedUserName);
 
             // Make sure the user exists
-            if (userToRemove == null )
+            if (user == null)
             {
-                ActionStatusPermissions.Text = string.Format("The user {0} does not exist in the system.",
-                    UserNameLabel.Text);
-                
-                // Refresh the GridView because it was probably not updated
-            DisplayUsersBelongingToAssociation();
-                return;
+                ActionStatusPermissions2.Text = string.Format("The user {0} does not exist in the system.", selectedUserName);
+
+                // Refresh the UserList because it was probably not updated
+                BindUsersToUserList3();
+                return false;
+            }
+            if (!Roles.RoleExists(selectedRole))
+            {
+                ActionStatusPermissions2.Text = "Selected role does not exist!";
+                return false;
             }
 
-            // Remove the user from the selected associations permission 
-            List<int> permissionIdToDelete = new List<int>();
-            foreach (var permission in AssociationPermissionsDB.GetAllAssociationPermissionsByAssociation(selectedAssociation))
+
+            // Get Communities by items in SelectedCommunitiesListbox
+            var communitiesByListItems = new List<communities>();
+            foreach (ListItem item in items)
             {
-                if (permission.users == userToRemove)
+                int id;
+                if (int.TryParse(item.Value, out id))
                 {
-                    permissionIdToDelete.Add(permission.Id);
-                }   
-            }
-
-            int affectedRows = 0;
-            foreach (var id in permissionIdToDelete)
-            {
-                affectedRows = AssociationPermissionsDB.DeleteAssociationPermissionsById(id);
+                    communitiesByListItems.Add(CommunityDB.GetCommunityById(id));
+                }
             }
 
 
-            // Update and display a status message 
-            if (affectedRows > 0)
+            int permissionsRowsChanged = 0;
+
+            if (isAdding)
             {
-                
-            ActionStatusPermissions.Text = string.Format("User {0} was removed from association {1}.",
-                UserNameLabel.Text,
-                selectedAssociation.Name);
+
+                foreach (var community in communitiesByListItems)
+                {
+                    if (!CommunityPermissionsDB.HasUserPermissionForCommunityWithRole(user, community,selectedRole))
+                    {
+                        permissionsRowsChanged +=
+                            (CommunityPermissionsDB.AddCommunityPermissions(new community_permissions()
+                            {
+                                users_Id = user.Id,
+                                communities_Id = community.Id,
+                                users = user,
+                                communities = community,
+                                Role = selectedRole
+                            }))
+                                ? 1
+                                : 0;
+                    }
+                }
+
             }
             else
             {
-                ActionStatusPermissions.Text = string.Format("User {0} could not be removed from association {1}.",
-                UserNameLabel.Text,
-                selectedAssociation.Name);
-            }
-            
-            // Refresh the GridView 
-            DisplayUsersBelongingToAssociation();
-
-            // Refresh the "by user" interface 
-            SelectAssociationsForSelectedUser();
-        }
-
-        protected void AddUserToAssociation_OnClick(object sender, EventArgs e)
-        {
-            associations selectedAssociation = AssociationDB.GetAssociationById(int.Parse(AssociationList.SelectedValue));
-            string userNameToAdd = UserNameToAddToAssociation.Text;
-
-            // Make sure that a value was entered 
-            if (userNameToAdd.Trim().Length == 0)
-            {
-                ActionStatusPermissions.Text = "You must enter a username in the textbox.";
-                return;
-            }
-
-            users userToAdd = UserDB.GetUserByUsername(UserNameToAddToAssociation.Text);
-
-            // Make sure the user exists
-            if (userToAdd == null)
-            {
-                ActionStatusPermissions.Text = string.Format("The user {0} does not exist in the system.", userNameToAdd);
-                return;
-            }
-
-            // Make sure that the user doesn't already has permission to this association 
-            foreach (var associationPermission in userToAdd.association_permissions)
-            {
-                if (associationPermission.associations.Id == selectedAssociation.Id)
+                foreach (var community in communitiesByListItems)
                 {
-                    ActionStatusPermissions.Text = string.Format("The user {0} already has permissions to association {1}.", userNameToAdd, selectedAssociation.Name);
-                    return;
+                    if (CommunityPermissionsDB.HasUserPermissionForCommunityWithRole(user, community, selectedRole))
+                    {
+                        community_permissions cP =
+                            user.community_permissions.SingleOrDefault(
+                                p => !p.IsDeleted && p.communities == community && p.Role.Equals(selectedRole));
+                        int permId = -1;
+                        if (cP != null)
+                        {
+                            permId = cP.Id;
+                        }
+
+                        if (permId != -1)
+                        {
+                            permissionsRowsChanged += (CommunityPermissionsDB.DeleteCommunityPermissionsById(permId) > 0)
+                            ? 1
+                            : 0;
+                        }
+
+                    }
                 }
             }
-           
 
-            // Add the permission to the user and make sure it was successfully added
-            if (AssociationPermissionsDB.AddAssociationPermissions(new association_permissions() { users_Id = userToAdd.Id, associations_Id = selectedAssociation.Id,users = userToAdd, associations = selectedAssociation, Role = "Contributors"}))
+            
+
+            if (permissionsRowsChanged > 0)
             {
-                ActionStatusPermissions.Text = string.Format("User {0} was added to role {1}.", userNameToAdd, selectedAssociation.Name);
+                // Refresh the GridView 
+                BindPermissionsToCommunityUserList();
+
+                ActionStatusPermissions2.Text = string.Format("User {0}'s Permissions was Updated.", selectedUserName);
+                return true;
+            }
+            else
+            {
+                ActionStatusPermissions2.Text = string.Format("User {0}'s Permissions Could Not be Updated!",
+                    selectedUserName);
+                return false;
             }
 
-            // Clear out the TextBox 
-            UserNameToAddToAssociation.Text = string.Empty;
-
-            // Refresh the GridView
-            DisplayUsersBelongingToAssociation();
-
-            // Refresh the "by user" interface
-            SelectAssociationsForSelectedUser();
+            
         }
+
+        protected void AddCommunity_OnClick(object sender, EventArgs e)
+        {
+            int[] selectedIndices = CommunitiesListBox.GetSelectedIndices();
+
+            ListItem[] selectedItems = selectedIndices.Select(index => CommunitiesListBox.Items[index]).ToArray();
+
+            if (UpdateUsersCommunitiesPermissions(selectedItems, true))
+            {
+                SelectedCommunitiesListBox.Items.AddRange(selectedItems);
+
+                foreach (var item in selectedItems)
+                {
+                    CommunitiesListBox.Items.Remove(item);
+                }
+            }
+        }
+
+        protected void RemoveCommunity_OnClick(object sender, EventArgs e)
+        {
+            int[] selectedIndices = SelectedCommunitiesListBox.GetSelectedIndices();
+
+            ListItem[] selectedItems =
+                selectedIndices.Select(index => SelectedCommunitiesListBox.Items[index]).ToArray();
+
+            if (UpdateUsersCommunitiesPermissions(selectedItems, false))
+            {
+                CommunitiesListBox.Items.AddRange(selectedItems);
+
+                foreach (var item in selectedItems)
+                {
+                    SelectedCommunitiesListBox.Items.Remove(item);
+                }
+            }
+        }
+
+        #endregion
+       
     }
 }

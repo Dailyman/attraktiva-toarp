@@ -33,7 +33,7 @@ namespace EventHandlingSystem.Database
             return usersInAssociation;
         }
 
-        public static List<users> GetAllUsersByCommunityId(communities c)
+        public static List<users> GetAllUsersByCommunity(communities c)
         {
             var usersInCommunity = new List<users>();
             foreach (

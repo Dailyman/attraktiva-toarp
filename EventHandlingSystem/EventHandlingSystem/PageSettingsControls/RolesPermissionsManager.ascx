@@ -7,7 +7,7 @@
 <asp:HiddenField ID="HiddenFieldAssociationId" runat="server" />
 <asp:HiddenField ID="HiddenFieldCommunityId" runat="server" />
 
-<h3>Manage Contributors</h3>
+<h3>Manage Permissions</h3>
 <p align="center">
     <asp:Label ID="ActionStatus" runat="server" Text=""></asp:Label>
 </p>
@@ -25,7 +25,7 @@
 
 <asp:GridView ID="PermissionUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No Permissions." OnRowDeleting="PermissionUserList_OnRowDeleting">
                                 <Columns>
-                                    <asp:TemplateField HeaderText="Permission Id">
+                                    <asp:TemplateField HeaderText="Perm.Id">
                                         <ItemTemplate>
                                             <asp:Label runat="server" ID="IdLabel"
                                                 Text='<%# Eval("Id")%>'></asp:Label>

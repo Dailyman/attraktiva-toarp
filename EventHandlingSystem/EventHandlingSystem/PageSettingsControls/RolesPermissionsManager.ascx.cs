@@ -72,7 +72,7 @@ namespace EventHandlingSystem.PageSettingsControls
 
         private void BindRolesToRoleList()
         {
-            RoleList.DataSource = new object[] {"Contributors", "Administrators", "Members"};
+            RoleList.DataSource = new object[] {"Contributors", "Administrators"};
             RoleList.DataBind();
         }
 
@@ -130,7 +130,7 @@ namespace EventHandlingSystem.PageSettingsControls
                 }
 
                 // Bind the list of Permissions to the GridView 
-                PermissionUserList.DataSource = permissionsForAssociation;
+                PermissionUserList.DataSource = permissionsForAssociation.OrderBy(p => p.Role).ThenBy(p => p.users.Username);
                 PermissionUserList.DataBind();
             }
 
@@ -141,7 +141,7 @@ namespace EventHandlingSystem.PageSettingsControls
             // Get the currentCommunityId
             if (int.TryParse(HiddenFieldCommunityId.Value, out currentCommId))
             {
-                var usersWithPermissionsToCurrentCommunity = UserDB.GetAllUsersByCommunityId(CommunityDB.GetCommunityById(currentCommId));
+                var usersWithPermissionsToCurrentCommunity = UserDB.GetAllUsersByCommunity(CommunityDB.GetCommunityById(currentCommId));
 
                 foreach (var user in usersWithPermissionsToCurrentCommunity)
                 {
@@ -155,7 +155,7 @@ namespace EventHandlingSystem.PageSettingsControls
                 }
 
                 // Bind the list of Permissions to the GridView 
-                PermissionUserList.DataSource = permissionsForCommunity;
+                PermissionUserList.DataSource = permissionsForCommunity.OrderBy(p => p.Role).ThenBy(p => p.users.Username);
                 PermissionUserList.DataBind();
             }
         }
@@ -331,7 +331,7 @@ namespace EventHandlingSystem.PageSettingsControls
                     ActionStatus.Text = string.Format("{0}'s permission for {1} was successfully removed!",
                         user.Username, AssociationDB.GetAssociationById(int.Parse(HiddenFieldAssociationId.Value)).Name);
 
-                    if (!AssociationPermissionsDB.HasUserPermissionWithRole(user, role))
+                    if (!AssociationPermissionsDB.HasUserPermissionWithRole(user, role) && !CommunityPermissionsDB.HasUserPermissionWithRole(user, role))
                     {
                         Roles.RemoveUserFromRole(user.Username, role);
                         ActionStatus.Text += string.Format("<br/>The Role {0} was completely removed from {1}.", role,
@@ -352,9 +352,9 @@ namespace EventHandlingSystem.PageSettingsControls
 
                 if (CommunityPermissionsDB.DeleteCommunityPermissionsById(permissionId) > 0)
                 {
-                    ActionStatus.Text = string.Format("{0}'s permission for {1} was successfully removed!", user.Username, AssociationDB.GetAssociationById(int.Parse(HiddenFieldAssociationId.Value)));
+                    ActionStatus.Text = string.Format("{0}'s permission for {1} was successfully removed!", user.Username, CommunityDB.GetCommunityById(int.Parse(HiddenFieldCommunityId.Value)).Name);
 
-                    if (!CommunityPermissionsDB.HasUserPermissionWithRole(user, role))
+                    if (!CommunityPermissionsDB.HasUserPermissionWithRole(user, role)&&!AssociationPermissionsDB.HasUserPermissionWithRole(user,role))
                     {
                         Roles.RemoveUserFromRole(user.Username, role);
                         ActionStatus.Text += string.Format("<br/>The Role {0} was completely removed from {1}.", role, user.Username);
