@@ -8,9 +8,11 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
-    <%--<asp:Label ID="LabelUserName" runat="server" Text=""></asp:Label>--%>
-    
+    <asp:Label ID="DetailErrorLabel" runat="server" Text=""></asp:Label>
+    <asp:Label ID="ErrorLabel" runat="server" Text=""></asp:Label>
+    <asp:Panel ID="PanelContent" runat="server" Enabled="False" Visible="False">
     <aspPageManager:PageManager ID="PageManager" runat="server"/>
     <br/>
     <aspRolePermManager:RolePermManager ID="RolePermManager" runat="server"/>
+    </asp:Panel>
 </asp:Content>
