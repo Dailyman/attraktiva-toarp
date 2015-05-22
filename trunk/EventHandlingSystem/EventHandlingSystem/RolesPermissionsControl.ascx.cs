@@ -14,6 +14,14 @@ namespace EventHandlingSystem
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+         //   Page.ClientScript.RegisterClientScriptBlock(GetType(),
+         //"isPostBack",
+         //String.Format("var isPostback = {0};", IsPostBack.ToString().ToLower()),
+         //true);
+
+
+
             ActionStatus.Text = "";
             ActionStatusPermissions1.Text = "";
             ActionStatusPermissions2.Text = "";
@@ -71,9 +79,20 @@ namespace EventHandlingSystem
 
                 // Add the selected user's communities in the SelectedCommunitiesListBox
                 SelectCommunitiesForSelectedUserAndRole();
-                
+
+
+
+                MultiViewManagement.ActiveViewIndex = int.Parse(SelectManagement.SelectedValue);
             }
         }
+
+        
+
+        protected void SelectManagement_OnSelectedIndexChanged(object sender, EventArgs e)
+        {
+            MultiViewManagement.ActiveViewIndex = int.Parse(SelectManagement.SelectedValue);
+        }
+
 
         #region RoleManager
 
@@ -189,9 +208,18 @@ namespace EventHandlingSystem
 
             // Reference the UserNameLabel 
             Label UserNameLabel = RolesUserList.Rows[e.RowIndex].FindControl("UserNameLabelInRole") as Label;
+            if (UserNameLabel == null)
+            {
+                ActionStatus.Text = "The usernamecound not be loaded!";
+                return;
+            }
 
-            // Remove the user from the role 
-            Roles.RemoveUserFromRole(UserNameLabel.Text, selectedRoleName);
+            // Remove the user from the role, only if it is in the role 
+            if (Roles.IsUserInRole(UserNameLabel.Text))
+            {
+                Roles.RemoveUserFromRole(UserNameLabel.Text, selectedRoleName);
+            }
+            
 
             // Refresh the GridView 
             DisplayUsersBelongingToRole();
@@ -1159,6 +1187,7 @@ namespace EventHandlingSystem
         }
 
         #endregion
-       
+
+        
     }
 }
