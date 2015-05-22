@@ -13,6 +13,24 @@ namespace EventHandlingSystem {
     public partial class RolesPermissionsControl {
         
         /// <summary>
+        /// SelectManagement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList SelectManagement;
+        
+        /// <summary>
+        /// MultiViewManagement control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.MultiView MultiViewManagement;
+        
+        /// <summary>
         /// ActionStatus control.
         /// </summary>
         /// <remarks>
