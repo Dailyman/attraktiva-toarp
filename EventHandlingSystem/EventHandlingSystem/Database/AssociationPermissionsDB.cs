@@ -31,6 +31,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedAssociationPermissions().Where(p => p.users_Id.Equals(user.Id)).ToList();
         }
 
+        public static List<association_permissions> GetAllAssociationPermissionsByUserAndRole(users user, string role)
+        {
+            return GetAllNotDeletedAssociationPermissions().Where(p => p.users_Id.Equals(user.Id) && p.Role.Equals(role)).ToList();
+        }
+
         public static association_permissions GetAssociationPermissionsById(int id)
         {
             return GetAllNotDeletedAssociationPermissions().SingleOrDefault(p => p.Id.Equals(id));

@@ -18,8 +18,22 @@ namespace EventHandlingSystem.Admin
                 bool ispermitted = IsCurrentUserPermitedToPage(HttpContext.Current.User.Identity.Name);
                 PanelContent.Enabled = ispermitted;
                 PanelContent.Visible = ispermitted;
+
+
+                if (!ispermitted)
+                {
+                    PanelPreContent.Visible = true;
+
+                    foreach (var listItem in GetCommuityListItems())
+                    {
+                        CommPageSettingsList.Items.Add(listItem);
+                    }
+                    foreach (var listItem in GetAssociationListItems())
+                    {
+                        AssoPageSettingsList.Items.Add(listItem);
+                    }
+                }
             }
-            
         }
 
         private int GetCurrentWebPageIdFromQueryString()
@@ -58,22 +72,23 @@ namespace EventHandlingSystem.Admin
             // Gets the Type from the QueryString
             var stType = Request.QueryString["Type"];
 
-                
-                if (string.IsNullOrWhiteSpace(stType))
-                {
-                    DetailErrorLabel.Text = "The pagetype was empty or null!";
-                    return pageType;
-                }
-                
-                if (!stType.Equals("c", StringComparison.OrdinalIgnoreCase) && !stType.Equals("a", StringComparison.OrdinalIgnoreCase))
-                {
-                    DetailErrorLabel.Text = "The pagetype is not a correct value!";
-                    return pageType;
-                }
-                // Overwrite the variabel to return, with the approved value
-                    pageType = stType;
-
+            if (string.IsNullOrWhiteSpace(stType))
+            {
+                DetailErrorLabel.Text = "The pagetype was empty or null!";
                 return pageType;
+            }
+
+            if (!stType.Equals("c", StringComparison.OrdinalIgnoreCase) &&
+                !stType.Equals("a", StringComparison.OrdinalIgnoreCase))
+            {
+                DetailErrorLabel.Text = "The pagetype is not a correct value!";
+                return pageType;
+            }
+
+            // Overwrite the variabel to return, with the approved value
+            pageType = stType;
+
+            return pageType;
         }
 
 
@@ -123,5 +138,84 @@ namespace EventHandlingSystem.Admin
             }
             return false;
         }
+
+
+        private IEnumerable<ListItem> GetAssociationListItems()
+        {
+            return
+                GetCurrentUsersAssociations()
+                    .Select(
+                        asso =>
+                            new ListItem(asso.Name,
+                                "/Admin/PageSettings?id=" + (WebPageDB.GetWebPageByAssociationId(asso.Id) == null
+                                    ? ""
+                                    : WebPageDB.GetWebPageByAssociationId(asso.Id).Id.ToString()) +
+                                "&type=a"));
+        }
+
+        private IEnumerable<ListItem> GetCommuityListItems()
+        {
+            return
+                 GetCurrentUsersCommunities()
+                     .Select(
+                         comm =>
+                             new ListItem(comm.Name,
+                                 "/Admin/PageSettings?id=" + (WebPageDB.GetWebPageByCommunityId(comm.Id) == null
+                                     ? ""
+                                     : WebPageDB.GetWebPageByCommunityId(comm.Id).Id.ToString()) +
+                                 "&type=c"));
+        }
+
+        private IEnumerable<associations> GetCurrentUsersAssociations()
+        {
+            string username = HttpContext.Current.User.Identity.Name;
+
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                DetailErrorLabel.Text += "Current username was empty.";
+                return null;
+            }
+            if (Membership.GetUser(username) == null)
+            {
+                DetailErrorLabel.Text += "Current user was not found in the mebership database.";
+                return null;
+            }
+            if (UserDB.GetUserByUsername(username) == null)
+            {
+                DetailErrorLabel.Text += "Current user was not found.";
+                return null;
+            }
+
+            users currentUser = UserDB.GetUserByUsername(username);
+
+            List<associations> associationsForUser = AssociationPermissionsDB.GetAllAssociationPermissionsByUserAndRole(currentUser, "Administrators").Select(p => p.associations).ToList();
+            return associationsForUser;
+        }
+
+        private IEnumerable<communities> GetCurrentUsersCommunities()
+        {
+            string username = HttpContext.Current.User.Identity.Name;
+
+            if (string.IsNullOrWhiteSpace(username))
+            {
+                DetailErrorLabel.Text += "Current username was empty.";
+                return null;
+            }
+            if (Membership.GetUser(username) == null)
+            {
+                DetailErrorLabel.Text += "Current user was not found in the mebership database.";
+                return null;
+            }
+            if (UserDB.GetUserByUsername(username) == null)
+            {
+                DetailErrorLabel.Text += "Current user was not found.";
+                return null;
+            }
+
+            users currentUser = UserDB.GetUserByUsername(username);
+
+            List<communities> communitiesForUser = CommunityPermissionsDB.GetAllCommunityPermissionsByUserAndRole(currentUser, "Administrators").Select(p => p.communities).ToList();
+            return communitiesForUser;
+        }  
     }
 }

@@ -217,7 +217,7 @@ vertical-align: middle;
                                     <asp:DropDownList ID="AssociationList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="AssociationList_OnSelectedIndexChanged"></asp:DropDownList>
                                 </p>
                                 <p>
-                                    <asp:GridView ID="AssociationUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users has permissin to this association." OnRowDeleting="AssociationUserList_OnRowDeleting">
+                                    <asp:GridView ID="AssociationUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users has permission to this association." OnRowDeleting="AssociationUserList_OnRowDeleting">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Perm.Id">
                                                 <ItemTemplate>
@@ -328,7 +328,7 @@ vertical-align: middle;
                                     <asp:DropDownList ID="CommunityList" runat="server" AutoPostBack="true" OnSelectedIndexChanged="CommunityList_OnSelectedIndexChanged"></asp:DropDownList>
                                 </p>
                                 <p>
-                                    <asp:GridView ID="CommunityUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users has permissin to this community." OnRowDeleting="CommunityUserList_OnRowDeleting">
+                                    <asp:GridView ID="CommunityUserList" runat="server" AutoGenerateColumns="False" EmptyDataText="No users has permission to this community." OnRowDeleting="CommunityUserList_OnRowDeleting">
                                         <Columns>
                                             <asp:TemplateField HeaderText="Perm.Id">
                                                 <ItemTemplate>

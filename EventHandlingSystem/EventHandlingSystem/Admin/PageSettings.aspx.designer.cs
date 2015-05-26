@@ -13,6 +13,33 @@ namespace EventHandlingSystem.Admin {
     public partial class PageSettings {
         
         /// <summary>
+        /// PanelPreContent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Panel PanelPreContent;
+        
+        /// <summary>
+        /// CommPageSettingsList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList CommPageSettingsList;
+        
+        /// <summary>
+        /// AssoPageSettingsList control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.BulletedList AssoPageSettingsList;
+        
+        /// <summary>
         /// DetailErrorLabel control.
         /// </summary>
         /// <remarks>

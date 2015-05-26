@@ -28,6 +28,11 @@ namespace EventHandlingSystem.Database
             return GetAllNotDeletedCommunityPermissions().Where(p => p.users_Id.Equals(user.Id)).ToList();
         }
 
+        public static List<community_permissions> GetAllCommunityPermissionsByUserAndRole(users user, string role)
+        {
+            return GetAllNotDeletedCommunityPermissions().Where(p => p.users_Id.Equals(user.Id) && p.Role.Equals(role)).ToList();
+        }
+
         public static community_permissions GetCommunityPermissionsById(int id)
         {
             return GetAllNotDeletedCommunityPermissions().SingleOrDefault(p => p.Id.Equals(id));
