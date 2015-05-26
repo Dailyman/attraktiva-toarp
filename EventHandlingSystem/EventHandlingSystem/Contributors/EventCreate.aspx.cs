@@ -34,7 +34,7 @@ namespace EventHandlingSystem
                 if (currentUser != null)
                 {
                     foreach (var association in (from permission in currentUser.association_permissions
-                        where !permission.associations.IsDeleted
+                        where !permission.associations.IsDeleted && permission.Role == "Contributors"
                         select permission.associations).OrderBy(a => a.Name))
                     {
                         DropDownAssociation.Items.Add(new ListItem
@@ -49,7 +49,7 @@ namespace EventHandlingSystem
                         var subCat in
                             SubCategoryDB.GetAllSubCategoriesByAssociations(
                                 (from permission in currentUser.association_permissions
-                                    where !permission.associations.IsDeleted
+                                 where !permission.associations.IsDeleted && permission.Role == "Contributors"
                                     select permission.associations).ToArray()).OrderBy(s => s.Name))
                     {
                         DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));

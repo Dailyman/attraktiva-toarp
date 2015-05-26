@@ -81,6 +81,7 @@ namespace EventHandlingSystem
                                 ListBoxAssociations.Items.Add(new ListItem(a.Name, ""));
                             }
                         }
+                        AddNoneToListBoxAssoIfListBoxIsEmpty();
                         PanelMain.Visible = true;
                     }
                 }
@@ -150,6 +151,24 @@ namespace EventHandlingSystem
                 PanelAsso.Visible = false;
             }
 
+        }
+
+        private void AddNoneToListBoxAssoIfListBoxIsEmpty()
+        {
+            // Lägger in ett "None" ListItem om inga associations är valda.
+            // Tar bort det igen om man valt associations
+            if (ListBoxAssociations.Items.Count == 0)
+            {
+                ListBoxAssociations.Items.Add(new ListItem("None", ""));
+            }
+            else
+            {
+                if (ListBoxAssociations.Items.FindByValue(String.Empty) != null && ListBoxAssociations.Items.Count >= 2)
+                {
+                    ListBoxAssociations.Items.RemoveAt(ListBoxAssociations.Items.IndexOf(
+                        ListBoxAssociations.Items.FindByValue(String.Empty)));
+                }
+            }
         }
     }
 }

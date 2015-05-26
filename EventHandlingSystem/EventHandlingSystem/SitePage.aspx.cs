@@ -82,7 +82,7 @@ namespace EventHandlingSystem
                     {
                         controls c = ControlDB.GetControlsById(component.controls_Id);
                         //var filterTypeNameList = new List<string>();
-                        object[] filterDataList = new object[component.filterdata.Count];
+                        object[] filterDataList = new object[component.filterdata.Where(fD => !fD.IsDeleted).ToList().Count];
                         if (c != null)
                         {
                             //EventHandlingSystem.Components.
@@ -94,9 +94,9 @@ namespace EventHandlingSystem
                                 //    filterTypeNameList.Add(prop.Name);
                                 //}
 
-                                for (int i = 0; i < component.filterdata.Count; i++)
+                                for (int i = 0; i < component.filterdata.Where(fD => !fD.IsDeleted).ToList().Count; i++)
                                 {
-                                    filterDataList[i] = component.filterdata.ElementAt(i).Data;
+                                    filterDataList[i] = component.filterdata.Where(fD => !fD.IsDeleted).ToList().ElementAt(i).Data;
                                 }
 
                                 //Type ComponentType = Type.GetType("EventHandlingSystem." + c.Name);
