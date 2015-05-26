@@ -1,6 +1,5 @@
 ﻿<%@ Control Language="C#" AutoEventWireup="true" CodeBehind="CommunityAssociationControl.ascx.cs" Inherits="EventHandlingSystem.CommunityAssociationControl" %>
 <div class="inner-content-box">
-
     
     <asp:MultiView ID="MultiViewSelectComm" runat="server" ActiveViewIndex="0">
         <asp:View ID="ViewSelectComm" runat="server">
@@ -39,7 +38,10 @@
                 </span><br />
                 <br />
                 <asp:Label ID="LabelCreateComm" runat="server" Text=""></asp:Label><br />
-                <asp:DropDownList ID="ddlAdminUser" runat="server"></asp:DropDownList>
+                
+                <span><b>Choose an administrator for the community</b>
+                    <asp:DropDownList ID="ddlAdminUser" runat="server"></asp:DropDownList>
+                </span><br />
                 <div class="btn-align-right">
                     <asp:Button ID="ButtonCreateCommCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonCreateCommCancel_OnClick" />
                     <asp:Button ID="ButtonCreateComm" CssClass="btn-blue" runat="server" Text="Create" OnClick="ButtonCreateComm_OnClick" />
@@ -219,6 +221,9 @@
                     <asp:TextBox ID="TextBoxAssoImgUrl" runat="server"></asp:TextBox>
                 </span><br />
                 <br />
+                <span><b>Choose an administrator for the community</b>
+                    <asp:DropDownList ID="ddlAdminUserAsso" runat="server"></asp:DropDownList>
+                </span><br />
                 <div class="btn-align-right">
                     <asp:Button ID="ButtonCreateAssoCancel" CssClass="btn-blue" runat="server" Text="Cancel" OnClick="ButtonCreateAssoCancel_OnClick" />
                     <asp:Button ID="ButtonCreateAsso" CssClass="btn-blue" runat="server" Text="Create" OnClick="ButtonCreateAsso_OnClick" />
