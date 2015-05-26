@@ -620,11 +620,11 @@ namespace EventHandlingSystem
                 {   
                     commToUpdate.Name = TextBoxCommName.Text;
                 }
-                else
-                {
-                    LabelCommSave.Text = "Community was not updated: name already exists. ";
-                    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
-                }
+                //else
+                //{
+                //    LabelCommSave.Text = "Community was not updated: name already exists. ";
+                //    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+                //}
             
                 ////Uppdatera det nya namnet i webpage också
                 //webpages wpToUpdate = WebPageDB.GetWebPageByCommunityId(commId);
@@ -743,6 +743,23 @@ namespace EventHandlingSystem
                         LabelCreateComm.Text = "Webpage could not be created. Try again!";
                         LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
                     }
+
+                    //Välj admin för communityn som skapas
+                    if (UserDB.GetUserByUsername(ddlAdminUser.SelectedValue) != null)
+                    {
+                        community_permissions cP = new community_permissions
+                        {
+                            users_Id = UserDB.GetUserByUsername(ddlAdminUser.SelectedValue).Id,
+                            communities_Id = CommunityDB.GetCommunityByName(comm.Name).Id, //comm.Id
+                            Role = "Administrators"
+                        };
+                        CommunityPermissionsDB.AddCommunityPermissions(cP);
+                        
+                        if (!Roles.IsUserInRole(ddlAdminUser.SelectedValue, "Administrators"))
+                        {
+                            Roles.AddUserToRole(ddlAdminUser.SelectedValue, "Administrators");
+                        }
+                    }
                 }
                 else
                 {
@@ -842,6 +859,9 @@ namespace EventHandlingSystem
             {
                 DropDownListCreateParAsso.Items.Add(item);
             }
+
+            //Populera AdminUser-ddl
+            PopulateUserDropDownList(ddlAdminUserAsso);
         }
         
         // Cancel Create Association View
@@ -920,6 +940,29 @@ namespace EventHandlingSystem
                     else
                     {
                         LabelErrorMessage.Text = "Webpage could not be created. Try again!";
+                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    }
+
+                    //Välj admin för association som skapas
+                    if (UserDB.GetUserByUsername(ddlAdminUserAsso.SelectedValue) != null)
+                    {
+                        association_permissions aP = new association_permissions
+                        {
+                            users_Id = UserDB.GetUserByUsername(ddlAdminUserAsso.SelectedValue).Id,
+                            associations_Id = AssociationDB.GetAssociationByName(asso.Name).Id, 
+                            Role = "Administrators"
+                        };
+                        AssociationPermissionsDB.AddAssociationPermissions(aP);
+
+                        if (!Roles.IsUserInRole(ddlAdminUserAsso.SelectedValue, "Administrators"))
+                        {
+                            Roles.AddUserToRole(ddlAdminUserAsso.SelectedValue, "Administrators");
+                        }
+                        LabelErrorMessage.Text += "User was successfully added as administrator in Association";
+                    }
+                    else
+                    {
+                        LabelErrorMessage.Text += "No user was added as administrator.";
                         LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
                     }
                 }
