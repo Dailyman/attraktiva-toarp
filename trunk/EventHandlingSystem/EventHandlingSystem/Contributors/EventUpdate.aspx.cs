@@ -80,23 +80,25 @@ namespace EventHandlingSystem
             var currentUser = UserDB.GetUserByUsername(HttpContext.Current.User.Identity.Name);
             if (currentUser != null)
             {
-                foreach (var permission in currentUser.association_permissions)
+                foreach (var association in (from permission in currentUser.association_permissions
+                    where !permission.associations.IsDeleted && permission.Role == "Contributors"
+                    select permission.associations).OrderBy(a => a.Name))
                 {
                     DropDownAssociation.Items.Add(new ListItem
                     {
-                        Text = permission.associations.Name,
-                        Value = permission.associations.Id.ToString()
+                        Text = association.Name,
+                        Value = association.Id.ToString()
                     });
                 }
-                foreach (var permission in currentUser.association_permissions)
+
+                foreach (
+                    var subCat in
+                        SubCategoryDB.GetAllSubCategoriesByAssociations(
+                            (from permission in currentUser.association_permissions
+                                where !permission.associations.IsDeleted && permission.Role == "Contributors"
+                                select permission.associations).ToArray()).OrderBy(s => s.Name))
                 {
-                    foreach (
-                        var subCat in
-                            SubCategoryDB.GetAllSubCategoriesByAssociations(new[] {permission.associations})
-                                .OrderBy(s => s.Name))
-                    {
-                        DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
-                    }
+                    DropDownSubCategories.Items.Add(new ListItem(subCat.Name, subCat.Id.ToString()));
                 }
 
             }

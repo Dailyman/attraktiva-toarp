@@ -281,8 +281,13 @@ namespace EventHandlingSystem.PageSettingsControls
             //int controlId = int.Parse(((DropDownList)gvrow.Cells[2].Controls[1]).SelectedValue);
 
             components compToUpdate = ComponentDB.GetComponentById(id);
-            compToUpdate.OrderingNumber = oNo;
+            if (compToUpdate == null)
+            {
+                ActionStatusComponentsList.Text = "Error: Component was not found.";
+                return;
+            }
 
+            compToUpdate.OrderingNumber = oNo;
             //if (ControlDB.GetControlsById(controlId) != null)
             //{
             //    //foreach (var com in WebPageDB.GetWebPageById(int.Parse(HiddenFieldWebPageId.Value)).components)
@@ -304,38 +309,40 @@ namespace EventHandlingSystem.PageSettingsControls
 
             int affectedRows = ComponentDB.UpdateComponent(compToUpdate);
 
-            foreach (var fd in compToUpdate.filterdata.Where(fd => !fd.IsDeleted))
-            {
-                if (FilterDataDB.DeleteFilterData(fd))
-                {
-                    ActionStatus.Text = " " + fd.Type + "=deleted";
-                }
-            }
 
-            controls c = ControlDB.GetControlsById(compToUpdate.controls_Id);
-            var filterTypeNameList = new List<string>();
-            if (c != null)
-            {
-                //EventHandlingSystem.Components.
-                Type cls = Type.GetType("EventHandlingSystem.Components." + c.Name);
-                if (cls != null)
-                {
-                    foreach (var prop in cls.GetProperties())
-                    {
-                        filterTypeNameList.Add(prop.Name);
-                    }
-                }
-            }
-            ActionStatusComponentsList.Text += "<br/>FilterData added:";
-            foreach (var type in filterTypeNameList)
-            {
+            //// Warning! This code is not needed 
+            //foreach (var fd in compToUpdate.filterdata.Where(fd => !fd.IsDeleted))
+            //{
+            //    if (FilterDataDB.DeleteFilterData(fd))
+            //    {
+            //        ActionStatusComponentsList.Text = string.Format("{0}=deleted", fd.Type);
+            //    }
+            //}
 
-                filterdata newFilterData = new filterdata { Type = type, Components_Id = compToUpdate.Id, Data = "" };
-                if (FilterDataDB.AddFilterData(newFilterData))
-                {
-                    ActionStatusComponentsList.Text += " " + newFilterData.Type + "=\"" + newFilterData.Data + "\"";
-                }
-            }
+            //controls c = ControlDB.GetControlsById(compToUpdate.controls_Id);
+            //var filterTypeNameList = new List<string>();
+            //if (c != null)
+            //{
+            //    //EventHandlingSystem.Components.
+            //    Type cls = Type.GetType("EventHandlingSystem.Components." + c.Name);
+            //    if (cls != null)
+            //    {
+            //        foreach (var prop in cls.GetProperties())
+            //        {
+            //            filterTypeNameList.Add(prop.Name);
+            //        }
+            //    }
+            //}
+            //ActionStatusComponentsList.Text += "<br/>FilterData added:";
+            //foreach (var type in filterTypeNameList)
+            //{
+
+            //    filterdata newFilterData = new filterdata { Type = type, Components_Id = compToUpdate.Id, Data = "" };
+            //    if (FilterDataDB.AddFilterData(newFilterData))
+            //    {
+            //        ActionStatusComponentsList.Text += " " + newFilterData.Type + "=\"" + newFilterData.Data + "\"";
+            //    }
+            //}
                 
 
             
@@ -427,7 +434,6 @@ namespace EventHandlingSystem.PageSettingsControls
                 ActionStatusComponentsList.Text = "New component has successfully been added!";
                 ActionStatusComponentsList.ForeColor = Color.CornflowerBlue;
 
-
                 controls c = ControlDB.GetControlsById(newComponent.controls_Id);
                 var filterTypeNameList = new List<string>();
                 if (c != null)
@@ -445,7 +451,6 @@ namespace EventHandlingSystem.PageSettingsControls
                 ActionStatusComponentsList.Text += "<br/>FilterData added:";
                 foreach (var type in filterTypeNameList)
                 {
-                    
                     filterdata newFilterData = new filterdata {Type = type, Components_Id = newComponent.Id, Data = ""};
                     if (FilterDataDB.AddFilterData(newFilterData))
                     {
