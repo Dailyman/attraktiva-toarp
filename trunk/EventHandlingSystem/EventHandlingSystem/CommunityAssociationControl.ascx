@@ -91,13 +91,13 @@
                 <asp:Label ID="LabelCreatedBy" runat="server" Text=""></asp:Label><br />
                 <br />
                 <div class="btn-align-right">
+                    <asp:Button ID="ButtonCommSave" 
+                        CssClass="btn-blue" runat="server" 
+                        Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
                     <asp:Button ID="ButtonDeleteComm" runat="server" CssClass="btn-blue"
                         Text="Delete Community" 
                         OnClientClick="return confirm('Are you sure you want to DELETE this Community?');"
                         OnClick="ButtonDeleteComm_OnClick"/>
-                    <asp:Button ID="ButtonCommSave" 
-                        CssClass="btn-blue" runat="server" 
-                        Text="Save Changes" OnClick="ButtonCommSave_OnClick"/>
                 </div>
                 <asp:Label ID="LabelCommSave" runat="server" Text=""></asp:Label>
             </div><br />
@@ -255,9 +255,9 @@
                 <span><b>Surname: </b>
                     <asp:TextBox ID="tbMemberSName" runat="server"></asp:TextBox></span><br/>
                 <span><b>Email: </b>
-                    <asp:TextBox ID="tbMemberEmail" runat="server"></asp:TextBox></span><br/>
+                    <asp:TextBox ID="tbMemberEmail" runat="server" Type="email"></asp:TextBox></span><br/>
                 <span><b>Phone: </b>
-                    <asp:TextBox ID="tbMemberPhone" runat="server"></asp:TextBox></span><br/>
+                    <asp:TextBox ID="tbMemberPhone" runat="server" Type="number"></asp:TextBox></span><br/>
                 <asp:HiddenField ID="hdfMemberId" runat="server" />
                 <div class="btn-align-right" runat="server">
                     <asp:Button ID="btnMembersSaveChanges" runat="server" 

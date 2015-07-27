@@ -570,98 +570,104 @@ namespace EventHandlingSystem
 
         #region Button Click
 
-        protected void ButtonEditAsso_OnClick(object sender, EventArgs e)
-        {
-            if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
-            {
-                MultiViewAssoCreate.ActiveViewIndex = -1;
-                MultiViewAssoDetails.ActiveViewIndex = 0;
-                ShowAssociationDetails(AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)));
-                LabelErrorMessage.Text = "";
-            }
-            else
-            {
-                LabelErrorMessage.Text = "You have to select an association!";
-                LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
-            }
-        }
+        //protected void ButtonEditAsso_OnClick(object sender, EventArgs e)
+        //{
+        //    if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
+        //    {
+        //        MultiViewAssoCreate.ActiveViewIndex = -1;
+        //        MultiViewAssoDetails.ActiveViewIndex = 0;
+        //        ShowAssociationDetails(AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)));
+        //        LabelErrorMessage.Text = "";
+        //    }
+        //    else
+        //    {
+        //        LabelErrorMessage.Text = "You have to select an association!";
+        //        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
+        //    }
+        //}
 
         
         // För att uppdatera en community
+
+        //För att EDITERA en community
         protected void ButtonCommSave_OnClick(object sender, EventArgs e)
         {
-            bool isUniqueName = true;
-
-            if (!string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
-            {
-                //Hitta community Id i dropdownlista - value
-                int commId = int.Parse(DropDownListCommunity.SelectedItem.Value);
-
-                //Uppdatera det nya namnet från textboxen
-                communities commToUpdate = CommunityDB.GetCommunityById(commId);
-
-                //if (TextBoxCommName.Text.Contains("<") || TextBoxCommName.Text.Contains(">"))
-                //{
-                //    LabelCommSave.Text = "HTML error!";
-                //    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
-                //    return;
-                //}
-
-                //Kontrollera så att det inte blir dubbletter av namnet
-                foreach (communities commChecking in CommunityDB.GetAllCommunities())
-                {
-                    if (TextBoxCommName.Text == commChecking.Name)
-                    {
-                        isUniqueName = false;
-                    }
-                }
-                
-                if (isUniqueName)
-                {   
-                    commToUpdate.Name = TextBoxCommName.Text;
-                }
-                //else
-                //{
-                //    LabelCommSave.Text = "Community was not updated: name already exists. ";
-                //    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
-                //}
-            
-                ////Uppdatera det nya namnet i webpage också
-                //webpages wpToUpdate = WebPageDB.GetWebPageByCommunityId(commId);
-                //wpToUpdate.Title = TextBoxCommName.Text;
-
-                //Uppdatera description från textboxen
-                commToUpdate.Description = TextBoxCommDescript.Text;
-
-                //Uppdatera logo-adressen från textboxen
-                commToUpdate.LogoUrl = TextBoxCommLogoImgUrl.Text;
-
-                int affectedRows = CommunityDB.UpdateCommunity(commToUpdate); //+ WebPageDB.UpdateWebPage(wpToUpdate);
-                
-                if (affectedRows != 0)
-                {
-                    LabelCommSave.Text = TextBoxCommName.Text + " has been updated.";
-                    LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-                    PopulateCommunityDropDownList(DropDownListCommunity);
-                    //ListBoxAsso.Visible = false;
-                    //LabelAssoInComm.Visible = false;
-                    //ButtonCreateNewAsso.Visible = false;
-                    assoListboxView.Visible = false; 
-                }
-                else
-                {
-                    LabelUpdateAsso.Text = "Error: " + TextBoxAssoName.Text +
-                        " could not be updated!";
-                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-                }
-            }
-            else
+            if (string.IsNullOrWhiteSpace(DropDownListCommunity.SelectedValue))
             {
                 LabelCommSave.Text = "Select a community before trying to save changes again.";
                 LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+
+            int commId;
+            if (!int.TryParse(DropDownListCommunity.SelectedValue, out commId))
+            {
+                LabelCommSave.Text = "Selected value was not an integer number. ";
+                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+
+            if (CommunityDB.GetCommunityById(commId) == null)
+            {
+                LabelCommSave.Text = "Community does not exist. ";
+                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+
+            bool isUniqueName = true;
+
+            //Uppdatera det nya namnet från textboxen
+            communities commToUpdate = CommunityDB.GetCommunityById(commId);
+
+            //Kontrollera så att det inte blir dubbletter av namnet
+            foreach (communities commChecking in CommunityDB.GetAllCommunities())
+            {
+                if (TextBoxCommName.Text == commChecking.Name)
+                {
+                    isUniqueName = false;
+                }
+            }
+
+            if (isUniqueName)
+            {
+                commToUpdate.Name = TextBoxCommName.Text;
+            }
+            else
+            {
+                LabelCommSave.Text = "Community name was not changed, since the name already exists. ";
+                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+            
+
+            //Uppdatera description från textboxen
+            commToUpdate.Description = TextBoxCommDescript.Text;
+
+            //Uppdatera logo-adressen från textboxen
+            commToUpdate.LogoUrl = TextBoxCommLogoImgUrl.Text;
+
+            int affectedRows = CommunityDB.UpdateCommunity(commToUpdate); //+ WebPageDB.UpdateWebPage(wpToUpdate);
+
+            if (affectedRows != 0)
+            {
+                LabelCommSave.Text = TextBoxCommName.Text + " has been updated.";
+                LabelCommSave.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                PopulateCommunityDropDownList(DropDownListCommunity);
+                //ListBoxAsso.Visible = false;
+                //LabelAssoInComm.Visible = false;
+                //ButtonCreateNewAsso.Visible = false;
+                assoListboxView.Visible = false;
+            }
+            else
+            {
+                LabelUpdateAsso.Text = "Error: " + TextBoxAssoName.Text +
+                                       " could not be updated!";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
-        
+
+
+
+
         // För att komma till "Create New Community" vy
         protected void ButtonCreateNewComm_OnClick(object sender, EventArgs e)
         {
@@ -689,8 +695,13 @@ namespace EventHandlingSystem
                 }
             };
 
-            if (isUniqueName)
+            if (!isUniqueName)
             {
+                LabelCreateComm.Text = "Community was not created. A community with the same name already exists. ";
+                LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+            
                 var comm = new communities
                 {
                     Name = TextBoxCommNameCreate.Text,
@@ -766,14 +777,10 @@ namespace EventHandlingSystem
                     LabelCreateComm.Text = "Community could not be created. Try again!";
                     LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
-            }
-            else
-            {
-                LabelCreateComm.Text = "Community was not created. A community with the same name already exists. ";
-                LabelCreateComm.Style.Add(HtmlTextWriterStyle.Color, "red");
-            }
+                        
             PopulateCommunityDropDownList(DropDownListCommunity);
             ListBoxAsso.Items.Clear();
+            LabelCommSave.Text = string.Empty; //Use string.Empty instead of "". ALWAYS.
         }
 
         // För att gå ur "Create New Community" vyn
@@ -795,31 +802,35 @@ namespace EventHandlingSystem
                 AssociationDB.GetAllAssociationsInCommunity(CommunityDB.GetCommunityById(_commToDeleteId));
 
             // Anropa Delete-metoderna
-            if (webpageToDelete != null)
+            if (webpageToDelete == null)
             {
-                int affectedRows =
-                    CommunityDB.DeleteCommunityById(_commToDeleteId) +
-                    WebPageDB.DeleteWebPageByCommId(_commToDeleteId);
+                lbCommSelect.Text = "Webpage does not exist. ";
+                lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
 
-                foreach (associations assoToDelete in assosToDeleteList)
-                {
-                    AssociationDB.DeleteAssociationById(assoToDelete.Id);
-                    WebPageDB.DeleteWebPageByAssoId(assoToDelete.Id);
-                }
+            int affectedRows =
+                CommunityDB.DeleteCommunityById(_commToDeleteId) +
+                WebPageDB.DeleteWebPageByCommId(_commToDeleteId);
 
-                PopulateCommunityDropDownList(DropDownListCommunity);
+            foreach (associations assoToDelete in assosToDeleteList)
+            {
+                AssociationDB.DeleteAssociationById(assoToDelete.Id);
+                WebPageDB.DeleteWebPageByAssoId(assoToDelete.Id);
+            }
 
-                if (affectedRows != 0)
-                {
-                    lbCommSelect.Text = TextBoxCommName.Text + " and all of its associations were successfully deleted. ";
-                    lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-                    MultiViewCommDetails.ActiveViewIndex = -1;
-                }
-                else
-                {
-                    lbCommSelect.Text = TextBoxCommName.Text + "could not be deleted. Please try again.";
-                    lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "red");
-                }
+            PopulateCommunityDropDownList(DropDownListCommunity);
+
+            if (affectedRows != 0)
+            {
+                lbCommSelect.Text = TextBoxCommName.Text + " and all of its associations were successfully deleted. ";
+                lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                MultiViewCommDetails.ActiveViewIndex = -1;
+            }
+            else
+            {
+                lbCommSelect.Text = TextBoxCommName.Text + "could not be deleted. Please try again.";
+                lbCommSelect.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
 
@@ -884,102 +895,101 @@ namespace EventHandlingSystem
                 }
             }
 
-            if (isUniqueName)
+            if (!isUniqueName)
             {
-                associations asso = new associations
+                LabelErrorMessage.Text = "Association was not created. Name already exists. ";
+                LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+
+            associations asso = new associations
+            {
+                Name = TextBoxCreateAssoName.Text,
+                ParentAssociationId = string.IsNullOrWhiteSpace(DropDownListCreateParAsso.SelectedValue)
+                    ? (int?) null
+                    : int.Parse(DropDownListCreateParAsso.SelectedItem.Value),
+                LogoUrl = TextBoxAssoImgUrl.Text,
+                CreatedBy = HttpContext.Current.User.Identity.Name,
+                UpdatedBy = HttpContext.Current.User.Identity.Name,
+                Communities_Id = int.Parse(DropDownListCommunity.SelectedItem.Value)
+            };
+
+            if (AssociationDB.AddAssociation(asso))
+            {
+                webpages wp = new webpages
                 {
-                    Name = TextBoxCreateAssoName.Text,
-                    ParentAssociationId = string.IsNullOrWhiteSpace(DropDownListCreateParAsso.SelectedValue)
-                        ? (int?) null
-                        : int.Parse(DropDownListCreateParAsso.SelectedItem.Value),
-                    LogoUrl = TextBoxAssoImgUrl.Text,
+                    Title = TextBoxCreateAssoName.Text,
+                    AssociationId = AssociationDB.GetAssociationByName(asso.Name).Id,
+                    //Layout och style - fixa dropdownlistor senare!
                     CreatedBy = HttpContext.Current.User.Identity.Name,
-                    UpdatedBy = HttpContext.Current.User.Identity.Name,
-                    Communities_Id = int.Parse(DropDownListCommunity.SelectedItem.Value)
+                    UpdatedBy = HttpContext.Current.User.Identity.Name
                 };
 
-                if (AssociationDB.AddAssociation(asso))
+                if (WebPageDB.AddWebPage(wp))
                 {
-                    webpages wp = new webpages
+                    components compCal = new components
                     {
-                        Title = TextBoxCreateAssoName.Text,
-                        AssociationId = AssociationDB.GetAssociationByName(asso.Name).Id,
-                        //Layout och style - fixa dropdownlistor senare!
-                        CreatedBy = HttpContext.Current.User.Identity.Name,
-                        UpdatedBy = HttpContext.Current.User.Identity.Name
+                        webpages_Id = wp.Id,
+                        OrderingNumber = 1,
+                        controls_Id = 3 //Calendar
                     };
 
-                    if (WebPageDB.AddWebPage(wp))
+                    components compAbout = new components
                     {
-                        components compCal = new components
-                        {
-                            webpages_Id = wp.Id,
-                            OrderingNumber = 1,
-                            controls_Id = 3 //Calendar
-                        };
+                        webpages_Id = wp.Id,
+                        OrderingNumber = 2,
+                        controls_Id = 1 //About
+                    };
 
-                        components compAbout = new components
-                        {
-                            webpages_Id = wp.Id,
-                            OrderingNumber = 2,
-                            controls_Id = 1 //About
-                        };
-
-                        if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
-                        {
-                            MultiViewAssoCreate.ActiveViewIndex = -1;
-                            PopulateAssociationListBox();
-                            LabelErrorMessage.Text = asso.Name + " has been successfully created! (^o^)/";
-                            LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-                        }
-                        else
-                        {
-                            LabelCreateComm.Text = "Components could not be created. Please try again!";
-                        }
+                    if (ComponentDB.AddComponent(compCal) && ComponentDB.AddComponent(compAbout))
+                    {
+                        MultiViewAssoCreate.ActiveViewIndex = -1;
+                        PopulateAssociationListBox();
+                        LabelErrorMessage.Text = asso.Name + " has been successfully created! (^o^)/";
+                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
                     }
                     else
                     {
-                        LabelErrorMessage.Text = "Webpage could not be created. Try again!";
-                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
-                    }
-
-                    //Välj admin för association som skapas
-                    if (UserDB.GetUserByUsername(ddlAdminUserAsso.SelectedValue) != null)
-                    {
-                        association_permissions aP = new association_permissions
-                        {
-                            users_Id = UserDB.GetUserByUsername(ddlAdminUserAsso.SelectedValue).Id,
-                            associations_Id = AssociationDB.GetAssociationByName(asso.Name).Id, 
-                            Role = "Administrators"
-                        };
-                        AssociationPermissionsDB.AddAssociationPermissions(aP);
-
-                        if (!Roles.IsUserInRole(ddlAdminUserAsso.SelectedValue, "Administrators"))
-                        {
-                            Roles.AddUserToRole(ddlAdminUserAsso.SelectedValue, "Administrators");
-                        }
-                        LabelErrorMessage.Text += "User was successfully added as administrator in Association";
-                    }
-                    else
-                    {
-                        LabelErrorMessage.Text += "No user was added as administrator.";
-                        LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
+                        LabelCreateComm.Text = "Components could not be created. Please try again!";
                     }
                 }
                 else
                 {
-                    LabelErrorMessage.Text = "Association could not be created. Try again!";
+                    LabelErrorMessage.Text = "Webpage could not be created. Try again!";
+                    LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
+                }
+
+                //Välj admin för association som skapas
+                if (UserDB.GetUserByUsername(ddlAdminUserAsso.SelectedValue) != null)
+                {
+                    association_permissions aP = new association_permissions
+                    {
+                        users_Id = UserDB.GetUserByUsername(ddlAdminUserAsso.SelectedValue).Id,
+                        associations_Id = AssociationDB.GetAssociationByName(asso.Name).Id,
+                        Role = "Administrators"
+                    };
+                    AssociationPermissionsDB.AddAssociationPermissions(aP);
+
+                    if (!Roles.IsUserInRole(ddlAdminUserAsso.SelectedValue, "Administrators"))
+                    {
+                        Roles.AddUserToRole(ddlAdminUserAsso.SelectedValue, "Administrators");
+                    }
+                    LabelErrorMessage.Text += "User was successfully added as administrator in Association";
+                }
+                else
+                {
+                    LabelErrorMessage.Text += "No user was added as administrator.";
                     LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
             }
             else
             {
-                LabelErrorMessage.Text = "Association was not created. Name already exists. ";
+                LabelErrorMessage.Text = "Association could not be created. Try again!";
                 LabelErrorMessage.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
             PopulateAssociationListBox();
         }
-        
+
         // För att lägga till kategori(er) i listboxen
         protected void ButtonCatAdd_OnClick(object sender, EventArgs e)
         {
@@ -1016,6 +1026,13 @@ namespace EventHandlingSystem
         // För att visa alla members i en bull-lista
         protected void lnkbtnMembers_OnClick(object sender, EventArgs e)
         {
+            PopulateMembersList();
+            MultiViewManageMembers.ActiveViewIndex = -1;
+        }
+
+        //Populera bulleted-listan "lnkbtnMembers"
+        public void PopulateMembersList()
+        {
             lnkbtnMembers.Text = "Members in " +
                                       AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)).Name;
             bullListMemberList.Items.Clear();
@@ -1025,13 +1042,14 @@ namespace EventHandlingSystem
                 .OrderBy(m => m.SurName)
                 .ThenBy(m => m.FirstName)
                 .Select(member => new ListItem
-            {
-                Text = member.FirstName + " " + member.SurName, 
-                Value = member.Id.ToString()
-            }).ToList();
+                {
+                    Text = !string.IsNullOrWhiteSpace(member.FirstName + " " + member.SurName) ? member.FirstName + " " + member.SurName : "---",
+                    Value = member.Id.ToString()
+                }).ToList();
 
             foreach (var item in memberList)
             {
+                //item.Attributes.Add("data-value", item.Value);
                 bullListMemberList.Items.Add(item);
             }
         }
@@ -1045,17 +1063,21 @@ namespace EventHandlingSystem
             btnMembersSaveChanges.Text = "Save Changes";
 
             //Labeltext och member info
+            LabelUpdateAsso.Text = string.Empty;
             lbMemberUpdate.Text = string.Empty;
             lbMembersTitle.Text = "Current Member Information, in " +
                                   AssociationDB.GetAssociationById(int.Parse(ListBoxAsso.SelectedItem.Value)).Name;
 
             members member = MemberDB.GetMemberById(int.Parse(bullListMemberList.Items[e.Index].Value)); //e.Index på valt item i listan
-                
+            //IAttributeAccessor t =  bullListMemberList.Items[e.Index];
+            
             tbMemberFName.Text = member.FirstName;
             tbMemberSName.Text = member.SurName;
             tbMemberEmail.Text = member.Email;
             tbMemberPhone.Text = member.Phone;
             hdfMemberId.Value = member.Id.ToString(); //spara id i en hiddenfield
+
+            //hdfMemberId.Value = t.GetAttribute("data-value");
         }
 
         // För att spara ändringar som gjorts för en member 
@@ -1063,7 +1085,7 @@ namespace EventHandlingSystem
         // För att SKAPA en ny member
         protected void btnMembersSaveChanges_OnClick(object sender, EventArgs e)
         {
-            if (hdfMemberId.Value != "-1") //om hiddenfield inte är -1
+            if (!string.IsNullOrWhiteSpace(hdfMemberId.Value) && !Equals(hdfMemberId.Value, "-1")) //om hiddenfield inte är -1
             {
                 //Hitta befintlig member och spara ÄNDRINGAR
                 members memberToUpdate = MemberDB.GetMemberById(int.Parse(hdfMemberId.Value));
@@ -1081,11 +1103,13 @@ namespace EventHandlingSystem
                     lbMemberUpdate.Text = "Information about " + tbMemberFName.Text + " " + tbMemberSName.Text +
                                           " has been updated! o(^O^)o";
                     lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    PopulateMembersList();
                 }
                 else
                 {
-                    lbMemberUpdate.Text += "Error: Changes might not have been made in " + tbMemberFName.Text +
-                                           "... Make sure to set the update information.";
+                    lbMemberUpdate.Text = "Error: Changes might not have been made in " +
+                                          tbMemberFName.Text + " " + tbMemberSName.Text +
+                                          "... Make sure to set the update information.";
                     lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
             }
@@ -1103,15 +1127,17 @@ namespace EventHandlingSystem
 
                 if (MemberDB.Addmember(newMember))
                 {
-                    lbMemberUpdate.Text = newMember.FirstName + " " + newMember.SurName + " has been successfully created! (^o^)/";
-                    lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                    LabelUpdateAsso.Text = newMember.FirstName + " " + newMember.SurName + " has been successfully created! (^o^)/";
+                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
                 }
                 else
                 {
                     lbMemberUpdate.Text = "Member could not be added. Try again!";
                     lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "red");
                 }
+                MultiViewManageMembers.ActiveViewIndex = -1;
             }
+            PopulateMembersList();
         }
 
         // För att komma till vyn där man skapar en ny member
@@ -1128,6 +1154,7 @@ namespace EventHandlingSystem
             tbMemberEmail.Text = string.Empty;
             tbMemberPhone.Text = string.Empty;
             lbMemberUpdate.Text = string.Empty;
+            LabelUpdateAsso.Text = string.Empty;
         }
 
         protected void btnMemberDelete_OnClick(object sender, EventArgs e)
@@ -1137,12 +1164,14 @@ namespace EventHandlingSystem
 
             if (affectedRows != 0)
             {
-                lbMemberUpdate.Text = tbMemberFName.Text + " " + tbMemberSName.Text + " was successfully deleted. T_T ";
-                lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                LabelUpdateAsso.Text = tbMemberFName.Text + " " + tbMemberSName.Text + " was successfully deleted. T_T ";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                PopulateMembersList();
+                MultiViewManageMembers.ActiveViewIndex = -1;
             }
             else
             {
-                lbMemberUpdate.Text = tbMemberFName.Text + " " + tbMemberSName.Text + "could not be deleted. Please try again.";
+                lbMemberUpdate.Text = tbMemberFName.Text + " " + tbMemberSName.Text + " could not be deleted. Please try again.";
                 lbMemberUpdate.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
@@ -1154,208 +1183,215 @@ namespace EventHandlingSystem
         {
             bool isUniqueName = true;
 
-            if (!string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
-            {
-                //Hitta Association-Id i listboxen - value
-                int assoId = int.Parse(ListBoxAsso.SelectedItem.Value);
-                
-                // UPPDATERA det nya namnet från textboxen
-                associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
-
-                //Kontrollera så att det inte blir namnduplikationer 
-                foreach (associations assoChecking in AssociationDB.GetAllAssociations())
-                {
-                    if (TextBoxAssoName.Text == assoChecking.Name)
-                    {
-                        isUniqueName = false;
-                    }
-                }
-                if (isUniqueName)
-                {
-                    assoToUpdate.Name = TextBoxAssoName.Text;
-                }
-                else
-                {
-                    LabelUpdateAsso.Text = "Association name was not updated, specified name already exists. ";
-                }
-
-                ////Uppdatera det nya namnet i webpage också
-                //webpages wpToUpdate = WebPageDB.GetWebPageByAssociationId(int.Parse(hdfAssoId.Value));
-                //if (wpToUpdate != null)
-                //{
-                //    wpToUpdate.Title = TextBoxAssoName.Text;
-                //    //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
-                //}
-
-                PopulateAssociationListBox(assoId);
-                
-                //UPPDATERA Description från textboxen
-                assoToUpdate.Description = TextBoxAssoDescript.Text;
-
-                // UPPDATERA community i vilken föreningen finns
-                assoToUpdate.Communities_Id = int.Parse(DropDownListCommunityInAsso.SelectedItem.Value);
-
-                
-                // UPPDATERA ParentAssociation - omflyttningar i strukturen
-                associations newParentAsso = new associations();
-
-                if (assoToUpdate.ParentAssociationId == null)
-                    //assoToUpdate är en parentAsso, flyttar neråt eller under en annan asso
-                {
-                    if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
-                    {
-                        //Den nya ParentAsso blir den valda i ddl-listan
-                        newParentAsso.Id = int.Parse(DropDownListParentAsso.SelectedItem.Value);
-
-                        if (assoToUpdate.Id != newParentAsso.Id) //Får inte välja sig själv
-                        {
-                            //Om assoToUpdate flyttar till en annan ParentAsso behåller den sina barn
-                            if (newParentAsso.ParentAssociationId == null)
-                            {
-                                //Får ny PAId                                
-                                assoToUpdate.ParentAssociationId = newParentAsso.Id;
-                            }
-                            else //om den flyttar under sig själv eller till en childAsso
-                            {
-                                //Hitta alla barnen för att släppa dem. De blir alla parentAssos och får PA = null
-                                foreach (
-                                    var subAsso in
-                                        AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
-                                {
-                                    subAsso.ParentAssociationId = null;
-                                    affectedRows += AssociationDB.UpdateAssociation(subAsso);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            LabelUpdateAsso.Text = TextBoxAssoName.Text +
-                                                   " cannot be Parent Association to itself. Please try again. \n";
-                            LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-                        }
-                    }
-                    else
-                    {
-                        //Om man väljer blankt i ddl blir ParentAssociation null
-                        assoToUpdate.ParentAssociationId = null;
-                    }
-                }
-                else //assoToUpdate är en childAsso
-                {
-                    int? oldPAId = assoToUpdate.ParentAssociationId;
-                    if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
-                    {
-                        //assoToUpdate får ny PAId, får inte välja sig själv
-                        if (assoToUpdate.Id != int.Parse(DropDownListParentAsso.SelectedItem.Value))
-                        {
-                            assoToUpdate.ParentAssociationId = int.Parse(DropDownListParentAsso.SelectedItem.Value);
-                        }
-                        else
-                        {
-                            LabelUpdateAsso.Text = TextBoxAssoName.Text +
-                                                   " cannot be Parent Association to itself. Please try again. \r\n";
-                            LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-                        }
-                    }
-                    else
-                    {
-                        //Om man väljer blankt i ddl blir ParentAssociation null
-                        assoToUpdate.ParentAssociationId = null;
-                    }
-
-                    if (assoToUpdate.ParentAssociationId > oldPAId) //assoToUpdate flyttar neråt
-                    {
-                        //Hitta barnen och ge dem assoToUpdates gamla PAId
-                        foreach (
-                            var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
-                        {
-                            subAsso.ParentAssociationId = oldPAId;
-                            affectedRows += AssociationDB.UpdateAssociation(subAsso);
-                        }
-                    }
-                }
-
-
-                // UPPDATERA föreningskategori, lägg till de valda kategorierna från listboxen
-
-                List<categories> catToAddList = new List<categories>();
-                List<categories> catToRemoveList = new List<categories>();
-
-                foreach (ListItem addedCategory in ListBoxCatInAsso.Items)
-                {
-                    categories category = CategoryDB.GetCategoryById(int.Parse(addedCategory.Value));
-
-                    if (assoToUpdate.categories.Count != 0)
-                    {
-                        catToAddList.AddRange(from item in assoToUpdate.categories where item.Id != category.Id select category);
-                    }
-                    else
-                    {
-                        catToAddList.Add(category);
-                    }
-                }
-
-                foreach (categories addItem in catToAddList)
-                {
-                    assoToUpdate.categories.Add(addItem);
-                }
-
-                // Föreningskategori - REMOVE
-                foreach (var removedItem in assoToUpdate.categories)
-                {
-                    bool exist = false;
-
-                    foreach (ListItem item in ListBoxCatInAsso.Items)
-                    {
-                        if (item.Value == removedItem.Id.ToString())
-                        {
-                            exist = true;
-                            break;
-                        }
-                        exist = false;
-                    }
-
-                    if (!exist)
-                    {
-                        catToRemoveList.Add(removedItem);
-                    }
-                }
-
-                foreach (categories removeItem in catToRemoveList)
-                {
-                    assoToUpdate.categories.Remove(removeItem);
-                }
-                
-                //UPPDATERA Logo Url
-                assoToUpdate.LogoUrl = TextBoxAssoLogoImgUrl.Text;
-              
-                //Anropa Update-metoden
-                affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
-                //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
-                PopulateAssociationListBox();
-
-
-                if (affectedRows != 0)
-                {
-                    LabelUpdateAsso.Text = assoToUpdate.Name + " has been updated!";
-                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
-                    MultiViewManageMembers.ActiveViewIndex = -1;
-                }
-                else
-                {
-                    LabelUpdateAsso.Text += "Error: Changes might not have been made in " + assoToUpdate.Name +
-                                            "... Make sure to set the update information.";
-                    LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
-                }
-            }
-            else
+            if (string.IsNullOrWhiteSpace(ListBoxAsso.SelectedValue))
             {
                 LabelUpdateAsso.Text = "Select an association in the listbox before trying to save changes again.";
                 LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
                 LabelAssoInComm.Text = "Select An Association in this Listbox";
                 LabelAssoInComm.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+
+//Hitta Association-Id i listboxen - value
+            int assoId;
+            if (!int.TryParse(ListBoxAsso.SelectedValue, out assoId))
+            {
+                LabelUpdateAsso.Text = "Selected value could not be parsed. ";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+            if (AssociationDB.GetAssociationById(assoId) == null)
+            {
+                LabelUpdateAsso.Text = "Select an association in the listbox before trying to save changes again.";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                return;
+            }
+            // UPPDATERA det nya namnet från textboxen
+            associations assoToUpdate = AssociationDB.GetAssociationById(assoId);
+
+            //Kontrollera så att det inte blir namnduplikationer 
+            foreach (associations assoChecking in AssociationDB.GetAllAssociations())
+            {
+                if (TextBoxAssoName.Text == assoChecking.Name)
+                {
+                    isUniqueName = false;
+                }
+            }
+            if (isUniqueName)
+            {
+                assoToUpdate.Name = TextBoxAssoName.Text;
+            }
+            else
+            {
+                LabelUpdateAsso.Text = "Association name was not updated, specified name already exists. ";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+            }
+
+
+            PopulateAssociationListBox(assoId);
+
+            //UPPDATERA Description från textboxen
+            assoToUpdate.Description = TextBoxAssoDescript.Text;
+
+            // UPPDATERA community i vilken föreningen finns
+            assoToUpdate.Communities_Id = int.Parse(DropDownListCommunityInAsso.SelectedItem.Value);
+
+
+            // UPPDATERA ParentAssociation - omflyttningar i strukturen
+            associations newParentAsso = new associations();
+
+            if (assoToUpdate.ParentAssociationId == null)
+                //assoToUpdate är en parentAsso, flyttar neråt eller under en annan asso
+            {
+                if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
+                {
+                    //Den nya ParentAsso blir den valda i ddl-listan
+                    newParentAsso.Id = int.Parse(DropDownListParentAsso.SelectedItem.Value);
+
+                    if (assoToUpdate.Id != newParentAsso.Id) //Får inte välja sig själv
+                    {
+                        //Om assoToUpdate flyttar till en annan ParentAsso behåller den sina barn
+                        if (newParentAsso.ParentAssociationId == null)
+                        {
+                            //Får ny PAId                                
+                            assoToUpdate.ParentAssociationId = newParentAsso.Id;
+                        }
+                        else //om den flyttar under sig själv eller till en childAsso
+                        {
+                            //Hitta alla barnen för att släppa dem. De blir alla parentAssos och får PA = null
+                            foreach (
+                                var subAsso in
+                                    AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
+                            {
+                                subAsso.ParentAssociationId = null;
+                                affectedRows += AssociationDB.UpdateAssociation(subAsso);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        LabelUpdateAsso.Text = TextBoxAssoName.Text +
+                                               " cannot be Parent Association to itself. Please try again. \n";
+                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    }
+                }
+                else
+                {
+                    //Om man väljer blankt i ddl blir ParentAssociation null
+                    assoToUpdate.ParentAssociationId = null;
+                }
+            }
+            else //assoToUpdate är en childAsso
+            {
+                int? oldPAId = assoToUpdate.ParentAssociationId;
+                if (!string.IsNullOrWhiteSpace(DropDownListParentAsso.SelectedItem.Value))
+                {
+                    //assoToUpdate får ny PAId, får inte välja sig själv
+                    if (assoToUpdate.Id != int.Parse(DropDownListParentAsso.SelectedItem.Value))
+                    {
+                        assoToUpdate.ParentAssociationId = int.Parse(DropDownListParentAsso.SelectedItem.Value);
+                    }
+                    else
+                    {
+                        LabelUpdateAsso.Text = TextBoxAssoName.Text +
+                                               " cannot be Parent Association to itself. Please try again. \r\n";
+                        LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
+                    }
+                }
+                else
+                {
+                    //Om man väljer blankt i ddl blir ParentAssociation null
+                    assoToUpdate.ParentAssociationId = null;
+                }
+
+                if (assoToUpdate.ParentAssociationId > oldPAId) //assoToUpdate flyttar neråt
+                {
+                    //Hitta barnen och ge dem assoToUpdates gamla PAId
+                    foreach (
+                        var subAsso in AssociationDB.GetAllSubAssociationsByParentAssociationId(assoToUpdate.Id))
+                    {
+                        subAsso.ParentAssociationId = oldPAId;
+                        affectedRows += AssociationDB.UpdateAssociation(subAsso);
+                    }
+                }
+            }
+
+
+            // UPPDATERA föreningskategori, lägg till de valda kategorierna från listboxen
+
+            List<categories> catToAddList = new List<categories>();
+            List<categories> catToRemoveList = new List<categories>();
+
+            foreach (ListItem addedCategory in ListBoxCatInAsso.Items)
+            {
+                categories category = CategoryDB.GetCategoryById(int.Parse(addedCategory.Value));
+
+                if (assoToUpdate.categories.Count != 0)
+                {
+                    catToAddList.AddRange(from item in assoToUpdate.categories
+                        where item.Id != category.Id
+                        select category);
+                }
+                else
+                {
+                    catToAddList.Add(category);
+                }
+            }
+
+            foreach (categories addItem in catToAddList)
+            {
+                assoToUpdate.categories.Add(addItem);
+            }
+
+            // Föreningskategori - REMOVE
+            foreach (var removedItem in assoToUpdate.categories)
+            {
+                bool exist = false;
+
+                foreach (ListItem item in ListBoxCatInAsso.Items)
+                {
+                    if (item.Value == removedItem.Id.ToString())
+                    {
+                        exist = true;
+                        break;
+                    }
+                    exist = false;
+                }
+
+                if (!exist)
+                {
+                    catToRemoveList.Add(removedItem);
+                }
+            }
+
+            foreach (categories removeItem in catToRemoveList)
+            {
+                assoToUpdate.categories.Remove(removeItem);
+            }
+
+            //UPPDATERA Logo Url
+            assoToUpdate.LogoUrl = TextBoxAssoLogoImgUrl.Text;
+
+            //Anropa Update-metoden
+            affectedRows = AssociationDB.UpdateAssociation(assoToUpdate);
+            //affectedRows += WebPageDB.UpdateWebPage(wpToUpdate);
+            PopulateAssociationListBox();
+
+
+            if (affectedRows != 0)
+            {
+                LabelUpdateAsso.Text = assoToUpdate.Name + " has been updated!";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "#217ebb");
+                MultiViewManageMembers.ActiveViewIndex = -1;
+            }
+            else
+            {
+                LabelUpdateAsso.Text += "Error: Changes might not have been made in " + assoToUpdate.Name +
+                                        "... Make sure to set the update information.";
+                LabelUpdateAsso.Style.Add(HtmlTextWriterStyle.Color, "red");
             }
         }
+
 
         private int _assoToDeleteId;
 
@@ -1395,9 +1431,7 @@ namespace EventHandlingSystem
             else
             {
                 MultiViewAssoDelete.ActiveViewIndex = 0;
-
                 BulletedListSubAssoToDelete.Items.Clear();
-
                 FindSubAssociationsAndAddtoDeleteList(AssociationDB.GetAssociationById(_assoToDeleteId));
             }
         }
@@ -1433,13 +1467,15 @@ namespace EventHandlingSystem
             //Ta bort den valda föreningen i listboxen
             _assoToDeleteId = int.Parse(ListBoxAsso.SelectedItem.Value);
 
-            int affectedRows = AssociationDB.DeleteAssociationById(_assoToDeleteId) + WebPageDB.DeleteWebPageByAssoId(_assoToDeleteId);
+            int affectedRows = AssociationDB.DeleteAssociationById(_assoToDeleteId) +
+                               WebPageDB.DeleteWebPageByAssoId(_assoToDeleteId);
             
             // Ta bort underföreningarna
             foreach (ListItem itemToDelete in BulletedListSubAssoToDelete.Items)
             {
-                affectedRows =+ 
-                AssociationDB.DeleteAssociationById(int.Parse(itemToDelete.Value)) + WebPageDB.DeleteWebPageByAssoId(int.Parse(itemToDelete.Value));
+                affectedRows = + 
+                    AssociationDB.DeleteAssociationById(int.Parse(itemToDelete.Value)) +
+                               WebPageDB.DeleteWebPageByAssoId(int.Parse(itemToDelete.Value));
             }
 
             if (affectedRows != 0)
@@ -1465,10 +1501,10 @@ namespace EventHandlingSystem
 
         #endregion
 
-        protected void ValidateMethod(object source, ServerValidateEventArgs args)
-        {
-            //args.IsValid = !args.Value.Contains("<");
-            args.IsValid = (args.Value.Length >= 8);
-        }
+        //protected void ValidateMethod(object source, ServerValidateEventArgs args)
+        //{
+        //    //args.IsValid = !args.Value.Contains("<");
+        //    args.IsValid = (args.Value.Length >= 8);
+        //}
     }
 }
