@@ -220,15 +220,6 @@ namespace EventHandlingSystem {
         protected global::System.Web.UI.WebControls.Label LabelCreatedBy;
         
         /// <summary>
-        /// ButtonDeleteComm control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button ButtonDeleteComm;
-        
-        /// <summary>
         /// ButtonCommSave control.
         /// </summary>
         /// <remarks>
@@ -236,6 +227,15 @@ namespace EventHandlingSystem {
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button ButtonCommSave;
+        
+        /// <summary>
+        /// ButtonDeleteComm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ButtonDeleteComm;
         
         /// <summary>
         /// LabelCommSave control.
