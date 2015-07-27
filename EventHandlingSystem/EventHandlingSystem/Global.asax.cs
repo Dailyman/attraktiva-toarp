@@ -28,7 +28,7 @@ namespace EventHandlingSystem
 
         private void Application_Error(object sender, EventArgs e)
         {
-            string filePath = Server.MapPath("ErrorPage.html");
+            string filePath = HttpContext.Current.Server.MapPath("~") + "/Admin/ErrorPage.html";
             Exception exception = Server.GetLastError();
             string errorPage = 
                 System.IO.File.ReadAllText

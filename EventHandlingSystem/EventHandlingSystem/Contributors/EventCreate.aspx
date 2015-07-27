@@ -28,7 +28,18 @@
                 margin: 0 5px 0 0;
                 vertical-align: top;
             }
+
+           
+    .image-preview {
+        max-height: 100px;
+        max-width: 100px;   
+     }
+
+        .label-no-margin-left {
+            margin-left: 0px !important;
+        }
     </style>
+    
 
 
     <div class="titlebox">
@@ -53,8 +64,25 @@
     <h6>Location</h6>
     <asp:TextBox ID="TxtBoxLocation" runat="server"></asp:TextBox>
     <br />
+    
+
+    
+
     <h6>Image(Url)</h6>
     <asp:TextBox ID="TxtBoxImageUrl" runat="server"></asp:TextBox>
+    <asp:Label ID="LblImageUrl" runat="server" AssociatedControlID="FileUploadImage" CssClass="label-no-margin-left"></asp:Label>
+    <br />
+     <asp:Image ID="ImgPreview" runat="server" CssClass="image-preview"  />
+    <asp:Label ID="LblFileUpload" runat="server" Text=""></asp:Label>
+    <br/>
+    <asp:FileUpload ID="FileUploadImage" runat="server" AllowMultiple="False" accept="image/*" />
+    <asp:Button ID="BtnUploadImage" runat="server" Text="Upload" OnClick="BtnUploadImage_OnClick" />
+    <asp:Button ID="BtnRemoveImage" runat="server" Text="Remove" OnClick="BtnRemoveImage_OnClick" Visible="False"/>
+    <br/>
+    
+    
+
+
     <br />
     <h6>Event(Url) eg. Facebook eventpage</h6>
     <asp:TextBox ID="TxtBoxEventUrl" runat="server"></asp:TextBox>

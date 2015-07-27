@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Data.Entity.Migrations;
 using System.Drawing;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Security;
@@ -27,6 +28,8 @@ namespace EventHandlingSystem
             //Lägger kalender ikonen i våg med DateTextBoxarna.
             ImageButtonStartDate.Style.Add("vertical-align", "top");
             ImageButtonEndDate.Style.Add("vertical-align", "top");
+
+            SaveOrRestoreFileUpload();
 
             if (!IsPostBack)
             {
@@ -466,5 +469,249 @@ namespace EventHandlingSystem
         {
 
         }
+
+
+
+
+
+        protected void BtnUploadImage_OnClick(object sender, EventArgs e)
+        {
+            // Gets the path where to save the image
+            string saveDirPath = HttpContext.Current.Server.MapPath("~/Uploads/Images/");
+
+            
+            if (!FileUploadImage.HasFile)
+            {
+                LblFileUpload.Text = "Select a file!";
+                return;
+            }
+            if (String.IsNullOrWhiteSpace(FileUploadImage.PostedFile.FileName))
+            {
+                LblFileUpload.Text = "File name was empty!";
+                return;
+            }
+
+
+            // Get the name of the file
+            string fileName = FileUploadImage.PostedFile.FileName;
+
+            // Create the exact path of which the file is going to be saved
+            string filePathToSaveAt = saveDirPath + fileName;
+
+            if (File.Exists(filePathToSaveAt))
+            {
+                LblFileUpload.Text = "File with that name already exists!";
+                return;
+            }
+
+            // Try saving the file to the server
+            try
+            {
+                FileUploadImage.SaveAs(filePathToSaveAt);
+            }
+            catch (Exception ex)
+            {
+                LblFileUpload.Text = string.Format("Error: Unable to save file <br/> {0}", ex.Message);
+                return;
+            }
+
+            Session["filePath"] = filePathToSaveAt;
+
+            // Shorter variable name to use
+            double fileSize = FileUploadImage.PostedFile.ContentLength;
+
+            // Used when displaying the image size
+            double convertedFileSize;
+
+            string unit;
+
+            // Get the best display unit
+            if (fileSize / 1024 / 1024 > 1)
+            {
+                unit = "MB";
+                convertedFileSize = fileSize / 1024 / 1024;
+            }
+            else if ((fileSize / 1024) > 1)
+            {
+                unit = "KB";
+                convertedFileSize = fileSize / 1024;
+            }
+            else
+            {
+                unit = "B";
+                convertedFileSize = fileSize;
+            }
+            
+
+            // Display simple properites of the uploaded image
+            LblFileUpload.Text =
+                string.Format(
+                    "<br>File name: {0} <br>File type: {1} <br>File size: {2} {3}",
+                    FileUploadImage.PostedFile.FileName, FileUploadImage.PostedFile.ContentType,
+                    convertedFileSize.ToString("0.#"), unit);
+
+            //LblFileUpload.Text =
+            //    string.Format(
+            //        "<br>File was uploaded to: <br>{0} <br>File name: {1} <br>File type: {2} <br>File size: {3} {4} <br>Link: <a href='{5}'>{5}</a>",
+            //        filePathToSaveAt, FileUploadImage.PostedFile.FileName, FileUploadImage.PostedFile.ContentType,
+            //        convertedFileSize.ToString("0.#"), unit, MapPathReverse(filePathToSaveAt, true));
+
+
+            // Add url to textbox and preview image.
+            LblImageUrl.Text = MapPathReverse(filePathToSaveAt, false);
+            TxtBoxImageUrl.Text = MapPathReverse(filePathToSaveAt, true);
+            ImgPreview.ImageUrl = MapPathReverse(filePathToSaveAt, false);
+            
+            // Disable the textbox when image has been uploaded
+            TxtBoxImageUrl.Visible = false;
+            FileUploadImage.Visible = false;
+            BtnUploadImage.Visible = false;
+
+            
+            Session["FileUpload"] = null;
+
+            LblImageUrl.Visible = true;
+            BtnRemoveImage.Visible = true;
+        }
+
+        protected void BtnRemoveImage_OnClick(object sender, EventArgs e)
+        {
+            FileUploadImage.Visible = true;
+            FileUploadImage.Enabled = true;
+
+            //FileUploadImage.Dispose();
+
+
+            BtnUploadImage.Visible = true;
+
+            TxtBoxImageUrl.Visible = true;
+
+            LblImageUrl.Text = string.Empty;
+            TxtBoxImageUrl.Text = string.Empty;
+            ImgPreview.ImageUrl = string.Empty;
+            LblFileUpload.Text = string.Empty;
+
+
+            BtnRemoveImage.Visible = !FileUploadImage.Visible;
+
+            DeletePysicalFiles(Session["filePath"].ToString());
+
+            //if(FileUploadImage.HasFile)
+            //{
+            //    //FileUploadImage = null;
+            //    //FileUploadImage.Dispose();
+            //    Session["FileUpload"] = null;
+            //    TxtBoxImageUrl.Visible = true;
+
+            //    // 
+            //    LblImageUrl.Text = string.Empty;
+            //    TxtBoxImageUrl.Text = string.Empty;
+            //    ImgPreview.ImageUrl = string.Empty;
+            //    LblFileUpload.Text = string.Empty;
+            //    BtnRemoveImage.Visible = false;
+            //    FileUploadImage.Visible = true;
+            //    BtnUploadImage.Visible = true;
+            //}
+            //else
+            //{
+            //    BtnRemoveImage.Visible = false;
+            //    TxtBoxImageUrl.Visible = true;
+            //}
+        }
+
+        public static string MapPathReverse(string fullServerPath, bool addHostName)
+        {
+            string RelativePath =
+                fullServerPath.Replace(HttpContext.Current.Request.ServerVariables["APPL_PHYSICAL_PATH"], String.Empty)
+                    .Replace("\\", "/");
+
+            if (addHostName)
+            {
+                // This is not html decoded 
+                var absoluteUri = HttpContext.Current.Request.Url.AbsoluteUri;
+
+                var uri = new Uri(absoluteUri);
+                string pathQuery = uri.PathAndQuery;
+
+                string hostName = absoluteUri.Replace(pathQuery, "");
+
+                return (hostName + "/" + RelativePath).ToLower();
+
+            }
+            
+            return @"~\" + RelativePath.ToLower();
+        }
+
+        private void SaveOrRestoreFileUpload()
+        {
+            //If first time page is submitted and we have file in FileUpload control but not in session 
+            // Store the values to Session Object 
+            if (Session["FileUpload"] == null && FileUploadImage.HasFile)
+            {
+                Session["FileUpload"] = FileUploadImage;
+                //LblFileUpload.Text = FileUploadImage.FileName;
+            }
+            // Next time submit and Session has values but FileUpload is Blank 
+            // Return the values from session to FileUpload 
+            else if (Session["FileUpload"] != null && !FileUploadImage.HasFile)
+            {
+                FileUploadImage = (FileUpload)Session["FileUpload"];
+                //LblFileUpload.Text = FileUploadImage.FileName;
+            }
+            // Now there could be another situation when Session has File but user want to change the file 
+            // In this case we have to change the file in session object 
+            else if (FileUploadImage.HasFile)
+            {
+                Session["FileUpload"] = FileUploadImage;
+                //LblFileUpload.Text = FileUploadImage.FileName;
+            }
+        }
+
+
+        private void DeletePysicalFiles(string filePath)
+        {
+         
+            //string removeDirPath = HttpContext.Current.Server.MapPath("~/Uploads/Images/");
+            
+            //if (!FileUploadImage.HasFile)
+            //{
+            //    LblFileUpload.Text = "No file was found!";
+            //    return;
+            //}
+            if (String.IsNullOrWhiteSpace(filePath))
+            {
+                LblFileUpload.Text = "File name was empty!";
+                return;
+            }
+
+            // Create the exact path from where the file is going to be deleted
+            //string filePathToDelete = Request.PhysicalApplicationPath + "Upload/Images/" + fileName;
+
+            if (!File.Exists(filePath))
+            {
+                LblFileUpload.Text = "File with that name does not exists!";
+                return;
+            }
+
+            try
+            {
+                System.IO.File.Delete(filePath);
+            }
+            catch (Exception ex)
+            {
+
+                LblFileUpload.Text = string.Format("Error: Unable to delete file <br/> {0}", ex.Message);
+                return;
+            }
+
+            // Clear session value if the file was deleted
+            Session["filePath"] = null;
+
+
+        }
+
+
+
+        
     }
 }

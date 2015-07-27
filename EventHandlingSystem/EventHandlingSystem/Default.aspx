@@ -7,11 +7,24 @@
 <%@ Register TagPrefix="aspList" TagName="EventList" Src="EventList.ascx" %>
 
 
+
+
+
 <asp:Content ID="Content1" ContentPlaceHolderID="HeadContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="FeaturedContent" runat="server">
 </asp:Content>
 <asp:Content ID="Content3" ContentPlaceHolderID="MainContent" runat="server">
+    
+
+    <style type="text/css">
+    .image-preview {
+        max-height: 100px;
+        max-width: 100px;   
+     }
+</style>
+    
+
     <div class="titlebox">
         <h1>Home</h1>
     </div>
@@ -26,9 +39,25 @@
         <br/>
     </div>
     <div class="warning-pattern"></div>
-    <asp:Menu ID="MenuHome" runat="server"></asp:Menu>
-    <asp:Label ID="TestLable" runat="server" Text=""></asp:Label>
     
+    
+    
+
+    <br/>
+    <%--<input type="file" name="FileUpload" id="ImageBrowser">--%>
+    <asp:FileUpload ID="FileUpload" runat="server" AllowMultiple="False" accept="image/*" />
+    <br/>
+    <asp:Button ID="ButtonSave" runat="server" Text="Save" OnClick="ButtonSave_OnClick" />
+    <br/>
+    <asp:Label ID="LabelFileUpload" runat="server" Text=""></asp:Label>
+    <asp:HyperLink ID="LinkImage" runat="server">Link</asp:HyperLink>
+    <asp:Image ID="Image1" runat="server" CssClass="image-preview"  />
+    <br/>
+    
+    
+    
+
+
     <aspCal:CalendarTable runat="server"/>
     
       <br/>  <br/>
